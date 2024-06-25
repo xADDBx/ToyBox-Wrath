@@ -73,7 +73,7 @@ namespace ToyBox.BagOfPatches {
                 if (!__instance.IsInCombat) return true;
                 if (!Settings.toggleUnlimitedActionsPerTurn) return true;
                 else if (CombatController.IsInTurnBasedCombat()) {
-                    return false;
+                    return !__instance.IsPartyOrPet();
                 }
                 return true;
             }
