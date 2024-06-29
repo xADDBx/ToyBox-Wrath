@@ -14,7 +14,6 @@ using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Class.LevelUp;
 using Kingmaker.UnitLogic.Class.LevelUp.Actions;
 using System;
-using System.Runtime;
 using System.Collections.Generic;
 using System.Linq;
 using Kingmaker.UI.MVVM._VM.CharGen.Phases.Skills;
