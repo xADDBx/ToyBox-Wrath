@@ -14,6 +14,7 @@ using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Class.LevelUp;
 using Kingmaker.UnitLogic.Class.LevelUp.Actions;
 using System;
+using System.Runtime;
 using System.Collections.Generic;
 using System.Linq;
 using Kingmaker.UI.MVVM._VM.CharGen.Phases.Skills;
@@ -36,6 +37,7 @@ using Owlcat.Runtime.Core.Logging;
 using Kingmaker.UI.MVVM._VM.CharGen.Phases.Alignment;
 using Kingmaker.Designers.Mechanics.Recommendations;
 using Kingmaker.UI.LevelUp;
+using Kingmaker.UI.MVVM._VM.Other;
 
 namespace ToyBox.BagOfPatches {
     internal static class LevelUp {
@@ -503,10 +505,10 @@ namespace ToyBox.BagOfPatches {
         private static class BlueprintArchetype_Patch {
             [HarmonyPatch(nameof(BlueprintArchetype.MeetsPrerequisites)), HarmonyPostfix]
             public static void MeetsPrerequisites_Patch(ref bool __result, BlueprintArchetype __instance) {
-                if (settings.toggleIgnoreFeaturePrerequisitesWhenChoosingClass )
+                if (settings.toggleIgnoreFeaturePrerequisitesWhenChoosingClass)
                     __result = true;
-                }
             }
+        }
 
         /*[HarmonyPatch(typeof(PrerequisiteFeature))]
         public static class PrerequisiteFeature_CheckInternal_Patch {
@@ -551,7 +553,7 @@ namespace ToyBox.BagOfPatches {
                 if (settings.toggleIgnoreAlignmentWhenChoosingClass) {
                     restricted = false;
                 }
-            } 
+            }
         }
 
         [HarmonyPatch(typeof(PrerequisiteAlignment), nameof(PrerequisiteAlignment.CheckInternal))]
@@ -811,120 +813,15 @@ namespace ToyBox.BagOfPatches {
             }
         }
 #endif
-        [HarmonyPatch(typeof(RecommendationHasFeature))]
-        public static class RecommendHasFeature_Patch {
-            [HarmonyPatch(nameof(RecommendationHasFeature.GetPriority)), HarmonyPostfix]
-            public static void GetPriority_Patch(ref RecommendationPriority __result) {
+        [HarmonyPatch]
+        public static class RecommendMarkerVM_Patch {
+            [HarmonyTargetMethods]
+            public static IEnumerable<MethodBase> TargetMethods() => typeof(RecommendationMarkerVM).GetConstructors();
+
+            [HarmonyPostfix]
+            public static void Constructors_Patch(RecommendationMarkerVM __instance) {
                 if (settings.toggleFeatureRecommendations) {
-                    __result = RecommendationPriority.Same;
-                }
-            }
-        }
-        [HarmonyPatch(typeof(RecommendationAccomplishedSneakAttacker))]
-        public static class RecommendationAccomplishedSneakAttacker_Patch {
-            [HarmonyPatch(nameof(RecommendationAccomplishedSneakAttacker.GetPriority)), HarmonyPostfix]
-            public static void GetPriority_Patch(ref RecommendationPriority __result) {
-                if (settings.toggleFeatureRecommendations) {
-                    __result = RecommendationPriority.Same;
-                }
-            }
-        }
-        [HarmonyPatch(typeof(RecommendationBaseAttackPart))]
-        public static class RecommendationBaseAttackPart_Patch {
-            [HarmonyPatch(nameof(RecommendationBaseAttackPart.GetPriority)), HarmonyPostfix]
-            public static void GetPriority_Patch(ref RecommendationPriority __result) {
-                if (settings.toggleFeatureRecommendations) {
-                    __result = RecommendationPriority.Same;
-                }
-            }
-        }
-        [HarmonyPatch(typeof(RecommendationCompanionBoon))]
-        public static class RecommendationCompanionBoon_Patch {
-            [HarmonyPatch(nameof(RecommendationCompanionBoon.GetPriority)), HarmonyPostfix]
-            public static void GetPriority_Patch(ref RecommendationPriority __result) {
-                if (settings.toggleFeatureRecommendations) {
-                    __result = RecommendationPriority.Same;
-                }
-            }
-        }
-        [HarmonyPatch(typeof(RecommendationForWeaponCategory))]
-        public static class RecommendationForWeaponCategory_Patch {
-            [HarmonyPatch(nameof(RecommendationForWeaponCategory.GetPriority)), HarmonyPostfix]
-            public static void GetPriority_Patch(ref RecommendationPriority __result) {
-                if (settings.toggleFeatureRecommendations) {
-                    __result = RecommendationPriority.Same;
-                }
-            }
-        }
-        [HarmonyPatch(typeof(RecommendationHasClasses))]
-        public static class RecommendationHasClasses_Patch {
-            [HarmonyPatch(nameof(RecommendationHasClasses.GetPriority)), HarmonyPostfix]
-            public static void GetPriority_Patch(ref RecommendationPriority __result) {
-                if (settings.toggleFeatureRecommendations) {
-                    __result = RecommendationPriority.Same;
-                }
-            }
-        }
-        [HarmonyPatch(typeof(RecommendationNoFeatFromGroup))]
-        public static class RecommendationNoFeatFromGroup_Patch {
-            [HarmonyPatch(nameof(RecommendationNoFeatFromGroup.GetPriority)), HarmonyPostfix]
-            public static void GetPriority_Patch(ref RecommendationPriority __result) {
-                if (settings.toggleFeatureRecommendations) {
-                    __result = RecommendationPriority.Same;
-                }
-            }
-        }
-        [HarmonyPatch(typeof(RecommendationRequiresSpellbook))]
-        public static class RecommendationRequiresSpellbook_Patch {
-            [HarmonyPatch(nameof(RecommendationRequiresSpellbook.GetPriority)), HarmonyPostfix]
-            public static void GetPriority_Patch(ref RecommendationPriority __result) {
-                if (settings.toggleFeatureRecommendations) {
-                    __result = RecommendationPriority.Same;
-                }
-            }
-        }
-        [HarmonyPatch(typeof(RecommendationRequiresSpellbookSource))]
-        public static class RecommendationRequiresSpellbookSource_Patch {
-            [HarmonyPatch(nameof(RecommendationRequiresSpellbookSource.GetPriority)), HarmonyPostfix]
-            public static void GetPriority_Patch(ref RecommendationPriority __result) {
-                if (settings.toggleFeatureRecommendations) {
-                    __result = RecommendationPriority.Same;
-                }
-            }
-        }
-        [HarmonyPatch(typeof(RecommendationStatComparison))]
-        public static class RecommendationStatComparison_Patch {
-            [HarmonyPatch(nameof(RecommendationStatComparison.GetPriority)), HarmonyPostfix]
-            public static void GetPriority_Patch(ref RecommendationPriority __result) {
-                if (settings.toggleFeatureRecommendations) {
-                    __result = RecommendationPriority.Same;
-                }
-            }
-        }
-        [HarmonyPatch(typeof(RecommendationStatMiminum))]
-        public static class RecommendationStatMiminum_Patch {
-            [HarmonyPatch(nameof(RecommendationStatMiminum.GetPriority)), HarmonyPostfix]
-            public static void GetPriority_Patch(ref RecommendationPriority __result) {
-                if (settings.toggleFeatureRecommendations) {
-                    __result = RecommendationPriority.Same;
-                }
-            }
-        }
-        [HarmonyPatch(typeof(RecommendationWeaponSubcategoryFocus))]
-        public static class RecommendationWeaponSubcategoryFocus_Patch {
-            [HarmonyPatch(nameof(RecommendationWeaponSubcategoryFocus.GetPriority)), HarmonyPostfix]
-            public static void GetPriority_Patch(ref RecommendationPriority __result) {
-                if (settings.toggleFeatureRecommendations) {
-                    __result = RecommendationPriority.Same;
-                }
-            }
-        }
-        [HarmonyPatch(typeof(RecommendationWeaponTypeFocus))]
-        public static class RecommendationWeaponTypeFocus_Patch {
-            [HarmonyPatch(nameof(RecommendationWeaponTypeFocus.GetPriority)), HarmonyPostfix]
-            public static void GetPriority_Patch(ref RecommendationPriority __result) {
-                if (settings.toggleFeatureRecommendations) {
-                    __result = RecommendationPriority.Same;
+                    __instance.Recommendation.Value = RecommendationType.Neutral;
                 }
             }
         }
