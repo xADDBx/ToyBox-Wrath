@@ -91,7 +91,7 @@ namespace ToyBox {
         }
         public bool IsRunning = false;
         private LoadBlueprintsCallback _callback;
-        private List<Task> _chunkTasks;
+        private List<Task> _workerTasks;
         private ConcurrentQueue<IEnumerable<(KeyValuePair<BlueprintGuid, BlueprintsCache.BlueprintCacheEntry>, int)>> _chunkQueue;
         private List<SimpleBlueprint> _blueprints;
         private int closeCount;
@@ -117,13 +117,13 @@ namespace ToyBox {
             var chunks = allEntries.Select((entry, index) => (entry, index)).Chunk(Main.Settings.BlueprintsLoaderChunkSize);
             _chunkQueue = new(chunks);
             var bytes = memStream.GetBuffer();
-            _chunkTasks = new();
+            _workerTasks = new();
             for (int i = 0; i < Main.Settings.BlueprintsLoaderNumThreads; i++) {
-                var t = Task.Run(() => HandleChunk(bytes));
-                _chunkTasks.Add(t);
+                var t = Task.Run(() => HandleChunks(bytes));
+                _workerTasks.Add(t);
             }
             Task.Run(Progressor);
-            foreach (var task in _chunkTasks) {
+            foreach (var task in _workerTasks) {
                 task.Wait();
             }
             _blueprints.RemoveAll(b => b is null);
@@ -134,7 +134,7 @@ namespace ToyBox {
                 _callback(_blueprints);
             }
         }
-        public void HandleChunk(byte[] bytes) {
+        public void HandleChunks(byte[] bytes) {
             try {
                 Stream stream = new MemoryStream(bytes);
                 stream.Position = 0;
@@ -186,7 +186,8 @@ namespace ToyBox {
                 Mod.Log($"Exception loading blueprints:\n{ex}");
             }
         }
-        // These methods exist to allow external mods some interfacing since the bp load bypasses the regular BlueprintsCache.Load
+        // These methods exist to allow external mods some interfacing since the bp load bypasses the regular BlueprintsCache.Load.
+        // Not using delegate since those would have problems with reloading during runtime.
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void OnBeforeBPLoad(BlueprintGuid bp) {
 
