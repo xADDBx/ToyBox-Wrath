@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -148,14 +149,14 @@ namespace ToyBox {
                 var seralizer = new ReflectionBasedSerializer(new PrimitiveSerializer(new BinaryReader(stream), UnityObjectConverter.AssetList));
                 int closeCountLocal = 0;
                 while (_chunkQueue.TryDequeue(out var entries)) {
+                    if (closeCountLocal > 100) {
+                        lock (_blueprints) {
+                            closeCount += closeCountLocal;
+                        }
+                        closeCountLocal = 0;
+                    }
                     foreach (var entryPairA in entries) {
                         var entryPair = entryPairA.Item1;
-                        if (closeCountLocal % 1000 == 0) {
-                            lock (_blueprints) {
-                                closeCount += closeCountLocal;
-                            }
-                            closeCountLocal = 0;
-                        }
                         try {
                             var entry = entryPair.Value;
                             if (entry.Blueprint != null) {
@@ -166,6 +167,7 @@ namespace ToyBox {
                                 closeCountLocal++;
                                 continue;
                             }
+                            OnBeforeBPLoad(entryPair.Key);
                             stream.Position = entry.Offset;
                             SimpleBlueprint simpleBlueprint = null;
                             seralizer.Blueprint(ref simpleBlueprint);
@@ -181,6 +183,7 @@ namespace ToyBox {
                             entry.Blueprint = simpleBlueprint;
                             ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[entryPair.Key] = entry;
                             closeCountLocal++;
+                            OnAfterBPLoad(entryPair.Key);
                         } catch (Exception ex) {
                             Mod.Log($"Exception loading blueprint {entryPair.Key}:\n{ex}");
                             closeCountLocal++;
@@ -190,6 +193,15 @@ namespace ToyBox {
             } catch (Exception ex) {
                 Mod.Log($"Exception loading blueprints:\n{ex}");
             }
+        }
+        // These methods exist to allow external mods some interfacing since the bp load bypasses the regular BlueprintsCache.Load
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void OnBeforeBPLoad(BlueprintGuid bp) {
+
+        }
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void OnAfterBPLoad(BlueprintGuid bp) {
+
         }
         public void Progressor() {
             while (loader.IsRunning) {
