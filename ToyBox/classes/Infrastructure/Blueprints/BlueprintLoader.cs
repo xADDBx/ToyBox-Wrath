@@ -116,6 +116,7 @@ namespace ToyBox {
             var toc = bpCache.m_LoadedBlueprints;
             var allEntries = toc.OrderBy(e => e.Value.Offset);
             total = allEntries.Count();
+            Mod.Log($"Loading {total} Blueprints");
             closeCount = 0;
             _blueprints = new(total);
             _blueprints.AddRange(Enumerable.Repeat<SimpleBlueprint>(null, total));
