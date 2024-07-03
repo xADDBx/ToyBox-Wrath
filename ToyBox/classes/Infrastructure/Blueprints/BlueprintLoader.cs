@@ -1,14 +1,19 @@
 ﻿// Copyright < 2021 > Narria(github user Cabarius) - License: MIT
 using HarmonyLib;
+using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Blueprints.JsonSystem.BinaryFormat;
 using Kingmaker.Blueprints.JsonSystem.Converters;
+using Kingmaker.Blueprints.Root;
+using Kingmaker.EntitySystem.Persistence.SavesStorage;
 using Kingmaker.Modding;
+using Kingmaker.UI;
 using ModKit;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -26,6 +31,7 @@ namespace ToyBox {
         public delegate void LoadBlueprintsCallback(List<SimpleBlueprint> blueprints);
         private List<SimpleBlueprint> blueprints;
         private HashSet<SimpleBlueprint> bpsToAdd = new();
+        internal bool CanStart = false;
         public float progress = 0;
         private static BlueprintLoader loader;
         public static BlueprintLoader Shared {
@@ -38,7 +44,7 @@ namespace ToyBox {
             "b60252a8ae028ba498340199f48ead67", "fb379e61500421143b52c739823b4082", "5d2b9742ce82457a9ae7209dce770071" };
         private void Load(LoadBlueprintsCallback callback) {
             lock (loader) {
-                if (IsLoading) return;
+                if (IsLoading || (!CanStart && Game.Instance.Player == null)) return;
                 loader.Init(callback);
             }
         }
@@ -72,25 +78,30 @@ namespace ToyBox {
             return bps?.Where(bp => guids.Contains(bp.AssetGuid));
         }
         public IEnumerable<BPType> GetBlueprintsByGuids<BPType>(IEnumerable<string> guids) where BPType : BlueprintFact => GetBlueprintsByGuids<BPType>(guids.Select(BlueprintGuid.Parse));
-        [HarmonyPatch(typeof(BlueprintsCache))]
+        [HarmonyPatch]
         internal static class BlueprintLoaderPatches {
-            [HarmonyPatch(nameof(BlueprintsCache.AddCachedBlueprint))]
-            [HarmonyPostfix]
+            [HarmonyPatch(typeof(BlueprintsCache), nameof(BlueprintsCache.AddCachedBlueprint)), HarmonyPostfix]
             internal static void AddCachedBlueprint(BlueprintGuid guid, SimpleBlueprint bp) {
                 if (Shared.IsLoading || Shared.blueprints != null) {
                     Shared.bpsToAdd.Add(bp);
                 }
             }
-            [HarmonyPatch(nameof(BlueprintsCache.RemoveCachedBlueprint))]
-            [HarmonyPostfix]
+            [HarmonyPatch(typeof(BlueprintsCache), nameof(BlueprintsCache.RemoveCachedBlueprint)), HarmonyPostfix]
             internal static void RemoveCachedBlueprint(BlueprintGuid guid) {
                 Shared.bpsToAdd.RemoveWhere(bp => bp.AssetGuid == guid);
             }
+            [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.Start)), HarmonyPostfix]
+            internal static void PreparePregensCoroutine() {
+                Shared.CanStart = true;
+                Shared.GetBlueprints();
+            }
         }
-        const int ChunkSize = 60000;
+        const int ChunkSize = 1000;
+        const int NumThreads = 3;
         public bool IsRunning = false;
         private LoadBlueprintsCallback _callback;
         private List<Task> _chunkTasks;
+        private ConcurrentQueue<IEnumerable<(KeyValuePair<BlueprintGuid, BlueprintsCache.BlueprintCacheEntry>, int)>> _chunkQueue;
         private List<SimpleBlueprint> _blueprints;
         private int closeCount;
         private int total;
@@ -111,16 +122,13 @@ namespace ToyBox {
             var memStream = new MemoryStream();
             bpCache.m_PackFile.Position = 0;
             bpCache.m_PackFile.CopyTo(memStream);
-            var chunks = allEntries.Chunk(ChunkSize);
+            var chunks = allEntries.Select((entry, index) => (entry, index)).Chunk(ChunkSize);
+            _chunkQueue = new(chunks);
             var bytes = memStream.GetBuffer();
-            int i = 0;
             _chunkTasks = new();
-            var chunkCount = chunks.Count();
-            foreach (var chunk in chunks) {
-                int listIndex = i * ChunkSize;
-                var t = Task.Run(() => HandleChunk(listIndex, chunk, bytes));
+            for (int i = 0; i < NumThreads; i++) {
+                var t = Task.Run(() => HandleChunk(bytes));
                 _chunkTasks.Add(t);
-                i++;
             }
             Task.Run(Progressor);
             foreach (var task in _chunkTasks) {
@@ -134,47 +142,46 @@ namespace ToyBox {
                 _callback(_blueprints);
             }
         }
-        public void HandleChunk(int listIndex, IEnumerable<KeyValuePair<BlueprintGuid, BlueprintsCache.BlueprintCacheEntry>> entries, byte[] bytes) {
+        public void HandleChunk(byte[] bytes) {
             try {
                 Stream stream = new MemoryStream(bytes);
                 stream.Position = 0;
                 var seralizer = new ReflectionBasedSerializer(new PrimitiveSerializer(new BinaryReader(stream), UnityObjectConverter.AssetList));
                 int closeCountLocal = 0;
-                foreach (var entryPair in entries) {
-                    if (closeCountLocal % 1000 == 0) {
-                        lock (_blueprints) {
-                            closeCount += closeCountLocal;
+                while (_chunkQueue.TryDequeue(out var entries)) {
+                    foreach (var entryPairA in entries) {
+                        var entryPair = entryPairA.Item1;
+                        if (closeCountLocal % 1000 == 0) {
+                            lock (_blueprints) {
+                                closeCount += closeCountLocal;
+                            }
+                            closeCountLocal = 0;
                         }
-                        closeCountLocal = 0;
-                    }
-                    try {
-                        var entry = entryPair.Value;
-                        if (Shared.BadBlueprints.Contains(entryPair.Key.ToString()) || entry.Blueprint != null || entry.Offset == 0U) {
-                            listIndex++;
+                        try {
+                            var entry = entryPair.Value;
+                            if (Shared.BadBlueprints.Contains(entryPair.Key.ToString()) || entry.Blueprint != null || entry.Offset == 0U) {
+                                closeCountLocal++;
+                                continue;
+                            }
+                            stream.Position = entry.Offset;
+                            SimpleBlueprint simpleBlueprint = null;
+                            seralizer.Blueprint(ref simpleBlueprint);
+                            if (simpleBlueprint == null) {
+                                closeCountLocal++;
+                                continue;
+                            }
+                            object obj;
+                            OwlcatModificationsManager.Instance.OnResourceLoaded(simpleBlueprint, entryPair.Key.ToString(), out obj);
+                            simpleBlueprint = (obj as SimpleBlueprint) ?? simpleBlueprint;
+                            simpleBlueprint?.OnEnable();
+                            _blueprints[entryPairA.Item2] = simpleBlueprint;
+                            entry.Blueprint = simpleBlueprint;
+                            ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[entryPair.Key] = entry;
                             closeCountLocal++;
-                            continue;
-                        }
-                        stream.Position = entry.Offset;
-                        SimpleBlueprint simpleBlueprint = null;
-                        seralizer.Blueprint(ref simpleBlueprint);
-                        if (simpleBlueprint == null) {
-                            listIndex++;
+                        } catch (Exception ex) {
+                            Mod.Log($"Exception loading blueprint {entryPair.Key}:\n{ex}");
                             closeCountLocal++;
-                            continue;
                         }
-                        object obj;
-                        OwlcatModificationsManager.Instance.OnResourceLoaded(simpleBlueprint, entryPair.Key.ToString(), out obj);
-                        simpleBlueprint = (obj as SimpleBlueprint) ?? simpleBlueprint;
-                        simpleBlueprint?.OnEnable();
-                        _blueprints[listIndex] = simpleBlueprint;
-                        entry.Blueprint = simpleBlueprint;
-                        ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[entryPair.Key] = entry;
-                        listIndex++;
-                        closeCountLocal++;
-                    } catch (Exception ex) {
-                        Mod.Log($"Exception loading blueprint {entryPair.Key}:\n{ex}");
-                        listIndex++;
-                        closeCountLocal++;
                     }
                 }
             } catch (Exception ex) {
