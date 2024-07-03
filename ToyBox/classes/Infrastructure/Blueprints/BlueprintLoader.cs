@@ -170,7 +170,7 @@ namespace ToyBox {
                             object obj;
                             OwlcatModificationsManager.Instance.OnResourceLoaded(simpleBlueprint, entryPair.Key.ToString(), out obj);
                             simpleBlueprint = (obj as SimpleBlueprint) ?? simpleBlueprint;
-                            simpleBlueprint?.OnEnable();
+                            simpleBlueprint.OnEnable();
                             _blueprints[entryPairA.Item2] = simpleBlueprint;
                             entry.Blueprint = simpleBlueprint;
                             ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[entryPair.Key] = entry;
