@@ -160,7 +160,7 @@ namespace ToyBox {
                                 continue;
                             }
                             OnBeforeBPLoad(entryPair.Key);
-                            stream.Position = entry.Offset;
+                            stream.Seek(entry.Offset, SeekOrigin.Begin);
                             SimpleBlueprint simpleBlueprint = null;
                             seralizer.Blueprint(ref simpleBlueprint);
                             if (simpleBlueprint == null) {
@@ -171,9 +171,11 @@ namespace ToyBox {
                             OwlcatModificationsManager.Instance.OnResourceLoaded(simpleBlueprint, entryPair.Key.ToString(), out obj);
                             simpleBlueprint = (obj as SimpleBlueprint) ?? simpleBlueprint;
                             simpleBlueprint.OnEnable();
-                            _blueprints[entryPairA.Item2] = simpleBlueprint;
-                            entry.Blueprint = simpleBlueprint;
-                            ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[entryPair.Key] = entry;
+                            _blueprints[entryPairA.Item2] = simpleBlueprint; 
+                            if (ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints.TryGetValue(simpleBlueprint.AssetGuid, out var entry2)) {
+                                entry2.Blueprint = simpleBlueprint;
+                                ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[simpleBlueprint.AssetGuid] = entry2;
+                            }
                             closeCountLocal++;
                             OnAfterBPLoad(entryPair.Key);
                         } catch (Exception ex) {
