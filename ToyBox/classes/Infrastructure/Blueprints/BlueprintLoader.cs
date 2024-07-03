@@ -158,7 +158,11 @@ namespace ToyBox {
                         }
                         try {
                             var entry = entryPair.Value;
-                            if (Shared.BadBlueprints.Contains(entryPair.Key.ToString()) || entry.Blueprint != null || entry.Offset == 0U) {
+                            if (entry.Blueprint != null) {
+                                closeCountLocal += 1;
+                                _blueprints[entryPairA.Item2] = entry.Blueprint;
+                            }
+                            if (Shared.BadBlueprints.Contains(entryPair.Key.ToString()) || entry.Offset == 0U) {
                                 closeCountLocal++;
                                 continue;
                             }
