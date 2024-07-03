@@ -529,6 +529,9 @@ namespace ToyBox {
         public bool toggleUberLoggerForwardPrefix = false;
         public bool toggleGuidsClipboard = true;
         public bool onlyShowLanguagesWithFiles = true;
+        public int BlueprintsLoaderNumThreads = 3;
+        public int BlueprintsLoaderChunkSize = 1000;
+        public bool PreloadBlueprints = false;
 
         // Deprecated
         internal bool toggleSpellbookAbilityAlignmentChecks = false;

@@ -93,11 +93,9 @@ namespace ToyBox {
             [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.Start)), HarmonyPostfix]
             internal static void PreparePregensCoroutine() {
                 Shared.CanStart = true;
-                Shared.GetBlueprints();
+                if (Main.Settings.PreloadBlueprints) Shared.GetBlueprints();
             }
         }
-        const int ChunkSize = 1000;
-        const int NumThreads = 3;
         public bool IsRunning = false;
         private LoadBlueprintsCallback _callback;
         private List<Task> _chunkTasks;
@@ -123,11 +121,11 @@ namespace ToyBox {
             var memStream = new MemoryStream();
             bpCache.m_PackFile.Position = 0;
             bpCache.m_PackFile.CopyTo(memStream);
-            var chunks = allEntries.Select((entry, index) => (entry, index)).Chunk(ChunkSize);
+            var chunks = allEntries.Select((entry, index) => (entry, index)).Chunk(Main.Settings.BlueprintsLoaderChunkSize);
             _chunkQueue = new(chunks);
             var bytes = memStream.GetBuffer();
             _chunkTasks = new();
-            for (int i = 0; i < NumThreads; i++) {
+            for (int i = 0; i < Main.Settings.BlueprintsLoaderNumThreads; i++) {
                 var t = Task.Run(() => HandleChunk(bytes));
                 _chunkTasks.Add(t);
             }
