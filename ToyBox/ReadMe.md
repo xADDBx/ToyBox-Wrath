@@ -37,6 +37,11 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
+### Toybox Wrath - Ver 1.5.25 (built for 2.3.2c)
+* (***ADDB***) ***Experimental*** threaded Blueprint Loading. When ToyBox needs to load blueprints it should now work faster.
+* (***ADDB***) Added option to enable blueprint preloading in ToyBox => Settings.
+* (***ADDB***) Added options to change Blueprint Loading thread amount and chunk size in ToyBox => Settings.
+
 ### Toybox Wrath - Ver 1.5.24 (built for 2.3.2c)
 * (***Barley***) Add new feature, Toggle Feature Recommendations. This will turn off the thumbs up/down in the Feature Selections on Level Up (Toggle found in Level Up tab, under Ignore Feature Restrictions)
 
