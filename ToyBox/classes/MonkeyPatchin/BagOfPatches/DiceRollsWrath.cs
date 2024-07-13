@@ -66,7 +66,7 @@ namespace ToyBox.BagOfPatches {
                         }
                     }
                     if (UnitEntityDataUtils.CheckUnitEntityData(initiator, settings.rollWithAdvantage)) {
-                        result = Math.Max(result, UnityEngine.Random.Range(min, max);
+                        result = Math.Max(result, UnityEngine.Random.Range(min, max));
                     } else if (UnitEntityDataUtils.CheckUnitEntityData(initiator, settings.rollWithDisadvantage)) {
                         result = Math.Min(result, UnityEngine.Random.Range(min, max));
                     }
