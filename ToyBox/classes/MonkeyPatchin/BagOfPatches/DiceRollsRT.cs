@@ -92,18 +92,22 @@ namespace ToyBox.BagOfPatches {
                 } else {
                     var min = 1;
                     var max = 101;
+                    if (BaseUnitDataUtils.CheckUnitEntityData(initiator, settings.neverRoll1)) {
+                        min = 2;
+                        if (result == 1) {
+                            result = PFStatefulRandom.RuleSystem.Range(min, max);
+                        }
+                    }
+                    if (BaseUnitDataUtils.CheckUnitEntityData(initiator, settings.neverRoll100)) {
+                        max = 100;
+                        if (result == 100) {
+                            result = UnityEngine.Random.Range(min, max);
+                        }
+                    }
                     if (BaseUnitDataUtils.CheckUnitEntityData(initiator, settings.rollWithAdvantage)) {
                         result = Math.Min(result, PFStatefulRandom.RuleSystem.Range(min, max));
                     } else if (BaseUnitDataUtils.CheckUnitEntityData(initiator, settings.rollWithDisadvantage)) {
                         result = Math.Max(result, PFStatefulRandom.RuleSystem.Range(min, max));
-                    }
-                    if (BaseUnitDataUtils.CheckUnitEntityData(initiator, settings.neverRoll1) && result == 1) {
-                        min = 2;
-                        result = PFStatefulRandom.RuleSystem.Range(min, max);
-                    }
-                    if (BaseUnitDataUtils.CheckUnitEntityData(initiator, settings.neverRoll100) && result == 100) {
-                        max = 100;
-                        result = UnityEngine.Random.Range(min, max);
                     }
                 }
                 __instance.m_Result = result;
