@@ -36,6 +36,10 @@
   your save before using. Remember that "with great power comes great responsibility"
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
+* 
+### Toybox Wrath - Ver 1.5.25 (built for 2.3.3j)
+* (***ADDB***) Dice Rolls Changes (Advantage/Disadvantage now applies after never/atleast changes).
+* (***ADDB***) When NeverRoll1 and 20 are both active, rolling a 20 and then a reroll in the 1 (effectively bypassing NeverRoll1) is now no longer possible.
   
 ### Toybox Wrath - Ver 1.5.24 (built for 2.3.2c)
 * (***Barley***) Add new feature, Toggle Feature Recommendations. This will turn off the thumbs up/down in the Feature Selections on Level Up (Toggle found in Level Up tab, under Ignore Feature Restrictions)
