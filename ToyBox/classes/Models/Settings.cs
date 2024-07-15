@@ -245,6 +245,10 @@ namespace ToyBox {
         public bool toggleEquipItemsDuringCombat = false;
         public bool toggleUseItemsDuringCombat = false;
         public bool toggleTeleportKeysEnabled = false;
+        public bool toggleCopyPasteEnabled = false;
+        public bool togglePastedUnitJoinFight = false;
+        public bool togglePastedAreAlwaysEnemy = false;
+        public bool onlyCopyEnemy = false;
         public bool toggleRespecRefundScrolls = false;
         public bool toggleAlignmentFix = false;
         public bool togglePreventAlignmentChanges = false;

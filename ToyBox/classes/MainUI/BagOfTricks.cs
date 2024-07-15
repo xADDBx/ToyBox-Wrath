@@ -23,6 +23,8 @@ using UnityModManagerNet;
 using static ModKit.UI;
 using Kingmaker.Kingdom;
 using static ToyBox.BagOfPatches.Romance;
+using Kingmaker.Designers;
+using Kingmaker.Blueprints.Root;
 namespace ToyBox {
     public static class BagOfTricks {
         public static Settings Settings => Main.Settings;
@@ -51,7 +53,9 @@ namespace ToyBox {
         // other
         private const string? TimeScaleMultToggle = "Main/Alt Timescale";
         private const string? PreviewDialogResults = "Preview Results";
-
+        private const string? copyUnit = "copy unit";
+        private const string? pasteUnit = "paste unit";
+        private static BlueprintUnit unitToCopy;
 
         //For buffs exceptions
         private static bool showBuffDurationExceptions = false;
@@ -88,6 +92,29 @@ namespace ToyBox {
                 Settings.previewDialogResults = !Settings.previewDialogResults;
                 var dialogController = Game.Instance.DialogController;
             });
+            KeyBindings.RegisterAction(copyUnit,
+                                       () => {
+                                           var characterList = GameHelper.GetTargetsAround(Utils.PointerPosition(), 10, false, false).ToList();
+                                           if (characterList.Count > 0) {
+                                               if (settings.onlyCopyEnemy)
+                                                   characterList.RemoveAll(ch => !ch.IsPlayersEnemy);
+                                               characterList = characterList.OrderBy((ch) => ch.DistanceTo(Utils.PointerPosition())).ToList();
+                                               unitToCopy = characterList.First().Blueprint;
+                                           }
+                                       });
+            KeyBindings.RegisterAction(pasteUnit,
+                                       () => {
+                                           if (unitToCopy) {
+                                               if (Settings.toggleCopyPasteEnabled == false)
+                                                   return;
+                                               var unit = Game.Instance.EntityCreator.SpawnUnit(unitToCopy, Utils.PointerPosition(), Quaternion.identity, Game.Instance.State.LoadedAreaState.MainState);
+                                               unit.LookAt(Shodan.MainCharacter.Position);
+                                               if (settings.togglePastedUnitJoinFight)
+                                                   unit.CombatState.JoinCombat(false);
+                                               if (settings.togglePastedAreAlwaysEnemy)
+                                                   unit.AttackFactions.Add(BlueprintRoot.Instance.PlayerFaction);
+                                           }
+                                       });
             KeyBindings.RegisterAction(ToggleMurderHobo,
                                        () => Settings.togglekillOnEngage = !Settings.togglekillOnEngage,
                                        title => ToggleTranscriptForState(title, Settings.togglekillOnEngage)
@@ -190,6 +217,24 @@ namespace ToyBox {
                        }
                        Space(25);
                        Label("You can enable hot keys to teleport members of your party to your mouse cursor on Area or the Global Map".localize().green());
+                   });
+            Div(0, 25);
+            HStack("copy/past unit".localize(),
+                   2,
+                   () => {
+                       Toggle("Enable copy/paste key".localize(), ref Settings.toggleCopyPasteEnabled);
+                       Space(100);
+                       if (Settings.toggleCopyPasteEnabled) {
+                           using (VerticalScope()) {
+                               KeyBindPicker(copyUnit, "copy".localize(), 0, 200);
+                               KeyBindPicker(pasteUnit, "paste".localize(), 0, 200);
+                               Toggle("pasted unit imediately join fight".localize(), ref Settings.togglePastedUnitJoinFight);
+                               Toggle("only copy enemie".localize(), ref Settings.onlyCopyEnemy);
+                               Toggle("pasted unit will always attack you".localize(), ref Settings.togglePastedAreAlwaysEnemy);
+                           }
+                       }
+                       Space(25);
+                       Label("You can enable hot keys to copy and paste unit you see".localize().green());
                    });
             Div(0, 25);
             HStack("Common".localize(),
