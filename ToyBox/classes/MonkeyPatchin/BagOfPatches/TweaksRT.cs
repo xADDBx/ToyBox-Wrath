@@ -26,6 +26,7 @@ using Kingmaker.Pathfinding;
 using Kingmaker.PubSubSystem;
 using Kingmaker.UI;
 using Kingmaker.UI.Common;
+using Kingmaker.UI.Legacy.MainMenuUI;
 using Kingmaker.UI.Sound;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.Utility;
@@ -34,6 +35,8 @@ using ModKit;
 using Owlcat.Runtime.Core.Utility;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using UniRx;
 using UnityEngine;
 using Warhammer.SpaceCombat.Blueprints;
@@ -405,6 +408,26 @@ namespace ToyBox.BagOfPatches {
             [HarmonyPatch(nameof(PartyAwarenessController.Tick))]
             [HarmonyPostfix]
             private static void Tick() => UnitEntityDataCanRollPerceptionExtension.TriggerReroll = false;
+        }
+        [HarmonyPatch]
+        public static class SkipSplashScreen_Patch {
+            [HarmonyPrepare]
+            public static bool Prepare() => Settings.toggleSkipSplashScreen;
+            [HarmonyTargetMethods]
+            public static IEnumerable<MethodInfo> PatchTargets() {
+                yield return AccessTools.Method(typeof(SplashScreenController), nameof(SplashScreenController.ShowSplashScreen));
+                yield return AccessTools.Method(typeof(MainMenuLoadingScreen), nameof(MainMenuLoadingScreen.OnStart));
+            }
+            [HarmonyTranspiler]
+            public static IEnumerable<CodeInstruction> Start(IEnumerable<CodeInstruction> instructions) {
+                foreach (var inst in instructions) {
+                    if (inst.Calls(AccessTools.Method(typeof(GameStarter), nameof(GameStarter.IsArbiterMode)))) {
+                        yield return new CodeInstruction(OpCodes.Ldc_I4_1).WithLabels(inst.labels);
+                    } else {
+                        yield return inst;
+                    }
+                }
+            }
         }
     }
 }

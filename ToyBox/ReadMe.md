@@ -44,6 +44,7 @@ Here is a summarized list of features. This list only includes a part of the fea
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
 ### ToyBox Rogue - Ver 1.5.19 built for Rogue Trader 1.2.0.28
+* (***ADDB***) Added Bag of Tricks => QoL => Skip Splash Screen (this is basically the mod I released a while ago built into ToyBox).
 * (***ADDB***) Dice Rolls Changes (Advantage/Disadvantage now applies after never/atleast changes).
 * (***ADDB***) When NeverRoll1 and 100 are both active, rolling a 20 and then a reroll in the 1 (effectively bypassing NeverRoll1) is now no longer possible.
 
