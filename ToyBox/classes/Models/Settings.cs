@@ -189,6 +189,7 @@ namespace ToyBox {
         public bool toggleAutomaticallyLoadLastSave = false;
         public bool toggleBlockUnrecruit = false;
         public bool toggleAllowAchievementsDuringModdedGame = false;
+        public bool toggleSkipSplashScreen = false;
         public bool toggleForceTutorialsToHonorSettings = false;
         public bool toggleForceDisableTutorials = false;
         public bool toggleAllowAnyGenderRomance = false;

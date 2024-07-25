@@ -794,5 +794,24 @@ namespace ToyBox.BagOfPatches {
                 }
             }
         }
+
+        [HarmonyPatch]
+        public static class SkipSplashScreen_Patch {
+            [HarmonyTargetMethods]
+            public static IEnumerable<MethodInfo> PatchTargets() {
+                yield return AccessTools.Method(typeof(SplashScreenController), nameof(SplashScreenController.Start));
+                //yield return AccessTools.Method(typeof(MainMenuLogoAnimator), nameof(MainMenuLogoAnimator.OnStart));
+            }
+            [HarmonyTranspiler]
+            public static IEnumerable<CodeInstruction> Start(IEnumerable<CodeInstruction> instructions) {
+                foreach (var inst in instructions) {
+                    if (Settings.toggleSkipSplashScreen && inst.Calls(AccessTools.Method(typeof(GameStarter), nameof(GameStarter.IsArbiterMode)))) {
+                        yield return new CodeInstruction(OpCodes.Ldc_I4_1).WithLabels(inst.labels);
+                    } else {
+                        yield return inst;
+                    }
+                }
+            }
+        }
     }
 }
