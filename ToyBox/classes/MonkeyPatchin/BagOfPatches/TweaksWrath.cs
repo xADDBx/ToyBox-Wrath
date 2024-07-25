@@ -224,8 +224,13 @@ namespace ToyBox.BagOfPatches {
                         u.Brain.RestoreAvailableActions();
                     }
                 }
-                if (!inCombat && Settings.toggleRechargeItemsAfterCombat) {
-
+                if (!inCombat && Settings.toggleRechargeItemsAfterCombat) 
+                {
+                    foreach (var unit in Game.Instance.Player.Party) 
+                    {
+                        foreach (var item in unit.Inventory.Items)
+                            item.RestoreCharges();
+                    }
                 }
                 if (!inCombat && Settings.toggleInstantRestAfterCombat) {
                     CheatsCombat.RestAll();
