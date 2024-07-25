@@ -327,7 +327,7 @@ namespace ToyBox {
                    },
                    () => {
                        Toggle("Skip Splash Screen".localize(), ref Settings.toggleSkipSplashScreen, 500.width());
-                       Label("This skips the splash screen that appears when the game starts. Helpful if you need to frequently restart the game".localize())M
+                       Label("This skips the splash screen that appears when the game starts. Helpful if you need to frequently restart the game".localize());
                    },
                    () => {
                        Toggle("Enhanced Map View".localize(), ref Settings.toggleZoomableLocalMaps, 500.width());
