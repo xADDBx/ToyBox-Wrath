@@ -224,6 +224,27 @@ namespace ToyBox.BagOfPatches {
                         u.Brain.RestoreAvailableActions();
                     }
                 }
+                if (!inCombat && Settings.toggleRestoreAbilitiesAfterCombat) 
+                {
+                    foreach (var unit in Game.Instance.Player.Party) 
+                    {
+                        foreach (var resource in unit.Descriptor.Resources) 
+                        { 
+                            unit.Descriptor.Resources.Restore(resource);
+                        }
+                        unit.Brain.RestoreAvailableActions();
+                    }
+                }
+                if (!inCombat && Settings.toggleRestoreSpellAfterCombat) 
+                {
+                    foreach (var unit in Game.Instance.Player.Party) {
+                        foreach (var spellbook in unit.Descriptor.Spellbooks)
+                            spellbook.Rest();
+                        // Might be required, too tired to check, assume it's not though
+                        // ADDB's fault for pinging me about this
+                        //unit.Brain.RestoreAvailableActions();
+                    }
+                }
                 if (!inCombat && Settings.toggleRechargeItemsAfterCombat) 
                 {
                     foreach (var unit in Game.Instance.Player.Party) 

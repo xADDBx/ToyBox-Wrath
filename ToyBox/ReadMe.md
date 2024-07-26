@@ -39,6 +39,9 @@
 * 
 
 ### Toybox Wrath - Ver 1.5.27 (built for 2.3.3j)
+* (***CascadingDragon***) Added toggles for restoring just spells after combat, and just abilities after combat (In the Bag of Tricks  tab)
+* 
+### Toybox Wrath - Ver 1.5.27 (built for 2.3.3j)
 * (***CascadingDragon***) Added toggle for Recharging Items After Combat (In the Bag of Tricks tab)
 
 ### Toybox Wrath - Ver 1.5.26 (built for 2.3.3j)
