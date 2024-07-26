@@ -38,13 +38,13 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
 * 
 
-### Toybox Wrath - Ver 1.5.27 (built for 2.3.3j)
+### Toybox Wrath - Ver 1.5.27 (built for 2.3.3k)
 * (***CascadingDragon***) Added toggles for restoring just spells after combat, and just abilities after combat (In the Bag of Tricks  tab)
 * 
-### Toybox Wrath - Ver 1.5.27 (built for 2.3.3j)
+### Toybox Wrath - Ver 1.5.27 (built for 2.3.3k)
 * (***CascadingDragon***) Added toggle for Recharging Items After Combat (In the Bag of Tricks tab)
 
-### Toybox Wrath - Ver 1.5.26 (built for 2.3.3j)
+### Toybox Wrath - Ver 1.5.26 (built for 2.3.3k)
 * (***ADDB***) Added Bag of Tricks => QoL => Skip Splash Screen (this is basically the mod I released a while ago built into ToyBox).
 * (***ADDB***) Always exclude HiddenInUI and IsClassFeature buffs from the buff multiplier (those are hidden from the Exclusion editor; so they should not be multiplied either).
 * (***ADDB***) Dice Rolls Changes (Advantage/Disadvantage now applies after never/atleast changes).
