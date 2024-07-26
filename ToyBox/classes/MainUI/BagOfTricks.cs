@@ -556,7 +556,7 @@ namespace ToyBox {
                 () => Toggle("Restore Spells & Skills After Combat".localize(), ref Settings.toggleRestoreSpellsAbilitiesAfterCombat),
                 () => Toggle("Restore Just Spells After Combat".localize(), ref Settings.toggleRestoreSpellAfterCombat),
                 () => Toggle("Restore Just Abilities After Combat".localize(), ref Settings.toggleRestoreAbilitiesAfterCombat),
-                () => Toggle("Recharge Items After Combat", ref settings.toggleRechargeItemsAfterCombat),
+                () => Toggle("Recharge Items After Combat".localize(), ref settings.toggleRechargeItemsAfterCombat),
                 //() => UI.Toggle("Access Remote Characters", ref settings.toggleAccessRemoteCharacters,0),
                 //() => UI.Toggle("Show Pet Portraits", ref settings.toggleShowAllPartyPortraits,0),
                 () => Toggle("Instant Rest After Combat".localize(), ref Settings.toggleInstantRestAfterCombat),

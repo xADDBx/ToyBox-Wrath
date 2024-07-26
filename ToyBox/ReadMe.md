@@ -38,7 +38,7 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
 * 
 
-### Toybox Wrath - Ver 1.5.27 (built for 2.3.3k)
+### Toybox Wrath - Ver 1.5.28 (built for 2.3.3k)
 * (***CascadingDragon***) Added toggles for restoring just spells after combat, and just abilities after combat (In the Bag of Tricks  tab)
 * 
 ### Toybox Wrath - Ver 1.5.27 (built for 2.3.3k)
