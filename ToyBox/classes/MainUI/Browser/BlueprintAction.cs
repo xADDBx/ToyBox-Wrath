@@ -176,8 +176,6 @@ namespace ToyBox {
             BlueprintAction.Register<BlueprintEtude>("Start".localize(),
                                                      (bp, ch, n, index) => Game.Instance.Player.EtudesSystem.StartEtude(bp),
                                                      (bp, ch, index) => Game.Instance.Player.EtudesSystem.EtudeIsNotStarted(bp));
-            // They don't seem to exist in the Beta; We might be able to port the code from Wrath if unstart isn't added
-            // Though that may be buggy
             BlueprintAction.Register<BlueprintEtude>("Unstart".localize(),
                                                      (bp, ch, n, index) =>
                                                          Game.Instance.Player.EtudesSystem.UnstartEtude(bp),

@@ -38,9 +38,13 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
 * 
 
+### Toybox Wrath - Ver 1.5.29 (built for 2.3.3k)
+* (***ADDB***) Maybe fix Heavenly Host not displaying extra attack in character panel (Why? How?).
+* (***ADDB***) Fixed an issue in MiscTweaks where it tried to access Game.Instance.Player in a static constructor for assignment by replacing field with property (getter).
+
 ### Toybox Wrath - Ver 1.5.28 (built for 2.3.3k)
 * (***CascadingDragon***) Added toggles for restoring just spells after combat, and just abilities after combat (In the Bag of Tricks  tab)
-* 
+ 
 ### Toybox Wrath - Ver 1.5.27 (built for 2.3.3k)
 * (***CascadingDragon***) Added toggle for Recharging Items After Combat (In the Bag of Tricks tab)
 
