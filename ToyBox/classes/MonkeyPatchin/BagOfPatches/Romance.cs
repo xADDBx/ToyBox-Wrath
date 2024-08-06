@@ -212,6 +212,7 @@ namespace ToyBox.BagOfPatches {
         public static class Condition_Check_Patch {
             public static void Postfix(Condition __instance, ref bool __result) {
                 if (__instance?.Owner is null) return;
+                if (string.IsNullOrEmpty(__instance.name)) return;
 
                 var key = (__instance.Owner.AssetGuid.ToString(), __instance.AssetGuid);
                 if (settings.toggleAllowAnyGenderRomance) {
