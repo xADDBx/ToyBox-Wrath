@@ -127,6 +127,7 @@ namespace ToyBox {
 
         // Tweaks
         public bool toggleNoPsychicPhenomena = false;
+        public bool customizePsychicPhenomena = false;
         public bool toggleInfiniteAbilities = false;
         public bool toggleNoAttackCooldowns = false;
         public bool toggleUnlimitedActionsPerTurn = false;
@@ -151,6 +152,9 @@ namespace ToyBox {
         public bool disableTraps = false;
         public bool togglekillOnEngage = false;
         public bool disableWarpRandomEncounter = false;
+        public HashSet<string> excludedRandomPhenomena = new();
+        public HashSet<string> excludedPerilsMinor = new();
+        public HashSet<string> excludedPerilsMajor = new();
         public bool freezeVeilThickness = false;
         public bool disableEndTurnHotkey = false;
 

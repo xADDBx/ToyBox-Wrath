@@ -42,6 +42,10 @@ Here is a summarized list of features. This list only includes a part of the fea
   your save before using. Remember that "with great power comes great responsibility"
 - **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
+
+### ToyBox Rogue - Ver 1.5.21 built for Rogue Trader 1.2.0.30
+* (***ADDB***) Fix Preview Dialog option disabling dialog hotkeys. (I did some refactoring for that method; if it somehow doesn't work anymore please report).
+* (***ADDB***) Added option to customize Perils of the Warp under Bag of Tricks => Rogue Cheats => "Tweaks" => "Customize Psychic Phenomena/Perils of the Warp" (pretty buch at the bottom of Rogue Cheats) (***Experimental***; it should'nt break anything but I don't know if it will work as expected; Feedback would be appreciated).
   
 ### ToyBox Rogue - Ver 1.5.20 built for Rogue Trader 1.2.0.30
 * (***ADDB***) Added Bag of Tricks => QoL => Skip Splash Screen (this is basically the mod I released a while ago built into ToyBox).

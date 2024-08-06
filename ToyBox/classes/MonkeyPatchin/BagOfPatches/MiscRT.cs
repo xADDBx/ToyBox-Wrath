@@ -16,6 +16,7 @@ using Kingmaker.Code.UI.MVVM.View.Vendor;
 using Kingmaker.Code.UI.MVVM.VM.Common;
 using Kingmaker.Code.UI.MVVM.VM.CounterWindow;
 using Kingmaker.Controllers;
+using Kingmaker.Designers.WarhammerSurfaceCombatPrototype;
 using Kingmaker.Designers.WarhammerSurfaceCombatPrototype.PsychicPowers;
 //using Kingmaker.Controllers.GlobalMap;
 using Kingmaker.EntitySystem;
@@ -46,15 +47,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.Serialization;
 using UniRx;
 //using ToyBox.Multiclass;
 //using Kingmaker.UI._ConsoleUI.GroupChanger;
 using UnityEngine;
-using static ModKit.UI;
-using static ToyBox.BagOfPatches.LevelUp;
-using Utilities = Kingmaker.Cheats.Utilities;
 
 namespace ToyBox.BagOfPatches {
     internal static partial class Misc {
@@ -66,7 +65,42 @@ namespace ToyBox.BagOfPatches {
             [HarmonyPrefix]
             public static bool OnTrigger() => !Settings.toggleNoPsychicPhenomena;
         }
-
+        // Manually patched/unpatched when changing settings
+        public static IEnumerable<CodeInstruction> RuleCalculatePsychicPhenomenaEffect_OnTrigger_Transpiler(IEnumerable<CodeInstruction> instructions) {
+            foreach (var instruction in instructions) {
+                if (instruction.LoadsField(AccessTools.Field(typeof(BlueprintPsychicPhenomenaRoot), nameof(BlueprintPsychicPhenomenaRoot.PsychicPhenomena)))) {
+                    yield return new CodeInstruction(OpCodes.Pop);
+                    yield return CodeInstruction.Call(() => GetPsychicPhenomenaFiltered());
+                    continue;
+                }
+                if (instruction.LoadsField(AccessTools.Field(typeof(BlueprintPsychicPhenomenaRoot), nameof(BlueprintPsychicPhenomenaRoot.PerilsOfTheWarpMinor)))) {
+                    yield return new CodeInstruction(OpCodes.Pop);
+                    yield return CodeInstruction.Call(() => GetMinorPerilsFiltered());
+                    continue;
+                }
+                if (instruction.LoadsField(AccessTools.Field(typeof(BlueprintPsychicPhenomenaRoot), nameof(BlueprintPsychicPhenomenaRoot.PerilsOfTheWarpMajor)))) {
+                    yield return new CodeInstruction(OpCodes.Pop);
+                    yield return CodeInstruction.Call(() => GetMajorPerilsFiltered());
+                    continue;
+                }
+                yield return instruction;
+            }
+        }
+        public static BlueprintPsychicPhenomenaRoot.PsychicPhenomenaData[] GetPsychicPhenomenaFiltered() {
+            var newArr = AccessTools.MakeDeepCopy<BlueprintPsychicPhenomenaRoot.PsychicPhenomenaData[]>(BlueprintRoot.Instance.WarhammerRoot.PsychicPhenomenaRoot.PsychicPhenomena);
+            newArr.RemoveAll(i => Settings.excludedRandomPhenomena.Contains(i.Bark.Entries[0].Text.name));
+            return newArr;
+        }
+        public static BlueprintAbilityReference[] GetMinorPerilsFiltered() {
+            var newArr = AccessTools.MakeDeepCopy<BlueprintAbilityReference[]>(BlueprintRoot.Instance.WarhammerRoot.PsychicPhenomenaRoot.PerilsOfTheWarpMinor);
+            newArr.RemoveAll(i => Settings.excludedPerilsMinor.Contains(i.guid));
+            return newArr;
+        }
+        public static BlueprintAbilityReference[] GetMajorPerilsFiltered() {
+            var newArr = AccessTools.MakeDeepCopy<BlueprintAbilityReference[]>(BlueprintRoot.Instance.WarhammerRoot.PsychicPhenomenaRoot.PerilsOfTheWarpMajor);
+            newArr.RemoveAll(i => Settings.excludedPerilsMajor.Contains(i.guid));
+            return newArr;
+        }
         // Disables the lockout for reporting achievements
         [HarmonyPatch(typeof(AchievementEntity), nameof(AchievementEntity.IsDisabled), MethodType.Getter)]
         public static class AchievementEntity_IsDisabled_Patch {

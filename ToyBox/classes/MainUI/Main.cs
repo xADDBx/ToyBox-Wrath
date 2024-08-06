@@ -118,6 +118,7 @@ namespace ToyBox {
                     var messageLog = LogThreadService.Instance.m_Logs[LogChannelType.Dialog].FirstOrDefault(x => x is DialogLogThread);
                     messageLog?.AddMessage(message);
                 };
+                RogueCheats.PatchPsychicTranspiler(!Settings.customizePsychicPhenomena);
             } catch (Exception e) {
                 Mod.Error(e.ToString());
                 throw e;

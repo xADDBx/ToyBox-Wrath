@@ -1,11 +1,19 @@
-﻿using Kingmaker;
+﻿using HarmonyLib;
+using Kingmaker;
+using Kingmaker.Blueprints;
 using Kingmaker.Cheats;
 using Kingmaker.Code.UI.MVVM.VM.NavigatorResource;
 using Kingmaker.Controllers;
+using Kingmaker.Designers.WarhammerSurfaceCombatPrototype;
 using Kingmaker.Enums;
+using Kingmaker.RuleSystem.Rules;
+using Kingmaker.UnitLogic;
 using ModKit;
+using ModKit.DataViewer;
 using System;
 using System.Collections.Generic;
+using ToyBox.BagOfPatches;
+using UnityEngine;
 
 namespace ToyBox {
     // Made for Rogue Trader specific stuff which I have no idea where to put
@@ -13,6 +21,9 @@ namespace ToyBox {
         public static Settings Settings => Main.Settings;
         private static int selectedFaction = 0;
         public static NamedFunc<FactionType>[] factionsToPick;
+        private static Browser<BlueprintPsychicPhenomenaRoot.PsychicPhenomenaData, BlueprintPsychicPhenomenaRoot.PsychicPhenomenaData> PsychicPhenomenaBrowser = new(true, true) { DisplayShowAllGUI = false };
+        private static Browser<BlueprintAbilityReference, BlueprintAbilityReference> PerilsOfTheWarpMinorBrowser = new(true, true) { DisplayShowAllGUI = false };
+        private static Browser<BlueprintAbilityReference, BlueprintAbilityReference> PerilsOfTheWarpMajorBrowser = new(true, true) { DisplayShowAllGUI = false };
         private static int reputationAdjustment = 100;
         private static int navigatorInsightAdjustment = 100;
         private static int scrapAdjustment = 100;
@@ -148,7 +159,81 @@ namespace ToyBox {
                     }
                 },
                 () => Toggle("Prevent Psychic Phenomena".localize(), ref Settings.toggleNoPsychicPhenomena),
-                () => Toggle("Prevent Veil Thickness from changing".localize(), ref Settings.freezeVeilThickness));
+                () => Toggle("Prevent Veil Thickness from changing".localize(), ref Settings.freezeVeilThickness),
+                () => {
+                    if (Toggle("Customize Psychic Phenomena/Perils of the Warp".localize(), ref Settings.customizePsychicPhenomena)) {
+                        PatchPsychicTranspiler(!Settings.customizePsychicPhenomena);
+                    }
+                });
+            if (Settings.customizePsychicPhenomena) {
+                15.space();
+                Div();
+                15.space();
+                VStack("Customization".localize().bold(),
+                    () => {
+                        Label("Psychic Phenomena".localize());
+                        PsychicPhenomenaBrowser.OnGUI(RuleCalculatePsychicPhenomenaEffect.PsychicPhenomenaRoot.PsychicPhenomena, () => RuleCalculatePsychicPhenomenaEffect.PsychicPhenomenaRoot.PsychicPhenomena,
+                            i => i, i => i.Bark.Entries[0].Text.String + i.Bark.Entries[0].Text.name, i => [i.Bark.Entries[0].Text.String.ToString(), i.Bark.Entries[0].Text.name], null,
+                            (psychicphenomena, _) => {
+                                using (HorizontalScope()) {
+                                    var internalName = psychicphenomena.Bark.Entries[0].Text.name;
+                                    string desc = psychicphenomena.Bark.Entries[0].Text.String;
+                                    Label(internalName.cyan(), Width(200));
+                                    Space(50);
+                                    Label(desc.green(), Width(400));
+                                    if (Settings.excludedRandomPhenomena.Contains(internalName)) {
+                                        ActionButton("Allow".localize(), () => Settings.excludedRandomPhenomena.Remove(internalName), AutoWidth());
+                                    } else {
+                                        ActionButton("Disable".localize(), () => Settings.excludedRandomPhenomena.Add(internalName), AutoWidth());
+                                    }
+                                }
+                                ReflectionTreeView.DetailToggle("", psychicphenomena, psychicphenomena, 0);
+                            },
+                            (psychicphenomena, _) => { ReflectionTreeView.OnDetailGUI(psychicphenomena); });
+                    },
+                    () => {
+                        Label("MinorPerils".localize());
+                        PerilsOfTheWarpMinorBrowser.OnGUI(RuleCalculatePsychicPhenomenaEffect.PsychicPhenomenaRoot.PerilsOfTheWarpMinor, () => RuleCalculatePsychicPhenomenaEffect.PsychicPhenomenaRoot.PerilsOfTheWarpMinor,
+                            i => i, i => BlueprintExtensions.GetSearchKey(i.Get(), true), i => [BlueprintExtensions.GetSortKey(i.Get())], null,
+                            (minorPeril, _) => {
+                                using (HorizontalScope()) {
+                                    Label(BlueprintExtensions.GetSearchKey(minorPeril.Get(), true).cyan(), Width(650));
+                                    if (Settings.excludedPerilsMinor.Contains(minorPeril.guid)) {
+                                        ActionButton("Allow".localize(), () => Settings.excludedPerilsMinor.Remove(minorPeril.guid), AutoWidth());
+                                    } else {
+                                        ActionButton("Disable".localize(), () => Settings.excludedPerilsMinor.Add(minorPeril.guid), AutoWidth());
+                                    }
+                                }
+                                ReflectionTreeView.DetailToggle("", minorPeril, minorPeril, 0);
+                            },
+                            (minorPeril, _) => { ReflectionTreeView.OnDetailGUI(minorPeril); });
+                    },
+                    () => {
+                        Label("MajorPerils".localize());
+                        PerilsOfTheWarpMajorBrowser.OnGUI(RuleCalculatePsychicPhenomenaEffect.PsychicPhenomenaRoot.PerilsOfTheWarpMajor, () => RuleCalculatePsychicPhenomenaEffect.PsychicPhenomenaRoot.PerilsOfTheWarpMajor,
+                            i => i, i => BlueprintExtensions.GetSearchKey(i.Get(), true), i => [BlueprintExtensions.GetSortKey(i.Get())], null,
+                            (majorPeril, _) => {
+                                using (HorizontalScope()) {
+                                    Label(BlueprintExtensions.GetSearchKey(majorPeril.Get(), true).cyan(), Width(650));
+                                    if (Settings.excludedPerilsMajor.Contains(majorPeril.guid)) {
+                                        ActionButton("Allow".localize(), () => Settings.excludedPerilsMajor.Remove(majorPeril.guid), AutoWidth());
+                                    } else {
+                                        ActionButton("Disable".localize(), () => Settings.excludedPerilsMajor.Add(majorPeril.guid), AutoWidth());
+                                    }
+                                }
+                                ReflectionTreeView.DetailToggle("", majorPeril, majorPeril, 0);
+                            },
+                            (majorPeril, _) => { ReflectionTreeView.OnDetailGUI(majorPeril); });
+                    });
+            }
+        }
+        public static void PatchPsychicTranspiler(bool unpatch) {
+            var target = AccessTools.Method(typeof(RuleCalculatePsychicPhenomenaEffect), nameof(RuleCalculatePsychicPhenomenaEffect.OnTrigger));
+            if (unpatch) {
+                Main.HarmonyInstance.Unpatch(target, HarmonyPatchType.Transpiler, Main.modEntry.Info.Id);
+            } else {
+                Main.HarmonyInstance.Patch(target, transpiler: new(AccessTools.Method(typeof(Misc), nameof(Misc.RuleCalculatePsychicPhenomenaEffect_OnTrigger_Transpiler))));
+            }
         }
     }
 }
