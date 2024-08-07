@@ -70,7 +70,7 @@ using UnityEngine;
 
 namespace ToyBox.BagOfPatches {
     internal static partial class Tweaks {
-        public static Settings Settings = Main.Settings;
+        public static Settings Settings => Main.Settings;
         public static Player player => Game.Instance.Player;
         private static readonly BlueprintGuid rage_barbarian = BlueprintGuid.Parse("df6a2cce8e3a9bd4592fb1968b83f730");
         private static readonly BlueprintGuid rage_blood = BlueprintGuid.Parse("e3a0056eedac7754ca9a50603ba05177");

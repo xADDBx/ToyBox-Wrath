@@ -23,7 +23,7 @@ using UnityEngine.UI;
 namespace ToyBox.BagOfPatches {
     internal static class PartyView {
         public static Settings settings => Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Player player => Game.Instance.Player;
 
 #if false
         static int SlotsInParty = 8;

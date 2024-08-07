@@ -43,8 +43,8 @@ using UnityEngine.UI;
 
 namespace ToyBox {
     internal static class PreviewManager {
-        public static Settings Settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings Settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
         private static GameDialogsSettings DialogSettings => SettingsRoot.Game.Dialogs;
 
         public static KingdomStats.Changes CalculateEventResult(KingdomEvent kingdomEvent, EventResult.MarginType margin, AlignmentMaskType alignment, LeaderType leaderType) {

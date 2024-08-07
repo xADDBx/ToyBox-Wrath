@@ -9,8 +9,8 @@ using System;
 
 namespace ToyBox.BagOfPatches {
     public static class DiceRollsWrath {
-        public static Settings settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
 
         [HarmonyPatch(typeof(RuleAttackRoll), nameof(RuleAttackRoll.IsCriticalConfirmed), MethodType.Getter)]
         private static class HitPlayer_OnTriggerl_Patch {

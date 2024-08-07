@@ -22,8 +22,8 @@ using UnityModManager = UnityModManagerNet.UnityModManager;
 
 namespace ToyBox.BagOfPatches {
     internal static class Movement {
-        public static Settings Settings = Main.Settings;
-        public static Player Player = Game.Instance.Player;
+        public static Settings Settings => Main.Settings;
+        public static Player Player => Game.Instance.Player;
 
         [HarmonyPatch(typeof(UnitEntityData), nameof(UnitEntityData.ModifiedSpeedMps), MethodType.Getter)]
         public static class UnitEntityData_CalculateSpeedModifier_Patch {

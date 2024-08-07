@@ -22,7 +22,7 @@ namespace ToyBox.classes.MonkeyPatchin.BagOfPatches {
 
     [HarmonyPatch]
     public class Clipboard_Guids {
-        public static Settings settings = Main.Settings;
+        public static Settings settings => Main.Settings;
         private const TooltipTextType GUIDTooltipTextTypes = TooltipTextType.Small | TooltipTextType.Italic;
 
         public static void CopyToClipboard(string guid) {

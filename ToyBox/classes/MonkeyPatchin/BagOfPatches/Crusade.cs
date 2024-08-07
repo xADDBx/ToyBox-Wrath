@@ -25,7 +25,7 @@ using ToyBox.classes.MainUI;
 using UnityEngine;
 namespace ToyBox.classes.MonkeyPatchin.BagOfPatches {
     public static class Crusade {
-        public static Settings Settings = Main.Settings;
+        public static Settings Settings => Main.Settings;
 
         [HarmonyPatch(typeof(ArmyMercenariesManager), nameof(ArmyMercenariesManager.Reroll))]
         public static class ArmyMercenariesManager_Reroll_Patch {

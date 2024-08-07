@@ -24,8 +24,8 @@ using ToyBox.classes.Infrastructure;
 
 namespace ToyBox.Multiclass {
     internal static class LevelUp {
-        public static Settings settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
 
         [HarmonyPatch(typeof(LevelUpController), MethodType.Constructor, new Type[] {
             typeof(UnitEntityData),

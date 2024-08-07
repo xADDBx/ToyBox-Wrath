@@ -50,7 +50,7 @@ namespace ToyBox.BagOfPatches {
 #if false
     internal static class Braaainz {
         public static Settings settings = Main.settings;
-        public static Player player = Game.Instance.Player;
+        public static Player player => Game.Instance.Player;
 
         [HarmonyPatch(typeof(AiBrainController), nameof(AiBrainController.TickBrain))]
         private static class AiBrainController_TickBrain_patch {

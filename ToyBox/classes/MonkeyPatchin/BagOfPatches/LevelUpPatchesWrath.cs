@@ -40,8 +40,8 @@ using Kingmaker.UI.MVVM._VM.Other;
 
 namespace ToyBox.BagOfPatches {
     internal static class LevelUp {
-        public static Settings settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
 
         [HarmonyPatch(typeof(LevelUpController), nameof(LevelUpController.CanLevelUp))]
         private static class LevelUpController_CanLevelUp_Patch {

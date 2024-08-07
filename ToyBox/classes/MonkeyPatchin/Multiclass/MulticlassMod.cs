@@ -75,8 +75,8 @@ namespace ToyBox.Multiclass {
     }
 
     public static class MulticlassUtils {
-        public static Settings settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
 
         public static bool IsCharGen(this LevelUpState state) {
             var companionNames = Game.Instance?.Player?.AllCharacters.Where(c => !c.IsMainCharacter).Select(c => c.CharacterName).ToList();
@@ -138,8 +138,8 @@ namespace ToyBox.Multiclass {
 
     public static partial class MultipleClasses {
 
-        public static Settings settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
         public static LevelUpController levelUpController { get; internal set; }
 
         public static bool IsAvailable() => Main.Enabled &&

@@ -128,7 +128,7 @@ namespace ToyBox {
     static class HarmonyPatches_ToDo {
         public static Settings settings = Main.settings;
         public static UnityModManager.ModEntry.ModLogger modLogger = Logger.modLogger;
-        public static Player player = Game.Instance.Player;
+        public static Player player => Game.Instance.Player;
 
         [HarmonyPatch(typeof(UnitEntityData), "CreateView")]
         public static class UnitEntityData_CreateView_Patch {

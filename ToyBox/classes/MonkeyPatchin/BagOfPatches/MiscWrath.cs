@@ -50,8 +50,8 @@ using Utilities = Kingmaker.Cheats.Utilities;
 namespace ToyBox.BagOfPatches {
     [HarmonyPatch]
     internal static partial class Misc {
-        public static Settings settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
 
         [HarmonyPatch(typeof(Player), nameof(Player.OnAreaLoaded))]
         internal static class Player_OnAreaLoaded_Patch {

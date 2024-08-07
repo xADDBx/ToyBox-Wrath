@@ -11,8 +11,8 @@ using ModKit;
 
 namespace ToyBox {
     public static class AlignmentPatches {
-        public static Settings settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
 
         [HarmonyPatch(typeof(UnitAlignment), nameof(UnitAlignment.GetDirection))]
         private static class UnitAlignment_GetDirection_Patch {
