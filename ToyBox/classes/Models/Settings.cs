@@ -1,14 +1,19 @@
 // Copyright < 2021 > Narria (github user Cabarius) - License: MIT
+using HarmonyLib;
 using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.EntitySystem;
 using Kingmaker.EntitySystem.Persistence;
+using Kingmaker.EntitySystem.Persistence.JsonUtility;
 using Kingmaker.RuleSystem;
 using ModKit;
 using ModKit.Utility;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using UnityEngine;
 using UnityModManagerNet;
 
@@ -52,32 +57,55 @@ namespace ToyBox {
     }
 
     public class Settings : UnityModManager.ModSettings {
+        private static Dictionary<string, object> initial_settings;
+        [HarmonyPatch]
+        public static class SaveLoadPatch {
+            [HarmonyPatch(typeof(ThreadedGameLoader), nameof(ThreadedGameLoader.DoLoad)), HarmonyTranspiler]
+            public static IEnumerable<CodeInstruction> DoLoad(IEnumerable<CodeInstruction> instructions) {
+                foreach (var instruction in instructions) {
+                    if (instruction.opcode == OpCodes.Stfld && (instruction.operand as FieldInfo).Name.Equals("playerJson", StringComparison.InvariantCultureIgnoreCase)) {
+                        yield return new CodeInstruction(OpCodes.Dup);
+                        yield return CodeInstruction.Call(typeof(SaveLoadPatch), nameof(Deserializer), [typeof(string)]);
+                    }
+                    yield return instruction;
+                }
+            }
+            public static void Deserializer(string json) {
+                if (json == null) return;
+                initial_settings = OwlcatJsonConvert.DeserializeObject<Dictionary<string, object>>(JObject.Parse(json)["SettingsList"].ToString());
+                ReloadPerSaveSettings();
+            }
+        }
         private static PerSaveSettings cachedPerSave = null;
         public const string PerSaveKey = "ToyBox";
         public static void ClearCachedPerSave() => cachedPerSave = null;
+        public static Dictionary<string, object> container => (Shodan.GetInGameSettingsList()?.Count == 0) ? initial_settings : Shodan.GetInGameSettingsList();
         public static void ReloadPerSaveSettings() {
             var player = Game.Instance?.Player;
-            if (player == null || Game.Instance.SaveManager.CurrentState == SaveManager.State.Loading) return;
+            if (player == null) return;
             Mod.Debug($"reloading per save settings from Player.SettingsList[{PerSaveKey}]");
-            if (Shodan.GetInGameSettingsList().TryGetValue(PerSaveKey, out var obj) && obj is string json) {
-                try {
-                    cachedPerSave = JsonConvert.DeserializeObject<PerSaveSettings>(json);
-                    Mod.Debug($"read successfully from Player.SettingsList[{PerSaveKey}]");
-                } catch (Exception e) {
-                    Mod.Error($"failed to read from Player.SettingsList[{PerSaveKey}]");
-                    Mod.Error(e);
+            if (container != null) {
+                if (container.TryGetValue(PerSaveKey, out var obj) && obj is string json) {
+                    try {
+                        cachedPerSave = JsonConvert.DeserializeObject<PerSaveSettings>(json);
+                        Mod.Debug($"read successfully from Player.SettingsList[{PerSaveKey}]");
+                    } catch (Exception e) {
+                        Mod.Error($"failed to read from Player.SettingsList[{PerSaveKey}]");
+                        Mod.Error(e);
+                    }
                 }
-            }
-            if (cachedPerSave == null) {
-                Mod.Warn("per save settings not found, creating new...");
-                cachedPerSave = new PerSaveSettings {
-                };
-                SavePerSaveSettings();
+                if (cachedPerSave == null) {
+                    Mod.Warn("per save settings not found, creating new...");
+                    cachedPerSave = new PerSaveSettings {
+                    };
+                    SavePerSaveSettings();
+                }
             }
         }
         public static void SavePerSaveSettings() {
             var player = Game.Instance?.Player;
             if (player == null) return;
+            if (container == null) return;
             if (cachedPerSave == null)
                 ReloadPerSaveSettings();
             var json = JsonConvert.SerializeObject(cachedPerSave);
@@ -106,7 +134,7 @@ namespace ToyBox {
             get {
                 if (cachedPerSave != null) return cachedPerSave;
                 ReloadPerSaveSettings();
-                return cachedPerSave;
+                return cachedPerSave ?? new();
             }
         }
 

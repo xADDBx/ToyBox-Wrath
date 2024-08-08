@@ -39,9 +39,11 @@
 
 ### Toybox Wrath - Ver 1.5.30 (built for 2.3.3k)
 * (***AlterAsc***) Fix Multiple Archetypes making Archetypes that replace class prerequisites (for example Drunken Master) unpickeable while active.
+* (***AlterAsc***) Actually fix Heavenly Host and other related issues (sometimes related to missing animations?).
+* (***ADDB***) Fixed Gestalt not applying flags when counting level on *the first loaded save after game start*. Among other things, this caused issues like "Double Con Bonus" (oldest currently open ToyBox issue). Since I touched Gestalt code I might've unintentionally broken something; if that is the case please do report that.
 
 ### Toybox Wrath - Ver 1.5.29 (built for 2.3.3k)
-* (***ADDB***) Maybe fix Heavenly Host not displaying extra attack in character panel (Why? How?).
+* (***ADDB***) ~~Maybe fix Heavenly Host not displaying extra attack in character panel (Why? How?).~~
 * (***ADDB***) Fixed an issue in MiscTweaks where it tried to access Game.Instance.Player in a static constructor for assignment by replacing field with property (getter).
 
 ### Toybox Wrath - Ver 1.5.28 (built for 2.3.3k)

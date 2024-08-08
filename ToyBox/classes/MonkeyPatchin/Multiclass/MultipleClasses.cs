@@ -39,17 +39,6 @@ namespace ToyBox.Multiclass {
     public static partial class MultipleClasses {
 
         #region Class Level & Archetype
-        [HarmonyPatch(typeof(LevelUpController), nameof(LevelUpController.UpdatePreview))]
-        private static class LevelUpController_UpdatePreview_Patch {
-            private static void Prefix(LevelUpController __instance) {
-                if (IsAvailable()) {
-                    // This is the critical place that gets called once before we go through all the level computations for setting up the level up screen
-                    //Mod.Debug("LevelUpController_UpdatePreview_Patch");
-                    //Main.multiclassMod.AppliedMulticlassSet.Clear();
-                    //Main.multiclassMod.UpdatedProgressions.Clear();
-                }
-            }
-        }
         [HarmonyPatch(typeof(SelectClass), nameof(SelectClass.Apply), new Type[] { typeof(LevelUpState), typeof(UnitDescriptor) })]
         private static class SelectClass_Apply_Patch {
             [HarmonyPostfix]
@@ -271,8 +260,8 @@ namespace ToyBox.Multiclass {
         [HarmonyPatch(typeof(UnitProgressionData), nameof(UnitProgressionData.SetupLevelsIfNecessary))]
         private static class UnitProgressionData_SetupLevelsIfNecessary_Patch {
             private static bool Prefix(UnitProgressionData __instance) {
-                if (__instance.m_CharacterLevel.HasValue && __instance.m_MythicLevel.HasValue)
-                    return false;
+                if (!settings.toggleMulticlass) return true;
+                if (__instance.m_CharacterLevel.HasValue && __instance.m_MythicLevel.HasValue) return false;
                 __instance.UpdateLevelsForGestalt();
                 return false;
             }
@@ -280,6 +269,7 @@ namespace ToyBox.Multiclass {
         [HarmonyPatch(typeof(UnitProgressionData), nameof(UnitProgressionData.LastMythicClass), MethodType.Getter)]
         private static class UnitProgressionData_LastMythicClass_Patch {
             static void Postfix(ref BlueprintCharacterClass __result, UnitProgressionData __instance) {
+                if (!settings.toggleMulticlass) return;
                 __result = __instance.m_ClassesOrder.LastItem<BlueprintCharacterClass>((Func<BlueprintCharacterClass, bool>)(cl => cl.IsMythic && !__instance.Owner.IsClassGestalt(cl)));
                 //Mod.Trace($"LastMythic = {__result}");
             }
@@ -290,6 +280,7 @@ namespace ToyBox.Multiclass {
         [HarmonyPatch(typeof(MythicInfoProgressionVM), nameof(MythicInfoProgressionVM.RefreshData))]
         private static class MythicInfoProgressionVM_RefreshData_Patch {
             static void Postfix(MythicInfoProgressionVM __instance) {
+                if (!settings.toggleMulticlass) return;
                 var lastMythic = __instance.m_ClassDatas.LastOrDefault<ClassData>((cd) => !__instance.Unit.Value.IsClassGestalt(cd.CharacterClass));
                 //Mod.Trace($"MythicInfoProgressionVM - LastMythic = {lastMythic?.CharacterClass.Name}");
                 __instance.MythicName = lastMythic?.CharacterClass.Name;

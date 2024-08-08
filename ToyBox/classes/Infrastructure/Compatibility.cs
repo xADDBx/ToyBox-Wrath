@@ -39,7 +39,7 @@ namespace ToyBox {
         public static float GetCost(this BlueprintItem item) => item.Cost;
         public static Gender? GetCustomGender(this UnitDescriptor descriptor) => descriptor.CustomGender;
         public static void SetCustomGender(this UnitDescriptor descriptor, Gender gender) => descriptor.CustomGender = gender;
-        public static Dictionary<string, object>? GetInGameSettingsList() => Game.Instance?.Player?.SettingsList;
+        public static Dictionary<string, object> GetInGameSettingsList() => Game.Instance?.Player?.SettingsList;
 
         // Unit Entity Utils
         public static UnitEntityData MainCharacter => Game.Instance.Player.MainCharacter.Value;
