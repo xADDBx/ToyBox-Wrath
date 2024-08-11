@@ -473,18 +473,16 @@ namespace ToyBox {
                 string text = null;
                 if (kingdomEventView.IsFinished) {
                     if (kingdomEventView.IsCrusadeEvent) {
-                        EventSolution currentEventSolution = __instance.m_Footer.CurrentEventSolution;
-                        if (((currentEventSolution != null) ? currentEventSolution.ResultText : null) != null) {
-                            EventSolution currentEventSolution2 = __instance.m_Footer.CurrentEventSolution;
-                            text = ((currentEventSolution2 != null) ? currentEventSolution2.ResultText : null);
-                            goto IL_00A6;
-                        }
-                    }
-                    if (kingdomEventView.Blueprint.DefaultResolutionDescription != null) {
+                        text = __instance.m_Footer?.CurrentEventSolution?.ResultText;
+                    } else {
                         text = kingdomEventView.Blueprint.DefaultResolutionDescription;
                     }
                 }
-                IL_00A6:
+                __instance.m_ResultDescription.text = text;
+                __instance.m_ResultDescription.gameObject.SetActive(text != null);
+                if (text != null) {
+                    __instance.m_Disposables.Add(__instance.m_ResultDescription.SetLinkTooltip(null, null, default(TooltipConfig)));
+                }
                 BlueprintKingdomProject blueprintKingdomProject = blueprint as BlueprintKingdomProject;
                 string mechanicalDescription = ((blueprintKingdomProject != null) ? blueprintKingdomProject.MechanicalDescription : null) ?? "";
                 if (Settings.previewDecreeResults) {
@@ -546,11 +544,6 @@ namespace ToyBox {
                     }
                     __instance.m_Description.text += solStrings.sizePercent(87);
                 }
-                __instance.m_ResultDescription.text = text;
-                __instance.m_ResultDescription.gameObject.SetActive(text != null);
-                if (text != null) {
-                    __instance.m_Disposables.Add(__instance.m_ResultDescription.SetLinkTooltip(null, null, default(TooltipConfig)));
-                }
                 __instance.m_MechanicalDescription.text = mechanicalDescription;
                 __instance.m_MechanicalDescription.gameObject.SetActive(!mechanicalDescription.IsNullOrEmpty());
                 __instance.m_Disposables.Add(__instance.m_MechanicalDescription.SetLinkTooltip(null, null, default(TooltipConfig)));
@@ -559,12 +552,14 @@ namespace ToyBox {
             }
         }
 
+        /* What is this?
         [HarmonyPatch(typeof(KingdomUIEventWindow), nameof(KingdomUIEventWindow.OnClose))]
         private static class KingdomUIEventWindow_OnClose_Patch {
             private static void Prefix(KingdomUIEventWindow __instance) {
                 __instance.m_MechanicalDescription.text = null;
             }
         }
+        */
 
         [HarmonyPatch(typeof(DialogAnswerView))]
         private static class DialogAnswerViewPatch {
@@ -613,26 +608,6 @@ namespace ToyBox {
                 __instance.AddDisposable(Game.Instance.Keyboard.Bind("NextOrEnd", new Action(__instance.Confirm)));
                 return false;
             }
-#if false
-        private void SetAnswer(BlueprintAnswer answer) {
-            var type = Game.Instance.DialogController.Dialog.Type;
-            var str = string.Format("DialogChoice{0}", ViewModel.Index);
-            AnswerText.text = UIConsts.GetAnswerString(answer, str, ViewModel.Index);
-            var color32 = answer.CanSelect() ? Colors.NormalAnswer : Colors.DisabledAnswer;
-            if (type == DialogType.Common 
-                && answer.IsAlreadySelected() 
-                && (Game.Instance.DialogController.NextCueWasShown(answer) 
-                   || !Game.Instance.DialogController.NextCueHasNewAnswers(answer)
-                   )
-                )
-                color32 = Colors.SelectedAnswer;
-            AnswerText.color = color32;
-            AddDisposable(Game.Instance.Keyboard.Bind(str, Confirm));
-            if (ViewModel.Index != 1 || (type != DialogType.Interchapter && type != DialogType.Epilogue))
-                return;
-            AddDisposable(Game.Instance.Keyboard.Bind("NextOrEnd", Confirm));
-        }
-#endif
         }
     }
 }

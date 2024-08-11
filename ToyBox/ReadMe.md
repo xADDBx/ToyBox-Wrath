@@ -37,7 +37,7 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
-### Toybox Wrath - Ver 1.5.33 (built for 2.3.3k)
+### Toybox Wrath - Ver 1.5.34 (built for 2.3.3k)
 * (***ADDB***) Description of some Crusade Events was not shown by default because of a missing Guard Clause. I also rewrote some faulty preview code; hopefully I didn't break any of the relic/decree result thingy.
 
 ### Toybox Wrath - Ver 1.5.31 (built for 2.3.3k)
