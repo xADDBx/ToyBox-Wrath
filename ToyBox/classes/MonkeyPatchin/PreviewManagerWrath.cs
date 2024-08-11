@@ -328,16 +328,6 @@ namespace ToyBox {
                     var solutions = blueprint.Solutions;
                     var resolutions = solutions.GetResolutions(leader.Type);
                     solutionText.text += "<size=75%>";
-#if false
-                    TODO - does this matter in WoTR?  It seems like the ability to get alignment or name is gone from LeaderState
-                    var leaderAlignmentMask = leader.LeaderSelection.Alignment.ToMask();
-                    bool isValid(EventResult result) => (leaderAlignmentMask & result.LeaderAlignment) != AlignmentMaskType.None;
-                    var validResults = resolutions.Where(isValid);
-                    solutionText.text += "Leader " + leader.LeaderSelection.CharacterName + " - Alignment " + leaderAlignmentMask + "\n";
-                    foreach (var eventResult in validResults) {
-                        solutionText.text += FormatResult(kingdomEventView.Task.Event, eventResult.Margin, leaderAlignmentMask, leader.Type);
-                    }
-#endif
                     //Calculate best result
                     var bestResult = 0;
                     KingdomStats.Changes bestEventResult = null;
@@ -476,41 +466,42 @@ namespace ToyBox {
         [HarmonyPatch(typeof(KingdomUIEventWindow), nameof(KingdomUIEventWindow.SetDescription))]
         private static class KingdomUIEventWindow_SetDescription_Patch {
             private static bool Prefix(KingdomUIEventWindow __instance, KingdomEventUIView kingdomEventView) {
-                var blueprint = kingdomEventView.Blueprint;
+                if (!Settings.previewDecreeResults && !Settings.previewRelicResults) return true;
+                BlueprintKingdomEventBase blueprint = kingdomEventView.Blueprint;
                 __instance.m_Description.text = blueprint.LocalizedDescription;
-                __instance.m_Disposables.Add(__instance.m_Description.SetLinkTooltip(null, null, default));
-                var isActive = kingdomEventView.IsCrusadeEvent && kingdomEventView.IsFinished;
-                __instance.m_ResultDescription.gameObject.SetActive(isActive);
-                if (isActive) {
-                    var currentEventSolution = __instance.m_Footer.CurrentEventSolution;
-                    if (currentEventSolution?.ResultText != null) {
-                        var resultDescription = __instance.m_ResultDescription;
-                        var currentEventSolution2 = __instance.m_Footer.CurrentEventSolution;
-                        resultDescription.text = ((currentEventSolution2 != null) ? currentEventSolution2.ResultText : null);
-                        __instance.m_Disposables.Add(__instance.m_ResultDescription.SetLinkTooltip(null, null, default));
-                    } else
-                        __instance.m_ResultDescription.text = string.Empty;
+                __instance.m_Disposables.Add(__instance.m_Description.SetLinkTooltip(null, null, default(TooltipConfig)));
+                string text = null;
+                if (kingdomEventView.IsFinished) {
+                    if (kingdomEventView.IsCrusadeEvent) {
+                        EventSolution currentEventSolution = __instance.m_Footer.CurrentEventSolution;
+                        if (((currentEventSolution != null) ? currentEventSolution.ResultText : null) != null) {
+                            EventSolution currentEventSolution2 = __instance.m_Footer.CurrentEventSolution;
+                            text = ((currentEventSolution2 != null) ? currentEventSolution2.ResultText : null);
+                            goto IL_00A6;
+                        }
+                    }
+                    if (kingdomEventView.Blueprint.DefaultResolutionDescription != null) {
+                        text = kingdomEventView.Blueprint.DefaultResolutionDescription;
+                    }
                 }
-                var blueprintKingdomProject = blueprint as BlueprintKingdomProject;
-                string mechanicalDescription = ((blueprintKingdomProject != null) ? blueprintKingdomProject.MechanicalDescription : null);
+                IL_00A6:
+                BlueprintKingdomProject blueprintKingdomProject = blueprint as BlueprintKingdomProject;
                 if (Settings.previewDecreeResults) {
                     var eventResults = blueprintKingdomProject.Solutions.GetResolutions(blueprintKingdomProject.DefaultResolutionType);
                     if (eventResults != null) {
                         foreach (var result in eventResults) {
                             if (result.Actions != null && result.Actions.Actions.Length > 0)
-                                mechanicalDescription += $"\n<size=67%><b>Results Preview   </b>\n{string.Join("\n", result.Actions.Actions.Select(c => c.GetCaption())).MergeSpaces(true)}</size>";
+                                __instance.m_MechanicalDescription.text += $"\n<size=67%><b>Results Preview   </b>\n{string.Join("\n", result.Actions.Actions.Select(c => c.GetCaption())).MergeSpaces(true)}</size>";
                         }
                     }
                 }
                 // RelicInfo code borrowed (with permission from Rathtr) from https://www.nexusmods.com/pathfinderwrathoftherighteous/mods/200
                 var projectType = kingdomEventView.ProjectBlueprint.ProjectType;
                 if (Settings.previewRelicResults
-                    //&& projectType == KingdomProjectType.Relics
                     && blueprint.ElementsArray.Find(elem => elem is KingdomActionStartEvent) is KingdomActionStartEvent e
-                    && e.Event is BlueprintCrusadeEvent crusadeEvent
-                    ) {
+                    && e.Event is BlueprintCrusadeEvent crusadeEvent) {
                     // this relic event starts another event on completion
-                    var allRelicProjects =  // todo: cache this?
+                    var allRelicProjects =
                       from ev in Game.Instance.BlueprintRoot.Kingdom.KingdomProjectEvents
                       where ev.Get().ProjectType == KingdomProjectType.Relics
                       select ev.Get();
@@ -554,17 +545,14 @@ namespace ToyBox {
                     }
                     __instance.m_Description.text += solStrings.sizePercent(87);
                 }
-                __instance.m_Disposables.Add(__instance.m_Description.SetLinkTooltip());
-                __instance.m_ResultDescription.gameObject.SetActive(isActive);
-                if (isActive && __instance.m_Footer.CurrentEventSolution?.ResultText != null) {
-                    __instance.m_ResultDescription.text = (string)__instance.m_Footer.CurrentEventSolution?.ResultText;
-                    __instance.m_Disposables.Add(__instance.m_ResultDescription.SetLinkTooltip());
-                } else
-                    __instance.m_ResultDescription.text = string.Empty;
-
-                __instance.m_MechanicalDescription.text = mechanicalDescription;
-                __instance.m_MechanicalDescription.gameObject.SetActive((blueprintKingdomProject?.MechanicalDescription) != null);
-                __instance.m_Disposables.Add(__instance.m_MechanicalDescription.SetLinkTooltip(null, null, default));
+                __instance.m_ResultDescription.text = text;
+                __instance.m_ResultDescription.gameObject.SetActive(text != null);
+                if (text != null) {
+                    __instance.m_Disposables.Add(__instance.m_ResultDescription.SetLinkTooltip(null, null, default(TooltipConfig)));
+                }
+                __instance.m_MechanicalDescription.text = ((blueprintKingdomProject != null) ? blueprintKingdomProject.MechanicalDescription : null);
+                __instance.m_MechanicalDescription.gameObject.SetActive(((blueprintKingdomProject != null) ? blueprintKingdomProject.MechanicalDescription : null) != null);
+                __instance.m_Disposables.Add(__instance.m_MechanicalDescription.SetLinkTooltip(null, null, default(TooltipConfig)));
 
                 return false;
             }
