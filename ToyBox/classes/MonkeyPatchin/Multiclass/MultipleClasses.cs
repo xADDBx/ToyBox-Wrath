@@ -166,7 +166,12 @@ namespace ToyBox.Multiclass {
                     }
                     var allAppliedClasses = Main.multiclassMod.AppliedMulticlassSet.ToList();
                     //Mod.Debug($"ApplyClassMechanics_Apply_Patch - {String.Join(" ", allAppliedClasses.Select(cl => cl.Name))}".orange());
-                    allAppliedClasses.Add(state.SelectedClass);
+                    if (state.SelectedClass != null) {
+                        allAppliedClasses.Add(state.SelectedClass);
+                    }
+                    if (allAppliedClasses?.Count == 0 || (allAppliedClasses.Count == 1 && allAppliedClasses[0] is null)) {
+                        return;
+                    }
                     SavesBAB.ApplySaveBAB(unit, state, allAppliedClasses.ToArray());
                     HPDice.ApplyHPDice(unit, state, allAppliedClasses.ToArray());
                 }

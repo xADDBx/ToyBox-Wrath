@@ -2,7 +2,11 @@
 using Kingmaker.EntitySystem.Stats;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Class.LevelUp;
+using ModKit;
+using ModKit.Utility.Extensions;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ToyBox.Multiclass {
@@ -87,7 +91,6 @@ namespace ToyBox.Multiclass {
                 classes.Select(a => a.WillSave).ToArray(),
                 Main.Settings.multiclassSavingThrowPolicy
                 );
-
         }
     }
 }
