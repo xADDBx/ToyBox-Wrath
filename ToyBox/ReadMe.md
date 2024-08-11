@@ -38,6 +38,7 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
 ### Toybox Wrath - Ver 1.5.31 (built for 2.3.3k)
+* (***ADDB***) Fix some stuff being null during class picking/character creation. This mainly shows in that picking multiple archetypes is less buggy.
 
 ### Toybox Wrath - Ver 1.5.30 (built for 2.3.3k)
 * (***AlterAsc***) Fix Multiple Archetypes making Archetypes that replace class prerequisites (for example Drunken Master) unpickeable while active.
