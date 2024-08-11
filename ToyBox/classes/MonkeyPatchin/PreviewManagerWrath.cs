@@ -486,12 +486,13 @@ namespace ToyBox {
                 }
                 IL_00A6:
                 BlueprintKingdomProject blueprintKingdomProject = blueprint as BlueprintKingdomProject;
+                string mechanicalDescription = ((blueprintKingdomProject != null) ? blueprintKingdomProject.MechanicalDescription : null) ?? "";
                 if (Settings.previewDecreeResults) {
                     var eventResults = blueprintKingdomProject.Solutions.GetResolutions(blueprintKingdomProject.DefaultResolutionType);
                     if (eventResults != null) {
                         foreach (var result in eventResults) {
                             if (result.Actions != null && result.Actions.Actions.Length > 0)
-                                __instance.m_MechanicalDescription.text += $"\n<size=67%><b>Results Preview   </b>\n{string.Join("\n", result.Actions.Actions.Select(c => c.GetCaption())).MergeSpaces(true)}</size>";
+                                mechanicalDescription += $"\n<size=67%><b>Results Preview   </b>\n{string.Join("\n", result.Actions.Actions.Select(c => c.GetCaption())).MergeSpaces(true)}</size>";
                         }
                     }
                 }
@@ -550,8 +551,8 @@ namespace ToyBox {
                 if (text != null) {
                     __instance.m_Disposables.Add(__instance.m_ResultDescription.SetLinkTooltip(null, null, default(TooltipConfig)));
                 }
-                __instance.m_MechanicalDescription.text = ((blueprintKingdomProject != null) ? blueprintKingdomProject.MechanicalDescription : null);
-                __instance.m_MechanicalDescription.gameObject.SetActive(((blueprintKingdomProject != null) ? blueprintKingdomProject.MechanicalDescription : null) != null);
+                __instance.m_MechanicalDescription.text = mechanicalDescription;
+                __instance.m_MechanicalDescription.gameObject.SetActive(!mechanicalDescription.IsNullOrEmpty());
                 __instance.m_Disposables.Add(__instance.m_MechanicalDescription.SetLinkTooltip(null, null, default(TooltipConfig)));
 
                 return false;
