@@ -560,6 +560,7 @@ namespace ToyBox {
         public bool toggleUberLoggerForwardPrefix = false;
         public bool toggleGuidsClipboard = true;
         public bool onlyShowLanguagesWithFiles = true;
+        public bool togglemoddedbptag = false;
 
         // Deprecated
         internal bool toggleSpellbookAbilityAlignmentChecks = false;

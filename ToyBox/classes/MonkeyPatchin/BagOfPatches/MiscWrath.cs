@@ -1,4 +1,4 @@
-// borrowed shamelessly and enhanced from Bag of Tricks https://www.nexusmods.com/pathfinderkingmaker/mods/26, which is under the MIT License
+﻿// borrowed shamelessly and enhanced from Bag of Tricks https://www.nexusmods.com/pathfinderkingmaker/mods/26, which is under the MIT License
 
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -18,6 +18,8 @@ using Kingmaker.EntitySystem.Persistence;
 using Kingmaker.Enums.Damage;
 using Kingmaker.GameModes;
 using Kingmaker.Items;
+using Kingmaker.Localization;
+using Kingmaker.Localization.Shared;
 using Kingmaker.RuleSystem;
 using Kingmaker.Settings;
 using Kingmaker.UI._ConsoleUI.CombatStartScreen;
@@ -673,6 +675,29 @@ namespace ToyBox.BagOfPatches {
             private static void Postfix(Polymorph __instance) {
                 float scale = PartyEditor.lastScaleSize.GetValueOrDefault(__instance.Owner.HashKey(), 1);
                 __instance.Owner.View.transform.localScale = new Vector3(scale, scale, scale);
+            }
+        }
+        [HarmonyPatch(typeof(LocalizedString))]
+        internal class BPTagger 
+        {
+            private static LocalizationPack pack = Kingmaker.Localization.LocalizationManager.LoadPack(Kingmaker.Localization.LocalizationManager.s_CurrentLocale);
+
+            [HarmonyPatch(nameof(LocalizedString.LoadString)), HarmonyPostfix]
+            public static void LoadString_ModTagPatch(ref string __result, LocalizedString __instance) 
+            {
+                if (settings.togglemoddedbptag) 
+                {
+                    try 
+                    {
+                        if (!__result.Contains(".") && !__result.Contains("。")) { return; }
+                        string actualKey = __instance.GetActualKey();
+                        LocalizationPack.StringEntry stringEntry;
+                        if (!pack.m_Strings.TryGetValue(actualKey, out stringEntry) ) 
+                        {
+                            __result += " (modded blueprint)";
+                        }
+                    } catch { }
+                }
             }
         }
 #if false
