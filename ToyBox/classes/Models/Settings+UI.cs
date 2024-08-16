@@ -37,6 +37,7 @@ namespace ToyBox {
                 () => {
                     if (!Mod.ModKitSettings.CheckForGlyphSupport) Toggle("Use default Glyphs".localize(), ref Mod.ModKitSettings.UseDefaultGlyphs);
                 },
+                () => Toggle("Add a tag to all modified/new blueprints from mods".localize(), ref Main.Settings.togglemoddedbptag),
               () => { }
             );
 #if true
