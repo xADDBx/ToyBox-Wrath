@@ -691,13 +691,27 @@ namespace ToyBox.BagOfPatches {
                     {
                         if (!__result.Contains(".") && !__result.Contains("。")) { return; }
                         string actualKey = __instance.GetActualKey();
-                        LocalizationPack.StringEntry stringEntry;
-                        if (!pack.m_Strings.TryGetValue(actualKey, out stringEntry) ) 
+                        if (!pack.m_Strings.TryGetValue(actualKey, out var _) ) 
                         {
                             __result += " (modded blueprint)";
                         }
-                    } catch { }
+                    } 
+                    catch (Exception e) 
+                    { 
+                        Main.logger.Log("Error patching LoadString for modded blueprint tagging  \n" + e);
+                    }
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(Kingmaker.Localization.LocalizationManager))]
+        internal class BPTagger_Pack 
+        {
+            [HarmonyPriority(Priority.First)]
+            [HarmonyPatch(nameof (Kingmaker.Localization.LocalizationManager.LoadPack)), HarmonyPostfix]
+            public static LocalizationPack LoadPack_ModTagPatch(LocalizationPack __result) 
+            {
+                return AccessTools.MakeDeepCopy<LocalizationPack>(__result);
             }
         }
 #if false
