@@ -680,7 +680,7 @@ namespace ToyBox.BagOfPatches {
         [HarmonyPatch(typeof(LocalizedString))]
         internal class BPTagger 
         {
-            private static LocalizationPack pack = Kingmaker.Localization.LocalizationManager.LoadPack(Kingmaker.Localization.LocalizationManager.s_CurrentLocale);
+            public static LocalizationPack pack = Kingmaker.Localization.LocalizationManager.LoadPack(Kingmaker.Localization.LocalizationManager.s_CurrentLocale);
 
             [HarmonyPatch(nameof(LocalizedString.LoadString)), HarmonyPostfix]
             public static void LoadString_ModTagPatch(ref string __result, LocalizedString __instance) 
@@ -709,9 +709,9 @@ namespace ToyBox.BagOfPatches {
         {
             [HarmonyPriority(Priority.First)]
             [HarmonyPatch(nameof (Kingmaker.Localization.LocalizationManager.LoadPack)), HarmonyPostfix]
-            public static LocalizationPack LoadPack_ModTagPatch(LocalizationPack __result) 
+            public static void LoadPack_ModTagPatch(LocalizationPack __result) 
             {
-                return AccessTools.MakeDeepCopy<LocalizationPack>(__result);
+                BPTagger.pack = AccessTools.MakeDeepCopy<LocalizationPack>(__result);
             }
         }
 #if false
