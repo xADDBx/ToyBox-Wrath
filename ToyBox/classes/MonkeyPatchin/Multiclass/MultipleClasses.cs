@@ -50,6 +50,7 @@ namespace ToyBox.Multiclass {
                     Main.multiclassMod.AppliedMulticlassSet.Clear();
                     Main.multiclassMod.UpdatedProgressions.Clear();
                     // Some companions have predefined levels so in some cases we get called iteratively for each level so we will make sure we only apply multiclass on the last level
+                    /*
                     if (unit.TryGetPartyMemberForLevelUpVersion(out var ch)
                         && ch.TryGetClass(state.SelectedClass, out var cl)
                         && unit != ch.Descriptor()
@@ -57,12 +58,13 @@ namespace ToyBox.Multiclass {
                         //ClassLevelLimit is the number of classes that a companion comes with by default.
                         //This is null for mercenaries, so we have to default it back to 0 for them.
                         var classLevelLimit = unit.Blueprint.GetComponent<ClassLevelLimit>()?.LevelLimit ?? 0;
+                        Mod.Debug($"classLevelLimit: {classLevelLimit}, NextClassLevel: {state.NextClassLevel}, SelectedClass: {state.SelectedClass}");
                         if (state.NextClassLevel <= classLevelLimit) {
                             Mod.Debug($"SelectClass_Apply_Patch, unit: {unit.CharacterName.orange()} isCH: {unit == ch.Descriptor()}) - skip - lvl:{state.NextClassLevel} vs {classLevelLimit} ".green());
-                            Mod.Debug($"classLevelLimit: {classLevelLimit}");
                             return;
                         }
                     }
+                    */
                     // get multi-class setting
                     var isPet = unit.Unit?.IsPet ?? false;
                     var useDefaultMulticlassOptions = state.IsCharGen() && !isPet;

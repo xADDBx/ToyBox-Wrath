@@ -230,7 +230,7 @@ namespace ToyBox.Multiclass {
         private static class ApplyClassMechanics_ApplyProgressions_Patch {
             public static bool Prefix(LevelUpState state, UnitDescriptor unit) {
                 if (!settings.toggleMulticlass) return true;
-                //Mod.Debug($"ApplyClassMechanics_ApplyProgressions_Patch - {unit.CharacterName.orange()} - class: {state.SelectedClass} nextLevel: {state.NextClassLevel}");
+                Mod.Debug($"ApplyClassMechanics_ApplyProgressions_Patch - {unit.CharacterName.orange()} - class: {state.SelectedClass} nextLevel: {state.NextClassLevel}");
                 BlueprintCharacterClass blueprintCharacterClass = null;
                 if (unit.TryGetPartyMemberForLevelUpVersion(out var ch)
                     && ch.TryGetClass(state.SelectedClass, out var cl)
@@ -242,7 +242,7 @@ namespace ToyBox.Multiclass {
                 var progressions = features.Select(f => f.Blueprint).OfType<BlueprintProgression>().ToList();  // this ToList is important because it prevents mutation exceptions
                 foreach (var blueprintProgression in progressions) {
                     var p = blueprintProgression;
-                    //Mod.Debug($"    prog: {p.name.yellow()}");
+                    Mod.Debug($"    prog: {p.name.yellow()}");
                     if (blueprintCharacterClass != null
                         // && p.Classes.Contains<BlueprintCharacterClass>(blueprintCharacterClass)) 
                         && p.IsChildProgressionOf(unit, blueprintCharacterClass) // Mod Line replacing above
