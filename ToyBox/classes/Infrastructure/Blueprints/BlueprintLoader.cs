@@ -201,12 +201,12 @@ namespace ToyBox {
         }
         [HarmonyPatch(typeof(BlueprintsCache))]
         public static class LoaderPatches {
-            private static bool IsLoading = false;
+            private static HashSet<BlueprintGuid> IsLoading = new();
             [HarmonyPatch(nameof(BlueprintsCache.Load)), HarmonyPrefix]
             public static bool Pre_Load(BlueprintGuid guid, ref SimpleBlueprint __result) {
                 if (!Shared.IsRunning) return true;
                 if (Shared._startedLoading.TryAdd(guid, Shared)) {
-                    IsLoading = true;
+                    IsLoading.Add(guid);
                     return true;
                 } else {
                     lock (Shared._startedLoading[guid]) {
@@ -217,8 +217,8 @@ namespace ToyBox {
             }
             [HarmonyPatch(nameof(BlueprintsCache.Load)), HarmonyPostfix]
             public static void Post_Load(BlueprintGuid guid, ref SimpleBlueprint __result) {
-                if (IsLoading) {
-                    IsLoading = false;
+                if (IsLoading.Contains(guid)) {
+                    IsLoading.Remove(guid);
                     lock (Shared.bpsToAdd) {
                         Shared.bpsToAdd.Add(__result);
                     }
