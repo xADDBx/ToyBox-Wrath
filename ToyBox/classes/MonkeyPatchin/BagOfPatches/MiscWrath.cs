@@ -678,26 +678,20 @@ namespace ToyBox.BagOfPatches {
             }
         }
         [HarmonyPatch(typeof(LocalizedString))]
-        internal class BPTagger 
-        {
+        internal class BPTagger {
             public static LocalizationPack pack = Kingmaker.Localization.LocalizationManager.LoadPack(Kingmaker.Localization.LocalizationManager.s_CurrentLocale);
 
             [HarmonyPatch(nameof(LocalizedString.LoadString)), HarmonyPostfix]
-            public static void LoadString_ModTagPatch(ref string __result, LocalizedString __instance) 
-            {
-                if (settings.togglemoddedbptag) 
-                {
-                    try 
-                    {
+            public static void LoadString_ModTagPatch(ref string __result, LocalizedString __instance) {
+                if (settings.togglemoddedbptag) {
+                    try {
                         if (!__result.Contains(".") && !__result.Contains("。")) { return; }
+                        if (__result.Contains("(mod)")) { return; }
                         string actualKey = __instance.GetActualKey();
-                        if (!pack.m_Strings.TryGetValue(actualKey, out var _) ) 
-                        {
+                        if (!pack.m_Strings.TryGetValue(actualKey, out var _)) {
                             __result += " (modded blueprint)";
                         }
-                    } 
-                    catch (Exception e) 
-                    { 
+                    } catch (Exception e) {
                         Main.logger.Log("Error patching LoadString for modded blueprint tagging  \n" + e);
                     }
                 }
@@ -705,12 +699,10 @@ namespace ToyBox.BagOfPatches {
         }
 
         [HarmonyPatch(typeof(Kingmaker.Localization.LocalizationManager))]
-        internal class BPTagger_Pack 
-        {
+        internal class BPTagger_Pack {
             [HarmonyPriority(Priority.First)]
             [HarmonyPatch(nameof(Kingmaker.Localization.LocalizationManager.LoadPack), [typeof(string), typeof(Locale)]), HarmonyPostfix]
-            public static void LoadPack_ModTagPatch(LocalizationPack __result) 
-            {
+            public static void LoadPack_ModTagPatch(LocalizationPack __result) {
                 BPTagger.pack = AccessTools.MakeDeepCopy<LocalizationPack>(__result);
             }
         }
