@@ -708,7 +708,7 @@ namespace ToyBox.BagOfPatches {
         internal class BPTagger_Pack 
         {
             [HarmonyPriority(Priority.First)]
-            [HarmonyPatch(nameof (Kingmaker.Localization.LocalizationManager.LoadPack)), HarmonyPostfix]
+            [HarmonyPatch(nameof(Kingmaker.Localization.LocalizationManager.LoadPack), [typeof(string), typeof(Locale)]), HarmonyPostfix]
             public static void LoadPack_ModTagPatch(LocalizationPack __result) 
             {
                 BPTagger.pack = AccessTools.MakeDeepCopy<LocalizationPack>(__result);
