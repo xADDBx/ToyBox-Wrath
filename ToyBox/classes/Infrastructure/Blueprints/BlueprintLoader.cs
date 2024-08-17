@@ -48,17 +48,21 @@ namespace ToyBox {
                     if (Shared.IsLoading) { return null; } else {
                         Mod.Debug($"calling BlueprintLoader.Load");
                         Shared.Load((bps) => {
-                            bps.AddRange(bpsToAdd);
-                            bpsToAdd.Clear();
+                            lock (bpsToAdd) {
+                                bps.AddRange(bpsToAdd);
+                                bpsToAdd.Clear();
+                            }
                             blueprints = bps;
                         });
                         return null;
                     }
                 }
             }
-            if (bpsToAdd.Count > 0) {
-                blueprints.AddRange(bpsToAdd);
-                bpsToAdd.Clear();
+            lock (bpsToAdd) {
+                if (bpsToAdd.Count > 0) {
+                    blueprints.AddRange(bpsToAdd);
+                    bpsToAdd.Clear();
+                }
             }
             return blueprints;
         }
@@ -76,12 +80,16 @@ namespace ToyBox {
             [HarmonyPatch(typeof(BlueprintsCache), nameof(BlueprintsCache.AddCachedBlueprint)), HarmonyPostfix]
             internal static void AddCachedBlueprint(BlueprintGuid guid, SimpleBlueprint bp) {
                 if (Shared.IsLoading || Shared.blueprints != null) {
-                    Shared.bpsToAdd.Add(bp);
+                    lock (Shared.bpsToAdd) {
+                        Shared.bpsToAdd.Add(bp);
+                    }
                 }
             }
             [HarmonyPatch(typeof(BlueprintsCache), nameof(BlueprintsCache.RemoveCachedBlueprint)), HarmonyPostfix]
             internal static void RemoveCachedBlueprint(BlueprintGuid guid) {
-                Shared.bpsToAdd.RemoveWhere(bp => bp.AssetGuid == guid);
+                lock (Shared.bpsToAdd) {
+                    Shared.bpsToAdd.RemoveWhere(bp => bp.AssetGuid == guid);
+                }
             }
             [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.Start)), HarmonyPostfix]
             internal static void PreparePregensCoroutine() {
@@ -94,6 +102,7 @@ namespace ToyBox {
         private List<Task> _workerTasks;
         private ConcurrentQueue<IEnumerable<(KeyValuePair<BlueprintGuid, BlueprintsCache.BlueprintCacheEntry>, int)>> _chunkQueue;
         private List<SimpleBlueprint> _blueprints;
+        private ConcurrentDictionary<BlueprintGuid, Object> _startedLoading = new();
         private int closeCount;
         private int total;
         public void Init(LoadBlueprintsCallback callback) {
@@ -118,17 +127,19 @@ namespace ToyBox {
             _chunkQueue = new(chunks);
             var bytes = memStream.GetBuffer();
             _workerTasks = new();
-            for (int i = 0; i < Main.Settings.BlueprintsLoaderNumThreads; i++) {
-                var t = Task.Run(() => HandleChunks(bytes));
-                _workerTasks.Add(t);
-            }
-            Task.Run(Progressor);
-            foreach (var task in _workerTasks) {
-                task.Wait();
-            }
+            //lock (ResourcesLibrary.BlueprintsCache.m_Lock) {
+                for (int i = 0; i < Main.Settings.BlueprintsLoaderNumThreads; i++) {
+                    var t = Task.Run(() => HandleChunks(bytes));
+                    _workerTasks.Add(t);
+                }
+                Task.Run(Progressor);
+                foreach (var task in _workerTasks) {
+                    task.Wait();
+                }
+            //}
             _blueprints.RemoveAll(b => b is null);
             watch.Stop();
-            Mod.Log($"Threaded loaded {_blueprints.Count} blueprints in {watch.ElapsedMilliseconds} milliseconds");
+            Mod.Log($"Threaded loaded {_blueprints.Count + bpsToAdd.Count} blueprints in {watch.ElapsedMilliseconds} milliseconds");
             lock (loader) {
                 IsRunning = false;
                 _callback(_blueprints);
@@ -150,34 +161,38 @@ namespace ToyBox {
                     foreach (var entryPairA in entries) {
                         var entryPair = entryPairA.Item1;
                         try {
-                            var entry = entryPair.Value;
-                            if (entry.Blueprint != null) {
-                                closeCountLocal += 1;
-                                _blueprints[entryPairA.Item2] = entry.Blueprint;
-                            }
-                            if (Shared.BadBlueprints.Contains(entryPair.Key.ToString()) || entry.Offset == 0U) {
+                            Object @lock = new();
+                            lock (@lock) {
+                                if (!_startedLoading.TryAdd(entryPair.Key, @lock)) continue;
+                                var entry = entryPair.Value;
+                                if (entry.Blueprint != null) {
+                                    closeCountLocal += 1;
+                                    _blueprints[entryPairA.Item2] = entry.Blueprint;
+                                }
+                                if (Shared.BadBlueprints.Contains(entryPair.Key.ToString()) || entry.Offset == 0U) {
+                                    closeCountLocal++;
+                                    continue;
+                                }
+                                OnBeforeBPLoad(entryPair.Key);
+                                stream.Seek(entry.Offset, SeekOrigin.Begin);
+                                SimpleBlueprint simpleBlueprint = null;
+                                seralizer.Blueprint(ref simpleBlueprint);
+                                if (simpleBlueprint == null) {
+                                    closeCountLocal++;
+                                    continue;
+                                }
+                                object obj;
+                                OwlcatModificationsManager.Instance.OnResourceLoaded(simpleBlueprint, entryPair.Key.ToString(), out obj);
+                                simpleBlueprint = (obj as SimpleBlueprint) ?? simpleBlueprint;
+                                simpleBlueprint.OnEnable();
+                                _blueprints[entryPairA.Item2] = simpleBlueprint;
+                                if (ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints.TryGetValue(simpleBlueprint.AssetGuid, out var entry2)) {
+                                    entry2.Blueprint = simpleBlueprint;
+                                    ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[simpleBlueprint.AssetGuid] = entry2;
+                                }
                                 closeCountLocal++;
-                                continue;
+                                OnAfterBPLoad(entryPair.Key);
                             }
-                            OnBeforeBPLoad(entryPair.Key);
-                            stream.Seek(entry.Offset, SeekOrigin.Begin);
-                            SimpleBlueprint simpleBlueprint = null;
-                            seralizer.Blueprint(ref simpleBlueprint);
-                            if (simpleBlueprint == null) {
-                                closeCountLocal++;
-                                continue;
-                            }
-                            object obj;
-                            OwlcatModificationsManager.Instance.OnResourceLoaded(simpleBlueprint, entryPair.Key.ToString(), out obj);
-                            simpleBlueprint = (obj as SimpleBlueprint) ?? simpleBlueprint;
-                            simpleBlueprint.OnEnable();
-                            _blueprints[entryPairA.Item2] = simpleBlueprint; 
-                            if (ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints.TryGetValue(simpleBlueprint.AssetGuid, out var entry2)) {
-                                entry2.Blueprint = simpleBlueprint;
-                                ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[simpleBlueprint.AssetGuid] = entry2;
-                            }
-                            closeCountLocal++;
-                            OnAfterBPLoad(entryPair.Key);
                         } catch (Exception ex) {
                             Mod.Log($"Exception loading blueprint {entryPair.Key}:\n{ex}");
                             closeCountLocal++;
@@ -186,6 +201,32 @@ namespace ToyBox {
                 }
             } catch (Exception ex) {
                 Mod.Log($"Exception loading blueprints:\n{ex}");
+            }
+        }
+        [HarmonyPatch(typeof(BlueprintsCache))]
+        public static class LoaderPatches {
+            private static bool IsLoading = false;
+            [HarmonyPatch(nameof(BlueprintsCache.Load)), HarmonyPrefix]
+            public static bool Pre_Load(BlueprintGuid guid, ref SimpleBlueprint __result) {
+                if (!Shared.IsRunning) return true;
+                if (Shared._startedLoading.TryAdd(guid, Shared)) {
+                    IsLoading = true;
+                    return true;
+                } else {
+                    lock (Shared._startedLoading[guid]) {
+                        __result = ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[guid].Blueprint;
+                    }
+                    return false;
+                }
+            }
+            [HarmonyPatch(nameof(BlueprintsCache.Load)), HarmonyPostfix]
+            public static void Post_Load(BlueprintGuid guid, ref SimpleBlueprint __result) {
+                if (IsLoading) {
+                    IsLoading = false;
+                    lock (Shared.bpsToAdd) {
+                        Shared.bpsToAdd.Add(__result);
+                    }
+                }
             }
         }
         // These methods exist to allow external mods some interfacing since the bp load bypasses the regular BlueprintsCache.Load.
@@ -205,8 +246,5 @@ namespace ToyBox {
                 Thread.Sleep(200);
             }
         }
-    }
-    public static class BlueprintLoader<BPType> {
-        public static IEnumerable<BPType> blueprints = null;
     }
 }
