@@ -84,6 +84,7 @@ namespace ToyBox {
                         Shared.bpsToAdd.Add(bp);
                     }
                 }
+                if (Shared.IsRunning) Shared._startedLoading.TryAdd(guid, Shared);
             }
             [HarmonyPatch(typeof(BlueprintsCache), nameof(BlueprintsCache.RemoveCachedBlueprint)), HarmonyPostfix]
             internal static void RemoveCachedBlueprint(BlueprintGuid guid) {
