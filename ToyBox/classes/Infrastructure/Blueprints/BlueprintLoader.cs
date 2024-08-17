@@ -127,16 +127,14 @@ namespace ToyBox {
             _chunkQueue = new(chunks);
             var bytes = memStream.GetBuffer();
             _workerTasks = new();
-            //lock (ResourcesLibrary.BlueprintsCache.m_Lock) {
-                for (int i = 0; i < Main.Settings.BlueprintsLoaderNumThreads; i++) {
-                    var t = Task.Run(() => HandleChunks(bytes));
-                    _workerTasks.Add(t);
-                }
-                Task.Run(Progressor);
-                foreach (var task in _workerTasks) {
-                    task.Wait();
-                }
-            //}
+            for (int i = 0; i < Main.Settings.BlueprintsLoaderNumThreads; i++) {
+                var t = Task.Run(() => HandleChunks(bytes));
+                _workerTasks.Add(t);
+            }
+            Task.Run(Progressor);
+            foreach (var task in _workerTasks) {
+                task.Wait();
+            }
             _blueprints.RemoveAll(b => b is null);
             watch.Stop();
             Mod.Log($"Threaded loaded {_blueprints.Count + bpsToAdd.Count} blueprints in {watch.ElapsedMilliseconds} milliseconds");
