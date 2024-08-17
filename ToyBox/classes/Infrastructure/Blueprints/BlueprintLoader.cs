@@ -100,7 +100,7 @@ namespace ToyBox {
         public bool IsRunning = false;
         private LoadBlueprintsCallback _callback;
         private List<Task> _workerTasks;
-        private ConcurrentQueue<IEnumerable<(KeyValuePair<BlueprintGuid, BlueprintsCache.BlueprintCacheEntry>, int)>> _chunkQueue;
+        private ConcurrentQueue<IEnumerable<(BlueprintGuid, int)>> _chunkQueue;
         private List<SimpleBlueprint> _blueprints;
         private ConcurrentDictionary<BlueprintGuid, Object> _startedLoading = new();
         private int closeCount;
@@ -114,7 +114,7 @@ namespace ToyBox {
             var watch = Stopwatch.StartNew();
             var bpCache = ResourcesLibrary.BlueprintsCache;
             var toc = bpCache.m_LoadedBlueprints;
-            var allEntries = toc.OrderBy(e => e.Value.Offset);
+            var allEntries = toc.OrderBy(e => e.Value.Offset).Select(e => e.Key);
             total = allEntries.Count();
             Mod.Log($"Loading {total} Blueprints");
             closeCount = 0;
@@ -157,21 +157,20 @@ namespace ToyBox {
                         closeCountLocal = 0;
                     }
                     foreach (var entryPairA in entries) {
-                        var entryPair = entryPairA.Item1;
+                        var guid = entryPairA.Item1;
                         try {
                             Object @lock = new();
                             lock (@lock) {
-                                if (!_startedLoading.TryAdd(entryPair.Key, @lock)) continue;
-                                var entry = entryPair.Value;
-                                if (entry.Blueprint != null) {
+                                if (!_startedLoading.TryAdd(guid, @lock)) continue;
+                                if (ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints.TryGetValue(guid, out var entry) && entry.Blueprint != null) {
                                     closeCountLocal += 1;
                                     _blueprints[entryPairA.Item2] = entry.Blueprint;
                                 }
-                                if (Shared.BadBlueprints.Contains(entryPair.Key.ToString()) || entry.Offset == 0U) {
+                                if (Shared.BadBlueprints.Contains(guid.ToString()) || entry.Offset == 0U) {
                                     closeCountLocal++;
                                     continue;
                                 }
-                                OnBeforeBPLoad(entryPair.Key);
+                                OnBeforeBPLoad(guid);
                                 stream.Seek(entry.Offset, SeekOrigin.Begin);
                                 SimpleBlueprint simpleBlueprint = null;
                                 seralizer.Blueprint(ref simpleBlueprint);
@@ -180,19 +179,17 @@ namespace ToyBox {
                                     continue;
                                 }
                                 object obj;
-                                OwlcatModificationsManager.Instance.OnResourceLoaded(simpleBlueprint, entryPair.Key.ToString(), out obj);
+                                OwlcatModificationsManager.Instance.OnResourceLoaded(simpleBlueprint, guid.ToString(), out obj);
                                 simpleBlueprint = (obj as SimpleBlueprint) ?? simpleBlueprint;
                                 simpleBlueprint.OnEnable();
                                 _blueprints[entryPairA.Item2] = simpleBlueprint;
-                                if (ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints.TryGetValue(simpleBlueprint.AssetGuid, out var entry2)) {
-                                    entry2.Blueprint = simpleBlueprint;
-                                    ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[simpleBlueprint.AssetGuid] = entry2;
-                                }
+                                entry.Blueprint = simpleBlueprint;
+                                ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[simpleBlueprint.AssetGuid] = entry;
                                 closeCountLocal++;
-                                OnAfterBPLoad(entryPair.Key);
+                                OnAfterBPLoad(guid);
                             }
                         } catch (Exception ex) {
-                            Mod.Log($"Exception loading blueprint {entryPair.Key}:\n{ex}");
+                            Mod.Log($"Exception loading blueprint {guid}:\n{ex}");
                             closeCountLocal++;
                         }
                     }
