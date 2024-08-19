@@ -6,6 +6,7 @@ using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Blueprints.JsonSystem.BinaryFormat;
 using Kingmaker.Blueprints.JsonSystem.Converters;
+using Kingmaker.DLC;
 using Kingmaker.Modding;
 using ModKit;
 using System;
@@ -163,14 +164,16 @@ namespace ToyBox {
                             Object @lock = new();
                             lock (@lock) {
                                 if (!_startedLoading.TryAdd(guid, @lock)) continue;
-                                if (ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints.TryGetValue(guid, out var entry) && entry.Blueprint != null) {
-                                    closeCountLocal += 1;
-                                    _blueprints[entryPairA.Item2] = entry.Blueprint;
-                                }
-                                if (Shared.BadBlueprints.Contains(guid.ToString()) || entry.Offset == 0U) {
-                                    closeCountLocal++;
+                                if (ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints.TryGetValue(guid, out var entry)) {
+                                    if (entry.Blueprint != null) {
+                                        closeCountLocal++;
+                                        _blueprints[entryPairA.Item2] = entry.Blueprint;
+                                        continue;
+                                    }
+                                } else {
                                     continue;
                                 }
+                                if (Shared.BadBlueprints.Contains(guid.ToString()) && entry.Offset == 0U) continue;
                                 OnBeforeBPLoad(guid);
                                 stream.Seek(entry.Offset, SeekOrigin.Begin);
                                 SimpleBlueprint simpleBlueprint = null;
@@ -182,21 +185,21 @@ namespace ToyBox {
                                 object obj;
                                 OwlcatModificationsManager.Instance.OnResourceLoaded(simpleBlueprint, guid.ToString(), out obj);
                                 simpleBlueprint = (obj as SimpleBlueprint) ?? simpleBlueprint;
+                                entry.Blueprint = simpleBlueprint;
                                 simpleBlueprint.OnEnable();
                                 _blueprints[entryPairA.Item2] = simpleBlueprint;
-                                entry.Blueprint = simpleBlueprint;
-                                ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[simpleBlueprint.AssetGuid] = entry;
+                                ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[guid] = entry;
                                 closeCountLocal++;
                                 OnAfterBPLoad(guid);
                             }
                         } catch (Exception ex) {
-                            Mod.Log($"Exception loading blueprint {guid}:\n{ex}");
+                            Mod.Warn($"Exception loading blueprint {guid}:\n{ex}");
                             closeCountLocal++;
                         }
                     }
                 }
             } catch (Exception ex) {
-                Mod.Log($"Exception loading blueprints:\n{ex}");
+                Mod.Error($"Exception loading blueprints:\n{ex}");
             }
         }
         [HarmonyPatch(typeof(BlueprintsCache))]
@@ -205,12 +208,17 @@ namespace ToyBox {
             [HarmonyPatch(nameof(BlueprintsCache.Load)), HarmonyPrefix]
             public static bool Pre_Load(BlueprintGuid guid, ref SimpleBlueprint __result) {
                 if (!Shared.IsRunning) return true;
-                if (Shared._startedLoading.TryAdd(guid, Shared)) {
+                bool didAdd = Shared._startedLoading.TryAdd(guid, Shared);
+                if (didAdd) {
                     IsLoading.Add(guid);
                     return true;
                 } else {
                     lock (Shared._startedLoading[guid]) {
-                        __result = ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[guid].Blueprint;
+                        if (ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints.TryGetValue(guid, out var entry)) {
+                            __result = entry.Blueprint;
+                        } else {
+                            __result = null;
+                        }
                     }
                     return false;
                 }
@@ -220,7 +228,7 @@ namespace ToyBox {
                 if (IsLoading.Contains(guid)) {
                     IsLoading.Remove(guid);
                     lock (Shared.bpsToAdd) {
-                        Shared.bpsToAdd.Add(__result);
+                        if (__result != null) Shared.bpsToAdd.Add(__result);
                     }
                 }
             }
