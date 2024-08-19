@@ -76,29 +76,6 @@ namespace ToyBox {
             return bps?.Where(bp => guids.Contains(bp.AssetGuid));
         }
         public IEnumerable<BPType> GetBlueprintsByGuids<BPType>(IEnumerable<string> guids) where BPType : BlueprintFact => GetBlueprintsByGuids<BPType>(guids.Select(BlueprintGuid.Parse));
-        [HarmonyPatch]
-        internal static class BlueprintLoaderPatches {
-            [HarmonyPatch(typeof(BlueprintsCache), nameof(BlueprintsCache.AddCachedBlueprint)), HarmonyPostfix]
-            internal static void AddCachedBlueprint(BlueprintGuid guid, SimpleBlueprint bp) {
-                if (Shared.IsLoading || Shared.blueprints != null) {
-                    lock (Shared.bpsToAdd) {
-                        Shared.bpsToAdd.Add(bp);
-                    }
-                }
-                if (Shared.IsRunning) Shared._startedLoading.TryAdd(guid, Shared);
-            }
-            [HarmonyPatch(typeof(BlueprintsCache), nameof(BlueprintsCache.RemoveCachedBlueprint)), HarmonyPostfix]
-            internal static void RemoveCachedBlueprint(BlueprintGuid guid) {
-                lock (Shared.bpsToAdd) {
-                    Shared.bpsToAdd.RemoveWhere(bp => bp.AssetGuid == guid);
-                }
-            }
-            [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.Start)), HarmonyPostfix]
-            internal static void PreparePregensCoroutine() {
-                Shared.CanStart = true;
-                if (Main.Settings.PreloadBlueprints) Shared.GetBlueprints();
-            }
-        }
         public bool IsRunning = false;
         private LoadBlueprintsCallback _callback;
         private List<Task> _workerTasks;
@@ -202,8 +179,40 @@ namespace ToyBox {
                 Mod.Error($"Exception loading blueprints:\n{ex}");
             }
         }
+        // These methods exist to allow external mods some interfacing since the bp load bypasses the regular BlueprintsCache.Load.
+        // Not using delegate since those would have problems with reloading during runtime.
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void OnBeforeBPLoad(BlueprintGuid bp) {
+
+        }
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void OnAfterBPLoad(BlueprintGuid bp) {
+
+        }
+        public void Progressor() {
+            while (loader.IsRunning) {
+                progress = closeCount / (float)total;
+                progress = progress < 0 ? 0 : progress > 1 ? 1 : progress;
+                Thread.Sleep(200);
+            }
+        }
         [HarmonyPatch(typeof(BlueprintsCache))]
-        public static class LoaderPatches {
+        internal static class BlueprintLoader_BlueprintsCache_Patches {
+            [HarmonyPatch(nameof(BlueprintsCache.AddCachedBlueprint)), HarmonyPostfix]
+            internal static void AddCachedBlueprint(BlueprintGuid guid, SimpleBlueprint bp) {
+                if (Shared.IsLoading || Shared.blueprints != null) {
+                    lock (Shared.bpsToAdd) {
+                        Shared.bpsToAdd.Add(bp);
+                    }
+                }
+                if (Shared.IsRunning) Shared._startedLoading.TryAdd(guid, Shared);
+            }
+            [HarmonyPatch(nameof(BlueprintsCache.RemoveCachedBlueprint)), HarmonyPostfix]
+            internal static void RemoveCachedBlueprint(BlueprintGuid guid) {
+                lock (Shared.bpsToAdd) {
+                    Shared.bpsToAdd.RemoveWhere(bp => bp.AssetGuid == guid);
+                }
+            }
             private static HashSet<BlueprintGuid> IsLoading = new();
             [HarmonyPatch(nameof(BlueprintsCache.Load)), HarmonyPrefix]
             public static bool Pre_Load(BlueprintGuid guid, ref SimpleBlueprint __result) {
@@ -233,21 +242,12 @@ namespace ToyBox {
                 }
             }
         }
-        // These methods exist to allow external mods some interfacing since the bp load bypasses the regular BlueprintsCache.Load.
-        // Not using delegate since those would have problems with reloading during runtime.
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void OnBeforeBPLoad(BlueprintGuid bp) {
-
-        }
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void OnAfterBPLoad(BlueprintGuid bp) {
-
-        }
-        public void Progressor() {
-            while (loader.IsRunning) {
-                progress = closeCount / (float)total;
-                progress = progress < 0 ? 0 : progress > 1 ? 1 : progress;
-                Thread.Sleep(200);
+        [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.Start))]
+        public static class BlueprintLoader_MainMenu_Patch {
+            [HarmonyPostfix]
+            internal static void PreparePregensCoroutine() {
+                Shared.CanStart = true;
+                if (Main.Settings.PreloadBlueprints) Shared.GetBlueprints();
             }
         }
     }
