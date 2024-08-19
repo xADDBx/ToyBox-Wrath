@@ -54,8 +54,8 @@ using System.Net.NetworkInformation;
 
 namespace ToyBox.Inventory {
     internal static class Loot {
-        public static Settings Settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings Settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
         public static HashSet<EquipSlotType> SelectedLootSlotFilters = new();
         public static InventoryEquipSlotPCView selectedSlot = null;
         public static bool ToggleSelectedLootFilter(EquipSlotType slotType, bool? forceState = null) {

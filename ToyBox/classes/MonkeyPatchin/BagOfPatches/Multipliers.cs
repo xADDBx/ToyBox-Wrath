@@ -32,8 +32,8 @@ using Kingmaker.QA.Statistics;
 
 namespace ToyBox.BagOfPatches {
     internal static class Multipliers {
-        public static Settings settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
 
         [HarmonyPatch(typeof(EncumbranceHelper), nameof(EncumbranceHelper.GetHeavy))]
         private static class EncumbranceHelper_GetHeavy_Patch {
@@ -176,7 +176,7 @@ namespace ToyBox.BagOfPatches {
 
         private static readonly HashSet<string> badBuffs = settings.buffsToIgnoreForDurationMultiplier;
 
-        private static bool isGoodBuff(BlueprintBuff blueprint) => !blueprint.Harmful && !badBuffs.Contains(blueprint.AssetGuidThreadSafe);
+        private static bool isGoodBuff(BlueprintBuff blueprint) => !blueprint.Harmful && !blueprint.IsHiddenInUI && !blueprint.IsClassFeature && !badBuffs.Contains(blueprint.AssetGuidThreadSafe);
 
         [HarmonyPatch(typeof(BuffCollection), nameof(BuffCollection.AddBuff), new Type[] {
             typeof(BlueprintBuff),

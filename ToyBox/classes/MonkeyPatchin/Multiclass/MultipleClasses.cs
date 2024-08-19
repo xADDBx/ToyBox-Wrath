@@ -39,17 +39,6 @@ namespace ToyBox.Multiclass {
     public static partial class MultipleClasses {
 
         #region Class Level & Archetype
-        [HarmonyPatch(typeof(LevelUpController), nameof(LevelUpController.UpdatePreview))]
-        private static class LevelUpController_UpdatePreview_Patch {
-            private static void Prefix(LevelUpController __instance) {
-                if (IsAvailable()) {
-                    // This is the critical place that gets called once before we go through all the level computations for setting up the level up screen
-                    //Mod.Debug("LevelUpController_UpdatePreview_Patch");
-                    //Main.multiclassMod.AppliedMulticlassSet.Clear();
-                    //Main.multiclassMod.UpdatedProgressions.Clear();
-                }
-            }
-        }
         [HarmonyPatch(typeof(SelectClass), nameof(SelectClass.Apply), new Type[] { typeof(LevelUpState), typeof(UnitDescriptor) })]
         private static class SelectClass_Apply_Patch {
             [HarmonyPostfix]
@@ -61,6 +50,7 @@ namespace ToyBox.Multiclass {
                     Main.multiclassMod.AppliedMulticlassSet.Clear();
                     Main.multiclassMod.UpdatedProgressions.Clear();
                     // Some companions have predefined levels so in some cases we get called iteratively for each level so we will make sure we only apply multiclass on the last level
+                    /*
                     if (unit.TryGetPartyMemberForLevelUpVersion(out var ch)
                         && ch.TryGetClass(state.SelectedClass, out var cl)
                         && unit != ch.Descriptor()
@@ -68,12 +58,13 @@ namespace ToyBox.Multiclass {
                         //ClassLevelLimit is the number of classes that a companion comes with by default.
                         //This is null for mercenaries, so we have to default it back to 0 for them.
                         var classLevelLimit = unit.Blueprint.GetComponent<ClassLevelLimit>()?.LevelLimit ?? 0;
+                        Mod.Debug($"classLevelLimit: {classLevelLimit}, NextClassLevel: {state.NextClassLevel}, SelectedClass: {state.SelectedClass}");
                         if (state.NextClassLevel <= classLevelLimit) {
                             Mod.Debug($"SelectClass_Apply_Patch, unit: {unit.CharacterName.orange()} isCH: {unit == ch.Descriptor()}) - skip - lvl:{state.NextClassLevel} vs {classLevelLimit} ".green());
-                            Mod.Debug($"classLevelLimit: {classLevelLimit}");
                             return;
                         }
                     }
+                    */
                     // get multi-class setting
                     var isPet = unit.Unit?.IsPet ?? false;
                     var useDefaultMulticlassOptions = state.IsCharGen() && !isPet;
@@ -177,7 +168,12 @@ namespace ToyBox.Multiclass {
                     }
                     var allAppliedClasses = Main.multiclassMod.AppliedMulticlassSet.ToList();
                     //Mod.Debug($"ApplyClassMechanics_Apply_Patch - {String.Join(" ", allAppliedClasses.Select(cl => cl.Name))}".orange());
-                    allAppliedClasses.Add(state.SelectedClass);
+                    if (state.SelectedClass != null) {
+                        allAppliedClasses.Add(state.SelectedClass);
+                    }
+                    if (allAppliedClasses?.Count == 0 || (allAppliedClasses.Count == 1 && allAppliedClasses[0] is null)) {
+                        return;
+                    }
                     SavesBAB.ApplySaveBAB(unit, state, allAppliedClasses.ToArray());
                     HPDice.ApplyHPDice(unit, state, allAppliedClasses.ToArray());
                 }
@@ -271,8 +267,8 @@ namespace ToyBox.Multiclass {
         [HarmonyPatch(typeof(UnitProgressionData), nameof(UnitProgressionData.SetupLevelsIfNecessary))]
         private static class UnitProgressionData_SetupLevelsIfNecessary_Patch {
             private static bool Prefix(UnitProgressionData __instance) {
-                if (__instance.m_CharacterLevel.HasValue && __instance.m_MythicLevel.HasValue)
-                    return false;
+                if (!settings.toggleMulticlass) return true;
+                if (__instance.m_CharacterLevel.HasValue && __instance.m_MythicLevel.HasValue) return false;
                 __instance.UpdateLevelsForGestalt();
                 return false;
             }
@@ -280,6 +276,7 @@ namespace ToyBox.Multiclass {
         [HarmonyPatch(typeof(UnitProgressionData), nameof(UnitProgressionData.LastMythicClass), MethodType.Getter)]
         private static class UnitProgressionData_LastMythicClass_Patch {
             static void Postfix(ref BlueprintCharacterClass __result, UnitProgressionData __instance) {
+                if (!settings.toggleMulticlass) return;
                 __result = __instance.m_ClassesOrder.LastItem<BlueprintCharacterClass>((Func<BlueprintCharacterClass, bool>)(cl => cl.IsMythic && !__instance.Owner.IsClassGestalt(cl)));
                 //Mod.Trace($"LastMythic = {__result}");
             }
@@ -290,6 +287,7 @@ namespace ToyBox.Multiclass {
         [HarmonyPatch(typeof(MythicInfoProgressionVM), nameof(MythicInfoProgressionVM.RefreshData))]
         private static class MythicInfoProgressionVM_RefreshData_Patch {
             static void Postfix(MythicInfoProgressionVM __instance) {
+                if (!settings.toggleMulticlass) return;
                 var lastMythic = __instance.m_ClassDatas.LastOrDefault<ClassData>((cd) => !__instance.Unit.Value.IsClassGestalt(cd.CharacterClass));
                 //Mod.Trace($"MythicInfoProgressionVM - LastMythic = {lastMythic?.CharacterClass.Name}");
                 __instance.MythicName = lastMythic?.CharacterClass.Name;

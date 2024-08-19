@@ -325,7 +325,10 @@ namespace ToyBox {
                        Toggle("Allow Achievements While Using Mods".localize(), ref Settings.toggleAllowAchievementsDuringModdedGame, 500.width());
                        Label("This is intended for you to be able to enjoy the game while using mods that enhance your quality of life.  Please be mindful of the player community and avoid using this mod to trivialize earning prestige achievements like Sadistic Gamer. The author is in discussion with Owlcat about reducing the scope of achievement blocking to just these. Let's show them that we as players can mod and cheat responsibly.".localize().orange());
                    },
-                   // () => { if (Toggle("Expanded Party View", ref settings.toggleExpandedPartyView)) PartyVM_Patches.Repatch(),
+                   () => {
+                       Toggle("Skip Splash Screen".localize(), ref Settings.toggleSkipSplashScreen, 500.width());
+                       Label("This skips the splash screen that appears when the game starts. Helpful if you need to frequently restart the game".localize());
+                   },
                    () => {
                        Toggle("Enhanced Map View".localize(), ref Settings.toggleZoomableLocalMaps, 500.width());
                        HelpLabel("Makes mouse zoom works for the local map (cities, dungeons, etc). Game restart required if you turn it off".localize());
@@ -537,24 +540,26 @@ namespace ToyBox {
                 () => Toggle("Disable Party Negative Levels".localize(), ref Settings.togglePartyNegativeLevelImmunity),
                 () => Toggle("Disable Party Ability Damage".localize(), ref Settings.togglePartyAbilityDamageImmunity),
                 () => Toggle("Disable Attacks of Opportunity".localize(), ref Settings.toggleAttacksofOpportunity),
-                   () => Toggle("Unlimited Actions During Turn".localize(), ref Settings.toggleUnlimitedActionsPerTurn),
-                   () => Toggle("Infinite Charges On Items".localize(), ref Settings.toggleInfiniteItems),
+                () => Toggle("Unlimited Actions During Turn".localize(), ref Settings.toggleUnlimitedActionsPerTurn),
+                () => Toggle("Infinite Charges On Items".localize(), ref Settings.toggleInfiniteItems),
                 () => Toggle("Instant Cooldown".localize(), ref Settings.toggleInstantCooldown),
                 () => Toggle("Instant Global Crusade Spells Cooldown".localize(), ref Settings.toggleInstantCrusadeSpellsCooldown),
                 () => Toggle("Spontaneous Caster Scroll Copy".localize(), ref Settings.toggleSpontaneousCopyScrolls),
-                   () => Toggle("ignore Equipment Restrictions".localize(), ref Settings.toggleEquipmentRestrictions),
+                () => Toggle("ignore Equipment Restrictions".localize(), ref Settings.toggleEquipmentRestrictions),
                 () => Toggle("Disable Armor Max Dexterity".localize(), ref Settings.toggleIgnoreMaxDexterity),
                 () => Toggle("Disable Armor Speed Reduction".localize(), ref Settings.toggleIgnoreSpeedReduction),
                 () => Toggle("Disable Armor & Shield Arcane Spell Failure".localize(), ref Settings.toggleIgnoreSpellFailure),
                 () => Toggle("Disable Armor & Shield Checks Penalty".localize(), ref Settings.toggleIgnoreArmorChecksPenalty),
-                   () => Toggle("No Friendly Fire On AOEs".localize(), ref Settings.toggleNoFriendlyFireForAOE),
+                () => Toggle("No Friendly Fire On AOEs".localize(), ref Settings.toggleNoFriendlyFireForAOE),
                 () => Toggle("Free Meta-Magic".localize(), ref Settings.toggleMetamagicIsFree),
-                   () => Toggle("No Fog Of War".localize(), ref Settings.toggleNoFogOfWar),
-                   () => Toggle("Restore Spells & Skills After Combat".localize(), ref Settings.toggleRestoreSpellsAbilitiesAfterCombat),
-                   //() => UI.Toggle("Recharge Items After Combat", ref settings.toggleRechargeItemsAfterCombat),
-                   //() => UI.Toggle("Access Remote Characters", ref settings.toggleAccessRemoteCharacters,0),
-                   //() => UI.Toggle("Show Pet Portraits", ref settings.toggleShowAllPartyPortraits,0),
-                   () => Toggle("Instant Rest After Combat".localize(), ref Settings.toggleInstantRestAfterCombat),
+                () => Toggle("No Fog Of War".localize(), ref Settings.toggleNoFogOfWar),
+                () => Toggle("Restore Spells & Skills After Combat".localize(), ref Settings.toggleRestoreSpellsAbilitiesAfterCombat),
+                () => Toggle("Restore Just Spells After Combat".localize(), ref Settings.toggleRestoreSpellAfterCombat),
+                () => Toggle("Restore Just Abilities After Combat".localize(), ref Settings.toggleRestoreAbilitiesAfterCombat),
+                () => Toggle("Recharge Items After Combat".localize(), ref settings.toggleRechargeItemsAfterCombat),
+                //() => UI.Toggle("Access Remote Characters", ref settings.toggleAccessRemoteCharacters,0),
+                //() => UI.Toggle("Show Pet Portraits", ref settings.toggleShowAllPartyPortraits,0),
+                () => Toggle("Instant Rest After Combat".localize(), ref Settings.toggleInstantRestAfterCombat),
                 () => Toggle("Instant change party members".localize(), ref Settings.toggleInstantChangeParty),
                 () => ToggleCallback("Equipment No Weight".localize(), ref Settings.toggleEquipmentNoWeight, BagOfPatches.Tweaks.NoWeight_Patch1.Refresh),
                 () => Toggle("Allow Equipment Change During Combat".localize(), ref Settings.toggleEquipItemsDuringCombat),
@@ -639,7 +644,7 @@ namespace ToyBox {
             Div(0, 25);
             HStack("Other Multipliers".localize(), 1,
                 () => {
-                    LogSlider("Fog of War Range".localize(), ref Settings.fowMultiplier, 0f, 100f, 1, 1, "", AutoWidth());
+                    LogSlider("Vision Range".localize(), ref Settings.fowMultiplier, 0f, 100f, 1, 1, "", AutoWidth());
                     List<UnitEntityData> units = Game.Instance?.Player?.m_PartyAndPets;
                     if (units != null) {
                         foreach (var unit in units) {

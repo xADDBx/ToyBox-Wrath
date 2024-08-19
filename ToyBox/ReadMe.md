@@ -37,11 +37,39 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
-### Toybox Wrath - Ver 1.5.25 (built for 2.3.2c)
+### Toybox Wrath - Ver 1.5.35 (built for 2.3.3k)
 * (***ADDB***) ***Experimental*** threaded Blueprint Loading. When ToyBox needs to load blueprints it should now work faster.
 * (***ADDB***) Added option to enable blueprint preloading in ToyBox => Settings.
 * (***ADDB***) Added options to change Blueprint Loading thread amount and chunk size in ToyBox => Settings.
+* (***String / CascadingDragon***) Add option to add a tag to the end of descriptions, indicating a feat/spell/ability is added by a mod or editted by a mod (Settings tab)
+* (***ADDB***) Maybe fix Gestalt Level 0 Bug.
 
+### Toybox Wrath - Ver 1.5.34 (built for 2.3.3k)
+* (***ADDB***) Description of some Crusade Events was not shown by default because of a missing Guard Clause. I also rewrote some faulty preview code; hopefully I didn't break any of the relic/decree result thingy.
+
+### Toybox Wrath - Ver 1.5.31 (built for 2.3.3k)
+* (***ADDB***) Fix some stuff being null during class picking/character creation. This mainly shows in that picking multiple archetypes is less buggy.
+
+### Toybox Wrath - Ver 1.5.30 (built for 2.3.3k)
+* (***AlterAsc***) Fix Multiple Archetypes making Archetypes that replace class prerequisites (for example Drunken Master) unpickeable while active.
+* (***AlterAsc***) Actually fix Heavenly Host and other related issues (sometimes related to missing animations?).
+* (***ADDB***) Fixed Gestalt not applying flags when counting level on *the first loaded save after game start*. Among other things, this caused issues like "Double Con Bonus" (oldest currently open ToyBox issue). Since I touched Gestalt code I might've unintentionally broken something; if that is the case please do report that.
+
+### Toybox Wrath - Ver 1.5.29 (built for 2.3.3k)
+* (***ADDB***) Fixed an issue in MiscTweaks where it tried to access Game.Instance.Player in a static constructor for assignment by replacing field with property (getter).
+
+### Toybox Wrath - Ver 1.5.28 (built for 2.3.3k)
+* (***CascadingDragon***) Added toggles for restoring just spells after combat, and just abilities after combat (In the Bag of Tricks  tab)
+ 
+### Toybox Wrath - Ver 1.5.27 (built for 2.3.3k)
+* (***CascadingDragon***) Added toggle for Recharging Items After Combat (In the Bag of Tricks tab)
+
+### Toybox Wrath - Ver 1.5.26 (built for 2.3.3k)
+* (***ADDB***) Added Bag of Tricks => QoL => Skip Splash Screen (this is basically the mod I released a while ago built into ToyBox).
+* (***ADDB***) Always exclude HiddenInUI and IsClassFeature buffs from the buff multiplier (those are hidden from the Exclusion editor; so they should not be multiplied either).
+* (***ADDB***) Dice Rolls Changes (Advantage/Disadvantage now applies after never/atleast changes).
+* (***ADDB***) When NeverRoll1 and 20 are both active, rolling a 20 and then a reroll in the 1 (effectively bypassing NeverRoll1) is now no longer possible.
+  
 ### Toybox Wrath - Ver 1.5.24 (built for 2.3.2c)
 * (***Barley***) Add new feature, Toggle Feature Recommendations. This will turn off the thumbs up/down in the Feature Selections on Level Up (Toggle found in Level Up tab, under Ignore Feature Restrictions)
 

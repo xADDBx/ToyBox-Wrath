@@ -16,7 +16,7 @@ namespace ToyBox.Inventory {
     // Handles both adding selected sorters to the sorter dropdowns and making sure that the dropdown is properly updates to match the selected sorter.
     [HarmonyPatch(typeof(ItemsFilterPCView))]
     public static class ItemsFilterPCViewPatch {
-        public static Settings Settings = Main.Settings;
+        public static Settings Settings => Main.Settings;
 
         private static readonly MethodInfo[] _methodInfosToTranspile = new MethodInfo[] {
             AccessTools.Method(typeof(ItemsFilterPCViewPatch), nameof(SetDropdown)),

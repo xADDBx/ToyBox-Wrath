@@ -67,21 +67,17 @@ using ToyBox;
 using TurnBased.Controllers;
 using TurnBased.Utility;
 using UnityEngine;
-using static Kingmaker.Utility.MassLootHelper;
-using Object = UnityEngine.Object;
 
 namespace ToyBox.BagOfPatches {
     internal static partial class Tweaks {
-        public static Settings Settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings Settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
         private static readonly BlueprintGuid rage_barbarian = BlueprintGuid.Parse("df6a2cce8e3a9bd4592fb1968b83f730");
         private static readonly BlueprintGuid rage_blood = BlueprintGuid.Parse("e3a0056eedac7754ca9a50603ba05177");
         private static readonly BlueprintGuid rage_focused = BlueprintGuid.Parse("eccb3f963b3f425dac1f5f384927c3cc");
         private static readonly BlueprintGuid rage_demon = BlueprintGuid.Parse("260daa5144194a8ab5117ff568b680f5");
 
         //     private static bool CanCopySpell([NotNull] BlueprintAbility spell, [NotNull] Spellbook spellbook) => spellbook.Blueprint.CanCopyScrolls && !spellbook.IsKnown(spell) && spellbook.Blueprint.SpellList.Contains(spell);
-
-
         [HarmonyPatch(typeof(UnitEntityData))]
         private static class UnitEntityData_Patch {
             [HarmonyPatch(nameof(UnitEntityData.IsDirectlyControllable), MethodType.Getter)]
@@ -224,8 +220,34 @@ namespace ToyBox.BagOfPatches {
                         u.Brain.RestoreAvailableActions();
                     }
                 }
-                if (!inCombat && Settings.toggleRechargeItemsAfterCombat) {
-
+                if (!inCombat && Settings.toggleRestoreAbilitiesAfterCombat) 
+                {
+                    foreach (var unit in Game.Instance.Player.Party) 
+                    {
+                        foreach (var resource in unit.Descriptor.Resources) 
+                        { 
+                            unit.Descriptor.Resources.Restore(resource);
+                        }
+                        unit.Brain.RestoreAvailableActions();
+                    }
+                }
+                if (!inCombat && Settings.toggleRestoreSpellAfterCombat) 
+                {
+                    foreach (var unit in Game.Instance.Player.Party) {
+                        foreach (var spellbook in unit.Descriptor.Spellbooks)
+                            spellbook.Rest();
+                        // Might be required, too tired to check, assume it's not though
+                        // ADDB's fault for pinging me about this
+                        //unit.Brain.RestoreAvailableActions();
+                    }
+                }
+                if (!inCombat && Settings.toggleRechargeItemsAfterCombat) 
+                {
+                    foreach (var unit in Game.Instance.Player.Party) 
+                    {
+                        foreach (var item in unit.Inventory.Items)
+                            item.RestoreCharges();
+                    }
                 }
                 if (!inCombat && Settings.toggleInstantRestAfterCombat) {
                     CheatsCombat.RestAll();
@@ -791,6 +813,27 @@ namespace ToyBox.BagOfPatches {
                     || (buff.TimeLeft >= Settings.greaterEnduringSpellsTimeThreshold.Minutes() && __instance.Owner.HasFact(__instance.Greater)))
                     && buff.TimeLeft <= 24.Hours()) {
                     buff.SetEndTime(24.Hours() + buff.AttachTime);
+                }
+            }
+        }
+
+        [HarmonyPatch]
+        public static class SkipSplashScreen_Patch {
+            [HarmonyPrepare]
+            public static bool Prepare() => Settings.toggleSkipSplashScreen;
+            [HarmonyTargetMethods]
+            public static IEnumerable<MethodInfo> PatchTargets() {
+                yield return AccessTools.Method(typeof(SplashScreenController), nameof(SplashScreenController.Start));
+                //yield return AccessTools.Method(typeof(MainMenuLogoAnimator), nameof(MainMenuLogoAnimator.OnStart));
+            }
+            [HarmonyTranspiler]
+            public static IEnumerable<CodeInstruction> Start(IEnumerable<CodeInstruction> instructions) {
+                foreach (var inst in instructions) {
+                    if (inst.Calls(AccessTools.Method(typeof(GameStarter), nameof(GameStarter.IsArbiterMode)))) {
+                        yield return new CodeInstruction(OpCodes.Ldc_I4_1).WithLabels(inst.labels);
+                    } else {
+                        yield return inst;
+                    }
                 }
             }
         }

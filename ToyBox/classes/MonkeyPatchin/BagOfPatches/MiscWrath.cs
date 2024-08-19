@@ -1,4 +1,4 @@
-// borrowed shamelessly and enhanced from Bag of Tricks https://www.nexusmods.com/pathfinderkingmaker/mods/26, which is under the MIT License
+﻿// borrowed shamelessly and enhanced from Bag of Tricks https://www.nexusmods.com/pathfinderkingmaker/mods/26, which is under the MIT License
 
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -18,6 +18,8 @@ using Kingmaker.EntitySystem.Persistence;
 using Kingmaker.Enums.Damage;
 using Kingmaker.GameModes;
 using Kingmaker.Items;
+using Kingmaker.Localization;
+using Kingmaker.Localization.Shared;
 using Kingmaker.RuleSystem;
 using Kingmaker.Settings;
 using Kingmaker.UI._ConsoleUI.CombatStartScreen;
@@ -50,8 +52,8 @@ using Utilities = Kingmaker.Cheats.Utilities;
 namespace ToyBox.BagOfPatches {
     [HarmonyPatch]
     internal static partial class Misc {
-        public static Settings settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
 
         [HarmonyPatch(typeof(Player), nameof(Player.OnAreaLoaded))]
         internal static class Player_OnAreaLoaded_Patch {
@@ -673,6 +675,35 @@ namespace ToyBox.BagOfPatches {
             private static void Postfix(Polymorph __instance) {
                 float scale = PartyEditor.lastScaleSize.GetValueOrDefault(__instance.Owner.HashKey(), 1);
                 __instance.Owner.View.transform.localScale = new Vector3(scale, scale, scale);
+            }
+        }
+        [HarmonyPatch(typeof(LocalizedString))]
+        internal class BPTagger {
+            public static LocalizationPack pack = Kingmaker.Localization.LocalizationManager.LoadPack(Kingmaker.Localization.LocalizationManager.s_CurrentLocale);
+
+            [HarmonyPatch(nameof(LocalizedString.LoadString)), HarmonyPostfix]
+            public static void LoadString_ModTagPatch(ref string __result, LocalizedString __instance) {
+                if (settings.togglemoddedbptag) {
+                    try {
+                        if (!__result.Contains(".") && !__result.Contains("。")) { return; }
+                        if (__result.Contains("(mod)")) { return; }
+                        string actualKey = __instance.GetActualKey();
+                        if (!pack.m_Strings.TryGetValue(actualKey, out var _)) {
+                            __result += " (modded blueprint)";
+                        }
+                    } catch (Exception e) {
+                        Main.logger.Log("Error patching LoadString for modded blueprint tagging  \n" + e);
+                    }
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(Kingmaker.Localization.LocalizationManager))]
+        internal class BPTagger_Pack {
+            [HarmonyPriority(Priority.First)]
+            [HarmonyPatch(nameof(Kingmaker.Localization.LocalizationManager.LoadPack), [typeof(string), typeof(Locale)]), HarmonyPostfix]
+            public static void LoadPack_ModTagPatch(LocalizationPack __result) {
+                BPTagger.pack = AccessTools.MakeDeepCopy<LocalizationPack>(__result);
             }
         }
 #if false

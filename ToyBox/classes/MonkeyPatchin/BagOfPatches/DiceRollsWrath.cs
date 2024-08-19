@@ -9,8 +9,8 @@ using System;
 
 namespace ToyBox.BagOfPatches {
     public static class DiceRollsWrath {
-        public static Settings settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
 
         [HarmonyPatch(typeof(RuleAttackRoll), nameof(RuleAttackRoll.IsCriticalConfirmed), MethodType.Getter)]
         private static class HitPlayer_OnTriggerl_Patch {
@@ -29,23 +29,6 @@ namespace ToyBox.BagOfPatches {
             }
         }
 
-#if false
-        [HarmonyPatch(typeof(RuleCastSpell), nameof(RuleCastSpell.IsArcaneSpellFailed), MethodType.Getter)]
-        public static class RuleCastSpell_IsArcaneSpellFailed_Patch {
-            static void Postfix(RuleCastSpell __instance, ref bool __result) {
-                if ((__instance.Spell.Caster?.Unit?.IsPartyMemberOrPet() ?? false) && (StringUtils.ToToggleBool(settings.toggleArcaneSpellFailureRoll))) {
-                    if (!StringUtils.ToToggleBool(settings.toggleArcaneSpellFailureRollOutOfCombatOnly)) {
-                        __result = false;
-                    }
-                    else if (StringUtils.ToToggleBool(settings.toggleArcaneSpellFailureRollOutOfCombatOnly) && !__instance.Initiator.IsInCombat) {
-                        __result = false;
-                    }
-
-                }
-            }
-        }
-#endif
-
         [HarmonyPatch(typeof(RuleRollDice), nameof(RuleRollDice.Roll))]
         public static class RuleRollDice_Roll_Patch {
             private static void Postfix(RuleRollDice __instance) {
@@ -62,24 +45,30 @@ namespace ToyBox.BagOfPatches {
                 } else if (UnitEntityDataUtils.CheckUnitEntityData(initiator, settings.alwaysRoll1)) {
                     result = 1;
                 } else {
-                    if (UnitEntityDataUtils.CheckUnitEntityData(initiator, settings.rollWithAdvantage)) {
-                        result = Math.Max(result, UnityEngine.Random.Range(1, 21));
-                    } else if (UnitEntityDataUtils.CheckUnitEntityData(initiator, settings.rollWithDisadvantage)) {
-                        result = Math.Min(result, UnityEngine.Random.Range(1, 21));
-                    }
                     var min = 1;
                     var max = 21;
-                    if (UnitEntityDataUtils.CheckUnitEntityData(initiator, settings.rollAtLeast10OutOfCombat) && result < 10 && !initiator.IsInCombat) {
+                    if (UnitEntityDataUtils.CheckUnitEntityData(initiator, settings.rollAtLeast10OutOfCombat) && !initiator.IsInCombat) {
                         min = 10;
-                        result = UnityEngine.Random.Range(min, max);
+                        if (result < 10) {
+                            result = UnityEngine.Random.Range(min, max);
+                        }
                     }
-                    if (UnitEntityDataUtils.CheckUnitEntityData(initiator, settings.neverRoll1) && result == 1) {
-                        result = UnityEngine.Random.Range(2, 21);
+                    if (UnitEntityDataUtils.CheckUnitEntityData(initiator, settings.neverRoll1)) {
                         min = 2;
+                        if (result == 1) {
+                            result = UnityEngine.Random.Range(min, max);
+                        }
                     }
-                    if (UnitEntityDataUtils.CheckUnitEntityData(initiator, settings.neverRoll20) && result == 20) {
+                    if (UnitEntityDataUtils.CheckUnitEntityData(initiator, settings.neverRoll20)) {
                         max = 20;
-                        result = UnityEngine.Random.Range(min, max);
+                        if (result == 20) {
+                            result = UnityEngine.Random.Range(min, max);
+                        }
+                    }
+                    if (UnitEntityDataUtils.CheckUnitEntityData(initiator, settings.rollWithAdvantage)) {
+                        result = Math.Max(result, UnityEngine.Random.Range(min, max));
+                    } else if (UnitEntityDataUtils.CheckUnitEntityData(initiator, settings.rollWithDisadvantage)) {
+                        result = Math.Min(result, UnityEngine.Random.Range(min, max));
                     }
                 }
                 //Mod.Debug("Modified D20Roll: " + result);

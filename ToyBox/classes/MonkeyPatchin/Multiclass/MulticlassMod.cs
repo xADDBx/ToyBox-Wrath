@@ -13,7 +13,6 @@ using Kingmaker.UnitLogic.Class.LevelUp;
 using Kingmaker.Utility;
 using UnityEngine.SceneManagement;
 using static ModKit.Utility.ReflectionCache;
-using UnityModManager = UnityModManagerNet.UnityModManager;
 using ModKit;
 using Kingmaker.UnitLogic.ActivatableAbilities.Restrictions;
 using Kingmaker.Kingdom.Settlements;
@@ -75,8 +74,8 @@ namespace ToyBox.Multiclass {
     }
 
     public static class MulticlassUtils {
-        public static Settings settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
 
         public static bool IsCharGen(this LevelUpState state) {
             var companionNames = Game.Instance?.Player?.AllCharacters.Where(c => !c.IsMainCharacter).Select(c => c.CharacterName).ToList();
@@ -123,10 +122,10 @@ namespace ToyBox.Multiclass {
             Main.Settings.perSave.excludeClassesFromCharLevelSets[ch.HashKey()] = excludeSet;
         }
         public static bool IsClassGestalt(this UnitProgressionData progression, BlueprintCharacterClass cl) {
-            var chars = Game.Instance.Player.AllCharacters;
-            foreach (var ch in chars) {
+            foreach (var ch in Game.Instance.Player.AllCharacters) {
                 //Mod.Debug($"   {ch.Progression.Owner} vs { progression.Owner}");
-                if (ch.Progression.Owner == progression.Owner) {
+                // ch.Progression.Owner == progression.Owner;
+                if (ch.Progression == progression) {
                     var result = ch.IsClassGestalt(cl);
                     //Mod.Debug($"   found: {ch.HashKey()} - {cl.Name.orange()} - IsGestalt: {result.ToString().cyan()}");
                     return result;
@@ -138,8 +137,8 @@ namespace ToyBox.Multiclass {
 
     public static partial class MultipleClasses {
 
-        public static Settings settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
         public static LevelUpController levelUpController { get; internal set; }
 
         public static bool IsAvailable() => Main.Enabled &&
@@ -193,11 +192,11 @@ namespace ToyBox.Multiclass {
                     if (classData.CharacterClass.IsMythic) {
                         nullable = progression.m_MythicLevel;
                         var level = classData.Level;
-                        progression.m_MythicLevel = nullable.HasValue ? new int?(nullable.GetValueOrDefault() + level) : new int?();
+                        progression.m_MythicLevel = new int?(nullable.GetValueOrDefault() + level);
                     } else {
                         nullable = progression.m_CharacterLevel;
                         var level = classData.Level;
-                        progression.m_CharacterLevel = nullable.HasValue ? new int?(nullable.GetValueOrDefault() + level) : new int?();
+                        progression.m_CharacterLevel = new int?(nullable.GetValueOrDefault() + level);
                     }
                 }
             }

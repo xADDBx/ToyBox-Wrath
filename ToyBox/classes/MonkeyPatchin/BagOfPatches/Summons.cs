@@ -31,8 +31,8 @@ using Kingmaker.UnitLogic.Abilities.Blueprints;
 
 namespace ToyBox.BagOfPatches {
     internal static class Summons {
-        public static Settings settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
         private static bool SummonedByPlayerFaction = false;
 
         // prefill actionbar slots for controlled summon with spell-like abilities and charge ability

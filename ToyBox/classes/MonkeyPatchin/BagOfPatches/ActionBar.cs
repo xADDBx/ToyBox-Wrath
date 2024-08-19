@@ -15,8 +15,8 @@ using UnityEngine.UI.Extensions;
 
 namespace ToyBox.BagOfPatches {
     internal static class ActionBar {
-        public static Settings settings = Main.Settings;
-        public static Player player = Game.Instance.Player;
+        public static Settings settings => Main.Settings;
+        public static Player player => Game.Instance.Player;
 
 
         [HarmonyPatch(typeof(ActionBarGroupPCView), nameof(ActionBarGroupPCView.SetStatePosition))]
