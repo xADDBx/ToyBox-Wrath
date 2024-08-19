@@ -116,7 +116,7 @@ namespace ToyBox {
             }
             _blueprints.RemoveAll(b => b is null);
             watch.Stop();
-            Mod.Log($"Threaded loaded {_blueprints.Count + bpsToAdd.Count} blueprints in {watch.ElapsedMilliseconds} milliseconds");
+            Mod.Log($"Threaded loaded {_blueprints.Count + bpsToAdd.Count + BlueprintLoader_BlueprintsCache_Patches.IsLoading.Count} blueprints in {watch.ElapsedMilliseconds} milliseconds");
             lock (loader) {
                 IsRunning = false;
                 _callback(_blueprints);
@@ -213,7 +213,7 @@ namespace ToyBox {
                     Shared.bpsToAdd.RemoveWhere(bp => bp.AssetGuid == guid);
                 }
             }
-            private static HashSet<BlueprintGuid> IsLoading = new();
+            internal static HashSet<BlueprintGuid> IsLoading = new();
             [HarmonyPatch(nameof(BlueprintsCache.Load)), HarmonyPrefix]
             public static bool Pre_Load(BlueprintGuid guid, ref SimpleBlueprint __result) {
                 if (!Shared.IsRunning) return true;
