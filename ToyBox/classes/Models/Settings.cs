@@ -282,6 +282,9 @@ namespace ToyBox {
         public bool toggleGuidsClipboard = false;
         public bool toggleRiskyToggles = false;
         public bool onlyShowLanguagesWithFiles = true;
+        public int BlueprintsLoaderNumThreads = 3;
+        public int BlueprintsLoaderChunkSize = 100;
+        public bool PreloadBlueprints = false;
 
         // Save
         public override void Save(UnityModManager.ModEntry modEntry) => Save(this, modEntry);

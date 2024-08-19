@@ -42,6 +42,11 @@ Here is a summarized list of features. This list only includes a part of the fea
   your save before using. Remember that "with great power comes great responsibility"
 - **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
+  
+### ToyBox Rogue - Ver 1.5.22 built for Rogue Trader 1.2.0.30
+* (***ADDB***) ***Experimental*** threaded Blueprint Loading. When ToyBox needs to load blueprints it should now work faster.
+* (***ADDB***) Added option to enable blueprint preloading in ToyBox => Settings.
+* (***ADDB***) Added options to change Blueprint Loading thread amount and chunk size in ToyBox => Settings.
 
 ### ToyBox Rogue - Ver 1.5.21 built for Rogue Trader 1.2.0.30
 * (***ADDB***) Fix Preview Dialog option disabling dialog hotkeys. (I did some refactoring for that method; if it somehow doesn't work anymore please report).

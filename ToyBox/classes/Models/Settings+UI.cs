@@ -35,6 +35,9 @@ namespace ToyBox {
                 () => Toggle("Display guids in most tooltips, use shift + left click on items/abilities to copy guid to clipboard".localize(), ref Main.Settings.toggleGuidsClipboard),
                 () => Toggle("Display risky options".localize(), ref Main.Settings.toggleRiskyToggles),
                 () => Toggle("Check for Glyph Support".localize(), ref Mod.ModKitSettings.CheckForGlyphSupport),
+                () => Toggle("Preload Blueprints".localize(), ref Main.Settings.PreloadBlueprints, AutoWidth()),
+                () => Slider("Blueprint Loader Chunk Size".localize(), ref Main.Settings.BlueprintsLoaderChunkSize, 1, 10000, 1000, "", AutoWidth()),
+                () => Slider("Blueprint Loader Threads".localize(), ref Main.Settings.BlueprintsLoaderNumThreads, 1, 128, 3, "", AutoWidth()),
                 () => {
                     if (!Mod.ModKitSettings.CheckForGlyphSupport) Toggle("Use default Glyphs".localize(), ref Mod.ModKitSettings.UseDefaultGlyphs);
                 },

@@ -175,6 +175,16 @@ namespace ToyBox {
         }
 
         public static void OnGUI() {
+            if (blueprints == null) {
+                SearchAndPickBrowser.DisplayShowAllGUI = false;
+                SearchAndPickBrowser.doCollation = true;
+                if (Event.current.type == EventType.Layout) {
+                    blueprints = BlueprintLoader.Shared.GetBlueprints();
+                    if (blueprints != null) {
+                        InitType();
+                    }
+                }
+            }
             if (Event.current.type == EventType.Layout && needsRedoKeys) {
                 needsRedoKeys = SearchAndPickBrowser.isCollating || SearchAndPickBrowser._needsRedoCollation;
                 var count = SearchAndPickBrowser.collatedDefinitions.Keys.Count;
@@ -218,14 +228,6 @@ namespace ToyBox {
                 collationKeys.ForEach(s => keyToDisplayName[s] = $"{s} ({SearchAndPickBrowser.collatedDefinitions[s]?.Count})");
                 collationKeys.Insert(0, "All");
                 keyToDisplayName["All"] = $"All ({bpCount})";
-            }
-            if (blueprints == null) {
-                SearchAndPickBrowser.DisplayShowAllGUI = false;
-                SearchAndPickBrowser.doCollation = true;
-                blueprints = BlueprintLoader.Shared.GetBlueprints();
-                if (blueprints != null) {
-                    InitType();
-                }
             }
             using (HorizontalScope(Width(350))) {
                 var remainingWidth = ummWidth;
