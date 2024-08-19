@@ -149,7 +149,7 @@ namespace ToyBox {
                                 } else {
                                     continue;
                                 }
-                                if (Shared.BadBlueprints.Contains(guid) && entry.Offset == 0U) continue;
+                                if (Shared.BadBlueprints.Contains(guid) || entry.Offset == 0U) continue;
                                 OnBeforeBPLoad(guid);
                                 stream.Seek(entry.Offset, SeekOrigin.Begin);
                                 SimpleBlueprint simpleBlueprint = null;
