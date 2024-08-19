@@ -560,8 +560,8 @@ namespace ToyBox {
         public bool toggleUberLoggerForwardPrefix = false;
         public bool toggleGuidsClipboard = true;
         public bool onlyShowLanguagesWithFiles = true;
-        public int BlueprintsLoaderNumThreads = 3;
-        public int BlueprintsLoaderChunkSize = 1000;
+        public int BlueprintsLoaderNumThreads = 6;
+        public int BlueprintsLoaderChunkSize = 200;
         public bool PreloadBlueprints = false;
         public bool togglemoddedbptag = false;
 
