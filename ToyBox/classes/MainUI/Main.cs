@@ -34,7 +34,8 @@ namespace ToyBox {
         internal const string LinkToIncompatibilitiesFile = "https://raw.githubusercontent.com/xADDBx/ToyBox-Wrath/main/ToyBox/Incompatibilities.json";
         internal static Harmony HarmonyInstance;
         public static readonly LogChannel logger = LogChannelFactory.GetOrCreate("Respec");
-        private static string _modId;
+        internal static string _modId;
+        internal static UnityModManager.ModEntry ModEntry;
         public static Settings Settings;
         public static MulticlassMod multiclassMod;
         public static NamedAction[] tabs = {
@@ -87,6 +88,7 @@ namespace ToyBox {
 #if DEBUG
                 modEntry.OnUnload = OnUnload;
 #endif
+                ModEntry = modEntry;
                 _modId = modEntry.Info.Id;
 
                 Mod.OnLoad(modEntry);

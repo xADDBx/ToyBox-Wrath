@@ -114,11 +114,10 @@ namespace ToyBox.classes.Infrastructure {
         public static void AddAllSpellsOfSelectedLevel(Spellbook spellbook, int level) {
             List<BlueprintAbility> toLearn;
             if (Main.Settings.showFromAllSpellbooks) {
-                var normal = BlueprintExtensions.GetBlueprints<BlueprintSpellbook>()
-                    .Where(x => ((BlueprintSpellbook)x).SpellList != null)
+                var bps = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintSpellbook>();
+                var normal = bps.Where(x => ((BlueprintSpellbook)x).SpellList != null)
                     .SelectMany(x => ((BlueprintSpellbook)x).SpellList.GetSpells(level));
-                var mythic = BlueprintExtensions.GetBlueprints<BlueprintSpellbook>()
-                    .Where(x => ((BlueprintSpellbook)x).MythicSpellList != null)
+                var mythic = bps.Where(x => ((BlueprintSpellbook)x).MythicSpellList != null)
                     .SelectMany(x => ((BlueprintSpellbook)x).MythicSpellList.GetSpells(level));
                 toLearn = normal.Concat(mythic).Distinct().ToList();
             } else {
@@ -283,7 +282,7 @@ namespace ToyBox.classes.Infrastructure {
                 return spells;
             } else {
                 if (level == -1) {
-                    var abilities = BlueprintExtensions.GetBlueprints<BlueprintAbility>();
+                    var abilities = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintAbility>();
                     spells = new List<BlueprintAbility>();
                     foreach (var ability in abilities) {
                         if (ability.IsSpell) {
@@ -291,7 +290,7 @@ namespace ToyBox.classes.Infrastructure {
                         }
                     }
                 } else {
-                    var spellbooks = BlueprintExtensions.GetBlueprints<BlueprintSpellbook>();
+                    var spellbooks = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintSpellbook>();
                     if (spellbooks == null) return null;
                     Mod.Log($"spellbooks: {spellbooks.Count()}");
 

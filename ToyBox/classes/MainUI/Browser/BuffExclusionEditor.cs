@@ -36,7 +36,7 @@ namespace ToyBox {
                 _defaultBuffExceptions = BlueprintLoader.Shared.GetBlueprintsByGuids<BlueprintBuff>(SettingsDefaults.DefaultBuffsToIgnoreForDurationMultiplier)
                     ?.OrderBy(b => b.GetDisplayName())
                     ?.ToList();
-                _allBuffs = BlueprintLoader.Shared.GetBlueprints<BlueprintBuff>()
+                _allBuffs = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintBuff>()
                     ?.Where(bp => !bp.IsHiddenInUI
                                   && !bp.IsClassFeature
                                   && !bp.Harmful)
@@ -215,7 +215,7 @@ namespace ToyBox {
         private static void LogCurrentlyIgnoredBuffs() => Mod.Log($"Currently ignored buffs: {string.Join(", ", settings.buffsToIgnoreForDurationMultiplier)}. There are {_allBuffs.Count} total buffs.");
 
 
-        public static bool IsValidBuff(string buffGuid) => BlueprintLoader.Shared.GetBlueprintsByGuids<BlueprintBuff>(new[] { buffGuid }).Count() > 0;
+        public static bool IsValidBuff(string buffGuid) => ResourcesLibrary.TryGetBlueprint(BlueprintGuid.Parse(buffGuid)) is BlueprintBuff buff;
 
     }
 }

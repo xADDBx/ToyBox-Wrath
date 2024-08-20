@@ -564,7 +564,7 @@ namespace ToyBox {
         public int BlueprintsLoaderChunkSize = 200;
         public bool PreloadBlueprints = false;
         public bool togglemoddedbptag = false;
-
+        public bool toggleUseBPIdCache = true;
         // Deprecated
         internal bool toggleSpellbookAbilityAlignmentChecks = false;
 

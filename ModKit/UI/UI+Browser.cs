@@ -352,7 +352,7 @@ namespace ModKit {
                             _collationCancellationTokenSource.Cancel();
                         }
                     }
-                    if (needsReloadData && !isCollating && ((doCollation && _collationFinished) || !doCollation || collator != null)) {
+                    if (needsReloadData && !isCollating && ((doCollation && _collationFinished) || !doCollation || collator == null)) {
                         _currentDict = current.ToDictionaryIgnoringDuplicates(definition, c => c);
                         IEnumerable<Definition> definitions;
                         if (doCollation && !_collationKeyIsNullOrAllOrDoesNotExist) {

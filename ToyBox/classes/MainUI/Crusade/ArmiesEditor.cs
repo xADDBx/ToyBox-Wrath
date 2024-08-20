@@ -47,7 +47,7 @@ namespace ToyBox.classes.MainUI {
         public static IEnumerable<BlueprintLeaderSkill> GetAllLeaderSkills() {
             if (allLeaderSkills != null) return allLeaderSkills;
             else {
-                allLeaderSkills = BlueprintLoader.Shared.GetBlueprints<BlueprintLeaderSkill>();
+                allLeaderSkills = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintLeaderSkill>();
                 return allLeaderSkills;
             }
         }
@@ -55,7 +55,7 @@ namespace ToyBox.classes.MainUI {
         public static IEnumerable<BlueprintAbility> GetAllLeaderAbilities() {
             if (allLeaderAbilities != null) return allLeaderAbilities;
             else {
-                allLeaderAbilities = BlueprintLoader.Shared.GetBlueprints<BlueprintAbility>();
+                allLeaderAbilities = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintAbility>();
                 return allLeaderAbilities;
             }
         }
@@ -69,7 +69,7 @@ namespace ToyBox.classes.MainUI {
         public static List<BlueprintUnit> mercenaryUnits;
 
         public static void LoadMercenaryData() {
-            armyBlueprints = BlueprintExtensions.GetBlueprints<BlueprintUnit>().Where((u) => u.NameSafe().StartsWith("Army"));
+            armyBlueprints = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintUnit>().Where((u) => u.NameSafe().StartsWith("Army"));
             IEnumerable<BlueprintUnit> recruitPool = KingdomState.Instance.RecruitsManager.Pool.Select((r) => r.Unit);
             foreach (var entry in armyBlueprints) {
                 IsInRecruitPool[entry.GetHashCode()] = recruitPool.Contains(entry);

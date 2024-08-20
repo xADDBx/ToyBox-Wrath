@@ -354,7 +354,7 @@ namespace ToyBox {
             } else {
                 browser.OnGUI(
                     fact,
-                    GetBlueprints<Definition>,
+                    BlueprintLoader.Shared.GetBlueprintsOfType<Definition>,
                     (feature) => (Definition)feature.Blueprint,
                     (blueprint) => $"{GetSearchKey(blueprint)}" + (Settings.searchDescriptions ? $"{blueprint.Description}" : ""),
                     blueprint => new[] { GetSortKey(blueprint) },

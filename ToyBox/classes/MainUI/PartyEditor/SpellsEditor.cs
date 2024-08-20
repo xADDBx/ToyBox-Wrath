@@ -210,7 +210,7 @@ namespace ToyBox {
             }
             spellbookBrowser.OnGUI(
                 spellbooks,
-                BlueprintExtensions.GetBlueprints<BlueprintSpellbook>,
+                BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintSpellbook>,
                 (feature) => feature.Blueprint,
                 blueprint => $"{GetTitle(blueprint)}" + (Settings.searchDescriptions ? $" {blueprint.GetDescription()}" : ""),
                 blueprint => new[] { GetTitle(blueprint) },
