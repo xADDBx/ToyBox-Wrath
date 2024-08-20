@@ -188,7 +188,6 @@ namespace ToyBox {
                                         continue;
                                     }
                                 } else {
-                                    Mod.Log("Here?");
                                     continue;
                                 }
                                 if (Shared.BadBlueprints.Contains(guid.ToString()) || entry.Offset == 0U) continue;
