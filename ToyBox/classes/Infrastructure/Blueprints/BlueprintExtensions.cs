@@ -278,31 +278,6 @@ namespace ToyBox {
         public static IEnumerable<InfoBoxAttribute> GetInfoBoxes(this SimpleBlueprint bp) => bp.GetAttributes<InfoBoxAttribute>();
         public static string GetInfoBoxDescription(this SimpleBlueprint bp) => string.Join("\n", bp.GetInfoBoxes().Select(attr => attr.Text));
 
-        private static readonly Dictionary<Type, IEnumerable<SimpleBlueprint>> blueprintsByType = new();
-        public static IEnumerable<SimpleBlueprint> BlueprintsOfType(Type type) {
-            if (blueprintsByType.TryGetValue(type, out var ofType)) return ofType;
-            var blueprints = BlueprintLoader.Shared.GetBlueprints();
-            if (blueprints == null) return new List<SimpleBlueprint>();
-            var filtered = blueprints.Where((bp) => bp?.GetType().IsKindOf(type) == true).ToList();
-            // FIXME - why do we get inconsistent partial results if we cache here
-            //if (filtered.Count > 0)
-            //    blueprintsByType[type] = filtered;
-            return filtered;
-        }
-
-        public static IEnumerable<BPType> BlueprintsOfType<BPType>() where BPType : SimpleBlueprint {
-            var type = typeof(BPType);
-            if (blueprintsByType.TryGetValue(type, out var value)) return value.OfType<BPType>();
-            var blueprints = BlueprintLoader.Shared.GetBlueprints<BPType>();
-            if (blueprints == null) return new List<BPType>();
-            var filtered = blueprints.Where((bp) => bp != null).ToList();
-            // FIXME - why do we get inconsistent partial results if we cache here
-            //if (filtered.Count > 0)
-            //    blueprintsByType[type] = filtered;
-            return filtered;
-        }
-
-        public static IEnumerable<T> GetBlueprints<T>() where T : SimpleBlueprint => BlueprintsOfType<T>();
         public static int GetSelectableFeaturesCount(this BlueprintFeatureSelection selection, UnitDescriptor unit) {
             var count = 0;
             var component = selection.GetComponent<NoSelectionIfAlreadyHasFeature>();

@@ -35,7 +35,7 @@ namespace ToyBox {
         private static Browser<BlueprintPortrait, BlueprintPortrait> blueprintPortraitBrowser;
         private static bool listCustomPortraits = false;
         private static bool listBlueprintPortraits = false;
-        private static List<BlueprintPortrait> blueprintBps = null;
+        private static IEnumerable<BlueprintPortrait> blueprintBps = null;
         private static string newPortraitName = "";
         private static BlueprintPortrait newBlueprintPortrait = null;
         private static bool unknownID = false;
@@ -179,7 +179,7 @@ namespace ToyBox {
                             }));
                         }
                         if (Event.current.type == EventType.Layout && blueprintBps == null) {
-                            blueprintBps = BlueprintLoader.Shared.GetBlueprints<BlueprintPortrait>();
+                            blueprintBps = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintPortrait>();
                         }
                         if (blueprintBps != null) {
                             if (blueprintPortraitBrowser == null) {

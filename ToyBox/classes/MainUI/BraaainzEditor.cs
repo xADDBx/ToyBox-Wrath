@@ -16,7 +16,7 @@ namespace ToyBox.classes.MainUI {
         private static List<BlueprintBrain> AllBraaainz {
             get {
                 if (_allBraaainz != null) return _allBraaainz;
-                _allBraaainz = BlueprintLoader.Shared.GetBlueprints<BlueprintBrain>()?.OrderBy(bp => bp.GetDisplayName())?.ToList();
+                _allBraaainz = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintBrain>()?.OrderBy(bp => bp.GetDisplayName())?.ToList();
                 return _allBraaainz;
             }
         }
@@ -71,7 +71,7 @@ namespace ToyBox.classes.MainUI {
 
             ActionBrowser.OnGUI(
                 ch.Brain.Actions,
-                BlueprintExtensions.GetBlueprints<BlueprintAiAction>,
+                BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintAiAction>,
                 a => (BlueprintAiAction)a.Blueprint,
                 bp => bp.GetDisplayName(),
                 bp => new string[] { $"{bp.GetDisplayName()} {bp.GetDescription()}" },
@@ -93,7 +93,7 @@ namespace ToyBox.classes.MainUI {
                             }
                             ConsiderationBrowser.OnGUI(
                                action.ActorConsiderations,
-                               BlueprintExtensions.GetBlueprints<Consideration>,
+                               BlueprintLoader.Shared.GetBlueprintsOfType<Consideration>,
                                c => c,
                                c => c.GetDisplayName(),
                                c => new[] { c.GetDisplayName() },
@@ -121,7 +121,7 @@ namespace ToyBox.classes.MainUI {
                         }
                         targetConsiderationsBrowser.OnGUI(
                             action?.TargetConsiderations,
-                            BlueprintExtensions.GetBlueprints<Consideration>,
+                            BlueprintLoader.Shared.GetBlueprintsOfType<Consideration>,
                             c => c,
                             c => c.GetDisplayName(),
                             c => new[] { c.GetDisplayName() },

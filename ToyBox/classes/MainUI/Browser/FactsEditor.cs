@@ -28,27 +28,10 @@ using Kingmaker.Blueprints.Classes.Spells;
 
 namespace ToyBox {
     public class FactsEditor {
-        public class CollectionChangedSubscriber : IFactCollectionUpdatedHandler {
-            public CollectionChangedSubscriber() {
-                EventBus.Subscribe(this);
-            }
-            public void HandleFactCollectionUpdated(EntityFactsProcessor collection) {
-                foreach (var b in BuffBrowserDict.Values) {
-                    b.needsReloadData = true;
-                }
-                foreach (var b in FeatureBrowserDict.Values) {
-                    b.needsReloadData = true;
-                }
-                foreach (var b in AbilityBrowserDict.Values) {
-                    b.needsReloadData = true;
-                }
-            }
-        }
         private static Settings Settings => Main.Settings;
         private static bool _showTree = false;
         private static readonly int repeatCount = 1;
         private static readonly FeaturesTreeEditor treeEditor = new();
-        private static readonly CollectionChangedSubscriber collectionChangedSubscriber = new();
 
         private static readonly Dictionary<UnitEntityData, Browser<BlueprintFeature, Feature>> FeatureBrowserDict = new();
         private static readonly Dictionary<UnitEntityData, Browser<BlueprintBuff, Buff>> BuffBrowserDict = new();
@@ -171,10 +154,10 @@ namespace ToyBox {
             var canAdd = add?.canPerform(blueprint, ch) ?? false;
             var canRemove = remove?.canPerform(blueprint, ch) ?? false;
             if (canRemove) {
-                remove.BlueprintActionButton(ch, blueprint, () => todo.Add(() => { browser.needsReloadData = true; remove.action(blueprint, ch, repeatCount); }), 150);
+                remove.BlueprintActionButton(ch, blueprint, () => todo.Add(() => { browser.needsReloadData = !browser.ShowAll; remove.action(blueprint, ch, repeatCount); }), 150);
             }
             if (canAdd) {
-                add.BlueprintActionButton(ch, blueprint, () => todo.Add(() => { browser.needsReloadData = true; add.action(blueprint, ch, repeatCount); }), 150);
+                add.BlueprintActionButton(ch, blueprint, () => todo.Add(() => { add.action(blueprint, ch, repeatCount); }), 150);
             }
             remainingWidth -= 178;
             Space(20); remainingWidth -= 20;
@@ -354,7 +337,7 @@ namespace ToyBox {
             } else {
                 browser.OnGUI(
                     fact,
-                    GetBlueprints<Definition>,
+                    BlueprintLoader.Shared.GetBlueprintsOfType<Definition>,
                     (feature) => (Definition)feature.Blueprint,
                     (blueprint) => $"{GetSearchKey(blueprint)}" + (Settings.searchDescriptions ? $"{blueprint.Description}" : ""),
                     blueprint => new[] { GetSortKey(blueprint) },

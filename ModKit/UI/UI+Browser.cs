@@ -152,7 +152,7 @@ namespace ModKit {
                                 if (!SearchAsYouType) return;
                                 needsReloadData = true;
                                 searchQueryChanged = true;
-                            }, () => { needsReloadData = true; }, MinWidth(320), AutoWidth());
+                            }, () => { needsReloadData = true; searchQueryChanged = true; }, MinWidth(320), AutoWidth());
                             25.space();
                             Label("Limit".localize(), ExpandWidth(false));
                             var searchLimit = SearchLimit;
@@ -263,7 +263,7 @@ namespace ModKit {
                         _availableCache = available()?.ToList();
                         if (_availableCache?.Count() > 0) {
                             startedLoadingAvailable = false;
-                            needsReloadData = true;
+                            ReloadData();
                             if (!availableIsStatic) {
                                 _availableCache = null;
                             }
@@ -352,10 +352,10 @@ namespace ModKit {
                             _collationCancellationTokenSource.Cancel();
                         }
                     }
-                    if (needsReloadData && !isCollating && ((doCollation && _collationFinished) || !doCollation || collator != null)) {
+                    if (needsReloadData && !isCollating && ((doCollation && _collationFinished) || !doCollation || collator == null)) {
                         _currentDict = current.ToDictionaryIgnoringDuplicates(definition, c => c);
                         IEnumerable<Definition> definitions;
-                        if (doCollation && !_collationKeyIsNullOrAllOrDoesNotExist) {
+                        if (doCollation && collator != null && !_collationKeyIsNullOrAllOrDoesNotExist) {
                             definitions = collatedDefinitions[collationKey];
                         } else {
                             if (ShowAll) {
@@ -446,10 +446,14 @@ namespace ModKit {
                         isCollating = false;
                         return;
                     }
-                    foreach (var key in collator(definition)) {
-                        var group = collatedDefinitions.GetValueOrDefault(key, new());
-                        group.Add(definition);
-                        collatedDefinitions[key] = group;
+                    try {
+                        foreach (var key in collator(definition)) {
+                            var group = collatedDefinitions.GetValueOrDefault(key, new());
+                            group.Add(definition);
+                            collatedDefinitions[key] = group;
+                        }
+                    } catch (Exception ex) {
+                        Mod.Error($"Error collation definition {definition}:\n{ex}");
                     }
                 }
                 foreach (var group in collatedDefinitions.Values) {
