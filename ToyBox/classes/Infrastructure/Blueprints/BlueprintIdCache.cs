@@ -24,7 +24,6 @@ namespace ToyBox.classes.Infrastructure.Blueprints {
     [Serializable]
     public class BlueprintIdCache {
         public string CachedGameVersion = "";
-        public string CachedToyBoxVersion = "";
         public HashSet<(string, string)> UmmList = new();
         public HashSet<(string, string)> OmmList = new();
         public Dictionary<Type, HashSet<BlueprintGuid>> IdsByType = new();
@@ -53,7 +52,6 @@ namespace ToyBox.classes.Infrastructure.Blueprints {
                 if (_needsCacheRebuilt.HasValue) return _needsCacheRebuilt.Value && !isRebuilding;
 
                 bool gameVersionChanged = GameVersion.GetVersion() != Instance.CachedGameVersion;
-                bool toyBoxVersionChanged = Main.ModEntry.Info.Version != Instance.CachedToyBoxVersion;
 
                 var ummSet = Instance.UmmList.ToHashSet();
                 bool ummModsChanged = !(ummSet.Count == UnityModManagerNet.UnityModManager.modEntries.Count);
