@@ -38,7 +38,7 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
 ### Toybox Wrath - Ver 1.5.37 (built for 2.3.3k)
-* (***ADDB***) ***Experimental*** implemented partial loading. This means, if you aren't looking at Search 'n Pick, other tabs don't need to load every Blueprint. This massively reduces load times.
+* (***ADDB***) ***Experimental*** implemented partial loading. This means, if you aren't looking at Search 'n Pick, other tabs don't need to load every Blueprint. This massively reduces load times after the game was loaded the first time.
 * (***ADDB***) ***Experimental*** threaded Blueprint Loading. When ToyBox needs to load blueprints it should now work faster.
 * (***ADDB***) ***Experimental*** Maybe fix Gestalt Level 0 Bug.
 * (***ADDB***) Fix the issue that Party tab browsers were flickering with Show All activated.
