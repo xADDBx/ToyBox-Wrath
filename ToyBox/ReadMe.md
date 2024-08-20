@@ -42,10 +42,11 @@
 * (***ADDB***) ***Experimental*** threaded Blueprint Loading. When ToyBox needs to load blueprints it should now work faster. (Reduction of all Blueprint loading times of around ~25% to 50%).
 * (***ADDB***) ***Experimental*** Maybe fix Gestalt Level 0 Bug.
 * (***ADDB***) Fix the issue that Party tab browsers were flickering with Show All activated.
-* (***ADDB***) Added option to enable blueprint preloading in ToyBox => Settings.
-* (***ADDB***) Added options to change Blueprint Loading thread amount and chunk size in ToyBox => Settings.
 * (***String / CascadingDragon***) Add option to add a tag to the end of descriptions, indicating a feat/spell/ability is added by a mod or editted by a mod (Settings tab)
 * (***ADDB***) Added Collation Error Handling.
+* (***ADDB***) Added options to use BPIdCache and Automatically build said cache (by forcing a preload) in ToyBox => Settings.
+* (***ADDB***) Added option to enable blueprint preloading in ToyBox => Settings.
+* (***ADDB***) Added options to change Blueprint Loading thread amount and chunk size in ToyBox => Settings.
 
 ### Toybox Wrath - Ver 1.5.34 (built for 2.3.3k)
 * (***ADDB***) Description of some Crusade Events was not shown by default because of a missing Guard Clause. I also rewrote some faulty preview code; hopefully I didn't break any of the relic/decree result thingy.
