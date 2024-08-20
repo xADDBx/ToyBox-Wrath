@@ -446,10 +446,14 @@ namespace ModKit {
                         isCollating = false;
                         return;
                     }
-                    foreach (var key in collator(definition)) {
-                        var group = collatedDefinitions.GetValueOrDefault(key, new());
-                        group.Add(definition);
-                        collatedDefinitions[key] = group;
+                    try {
+                        foreach (var key in collator(definition)) {
+                            var group = collatedDefinitions.GetValueOrDefault(key, new());
+                            group.Add(definition);
+                            collatedDefinitions[key] = group;
+                        }
+                    } catch (Exception ex) {
+                        Mod.Error($"Error collation definition {definition}:\n{ex}");
                     }
                 }
                 foreach (var group in collatedDefinitions.Values) {
