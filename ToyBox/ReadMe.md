@@ -37,8 +37,10 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
-### Toybox Wrath - Ver 1.5.35 (built for 2.3.3k)
+### Toybox Wrath - Ver 1.5.36 (built for 2.3.3k)
+* (***ADDB***) ***Experimental*** implemented partial loading. This means, if you aren't looking at Search 'n Pick, other tabs don't need to load every Blueprint. This massively reduces load times.
 * (***ADDB***) ***Experimental*** threaded Blueprint Loading. When ToyBox needs to load blueprints it should now work faster.
+* (***ADDB***) Fix the issue that Party tab browsers were flickering with Show All activated.
 * (***ADDB***) Added option to enable blueprint preloading in ToyBox => Settings.
 * (***ADDB***) Added options to change Blueprint Loading thread amount and chunk size in ToyBox => Settings.
 * (***String / CascadingDragon***) Add option to add a tag to the end of descriptions, indicating a feat/spell/ability is added by a mod or editted by a mod (Settings tab)

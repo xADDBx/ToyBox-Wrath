@@ -152,7 +152,7 @@ namespace ModKit {
                                 if (!SearchAsYouType) return;
                                 needsReloadData = true;
                                 searchQueryChanged = true;
-                            }, () => { needsReloadData = true; }, MinWidth(320), AutoWidth());
+                            }, () => { needsReloadData = true; searchQueryChanged = true; }, MinWidth(320), AutoWidth());
                             25.space();
                             Label("Limit".localize(), ExpandWidth(false));
                             var searchLimit = SearchLimit;
@@ -263,7 +263,7 @@ namespace ModKit {
                         _availableCache = available()?.ToList();
                         if (_availableCache?.Count() > 0) {
                             startedLoadingAvailable = false;
-                            needsReloadData = true;
+                            ReloadData();
                             if (!availableIsStatic) {
                                 _availableCache = null;
                             }
@@ -355,7 +355,7 @@ namespace ModKit {
                     if (needsReloadData && !isCollating && ((doCollation && _collationFinished) || !doCollation || collator == null)) {
                         _currentDict = current.ToDictionaryIgnoringDuplicates(definition, c => c);
                         IEnumerable<Definition> definitions;
-                        if (doCollation && !_collationKeyIsNullOrAllOrDoesNotExist) {
+                        if (doCollation && collator != null && !_collationKeyIsNullOrAllOrDoesNotExist) {
                             definitions = collatedDefinitions[collationKey];
                         } else {
                             if (ShowAll) {
