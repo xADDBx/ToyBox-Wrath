@@ -38,8 +38,12 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
 ### Toybox Wrath - Ver 1.5.35 (built for 2.3.3k)
+* (***ADDB***) ***Experimental*** threaded Blueprint Loading. When ToyBox needs to load blueprints it should now work faster.
+* (***ADDB***) Added option to enable blueprint preloading in ToyBox => Settings.
+* (***ADDB***) Added options to change Blueprint Loading thread amount and chunk size in ToyBox => Settings.
 * (***String / CascadingDragon***) Add option to add a tag to the end of descriptions, indicating a feat/spell/ability is added by a mod or editted by a mod (Settings tab)
 * (***ADDB***) Maybe fix Gestalt Level 0 Bug.
+
 ### Toybox Wrath - Ver 1.5.34 (built for 2.3.3k)
 * (***ADDB***) Description of some Crusade Events was not shown by default because of a missing Guard Clause. I also rewrote some faulty preview code; hopefully I didn't break any of the relic/decree result thingy.
 
