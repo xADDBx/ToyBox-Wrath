@@ -560,11 +560,12 @@ namespace ToyBox {
         public bool toggleUberLoggerForwardPrefix = false;
         public bool toggleGuidsClipboard = true;
         public bool onlyShowLanguagesWithFiles = true;
+        public bool togglemoddedbptag = false;
         public int BlueprintsLoaderNumThreads = 4;
         public int BlueprintsLoaderChunkSize = 200;
-        public bool PreloadBlueprints = false;
-        public bool togglemoddedbptag = false;
+        public bool togglePreloadBlueprints = false;
         public bool toggleUseBPIdCache = true;
+        public bool toggleAutomaticallyBuildBPIdCache = true;
         // Deprecated
         internal bool toggleSpellbookAbilityAlignmentChecks = false;
 

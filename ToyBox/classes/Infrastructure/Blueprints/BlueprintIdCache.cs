@@ -21,7 +21,6 @@ using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Facts;
 
 namespace ToyBox.classes.Infrastructure.Blueprints {
-    [Serializable]
     public class BlueprintIdCache {
         public string CachedGameVersion = "";
         public HashSet<(string, string)> UmmList = new();
