@@ -1,8 +1,10 @@
 ﻿using JetBrains.Annotations;
 using ModKit.Utility;
+using ModKit.Utility.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -276,7 +278,7 @@ namespace ModKit {
                             Comparer<Definition> comparer = Comparer<Definition>.Create((x, y) => {
                                 var xKeys = sortKeys(x);
                                 var yKeys = sortKeys(y);
-                                var zipped = xKeys.Zip(yKeys, (x, y) => (x: x, y: y));
+                                var zipped = xKeys.Zip(yKeys, (x, y) => (x: x ?? "", y: y ?? ""));
                                 foreach (var pair in zipped) {
                                     var compare = pair.x.CompareTo(pair.y);
                                     if (compare != 0) return (int)SortDirection * compare;
@@ -440,6 +442,8 @@ namespace ModKit {
             public void Collate(IEnumerable<Definition> definitions,
                 Func<Definition, IEnumerable<string>> collator,
                 Func<Definition, IComparable[]> sortKeys) {
+                var timer = new Stopwatch();
+                timer.Start();
                 collatedDefinitions = new();
                 foreach (var definition in definitions) {
                     if (_collationCancellationTokenSource.IsCancellationRequested) {
@@ -450,7 +454,9 @@ namespace ModKit {
                         foreach (var key in collator(definition)) {
                             var group = collatedDefinitions.GetValueOrDefault(key, new());
                             group.Add(definition);
-                            collatedDefinitions[key] = group;
+                            lock (key) {
+                                collatedDefinitions[key] = group;
+                            }
                         }
                     } catch (Exception ex) {
                         Mod.Error($"Error collation definition {definition}:\n{ex}");
@@ -458,9 +464,10 @@ namespace ModKit {
                 }
                 foreach (var group in collatedDefinitions.Values) {
                     group.Sort(Comparer<Definition>.Create((x, y) => {
+                        IEnumerable<(IComparable x, IComparable y)> zipped = null;
                         var xKeys = sortKeys(x);
                         var yKeys = sortKeys(y);
-                        var zipped = xKeys.Zip(yKeys, (x, y) => (x: x, y: y));
+                        zipped = xKeys.Zip(yKeys, (x, y) => (x: x ?? "", y: y ?? ""));
                         foreach (var pair in zipped) {
                             var compare = pair.x.CompareTo(pair.y);
                             if (compare != 0) return (int)SortDirection * compare;
@@ -470,6 +477,8 @@ namespace ModKit {
                 }
                 _collationFinished = true;
                 isCollating = false;
+                timer.Stop();
+                Mod.Log($"Collation finished in {timer.ElapsedMilliseconds} milliseconds");
             }
             public void UpdatePageCount() {
                 if (SearchLimit > 0) {

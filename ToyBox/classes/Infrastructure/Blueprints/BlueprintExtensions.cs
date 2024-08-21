@@ -195,7 +195,7 @@ namespace ToyBox {
                         modifiers.Add(property); //.Substring(2));
                     }
                 } catch (Exception e) {
-                    Mod.Warn($"${bp.name}.{property} thew an exception: {e.ToString()}");
+                    Mod.Warn($"${bp.name}.{property} thew an exception: {e.Message}");
                     BadList.Add(bp.AssetGuid);
                     break;
                 }
