@@ -17,7 +17,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using ToyBox.classes.Infrastructure.Blueprints;
@@ -159,7 +164,7 @@ namespace ToyBox {
             }
             _blueprints.RemoveAll(b => b is null);
             watch.Stop();
-            Mod.Log($"Threaded loaded {_blueprints.Count + bpsToAdd.Count + BlueprintLoader_BlueprintsCache_Patches.IsLoading.Count} blueprints in {watch.ElapsedMilliseconds} milliseconds");
+            Mod.Log($"Threaded loaded {_blueprints.Count + bpsToAdd.Count + BlueprintLoaderPatches.BlueprintsCache_Patches.IsLoading.Count} blueprints in {watch.ElapsedMilliseconds} milliseconds");
             toLoad = null;
             lock (loader) {
                 IsRunning = false;
@@ -240,58 +245,155 @@ namespace ToyBox {
                 Thread.Sleep(200);
             }
         }
-        [HarmonyPatch(typeof(BlueprintsCache))]
-        internal static class BlueprintLoader_BlueprintsCache_Patches {
-            [HarmonyPatch(nameof(BlueprintsCache.AddCachedBlueprint)), HarmonyPostfix]
-            internal static void AddCachedBlueprint(BlueprintGuid guid, SimpleBlueprint bp) {
-                if (Shared.IsLoading || Shared.blueprints != null) {
-                    lock (Shared.bpsToAdd) {
-                        Shared.bpsToAdd.Add(bp);
-                    }
-                }
-                if (Shared.IsRunning) Shared._startedLoading.TryAdd(guid, Shared);
-            }
-            [HarmonyPatch(nameof(BlueprintsCache.RemoveCachedBlueprint)), HarmonyPostfix]
-            internal static void RemoveCachedBlueprint(BlueprintGuid guid) {
-                lock (Shared.bpsToAdd) {
-                    Shared.bpsToAdd.RemoveWhere(bp => bp.AssetGuid == guid);
-                }
-            }
-            internal static HashSet<BlueprintGuid> IsLoading = new();
-            [HarmonyPatch(nameof(BlueprintsCache.Load)), HarmonyPrefix]
-            public static bool Pre_Load(BlueprintGuid guid, ref SimpleBlueprint __result) {
-                if (!Shared.IsRunning) return true;
-                bool didAdd = Shared._startedLoading.TryAdd(guid, Shared);
-                if (didAdd) {
-                    IsLoading.Add(guid);
-                    return true;
-                } else {
-                    lock (Shared._startedLoading[guid]) {
-                        if (ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints.TryGetValue(guid, out var entry)) {
-                            __result = entry.Blueprint;
-                        } else {
-                            __result = null;
+        [HarmonyPatch]
+        internal static class BlueprintLoaderPatches {
+            [HarmonyPatch(typeof(BlueprintsCache))]
+            internal static class BlueprintsCache_Patches {
+                [HarmonyPatch(nameof(BlueprintsCache.AddCachedBlueprint)), HarmonyPostfix]
+                internal static void AddCachedBlueprint(BlueprintGuid guid, SimpleBlueprint bp) {
+                    if (Shared.IsLoading || Shared.blueprints != null) {
+                        lock (Shared.bpsToAdd) {
+                            Shared.bpsToAdd.Add(bp);
                         }
                     }
-                    return false;
+                    if (Shared.IsRunning) Shared._startedLoading.TryAdd(guid, Shared);
                 }
-            }
-            [HarmonyPatch(nameof(BlueprintsCache.Load)), HarmonyPostfix]
-            public static void Post_Load(BlueprintGuid guid, ref SimpleBlueprint __result) {
-                if (IsLoading.Contains(guid)) {
-                    IsLoading.Remove(guid);
+                [HarmonyPatch(nameof(BlueprintsCache.RemoveCachedBlueprint)), HarmonyPostfix]
+                internal static void RemoveCachedBlueprint(BlueprintGuid guid) {
                     lock (Shared.bpsToAdd) {
-                        if (__result != null) Shared.bpsToAdd.Add(__result);
+                        Shared.bpsToAdd.RemoveWhere(bp => bp.AssetGuid == guid);
+                    }
+                }
+                internal static HashSet<BlueprintGuid> IsLoading = new();
+                [HarmonyPatch(nameof(BlueprintsCache.Load)), HarmonyPrefix]
+                public static bool Pre_Load(BlueprintGuid guid, ref SimpleBlueprint __result) {
+                    if (!Shared.IsRunning) return true;
+                    bool didAdd = Shared._startedLoading.TryAdd(guid, Shared);
+                    if (didAdd) {
+                        IsLoading.Add(guid);
+                        return true;
+                    } else {
+                        lock (Shared._startedLoading[guid]) {
+                            if (ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints.TryGetValue(guid, out var entry)) {
+                                __result = entry.Blueprint;
+                            } else {
+                                __result = null;
+                            }
+                        }
+                        return false;
+                    }
+                }
+                [HarmonyPatch(nameof(BlueprintsCache.Load)), HarmonyPostfix]
+                public static void Post_Load(BlueprintGuid guid, ref SimpleBlueprint __result) {
+                    if (IsLoading.Contains(guid)) {
+                        IsLoading.Remove(guid);
+                        lock (Shared.bpsToAdd) {
+                            if (__result != null) Shared.bpsToAdd.Add(__result);
+                        }
                     }
                 }
             }
-        }
-        [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.Start))]
-        public static class BlueprintLoader_MainMenu_Patch {
-            [HarmonyPostfix]
-            internal static void PreparePregensCoroutine() {
+            [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.Start)), HarmonyPostfix]
+            internal static void MainMenu_Start_Patch() {
                 Shared.CanStart = true;
                 if (Main.Settings.togglePreloadBlueprints || (Main.Settings.toggleUseBPIdCache && Main.Settings.toggleAutomaticallyBuildBPIdCache && BlueprintIdCache.NeedsCacheRebuilt)) Shared.GetBlueprints();
+            }
+            [HarmonyPatch]
+            internal static class ReflectionBasedSerializer_PerformancePatches {
+                private static Dictionary<(Type, Type), bool> HasAttributeCache = new();
+                private static Dictionary<(Type, Type), bool> IsListOfCache = new();
+                private static Dictionary<(Type, Type), bool> IsOrSubclassOfCache = new();
+                private static Dictionary<Type, Func<object>> TypeConstructorCache = new();
+                [HarmonyTargetMethods]
+                internal static IEnumerable<MethodBase> GetMethods() {
+                    foreach (var method in typeof(ReflectionBasedSerializer).GetMethods(AccessTools.all)) {
+                        foreach (var instruction in PatchProcessor.GetCurrentInstructions(method) ?? new()) {
+                            if (instruction.Calls(AccessTools.Method(typeof(ReflectionBasedSerializer), nameof(ReflectionBasedSerializer.CreateObject)))) {
+                                yield return method;
+                            } else if (instruction.opcode == OpCodes.Call && instruction.operand is MethodInfo methodInfo) {
+                                if (methodInfo.Name == "HasAttribute" && methodInfo.IsGenericMethod) {
+                                    yield return method;
+                                    continue;
+                                } else if (methodInfo.Name == "IsListOf" && methodInfo.IsGenericMethod) {
+                                    yield return method;
+                                    continue;
+                                } else if (methodInfo.Name == "IsOrSubclassOf" && methodInfo.IsGenericMethod) {
+                                    yield return method;
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                }
+                [HarmonyTranspiler, HarmonyDebug]
+                internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+                    var method1 = AccessTools.Method(typeof(ReflectionBasedSerializer_PerformancePatches), nameof(HasAttribute));
+                    var method2 = AccessTools.Method(typeof(ReflectionBasedSerializer_PerformancePatches), nameof(IsListOf));
+                    var method3 = AccessTools.Method(typeof(ReflectionBasedSerializer_PerformancePatches), nameof(IsOrSubclassOf));
+                    foreach (var instruction in instructions) {
+                        if (instruction.Calls(AccessTools.Method(typeof(ReflectionBasedSerializer), nameof(ReflectionBasedSerializer.CreateObject)))) {
+                            yield return CodeInstruction.Call((Type t) => CreateObject(t));
+                            continue;
+                        } else if (instruction.opcode == OpCodes.Call && instruction.operand is MethodInfo methodInfo) {
+                            if (methodInfo.Name == "HasAttribute" && methodInfo.IsGenericMethod) {
+                                var genericArguments = methodInfo.GetGenericArguments();
+                                yield return new CodeInstruction(OpCodes.Ldtoken, genericArguments[0]);
+                                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Type), nameof(Type.GetTypeFromHandle)));
+                                yield return new CodeInstruction(OpCodes.Call, method1);
+                                continue;
+                            } else if (methodInfo.Name == "IsListOf" && methodInfo.IsGenericMethod) {
+                                var genericArguments = methodInfo.GetGenericArguments();
+                                yield return new CodeInstruction(OpCodes.Ldtoken, genericArguments[0]);
+                                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Type), nameof(Type.GetTypeFromHandle)));
+                                yield return new CodeInstruction(OpCodes.Call, method2);
+                                continue;
+                            } else if (methodInfo.Name == "IsOrSubclassOf" && methodInfo.IsGenericMethod) {
+                                var genericArguments = methodInfo.GetGenericArguments();
+                                yield return new CodeInstruction(OpCodes.Ldtoken, genericArguments[0]);
+                                yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Type), nameof(Type.GetTypeFromHandle)));
+                                yield return new CodeInstruction(OpCodes.Call, method3);
+                                continue;
+                            }
+                        }
+                        yield return instruction;
+                    }
+                }
+                public static object CreateObject(Type type) {
+                    if (!TypeConstructorCache.TryGetValue(type, out var f)) {
+                        if (type.GetConstructor(Type.EmptyTypes) is { } constructor) {
+                            f = TypeConstructorCache[type] =
+                                Expression.Lambda<Func<object>>(
+                                    Expression.Convert(
+                                        Expression.New(constructor), typeof(object)))
+                                .Compile();
+                        } else {
+                            f = TypeConstructorCache[type] = null;
+                        }
+                    }
+                    if (f == null) return FormatterServices.GetUninitializedObject(type);
+                    return f();
+                }
+                public static bool HasAttribute(Type t, Type T) {
+                    if (!HasAttributeCache.TryGetValue((t, T), out var hasAttr)) {
+                        hasAttr = t.GetCustomAttributes(T, true).Length != 0;
+                        HasAttributeCache[(t, T)] = hasAttr;
+                    }
+                    return hasAttr;
+                }
+                public static bool IsListOf(Type t, Type T) {
+                    if (!IsListOfCache.TryGetValue((t, T), out var isListOf)) {
+                        isListOf = t.IsGenericType && t.GetGenericTypeDefinition() == typeof(List<>) && t.GenericTypeArguments[0] == T;
+                        IsListOfCache[(t, T)] = isListOf;
+                    }
+                    return isListOf;
+                }
+                public static bool IsOrSubclassOf(Type t, Type T) {
+                    if (!IsOrSubclassOfCache.TryGetValue((t, T), out var isSubclassOf)) {
+                        isSubclassOf = t == T || t.IsSubclassOf(T);
+                        IsOrSubclassOfCache[(t, T)] = isSubclassOf;
+                    }
+                    return isSubclassOf;
+                }
             }
         }
     }
