@@ -21,6 +21,8 @@ using System.Runtime.CompilerServices;
 using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Craft;
+using System.Linq.Expressions;
+using System.Reflection;
 namespace ToyBox {
 
     public static partial class BlueprintExtensions {
@@ -184,18 +186,42 @@ namespace ToyBox {
                 return "";
             }
         }
+        private static Dictionary<Type, List<(Func<SimpleBlueprint, bool>, string)>> PropertyAccessors = new();
+        private static Dictionary<Type, string> TypeNamesCache = new();
+        public static void CacheTypeProperties(Type type) {
+            var accessors = new List<(Func<SimpleBlueprint, bool>, string)>();
+            foreach(var prop in type.GetProperties(AccessTools.allDeclared).Where(p => p.Name.StartsWith("Is") && p.PropertyType == typeof(bool))) {
+                var mi = prop.GetGetMethod(true);
+                if (mi == null) continue;
+                if (mi.IsStatic) {
+                    Func<bool> staticDelegate = (Func<bool>)Delegate.CreateDelegate(typeof(Func<bool>), mi);
+                    accessors.Add((bp => staticDelegate(), prop.Name));
+                } else {
+                    var parameter = Expression.Parameter(typeof(SimpleBlueprint), "bp");
+                    var propertyAccess = Expression.Property(Expression.Convert(parameter, type), prop);
+                    var lambda = Expression.Lambda<Func<SimpleBlueprint, bool>>(propertyAccess, parameter);
+                    Func<SimpleBlueprint, bool> compiled = lambda.Compile();
+                    accessors.Add((compiled, prop.Name));
+                }
+            }
+
+            PropertyAccessors[type] = accessors;
+        }
         public static IEnumerable<string> Attributes(this SimpleBlueprint bp) {
-            List<string> modifiers = new();
-            if (BadList.Contains(bp.AssetGuid)) return modifiers;
-            var traverse = Traverse.Create(bp);
-            foreach (var property in Traverse.Create(bp).Properties().Where(property => property.StartsWith("Is"))) {
+            if (BadList.Contains(bp.AssetGuid)) return Enumerable.Empty<string>();
+            if (!PropertyAccessors.TryGetValue(bp.GetType(), out var accessors)) {
+                CacheTypeProperties(bp.GetType());
+                accessors = PropertyAccessors[bp.GetType()];
+            }
+
+            List<string> modifiers = new List<string>();
+            foreach (var accessor in accessors) {
                 try {
-                    var value = traverse?.Property<bool>(property)?.Value;
-                    if (value.HasValue && value.GetValueOrDefault()) {
-                        modifiers.Add(property); //.Substring(2));
+                    if (accessor.Item1(bp)) {
+                        modifiers.Add(accessor.Item2);
                     }
                 } catch (Exception e) {
-                    Mod.Warn($"${bp.name}.{property} thew an exception: {e.Message}");
+                    Mod.Warn($"Error accessing property on {bp.name}: {e.Message}");
                     BadList.Add(bp.AssetGuid);
                     break;
                 }
@@ -205,17 +231,29 @@ namespace ToyBox {
         private static List<string> DefaultCollationNames(this SimpleBlueprint bp, string[] extras) {
             _cachedCollationNames.TryGetValue(bp, out var names);
             if (names == null) {
-                names = new List<string> { };
-                var typeName = bp.GetType().Name.Replace("Blueprint", "");
-                //var stripIndex = typeName.LastIndexOf("Blueprint");
-                //if (stripIndex > 0) typeName = typeName.Substring(stripIndex + "Blueprint".Length);
-                names.Add(typeName);
-                foreach (var attribute in bp.Attributes())
-                    names.Add(attribute.orange());
-                _cachedCollationNames.Add(bp, names.Distinct().ToList());
+                var namesSet = new HashSet<string>();
+                string typeName;
+                var type = bp.GetType();
+                if (!TypeNamesCache.TryGetValue(type, out typeName)) {
+                    typeName = type.Name;
+                    var stripIndex = typeName.LastIndexOf("Blueprint");
+
+                    if (stripIndex > 0) {
+                        typeName = typeName.Substring(0, stripIndex);
+                    }
+
+                    TypeNamesCache[type] = typeName;
+                }
+                namesSet.Add(typeName);
+
+                foreach (var attribute in bp.Attributes()) {
+                    namesSet.Add(attribute.orange());
+                }
+                names = namesSet.ToList();
+                _cachedCollationNames.Add(bp, names);
             }
 
-            if (extras != null) names = names.Concat(extras).ToList();
+            if (extras != null) names.AddRange(extras);
             return names;
         }
         public static List<string> CollationNames(this SimpleBlueprint bp, params string[] extras) => DefaultCollationNames(bp, extras);

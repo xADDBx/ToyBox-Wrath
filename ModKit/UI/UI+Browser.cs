@@ -279,12 +279,12 @@ namespace ModKit {
                             Comparer<Definition> comparer = Comparer<Definition>.Create((x, y) => {
                                 var xKeys = sortKeys(x);
                                 var yKeys = sortKeys(y);
-                                var zipped = xKeys.Zip(yKeys, (x, y) => (x: x ?? "", y: y ?? ""));
-                                foreach (var pair in zipped) {
-                                    var compare = pair.x.CompareTo(pair.y);
-                                    if (compare != 0) return (int)SortDirection * compare;
+                                for (int i = 0; i < Math.Min(xKeys.Length, yKeys.Length); i++) {
+                                    var compare = xKeys[i].CompareTo(yKeys[i]);
+                                    if (compare != 0)
+                                        return (int)SortDirection * compare;
                                 }
-                                return (int)SortDirection * (xKeys.Length > yKeys.Length ? -1 : 1);
+                                return (int)SortDirection * (xKeys.Length.CompareTo(yKeys.Length));
                             });
                             if (_finishedSearch && !searchQueryChanged) {
                                 filteredDefinitions = new List<Definition>();
@@ -450,36 +450,41 @@ namespace ModKit {
                 Func<Definition, IComparable[]> sortKeys) {
                 var timer = new Stopwatch();
                 timer.Start();
-                collatedDefinitions = new();
-                foreach (var definition in definitions) {
+                collatedDefinitions = new(); 
+                
+                var definitionsWithKeys = definitions.ToDictionary(d => d, d => sortKeys(d));
+                
+                foreach (var item in definitionsWithKeys) {
                     if (_collationCancellationTokenSource.IsCancellationRequested) {
                         isCollating = false;
                         return;
                     }
                     try {
-                        foreach (var key in collator(definition)) {
-                            var group = collatedDefinitions.GetValueOrDefault(key, new());
-                            group.Add(definition);
-                            lock (key) {
-                                collatedDefinitions[key] = group;
+                        foreach (var key in collator(item.Key)) {
+                            List<Definition> group;
+                            lock (collatedDefinitions) {
+                                if (!collatedDefinitions.TryGetValue(key, out group)) {
+                                    group = new List<Definition>();
+                                    collatedDefinitions[key] = group;
+                                }
                             }
+                            group.Add(item.Key);
                         }
                     } catch (Exception ex) {
-                        Mod.Error($"Error collation definition {definition}:\n{ex}");
+                        Mod.Error($"Error collation definition {item.Key}:\n{ex}");
                     }
                 }
                 foreach (var group in collatedDefinitions.Values) {
-                    group.Sort(Comparer<Definition>.Create((x, y) => {
-                        IEnumerable<(IComparable x, IComparable y)> zipped = null;
-                        var xKeys = sortKeys(x);
-                        var yKeys = sortKeys(y);
-                        zipped = xKeys.Zip(yKeys, (x, y) => (x: x ?? "", y: y ?? ""));
-                        foreach (var pair in zipped) {
-                            var compare = pair.x.CompareTo(pair.y);
-                            if (compare != 0) return (int)SortDirection * compare;
+                    group.Sort((x, y) => {
+                        var xKeys = definitionsWithKeys[x];
+                        var yKeys = definitionsWithKeys[y];
+                        for (int i = 0; i < Math.Min(xKeys.Length, yKeys.Length); i++) {
+                            var compare = xKeys[i].CompareTo(yKeys[i]);
+                            if (compare != 0)
+                                return (int)SortDirection * compare;
                         }
-                        return (int)SortDirection * (xKeys.Length > yKeys.Length ? -1 : 1);
-                    }));
+                        return (int)SortDirection * (xKeys.Length.CompareTo(yKeys.Length));
+                    });
                 }
                 _collationFinished = true;
                 isCollating = false;

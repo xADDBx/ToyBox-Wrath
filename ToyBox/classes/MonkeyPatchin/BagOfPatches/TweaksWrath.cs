@@ -468,7 +468,7 @@ namespace ToyBox.BagOfPatches {
             private static void Postfix() {
                 if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
                     Main.freshlyLaunched = false;
-                    Mod.Warn("Auto Load Save on Launch disabled");
+                    Mod.Debug("Auto Load Save on Launch disabled");
                     return;
                 }
                 if (Settings.toggleAutomaticallyLoadLastSave && Main.freshlyLaunched) {

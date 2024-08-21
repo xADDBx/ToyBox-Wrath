@@ -38,6 +38,10 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
 ### Toybox Wrath - Ver 1.5.42 (built for 2.3.3k)
+* (***ADDB***) Skip "Copying..." phase when no search query is used.
+* (***ADDB***) Optimize "Collating..." phase. A lot.
+* (***ADDB***) Even more BP Loader optimizations. Ugh. (In relation to that added ToyBox => Settings => "Blueprint Loader Amount of Shards").
+* (***ADDB***) Something something Browser more resistent to malformed Blueprints?
 * (***ADDB / Microsoftenator***) Optimized Blueprint Loading times even more by improving Owlcat ReflectionBasedSerializer. (Probably ~25% to 50% on top of the previous reduction).
 * (***ADDB / Microsoftenator***) Fixed issue where the new BlueprintLoader could randomly blow up.
 * (***ADDB***) ***Experimental*** implemented partial loading. This means, if you aren't looking at Search 'n Pick, other tabs don't need to load every Blueprint. This massively reduces load times after the game was loaded the first time. (Certain tabs load more than 10 times faster).
