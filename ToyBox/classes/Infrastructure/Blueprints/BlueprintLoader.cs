@@ -24,6 +24,7 @@ using ToyBox.classes.Infrastructure.Blueprints;
 
 namespace ToyBox {
     public class BlueprintLoader {
+        public static string GameVersion;
         public delegate void LoadBlueprintsCallback(List<SimpleBlueprint> blueprints);
         private List<SimpleBlueprint> blueprints;
         private Dictionary<Type, List<SimpleBlueprint>> bpsByType = new();
@@ -33,6 +34,9 @@ namespace ToyBox {
         private static BlueprintLoader loader;
         public static BlueprintLoader Shared {
             get {
+                if (GameVersion.IsNullOrEmpty()) {
+                    GameVersion = Kingmaker.GameVersion.GetVersion();
+                }
                 loader ??= new();
                 return loader;
             }

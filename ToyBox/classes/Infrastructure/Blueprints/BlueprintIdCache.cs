@@ -82,35 +82,38 @@ namespace ToyBox.classes.Infrastructure.Blueprints {
         public static bool isRebuilding = false;
         internal static void RebuildCache(List<SimpleBlueprint> blueprints) {
             if (!Main.Settings.toggleUseBPIdCache) return;
-            ModKit.Mod.Log("Starting to BPId Cache");
+            ModKit.Mod.Log("Starting to build BPId Cache");
             isRebuilding = true;
+            try {
+                // Header
+                Instance.CachedGameVersion = BlueprintLoader.GameVersion;
 
-            // Header
-            Instance.CachedGameVersion = GameVersion.GetVersion();
-
-            Instance.UmmList.Clear();
-            foreach (var modEntry in UnityModManagerNet.UnityModManager.modEntries) {
-                Instance.UmmList.Add(new(modEntry.Info.Id, modEntry.Info.Version));
-            }
-
-            Instance.OmmList.Clear();
-            foreach (var modEntry in OwlcatModificationsManager.s_Instance.AppliedModifications) {
-                Instance.OmmList.Add(new(modEntry.Manifest.UniqueName, modEntry.Manifest.Version));
-            }
-
-            //Ids
-            Instance.IdsByType.Clear();
-            foreach (var type in CachedIdTypes) {
-                HashSet<BlueprintGuid> idsForType = new();
-                foreach (var bp in blueprints) {
-                    if (type.IsInstanceOfType(bp)) {
-                        idsForType.Add(bp.AssetGuid);
-                    }
+                Instance.UmmList.Clear();
+                foreach (var modEntry in UnityModManagerNet.UnityModManager.modEntries) {
+                    Instance.UmmList.Add(new(modEntry.Info.Id, modEntry.Info.Version));
                 }
-                Instance.IdsByType[type] = idsForType;
-            }
 
-            Instance.Save();
+                Instance.OmmList.Clear();
+                foreach (var modEntry in OwlcatModificationsManager.s_Instance.AppliedModifications) {
+                    Instance.OmmList.Add(new(modEntry.Manifest.UniqueName, modEntry.Manifest.Version));
+                }
+
+                //Ids
+                Instance.IdsByType.Clear();
+                foreach (var type in CachedIdTypes) {
+                    HashSet<BlueprintGuid> idsForType = new();
+                    foreach (var bp in blueprints) {
+                        if (type.IsInstanceOfType(bp)) {
+                            idsForType.Add(bp.AssetGuid);
+                        }
+                    }
+                    Instance.IdsByType[type] = idsForType;
+                }
+
+                Instance.Save();
+            } catch (Exception ex) {
+                ModKit.Mod.Error(ex.ToString());
+            }
             _needsCacheRebuilt = false;
             isRebuilding = false;
             ModKit.Mod.Log("Finished rebuilding BPId Cache");
