@@ -149,8 +149,10 @@ namespace ToyBox {
             _blueprints = new(total);
             _blueprints.AddRange(Enumerable.Repeat<SimpleBlueprint>(null, total));
             var memStream = new MemoryStream();
-            bpCache.m_PackFile.Position = 0;
-            bpCache.m_PackFile.CopyTo(memStream);
+            lock (bpCache.m_Lock) {
+                bpCache.m_PackFile.Position = 0;
+                bpCache.m_PackFile.CopyTo(memStream);
+            }
             var chunks = allEntries.Select((entry, index) => (entry, index)).Chunk(Main.Settings.BlueprintsLoaderChunkSize);
             _chunkQueue = new(chunks);
             var bytes = memStream.GetBuffer();
@@ -293,8 +295,8 @@ namespace ToyBox {
                     }
                 }
             }
-            [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.Start)), HarmonyPostfix]
-            internal static void MainMenu_Start_Patch() {
+            [HarmonyPatch(typeof(BlueprintsCache), nameof(BlueprintsCache.Init)), HarmonyFinalizer]
+            internal static void BlueprintsCache_Init_Patch() {
                 Shared.CanStart = true;
                 if (Main.Settings.togglePreloadBlueprints || (Main.Settings.toggleUseBPIdCache && Main.Settings.toggleAutomaticallyBuildBPIdCache && BlueprintIdCache.NeedsCacheRebuilt)) Shared.GetBlueprints();
             }
