@@ -38,7 +38,8 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
 ### Toybox Wrath - Ver 1.5.40 (built for 2.3.3k)
-* (***ADDB / Microsoftenator***) Optimized Blueprint Loading times even more by improving Owlcat ReflectionBasedSerializer.
+* (***ADDB / Microsoftenator***) Optimized Blueprint Loading times even more by improving Owlcat ReflectionBasedSerializer. (Probably ~25% to 50% on top of the previous reduction).
+* (***ADDB / Microsoftenator***) Fixed issue where the new BlueprintLoader could randomly blow up.
 * (***ADDB***) ***Experimental*** implemented partial loading. This means, if you aren't looking at Search 'n Pick, other tabs don't need to load every Blueprint. This massively reduces load times after the game was loaded the first time. (Certain tabs load more than 10 times faster).
 * (***ADDB***) ***Experimental*** threaded Blueprint Loading. When ToyBox needs to load blueprints it should now work faster. (Reduction of all Blueprint loading times of around ~25% to 50%).
 * (***ADDB***) ***Experimental*** Maybe fix Gestalt Level 0 Bug.
