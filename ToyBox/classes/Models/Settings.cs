@@ -563,7 +563,7 @@ namespace ToyBox {
         public bool togglemoddedbptag = false;
         public int BlueprintsLoaderNumThreads = 4;
         public int BlueprintsLoaderChunkSize = 200;
-        public int BlueprintsLoaderNumShards = 8;
+        public int BlueprintsLoaderNumShards = 32;
         public bool togglePreloadBlueprints = false;
         public bool toggleUseBPIdCache = true;
         public bool toggleAutomaticallyBuildBPIdCache = true;

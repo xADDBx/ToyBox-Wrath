@@ -199,7 +199,6 @@ namespace ToyBox {
                             lock (@lock) {
                                 int shardIndex = Math.Abs(guid.GetHashCode()) % Main.Settings.BlueprintsLoaderNumShards;
                                 var startedLoading = _startedLoadingShards[shardIndex];
-                                if (startedLoading.ContainsKey(guid)) continue;
                                 if (!startedLoading.TryAdd(guid, @lock)) continue;
                                 if (ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints.TryGetValue(guid, out var entry)) {
                                     if (entry.Blueprint != null) {
@@ -284,13 +283,11 @@ namespace ToyBox {
                     if (!Shared.IsRunning) return true;
                     int shardIndex = Math.Abs(guid.GetHashCode()) % Main.Settings.BlueprintsLoaderNumShards;
                     var startedLoading = Shared._startedLoadingShards[shardIndex];
-                    if (!startedLoading.TryGetValue(guid, out var @lock)) {
-                        if (startedLoading.TryAdd(guid, Shared)) {
-                            IsLoading.Add(guid);
-                            return true;
-                        }
+                    if (startedLoading.TryAdd(guid, Shared)) {
+                        IsLoading.Add(guid);
+                        return true;
                     }
-                    lock (@lock) {
+                    lock (startedLoading[guid]) {
                         if (ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints.TryGetValue(guid, out var entry)) {
                             __result = entry.Blueprint;
                         } else {

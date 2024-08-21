@@ -37,7 +37,7 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
-### Toybox Wrath - Ver 1.5.41 (built for 2.3.3k)
+### Toybox Wrath - Ver 1.5.42 (built for 2.3.3k)
 * (***ADDB / Microsoftenator***) Optimized Blueprint Loading times even more by improving Owlcat ReflectionBasedSerializer. (Probably ~25% to 50% on top of the previous reduction).
 * (***ADDB / Microsoftenator***) Fixed issue where the new BlueprintLoader could randomly blow up.
 * (***ADDB***) ***Experimental*** implemented partial loading. This means, if you aren't looking at Search 'n Pick, other tabs don't need to load every Blueprint. This massively reduces load times after the game was loaded the first time. (Certain tabs load more than 10 times faster).
