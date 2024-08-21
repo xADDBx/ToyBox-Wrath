@@ -236,11 +236,7 @@ namespace ToyBox {
                 var type = bp.GetType();
                 if (!TypeNamesCache.TryGetValue(type, out typeName)) {
                     typeName = type.Name;
-                    var stripIndex = typeName.LastIndexOf("Blueprint");
-
-                    if (stripIndex > 0) {
-                        typeName = typeName.Substring(0, stripIndex);
-                    }
+                    typeName = typeName.Replace("Blueprint", "");
 
                     TypeNamesCache[type] = typeName;
                 }
