@@ -287,7 +287,7 @@ namespace ToyBox {
             [HarmonyPostfix]
             internal static void PreparePregensCoroutine() {
                 Shared.CanStart = true;
-                if (Main.Settings.togglePreloadBlueprints || (Main.Settings.toggleUseBPIdCache && Main.Settings.toggleAutomaticallyBuildBPIdCache)) Shared.GetBlueprints();
+                if (Main.Settings.togglePreloadBlueprints || (Main.Settings.toggleUseBPIdCache && Main.Settings.toggleAutomaticallyBuildBPIdCache && BlueprintIdCache.NeedsCacheRebuilt)) Shared.GetBlueprints();
             }
         }
     }
