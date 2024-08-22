@@ -248,9 +248,8 @@ namespace ToyBox {
                 names = namesSet.ToList();
                 _cachedCollationNames.Add(bp, names);
             }
-
-            if (extras != null) names.AddRange(extras);
-            return names;
+            
+            return [..names, ..extras];
         }
         public static List<string> CollationNames(this SimpleBlueprint bp, params string[] extras) => DefaultCollationNames(bp, extras);
         public static List<string> CollationNames(this BlueprintCharacterClass bp, params string[] extras) {

@@ -280,7 +280,9 @@ namespace ModKit {
                                 var xKeys = sortKeys(x);
                                 var yKeys = sortKeys(y);
                                 for (int i = 0; i < Math.Min(xKeys.Length, yKeys.Length); i++) {
-                                    var compare = xKeys[i].CompareTo(yKeys[i]);
+                                    var xKey = xKeys[i] ?? "";
+                                    var yKey = yKeys[i] ?? "";
+                                    var compare = xKey.CompareTo(yKey);
                                     if (compare != 0)
                                         return (int)SortDirection * compare;
                                 }
@@ -479,7 +481,9 @@ namespace ModKit {
                         var xKeys = definitionsWithKeys[x];
                         var yKeys = definitionsWithKeys[y];
                         for (int i = 0; i < Math.Min(xKeys.Length, yKeys.Length); i++) {
-                            var compare = xKeys[i].CompareTo(yKeys[i]);
+                            var xKey = xKeys[i] ?? "";
+                            var yKey = yKeys[i] ?? "";
+                            var compare = xKey.CompareTo(yKey);
                             if (compare != 0)
                                 return (int)SortDirection * compare;
                         }
