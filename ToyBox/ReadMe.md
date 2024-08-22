@@ -42,6 +42,22 @@ Here is a summarized list of features. This list only includes a part of the fea
   your save before using. Remember that "with great power comes great responsibility"
 - **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
+  
+### ToyBox Rogue - Ver 1.5.22 built for Rogue Trader 1.2.0.30
+* (***ADDB***) Skip "Copying..." phase when no search query is used.
+* (***ADDB***) Optimize "Collating..." phase. A lot. Like, really a lot.
+* (***ADDB***) Even more BP Loader optimizations. Ugh. (In relation to that added ToyBox => Settings => "Blueprint Loader Amount of Shards").
+* (***ADDB***) Something something Browser more resistent to malformed Blueprints?
+* (***ADDB***) Fixed blueprints sometimes loading twice in Search 'n Pick
+* (***ADDB / Microsoftenator***) Optimized Blueprint Loading times even more by improving Owlcat ReflectionBasedSerializer. (Probably ~25% to 50% on top of the previous reduction).
+* (***ADDB / Microsoftenator***) Fixed issue where the new BlueprintLoader could randomly blow up.
+* (***ADDB***) ***Experimental*** implemented partial loading. This means, if you aren't looking at Search 'n Pick, other tabs don't need to load every Blueprint. This massively reduces load times after the game was loaded the first time. (Certain tabs load more than 10 times faster).
+* (***ADDB***) ***Experimental*** threaded Blueprint Loading. When ToyBox needs to load blueprints it should now work faster. (Reduction of all Blueprint loading times of around ~25% to 50%).
+* (***ADDB***) Fix the issue that Party tab browsers were flickering with Show All activated.
+* (***ADDB***) Added Collation Error Handling.
+* (***ADDB***) Added options to use BPIdCache and Automatically build said cache (by forcing a preload) in ToyBox => Settings.
+* (***ADDB***) Added option to enable blueprint preloading in ToyBox => Settings.
+* (***ADDB***) Added options to change Blueprint Loading thread amount and chunk size in ToyBox => Settings.
 
 ### ToyBox Rogue - Ver 1.5.21 built for Rogue Trader 1.2.0.30
 * (***ADDB***) Fix Preview Dialog option disabling dialog hotkeys. (I did some refactoring for that method; if it somehow doesn't work anymore please report).

@@ -2,40 +2,22 @@ using HarmonyLib;
 using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Root;
-using Kingmaker.Blueprints.Root.Strings;
-using Kingmaker.Designers.EventConditionActionSystem.Actions;
 using Kingmaker.DialogSystem.Blueprints;
 using Kingmaker.EntitySystem.Entities;
-using Kingmaker.EntitySystem.Stats;
-using Kingmaker.EntitySystem.Stats.Base;
 using Kingmaker.Enums;
 using Kingmaker.PubSubSystem;
-using Kingmaker.Sound.Base;
-using Kingmaker.UI.Common;
-using Kingmaker.UI.MVVM.VM.Tooltip.Templates;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Alignments;
-using Kingmaker.UnitLogic.Levelup;
-using Kingmaker.UnitLogic.Parts;
-using Kingmaker.Utility.Random;
-using Kingmaker.Visual.LightSelector;
 using Kingmaker.Visual.Sound;
 using ModKit;
 using ModKit.Utility;
-using Owlcat.Runtime.Core.Physics.PositionBasedDynamics.Bodies;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using ToyBox.classes.Infrastructure;
 using UnityEngine;
-using UnityEngine.Profiling;
-using static Kingmaker.Visual.Sound.UnitAsksComponent;
-using static ModKit.UI;
-using static UnityModManagerNet.UnityModManager;
 
 namespace ToyBox {
     public partial class PartyEditor {
@@ -53,8 +35,8 @@ namespace ToyBox {
         private static bool listCustomPortraits = false;
         private static bool listCustomVoices = false;
         private static bool listBlueprintPortraits = false;
-        private static List<BlueprintPortrait> blueprintPortraitBps = null;
-        private static List<BlueprintUnitAsksList> blueprintVoiceBps = null;
+        private static IEnumerable<BlueprintPortrait> blueprintPortraitBps = null;
+        private static IEnumerable<BlueprintUnitAsksList> blueprintVoiceBps = null;
         private static string newPortraitName = "";
         private static BlueprintPortrait newBlueprintPortrait = null;
         private static bool unknownID = false;
@@ -226,7 +208,7 @@ namespace ToyBox {
                             }));
                         }
                         if (Event.current.type == EventType.Layout && blueprintPortraitBps == null) {
-                            blueprintPortraitBps = BlueprintLoader.Shared.GetBlueprints<BlueprintPortrait>();
+                            blueprintPortraitBps = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintPortrait>();
                         }
                         if (blueprintPortraitBps != null) {
                             if (blueprintPortraitBrowser == null) {
@@ -265,7 +247,7 @@ namespace ToyBox {
                                 Label("Giving characters voices besides the default ones is untested.".localize().red().bold());
                             }
                             if (Event.current.type == EventType.Layout && blueprintVoiceBps == null) {
-                                blueprintVoiceBps = BlueprintLoader.Shared.GetBlueprints<BlueprintUnitAsksList>();
+                                blueprintVoiceBps = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintUnitAsksList>();
                             }
                             if (blueprintVoiceBps != null) {
                                 if (blueprintVoiceBrowser == null) {

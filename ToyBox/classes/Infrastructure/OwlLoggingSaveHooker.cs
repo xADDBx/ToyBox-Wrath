@@ -78,7 +78,7 @@ internal static class LoadHooker {
                     } else {
                         OwlLogging.SaveInfo.Instance = new OwlLogging.SaveInfo();
                     }
-                    OwlLogging.Log($"Safe loaded with ToyBox v{Main.modEntry.Version} and Game v{GameVersion.GetVersion()}");
+                    OwlLogging.Log($"Safe loaded with ToyBox v{Main.ModEntry.Version} and Game v{GameVersion.GetVersion()}");
                 }
             }
         } catch (Exception e) {

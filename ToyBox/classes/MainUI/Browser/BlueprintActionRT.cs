@@ -187,7 +187,7 @@ namespace ToyBox {
             }, (bp, ch, index) => {
                 if (ColonyToPlanet == null) {
                     ColonyToPlanet = new();
-                    foreach (var planet in BlueprintLoader.Shared.GetBlueprints<BlueprintPlanet>()) {
+                    foreach (var planet in BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintPlanet>()) {
                         var colonyComponent = planet.GetComponent<ColonyComponent>();
                         if (colonyComponent != null) {
                             if (colonyComponent.ColonyBlueprint != null) {

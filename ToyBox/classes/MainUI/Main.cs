@@ -36,7 +36,7 @@ namespace ToyBox {
     internal static class Main {
         internal const string LinkToIncompatibilitiesFile = "https://raw.githubusercontent.com/xADDBx/ToyBox-RogueTrader/main/ToyBox/ModDetails/Incompatibilities.json";
         internal static Harmony HarmonyInstance;
-        internal static UnityModManager.ModEntry modEntry;
+        internal static UnityModManager.ModEntry ModEntry;
         public static readonly LogChannel logger = LogChannelFactory.GetOrCreate("Respec");
         public static Settings Settings;
         public static NamedAction[] tabs = {
@@ -83,7 +83,7 @@ namespace ToyBox {
                     modEntry.Logger.Log("Fatal! The current Game Version has known incompatabilities with your current ToyBox version! Please Update.");
                     return false;
                 }
-                Main.modEntry = modEntry;
+                Main.ModEntry = modEntry;
 #if DEBUG
                 modEntry.OnUnload = OnUnload;
                 _modId = modEntry.Info.Id;

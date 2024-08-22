@@ -70,7 +70,7 @@ namespace ToyBox {
 
         public static void To(this BlueprintAreaEnterPoint enterPoint) => Shodan.EnterToArea(enterPoint);
         public static void To(this BlueprintArea area) {
-            var areaEnterPoints = BlueprintExtensions.BlueprintsOfType<BlueprintAreaEnterPoint>();
+            var areaEnterPoints = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintAreaEnterPoint>();
             var blueprint = areaEnterPoints.FirstOrDefault(bp => bp is BlueprintAreaEnterPoint ep && ep.Area == area);
             if (blueprint is BlueprintAreaEnterPoint enterPoint) {
                 ; Shodan.EnterToArea(enterPoint);

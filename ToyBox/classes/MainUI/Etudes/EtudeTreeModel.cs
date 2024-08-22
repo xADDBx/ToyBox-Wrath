@@ -13,7 +13,7 @@ using System.Web;
 
 namespace ToyBox {
     public class EtudesTreeModel {
-        public List<BlueprintEtude> etudes;
+        public IEnumerable<BlueprintEtude> etudes;
         public NamedTypeFilter<BlueprintEtude> etudeFilter = new("Etudes", null, bp => bp.CollationNames(bp.Parent?.GetBlueprint().NameSafe() ?? ""));
         public Dictionary<BlueprintGuid, EtudeInfo> loadedEtudes = new();
         public Dictionary<BlueprintGuid, ConflictingGroupIdReferences> conflictingGroups = new();
@@ -29,7 +29,7 @@ namespace ToyBox {
         public static EtudesTreeModel Instance => _instance ??= new EtudesTreeModel();
 
         public void ReloadBlueprintsTree() {
-            etudes = BlueprintLoader.Shared.GetBlueprints<BlueprintEtude>();
+            etudes = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintEtude>();
             if (etudes == null) return;
             loadedEtudes = new Dictionary<BlueprintGuid, EtudeInfo>();
             var filteredEtudes = (from bp in etudes

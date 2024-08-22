@@ -18,9 +18,9 @@ namespace ToyBox.classes.MainUI {
     public static class ColonyEditor {
         public static Settings Settings => Main.Settings;
         public static Dictionary<Colony, Browser<BlueprintColonyTrait, BlueprintColonyTrait>> colonyTraitBrowser = new();
-        public static List<BlueprintColonyTrait> ColonyTraits;
+        public static IEnumerable<BlueprintColonyTrait> ColonyTraits;
         public static Browser<BlueprintResource, BlueprintResource> resourceBrowser = new(Mod.ModKitSettings.searchAsYouType, true);
-        public static List<BlueprintResource> ColonyResources;
+        public static IEnumerable<BlueprintResource> ColonyResources;
         public static string selectedStat;
         public static int statIndex;
         public static List<string> selections = new List<string>() { "Contentment", "Efficiency", "Security" };
@@ -31,7 +31,7 @@ namespace ToyBox.classes.MainUI {
         public static int currentPage = 1;
         public static bool editResources = false;
         public static int resourceAdjustment = 10;
-        public static List<BlueprintColonyEventResult> eventResults;
+        public static IEnumerable<BlueprintColonyEventResult> EventResults;
         public static BlueprintColonyEventResult selectedResult;
         public static string resultSearchText;
         public static void OnGUI() {
@@ -107,7 +107,7 @@ namespace ToyBox.classes.MainUI {
                             colonyTraitBrowser[colony] = new(Mod.ModKitSettings.searchAsYouType);
                         }
                         if (ColonyTraits == null && colonyTraitBrowser[colony].ShowAll) {
-                            ColonyTraits = BlueprintLoader.Shared.GetBlueprints<BlueprintColonyTrait>();
+                            ColonyTraits = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintColonyTrait>();
                         }
                         var traitBrowser = colonyTraitBrowser[colony];
                         25.space();
@@ -173,7 +173,7 @@ namespace ToyBox.classes.MainUI {
             if (editResources) {
                 if (ColonyResources == null) {
                     if (Event.current.type == EventType.Layout) {
-                        ColonyResources = BlueprintLoader.Shared.GetBlueprints<BlueprintResource>();
+                        ColonyResources = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintResource>();
                         resourceBrowser.DisplayShowAllGUI = false;
                     }
                 }

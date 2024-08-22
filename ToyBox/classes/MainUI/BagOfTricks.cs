@@ -455,7 +455,7 @@ namespace ToyBox {
             Div(0, 25);
             HStack("Other Multipliers".localize(), 1,
                 () => {
-                    LogSlider("Fog of War Range".localize(), ref Settings.fowMultiplier, 0f, 100f, 1, 1, "", AutoWidth());
+                    LogSlider("Vision Range".localize(), ref Settings.fowMultiplier, 0f, 100f, 1, 1, "", AutoWidth());
                     List<BaseUnitEntity> units = Game.Instance?.Player?.m_PartyAndPets;
                     if (units != null) {
                         foreach (var unit in units) {

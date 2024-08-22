@@ -59,15 +59,10 @@ namespace ToyBox.classes.MainUI {
             Label(("Sandal says '".orange() + "Enchantment'".cyan().bold()).localize());
             // load blueprints
             if (enchantments == null) {
-                var blueprints = BlueprintLoader.Shared.GetBlueprints();
-                if (blueprints == null) return;
+                var blueprints = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintItemEnchantment>();
+                if (blueprints?.Count() == 0) return;
 
-                enchantments = new List<BlueprintItemEnchantment>();
-                foreach (var bp in blueprints) {
-                    if (bp is BlueprintItemEnchantment enchantBP) {
-                        enchantments.Add(enchantBP);
-                    }
-                }
+                enchantments = blueprints.ToList();
                 enchantments.Sort((l, r) => {
                     return r.Rarity().CompareTo(l.Rarity());
                     //if (l.Description != null && r.Description != null || l.Description == null && r.Description == null) {
