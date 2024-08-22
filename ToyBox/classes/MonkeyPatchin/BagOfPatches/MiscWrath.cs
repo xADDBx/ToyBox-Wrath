@@ -681,12 +681,14 @@ namespace ToyBox.BagOfPatches {
         internal class BPTagger {
             public static LocalizationPack pack = Kingmaker.Localization.LocalizationManager.LoadPack(Kingmaker.Localization.LocalizationManager.s_CurrentLocale);
 
+            [HarmonyPriority(Priority.Last)]
             [HarmonyPatch(nameof(LocalizedString.LoadString)), HarmonyPostfix]
             public static void LoadString_ModTagPatch(ref string __result, LocalizedString __instance) {
                 if (settings.togglemoddedbptag) {
                     try {
                         if (!__result.Contains(".") && !__result.Contains("。")) { return; }
-                        if (__result.Contains("(mod)")) { return; }
+                        if (__result.Contains("(mod)")) { return; } // If they also have Strings mod as well, got to save the users from themselves
+                        if (__result.Contains("(modded blueprint)")) { return; }
                         string actualKey = __instance.GetActualKey();
                         if (!pack.m_Strings.TryGetValue(actualKey, out var _)) {
                             __result += " (modded blueprint)";
@@ -698,6 +700,8 @@ namespace ToyBox.BagOfPatches {
             }
         }
 
+        /*
+         * This breaks the feature, don't enable
         [HarmonyPatch(typeof(Kingmaker.Localization.LocalizationManager))]
         internal class BPTagger_Pack {
             [HarmonyPriority(Priority.First)]
@@ -705,7 +709,7 @@ namespace ToyBox.BagOfPatches {
             public static void LoadPack_ModTagPatch(LocalizationPack __result) {
                 BPTagger.pack = AccessTools.MakeDeepCopy<LocalizationPack>(__result);
             }
-        }
+        }*/
 #if false
         [HarmonyPatch(typeof(GraphicsSettingsController))]
         private static class GraphicsSettingsController_Patch {

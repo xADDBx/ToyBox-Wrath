@@ -312,6 +312,8 @@ namespace ToyBox {
 #endif
                    () => Toggle("Disable Dialog Restrictions (Alignment)".localize(), ref Settings.toggleDialogRestrictions),
                    () => Toggle("Disable Dialog Restrictions (Mythic Path)".localize(), ref Settings.toggleDialogRestrictionsMythic),
+                   () => Toggle("Disable Dialog Restrictions (Racial)".localize(), ref Settings.toggleDialogRestrictionsRace),
+                   //() => Toggle("Disable Dialog Restrictions (Class)".localize(), ref Settings.toggleDialogRestrictionsClass),
                    () => Toggle("Ignore Event Solution Restrictions".localize(), ref Settings.toggleIgnoreEventSolutionRestrictions),
 #if DEBUG
                    () => Toggle("Disable Dialog Restrictions (Everything, Experimental)".localize(), ref Settings.toggleDialogRestrictionsEverything),
