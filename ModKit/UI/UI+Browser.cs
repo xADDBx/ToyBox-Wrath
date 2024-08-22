@@ -1,7 +1,5 @@
-﻿using JetBrains.Annotations;
-using ModKit.Utility;
+﻿using ModKit.Utility;
 using System;
-using ModKit.Utility.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

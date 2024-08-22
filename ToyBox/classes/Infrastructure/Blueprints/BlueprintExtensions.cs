@@ -1,30 +1,21 @@
 ﻿// Copyright < 2021 > Narria (github user Cabarius) - License: MIT
 using HarmonyLib;
-using Kingmaker;
 using Kingmaker.AreaLogic.Etudes;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Area;
-using Kingmaker.Blueprints.Classes;
-using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.Items;
 using Kingmaker.Blueprints.Items.Ecnchantments;
 using Kingmaker.Code.Blueprints.Quests;
 using Kingmaker.ElementsSystem;
-using Kingmaker.EntitySystem.Entities;
-using Kingmaker.Localization;
-using Kingmaker.UI;
-using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics.Blueprints;
-using Kingmaker.Utility;
 using ModKit;
-using Pathfinding.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Xml.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace ToyBox {
 
@@ -228,18 +219,42 @@ namespace ToyBox {
                 return "";
             }
         }
+        private static Dictionary<Type, List<(Func<SimpleBlueprint, bool>, string)>> PropertyAccessors = new();
+        private static Dictionary<Type, string> TypeNamesCache = new();
+        public static void CacheTypeProperties(Type type) {
+            var accessors = new List<(Func<SimpleBlueprint, bool>, string)>();
+            foreach (var prop in type.GetProperties(AccessTools.allDeclared).Where(p => p.Name.StartsWith("Is") && p.PropertyType == typeof(bool))) {
+                var mi = prop.GetGetMethod(true);
+                if (mi == null) continue;
+                if (mi.IsStatic) {
+                    Func<bool> staticDelegate = (Func<bool>)Delegate.CreateDelegate(typeof(Func<bool>), mi);
+                    accessors.Add((bp => staticDelegate(), prop.Name));
+                } else {
+                    var parameter = Expression.Parameter(typeof(SimpleBlueprint), "bp");
+                    var propertyAccess = Expression.Property(Expression.Convert(parameter, type), prop);
+                    var lambda = Expression.Lambda<Func<SimpleBlueprint, bool>>(propertyAccess, parameter);
+                    Func<SimpleBlueprint, bool> compiled = lambda.Compile();
+                    accessors.Add((compiled, prop.Name));
+                }
+            }
+
+            PropertyAccessors[type] = accessors;
+        }
         public static IEnumerable<string> Attributes(this SimpleBlueprint bp) {
-            List<string> modifiers = new();
-            if (BadList.Contains(bp.AssetGuid)) return modifiers;
-            var traverse = Traverse.Create(bp);
-            foreach (var property in Traverse.Create(bp).Properties().Where(property => property.StartsWith("Is") && !property.StartsWith("IsContinuous"))) {
+            if (BadList.Contains(bp.AssetGuid)) return Enumerable.Empty<string>();
+            if (!PropertyAccessors.TryGetValue(bp.GetType(), out var accessors)) {
+                CacheTypeProperties(bp.GetType());
+                accessors = PropertyAccessors[bp.GetType()];
+            }
+
+            List<string> modifiers = new List<string>();
+            foreach (var accessor in accessors) {
                 try {
-                    var value = traverse?.Property<bool>(property)?.Value;
-                    if (value.HasValue && value.GetValueOrDefault()) {
-                        modifiers.Add(property); //.Substring(2));
+                    if (accessor.Item1(bp)) {
+                        modifiers.Add(accessor.Item2);
                     }
                 } catch (Exception e) {
-                    Mod.Warn($"${bp.name}.{property} thew an exception: {e.ToString()}");
+                    Mod.Warn($"Error accessing property on {bp.name}: {e.Message}");
                     BadList.Add(bp.AssetGuid);
                     break;
                 }
@@ -249,18 +264,25 @@ namespace ToyBox {
         private static List<string> DefaultCollationNames(this SimpleBlueprint bp, string[] extras) {
             _cachedCollationNames.TryGetValue(bp, out var names);
             if (names == null) {
-                names = new List<string> { };
-                var typeName = bp.GetType().Name.Replace("Blueprint", "");
-                //var stripIndex = typeName.LastIndexOf("Blueprint");
-                //if (stripIndex > 0) typeName = typeName.Substring(stripIndex + "Blueprint".Length);
-                names.Add(typeName);
-                foreach (var attribute in bp.Attributes())
-                    names.Add(attribute.orange());
-                _cachedCollationNames.Add(bp, names.Distinct().ToList());
+                var namesSet = new HashSet<string>();
+                string typeName;
+                var type = bp.GetType();
+                if (!TypeNamesCache.TryGetValue(type, out typeName)) {
+                    typeName = type.Name;
+                    typeName = typeName.Replace("Blueprint", "");
+
+                    TypeNamesCache[type] = typeName;
+                }
+                namesSet.Add(typeName);
+
+                foreach (var attribute in bp.Attributes()) {
+                    namesSet.Add(attribute.orange());
+                }
+                names = namesSet.ToList();
+                _cachedCollationNames.Add(bp, names);
             }
 
-            if (extras != null) names = names.Concat(extras).ToList();
-            return names;
+            return [.. names, .. extras];
         }
         public static List<string> CollationNames(this SimpleBlueprint bp, params string[] extras) => DefaultCollationNames(bp, extras);
         [Obsolete]
@@ -312,33 +334,7 @@ namespace ToyBox {
         }
         public static string[] CaptionNames(this SimpleBlueprint bp) => bp.m_AllElements?.OfType<Condition>()?.Select(e => e.GetCaption() ?? "")?.ToArray() ?? new string[] { };
         public static List<String> CaptionCollationNames(this SimpleBlueprint bp) => bp.CollationNames(bp.CaptionNames());
-        // Custom Attributes that Owlcat uses 
 
-        private static readonly Dictionary<Type, IEnumerable<SimpleBlueprint>> blueprintsByType = new();
-        public static IEnumerable<SimpleBlueprint> BlueprintsOfType(Type type) {
-            if (blueprintsByType.TryGetValue(type, out var ofType)) return ofType;
-            var blueprints = BlueprintLoader.Shared.GetBlueprints();
-            if (blueprints == null) return new List<SimpleBlueprint>();
-            var filtered = blueprints.Where((bp) => bp?.GetType().IsKindOf(type) == true).ToList();
-            // FIXME - why do we get inconsistent partial results if we cache here
-            //if (filtered.Count > 0)
-            //    blueprintsByType[type] = filtered;
-            return filtered;
-        }
-
-        public static IEnumerable<BPType> BlueprintsOfType<BPType>() where BPType : SimpleBlueprint {
-            var type = typeof(BPType);
-            if (blueprintsByType.TryGetValue(type, out var value)) return value.OfType<BPType>();
-            var blueprints = BlueprintLoader.Shared.GetBlueprints<BPType>();
-            if (blueprints == null) return new List<BPType>();
-            var filtered = blueprints.Where((bp) => bp != null).ToList();
-            // FIXME - why do we get inconsistent partial results if we cache here
-            //if (filtered.Count > 0)
-            //    blueprintsByType[type] = filtered;
-            return filtered;
-        }
-
-        public static IEnumerable<T> GetBlueprints<T>() where T : SimpleBlueprint => BlueprintsOfType<T>();
         public static readonly HashSet<string> badBP = new() { "b60252a8ae028ba498340199f48ead67", "fb379e61500421143b52c739823b4082" };
         public static string GetDescription(this SimpleBlueprint bp)
             // borrowed shamelessly and enhanced from Bag of Tricks https://www.nexusmods.com/pathfinderkingmaker/mods/26, which is under the MIT License
