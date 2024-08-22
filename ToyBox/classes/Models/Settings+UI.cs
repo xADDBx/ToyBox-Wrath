@@ -43,7 +43,7 @@ namespace ToyBox {
                 () => Toggle("Preload Blueprints".localize(), ref Main.Settings.togglePreloadBlueprints, AutoWidth()),
                 () => Slider("Blueprint Loader Chunk Size".localize(), ref Main.Settings.BlueprintsLoaderChunkSize, 1, 50000, 200, "", AutoWidth()),
                 () => Slider("Blueprint Loader Threads".localize(), ref Main.Settings.BlueprintsLoaderNumThreads, 1, 128, 4, "", AutoWidth()),
-                () => Slider("Blueprint Loader Amount of Shards".localize(), ref Main.Settings.BlueprintsLoaderNumShards, 1, 128, 8, "", AutoWidth()),
+                () => Slider("Blueprint Loader Amount of Shards".localize(), ref Main.Settings.BlueprintsLoaderNumShards, 1, 1024, 8, "", AutoWidth()),
               () => { }
             );
 #if true
