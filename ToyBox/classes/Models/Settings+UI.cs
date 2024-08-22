@@ -27,20 +27,23 @@ namespace ToyBox {
                 () => Label(""),
                 () => EnumGrid("Log Level".localize(), ref Main.Settings.loggingLevel, AutoWidth()),
                 () => Label(""),
-                () => Toggle("Strip HTML (colors) from Native Console".localize(), ref Main.Settings.stripHtmlTagsFromNativeConsole),
-                () => Toggle("Enable Search as you type for Browsers (needs restart)".localize(), ref Mod.ModKitSettings.searchAsYouType),
+                () => Toggle("Strip HTML (colors) from Native Console".localize(), ref Main.Settings.stripHtmlTagsFromNativeConsole, AutoWidth()),
+                () => Toggle("Enable Search as you type for Browsers (needs restart)".localize(), ref Mod.ModKitSettings.searchAsYouType, AutoWidth()),
 #if DEBUG
                 () => Toggle("Strip HTML (colors) from Logs Tab in Unity Mod Manager".localize(), ref Main.Settings.stripHtmlTagsFromUMMLogsTab),
 #endif
-                () => Toggle("Display guids in most tooltips, use shift + left click on items/abilities to copy guid to clipboard".localize(), ref Main.Settings.toggleGuidsClipboard),
-                () => Toggle("Display risky options".localize(), ref Main.Settings.toggleRiskyToggles),
-                () => Toggle("Check for Glyph Support".localize(), ref Mod.ModKitSettings.CheckForGlyphSupport),
-                () => Toggle("Preload Blueprints".localize(), ref Main.Settings.PreloadBlueprints, AutoWidth()),
-                () => Slider("Blueprint Loader Chunk Size".localize(), ref Main.Settings.BlueprintsLoaderChunkSize, 1, 10000, 1000, "", AutoWidth()),
-                () => Slider("Blueprint Loader Threads".localize(), ref Main.Settings.BlueprintsLoaderNumThreads, 1, 128, 3, "", AutoWidth()),
+                () => Toggle("Display guids in most tooltips, use shift + left click on items/abilities to copy guid to clipboard".localize(), ref Main.Settings.toggleGuidsClipboard, AutoWidth()),
+                () => Toggle("Display risky options".localize(), ref Main.Settings.toggleRiskyToggles, AutoWidth()),
+                () => Toggle("Check for Glyph Support".localize(), ref Mod.ModKitSettings.CheckForGlyphSupport, AutoWidth()),
                 () => {
-                    if (!Mod.ModKitSettings.CheckForGlyphSupport) Toggle("Use default Glyphs".localize(), ref Mod.ModKitSettings.UseDefaultGlyphs);
+                    if (!Mod.ModKitSettings.CheckForGlyphSupport) Toggle("Use default Glyphs".localize(), ref Mod.ModKitSettings.UseDefaultGlyphs, AutoWidth());
                 },
+                () => Toggle("Use BPId Cache to speed up loading of specific types of Blueprints".localize(), ref Main.Settings.toggleUseBPIdCache, AutoWidth()),
+                () => Toggle("Automatically rebuild the BPId Cache if necessary".localize(), ref Main.Settings.toggleAutomaticallyBuildBPIdCache, AutoWidth()),
+                () => Toggle("Preload Blueprints".localize(), ref Main.Settings.togglePreloadBlueprints, AutoWidth()),
+                () => Slider("Blueprint Loader Chunk Size".localize(), ref Main.Settings.BlueprintsLoaderChunkSize, 1, 50000, 200, "", AutoWidth()),
+                () => Slider("Blueprint Loader Threads".localize(), ref Main.Settings.BlueprintsLoaderNumThreads, 1, 128, 4, "", AutoWidth()),
+                () => Slider("Blueprint Loader Amount of Shards".localize(), ref Main.Settings.BlueprintsLoaderNumShards, 1, 128, 8, "", AutoWidth()),
               () => { }
             );
 #if true

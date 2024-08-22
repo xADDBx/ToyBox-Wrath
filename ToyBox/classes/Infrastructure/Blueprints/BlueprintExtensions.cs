@@ -223,7 +223,8 @@ namespace ToyBox {
         private static Dictionary<Type, string> TypeNamesCache = new();
         public static void CacheTypeProperties(Type type) {
             var accessors = new List<(Func<SimpleBlueprint, bool>, string)>();
-            foreach (var prop in type.GetProperties(AccessTools.allDeclared).Where(p => p.Name.StartsWith("Is") && p.PropertyType == typeof(bool))) {
+            // When get_IsContinuous is called, this will cause a chain rection which crashes the game...
+            foreach (var prop in type.GetProperties(AccessTools.allDeclared).Where(p => p.Name.StartsWith("Is") && p.PropertyType == typeof(bool) && !p.Name.StartsWith("IsContinuous"))) {
                 var mi = prop.GetGetMethod(true);
                 if (mi == null) continue;
                 if (mi.IsStatic) {

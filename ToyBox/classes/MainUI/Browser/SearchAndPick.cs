@@ -476,7 +476,7 @@ namespace ToyBox {
             collationPickerCurrentPage = 1;
             selectedTypeFilter = blueprintTypeFilters[Settings.selectedBPTypeFilter];
             if (selectedTypeFilter.blueprintSource != null) bps = selectedTypeFilter.blueprintSource();
-            else bps = from bp in BlueprintsOfType(selectedTypeFilter.type)
+            else bps = from bp in BlueprintLoader.BlueprintsOfType(selectedTypeFilter.type)
                        where selectedTypeFilter.filter(bp)
                        select bp;
             RedoLayout();

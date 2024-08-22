@@ -230,7 +230,7 @@ namespace ToyBox {
         public static void PatchPsychicTranspiler(bool unpatch) {
             var target = AccessTools.Method(typeof(RuleCalculatePsychicPhenomenaEffect), nameof(RuleCalculatePsychicPhenomenaEffect.OnTrigger));
             if (unpatch) {
-                Main.HarmonyInstance.Unpatch(target, HarmonyPatchType.Transpiler, Main.modEntry.Info.Id);
+                Main.HarmonyInstance.Unpatch(target, HarmonyPatchType.Transpiler, Main.ModEntry.Info.Id);
             } else {
                 Main.HarmonyInstance.Patch(target, transpiler: new(AccessTools.Method(typeof(Misc), nameof(Misc.RuleCalculatePsychicPhenomenaEffect_OnTrigger_Transpiler))));
             }
