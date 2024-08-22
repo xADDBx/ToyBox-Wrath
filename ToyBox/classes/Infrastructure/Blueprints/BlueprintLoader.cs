@@ -2,15 +2,12 @@
 using HarmonyLib;
 using Kingmaker;
 using Kingmaker.Blueprints;
-using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Blueprints.JsonSystem.BinaryFormat;
 using Kingmaker.Blueprints.JsonSystem.Converters;
-using Kingmaker.DLC;
 using Kingmaker.Modding;
 using Kingmaker.Utility;
 using ModKit;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -22,13 +19,10 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
 using System.Threading;
 using System.Threading.Tasks;
 using ToyBox.classes.Infrastructure.Blueprints;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace ToyBox {
     public class BlueprintLoader {
@@ -64,7 +58,7 @@ namespace ToyBox {
                     if (Shared.IsLoading) {
                         return null;
                     } else {
-                        Mod.Debug($"calling BlueprintLoader.Load");
+                        Mod.Debug($"Calling BlueprintLoader.Load");
                         Shared.Load((bps) => {
                             lock (bpsToAdd) {
                                 bps.AddRange(bpsToAdd);

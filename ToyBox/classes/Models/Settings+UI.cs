@@ -20,26 +20,26 @@ namespace ToyBox {
                     Label(("Tells the game to reset the in game UI.".green() + " Warning".yellow() + " Using this in dialog or the book will dismiss that dialog which may break progress so use with care".orange()).localize());
                 },
                 () => {
-                    Toggle("Enable Game Development Mode".localize(), ref Main.Settings.toggleDevopmentMode);
+                    Toggle("Enable Game Development Mode".localize(), ref Main.Settings.toggleDevopmentMode, AutoWidth());
                     Space(25);
                     HelpLabel($"This turns on the developer console which lets you access cheat commands, shows a FPS window (hide with F11), etc.\n{"Warning: ".yellow().bold()}{"You may need to restart the game for this to fully take effect".orange()}".localize());
                 },
                 () => Label(""),
                 () => EnumGrid("Log Level".localize(), ref Main.Settings.loggingLevel, AutoWidth()),
                 () => Label(""),
-                () => Toggle("Strip HTML (colors) from Native Console".localize(), ref Main.Settings.stripHtmlTagsFromNativeConsole),
-                () => Toggle("Enable Search as you type for Browsers (needs restart)".localize(), ref Mod.ModKitSettings.searchAsYouType),
+                () => Toggle("Strip HTML (colors) from Native Console".localize(), ref Main.Settings.stripHtmlTagsFromNativeConsole, AutoWidth()),
+                () => Toggle("Enable Search as you type for Browsers (needs restart)".localize(), ref Mod.ModKitSettings.searchAsYouType, AutoWidth()),
 #if DEBUG
                 () => Toggle("Strip HTML (colors) from Logs Tab in Unity Mod Manager".localize(), ref Main.Settings.stripHtmlTagsFromUMMLogsTab),
 #endif
-                () => Toggle("Display guids in most tooltips, use shift + left click on items/abilities to copy guid to clipboard".localize(), ref Main.Settings.toggleGuidsClipboard),
-                () => Toggle("Check for Glyph Support".localize(), ref Mod.ModKitSettings.CheckForGlyphSupport),
+                () => Toggle("Display guids in most tooltips, use shift + left click on items/abilities to copy guid to clipboard".localize(), ref Main.Settings.toggleGuidsClipboard, AutoWidth()),
+                () => Toggle("Check for Glyph Support".localize(), ref Mod.ModKitSettings.CheckForGlyphSupport, AutoWidth()),
                 () => {
-                    if (!Mod.ModKitSettings.CheckForGlyphSupport) Toggle("Use default Glyphs".localize(), ref Mod.ModKitSettings.UseDefaultGlyphs);
+                    if (!Mod.ModKitSettings.CheckForGlyphSupport) Toggle("Use default Glyphs".localize(), ref Mod.ModKitSettings.UseDefaultGlyphs, AutoWidth());
                 },
-                () => Toggle("Add a tag to all modified/new blueprints from mods".localize(), ref Main.Settings.togglemoddedbptag),
-                () => Toggle("Use BPId Cache to speed up loading of specific types of Blueprints".localize(), ref Main.Settings.toggleUseBPIdCache),
-                () => Toggle("Automatically rebuild the BPId Cache if necessary".localize(), ref Main.Settings.toggleAutomaticallyBuildBPIdCache),
+                () => Toggle("Add a tag to all modified/new blueprints from mods".localize(), ref Main.Settings.togglemoddedbptag, AutoWidth()),
+                () => Toggle("Use BPId Cache to speed up loading of specific types of Blueprints".localize(), ref Main.Settings.toggleUseBPIdCache, AutoWidth()),
+                () => Toggle("Automatically rebuild the BPId Cache if necessary".localize(), ref Main.Settings.toggleAutomaticallyBuildBPIdCache, AutoWidth()),
                 () => Toggle("Preload Blueprints".localize(), ref Main.Settings.togglePreloadBlueprints, AutoWidth()),
                 () => Slider("Blueprint Loader Chunk Size".localize(), ref Main.Settings.BlueprintsLoaderChunkSize, 1, 50000, 200, "", AutoWidth()),
                 () => Slider("Blueprint Loader Threads".localize(), ref Main.Settings.BlueprintsLoaderNumThreads, 1, 128, 4, "", AutoWidth()),
