@@ -37,6 +37,10 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
+### Toybox Wrath - Ver 1.5.4 (built for 2.3.3k)
+* (***CascadingDragon***) Add toggles for disabling dialog restrictions based on Race.
+* (***CascadingDragon***) Possible fix for the modded blueprint tagger.
+* 
 ### Toybox Wrath - Ver 1.5.42 (built for 2.3.3k)
 * (***ADDB***) Skip "Copying..." phase when no search query is used.
 * (***ADDB***) Optimize "Collating..." phase. A lot. Like, really a lot.

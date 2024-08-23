@@ -145,5 +145,26 @@ namespace ToyBox.BagOfPatches {
                 return true;
             }
         }
+        /*
+         * Currently gives all the Mythic class related achievements when toggled, will investigate later maybe
+        [HarmonyPatch(typeof(UnitClass))]
+        public static class UnitClass_Patch {
+            [HarmonyPatch(nameof(UnitClass.CheckCondition)), HarmonyPostfix]
+            public static void CheckCondition_Patch(UnitClass __instance, ref bool __result) {
+                if (settings.toggleDialogRestrictionsClass) {
+                    __result = !__instance.Not;
+                }
+            }
+        } */
+        [HarmonyPatch(typeof(PcRace))]
+        public static class PcRace_Patch {
+
+            [HarmonyPatch(nameof(PcRace.CheckCondition)), HarmonyPostfix]
+            public static void CheckCondition_Patch(PcRace __instance, ref bool __result) {
+                if (settings.toggleDialogRestrictionsRace) {
+                    __result = !__instance.Not;
+                }
+            }
+        }
     }
 }
