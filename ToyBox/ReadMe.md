@@ -37,7 +37,18 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
-### Toybox Wrath - Ver 1.5.4 (built for 2.3.3k)
+### Toybox Wrath - Ver 1.6.0 (built for 2.3.3k)
+* (***ADDB***) Optimized Collating and Copying phase.
+* (***ADDB / Microsoftenator***) Did various performance optimization to improve Blueprint Loading speed. This has been sped up by ***a lot***.
+* (***CascadingDragon***) Add toggles for disabling dialog restrictions based on Race.
+* (***String / CascadingDragon***) Add option to add a tag to the end of descriptions, indicating a feat/spell/ability is added by a mod or editted by a mod (Settings tab)
+* (***ADDB***) Windows other than Search 'n Pick will now only load the Blueprints they need after the first game start.
+* (***ADDB***) Various options regarding the above mentioned optimizations have been added to ToyBox => Settings.
+* (***ADDB***) Maybe fix Gestalt Level 0 Bug.
+* (***gabfou***) Add an option too copy and paste a unit.
+* To get a more detailled understanding, read the patchnotes of the last few patch versions (1.5.35 through 1.5.43). Thanks for everyone who helped (by contributing themselves, reporting bugs or running benchmarks)!
+
+### ToyBox Wrath - Ver 1.5.43 (built for 2.3.3k)
 * (***CascadingDragon***) Add toggles for disabling dialog restrictions based on Race.
 * (***CascadingDragon***) Possible fix for the modded blueprint tagger.
 * 

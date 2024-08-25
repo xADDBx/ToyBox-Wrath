@@ -53,9 +53,9 @@ namespace ToyBox {
         // other
         private const string? TimeScaleMultToggle = "Main/Alt Timescale";
         private const string? PreviewDialogResults = "Preview Results";
-        private const string? copyUnit = "copy unit";
-        private const string? pasteUnit = "paste unit";
-        private static BlueprintUnit unitToCopy;
+        private const string? CopyUnit = "Copy Unit";
+        private const string? PasteUnit = "Paste Unit";
+        private static BlueprintUnit UnitToCopy;
 
         //For buffs exceptions
         private static bool showBuffDurationExceptions = false;
@@ -92,27 +92,28 @@ namespace ToyBox {
                 Settings.previewDialogResults = !Settings.previewDialogResults;
                 var dialogController = Game.Instance.DialogController;
             });
-            KeyBindings.RegisterAction(copyUnit,
+            KeyBindings.RegisterAction(CopyUnit,
                                        () => {
                                            var characterList = GameHelper.GetTargetsAround(Utils.PointerPosition(), 10, false, false).ToList();
-                                           if (characterList.Count > 0) {
-                                               if (settings.onlyCopyEnemy)
+                                           if (characterList?.Count > 0) {
+                                               if (settings.toggleOnlyCopyEnemy) {
                                                    characterList.RemoveAll(ch => !ch.IsPlayersEnemy);
+                                               }
                                                characterList = characterList.OrderBy((ch) => ch.DistanceTo(Utils.PointerPosition())).ToList();
-                                               unitToCopy = characterList.First().Blueprint;
+                                               UnitToCopy = characterList.First().Blueprint;
                                            }
                                        });
-            KeyBindings.RegisterAction(pasteUnit,
+            KeyBindings.RegisterAction(PasteUnit,
                                        () => {
-                                           if (unitToCopy) {
-                                               if (Settings.toggleCopyPasteEnabled == false)
-                                                   return;
-                                               var unit = Game.Instance.EntityCreator.SpawnUnit(unitToCopy, Utils.PointerPosition(), Quaternion.identity, Game.Instance.State.LoadedAreaState.MainState);
+                                           if (UnitToCopy) {
+                                               var unit = Game.Instance.EntityCreator.SpawnUnit(UnitToCopy, Utils.PointerPosition(), Quaternion.identity, Game.Instance.State.LoadedAreaState.MainState);
                                                unit.LookAt(Shodan.MainCharacter.Position);
-                                               if (settings.togglePastedUnitJoinFight)
+                                               if (settings.togglePastedUnitJoinFight) {
                                                    unit.CombatState.JoinCombat(false);
-                                               if (settings.togglePastedAreAlwaysEnemy)
+                                               }
+                                               if (settings.togglePastedAreAlwaysEnemy) {
                                                    unit.AttackFactions.Add(BlueprintRoot.Instance.PlayerFaction);
+                                               }
                                            }
                                        });
             KeyBindings.RegisterAction(ToggleMurderHobo,
@@ -219,22 +220,16 @@ namespace ToyBox {
                        Label("You can enable hot keys to teleport members of your party to your mouse cursor on Area or the Global Map".localize().green());
                    });
             Div(0, 25);
-            HStack("copy/past unit".localize(),
+            HStack("Unit Copying".localize(),
                    2,
                    () => {
-                       Toggle("Enable copy/paste key".localize(), ref Settings.toggleCopyPasteEnabled);
-                       Space(100);
-                       if (Settings.toggleCopyPasteEnabled) {
-                           using (VerticalScope()) {
-                               KeyBindPicker(copyUnit, "copy".localize(), 0, 200);
-                               KeyBindPicker(pasteUnit, "paste".localize(), 0, 200);
-                               Toggle("pasted unit imediately join fight".localize(), ref Settings.togglePastedUnitJoinFight);
-                               Toggle("only copy enemie".localize(), ref Settings.onlyCopyEnemy);
-                               Toggle("pasted unit will always attack you".localize(), ref Settings.togglePastedAreAlwaysEnemy);
-                           }
+                       using (VerticalScope()) {
+                           KeyBindPicker(CopyUnit, CopyUnit.localize(), 0, 200);
+                           KeyBindPicker(PasteUnit, PasteUnit.localize(), 0, 200);
+                           Toggle("Try to make spawned unit join fight".localize(), ref Settings.togglePastedUnitJoinFight);
+                           Toggle("Only select enemies for copying".localize(), ref Settings.toggleOnlyCopyEnemy);
+                           Toggle("Make copied unit part of enemy faction".localize(), ref Settings.togglePastedAreAlwaysEnemy);
                        }
-                       Space(25);
-                       Label("You can enable hot keys to copy and paste unit you see".localize().green());
                    });
             Div(0, 25);
             HStack("Common".localize(),
