@@ -300,6 +300,8 @@ namespace ModKit {
                             } else {
                                 // If the search already finished we want to copy all results as fast as possible
                                 if (_finishedSearch && cachedSearchResults.Count < 1000) {
+                                    // This shouldn't be necessary but somehow it is
+                                    if (!(filteredDefinitions is List<Definition>)) filteredDefinitions = filteredDefinitions.ToList();
                                     ((List<Definition>)filteredDefinitions).AddRange(cachedSearchResults);
                                     cachedSearchResults.Clear();
                                     ((List<Definition>)filteredDefinitions).OrderBy(i => i, comparer);
@@ -311,6 +313,8 @@ namespace ModKit {
                                 } // If it's not finished then we shouldn't have too many results anyway
                                 else if (!_doCopyToEnd) {
                                     // Lock the search results
+                                    // This shouldn't be necessary but somehow it is
+                                    if (!(filteredDefinitions is List<Definition>)) filteredDefinitions = filteredDefinitions.ToList();
                                     lock (cachedSearchResults) {
                                         // Go through every item in the queue
                                         while (cachedSearchResults.Count > 0) {
