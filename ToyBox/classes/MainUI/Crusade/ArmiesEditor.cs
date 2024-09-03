@@ -45,7 +45,7 @@ namespace ToyBox.classes.MainUI {
         private static Dictionary<object, bool> toggleShowSquadStates = new();
         public static IEnumerable<BlueprintLeaderSkill> allLeaderSkills;
         public static IEnumerable<BlueprintLeaderSkill> GetAllLeaderSkills() {
-            if (allLeaderSkills != null) return allLeaderSkills;
+            if (allLeaderSkills?.Count() > 0) return allLeaderSkills;
             else {
                 allLeaderSkills = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintLeaderSkill>();
                 return allLeaderSkills;

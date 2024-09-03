@@ -37,6 +37,13 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
+  
+### Toybox Wrath - Ver 1.6.2 (built for 2.3.3k)
+* (***ADDB***) Fix regression where Show All for Crusade General Skills didn't work.
+
+### Toybox Wrath - Ver 1.6.1 (built for 2.3.3k)
+* (***ADDB***) Fix regression where Search 'n Pick could cause an InvalidCastException.
+
 ### Toybox Wrath - Ver 1.6.0 (built for 2.3.3k)
 * (***ADDB***) Optimized Collating and Copying phase.
 * (***ADDB / Microsoftenator***) Did various performance optimization to improve Blueprint Loading speed. This has been sped up by ***a lot***.
