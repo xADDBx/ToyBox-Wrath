@@ -54,7 +54,6 @@ namespace ToyBox.BagOfPatches {
                 ) {
                 if (Settings.partyMovementSpeedMultiplier == 1.0f) return;
                 if (!unit.CombatGroup.IsPlayerParty) return;
-                __result.SpeedLimit = settings.SpeedLimit * Settings.partyMovementSpeedMultiplier;
                 __result.OverrideSpeed = 5 * Settings.partyMovementSpeedMultiplier;
             }
 
@@ -68,7 +67,6 @@ namespace ToyBox.BagOfPatches {
                     ForcedPath forcedPath,
                     ref UnitMoveToProperParams __result
                 ) {
-                __result.SpeedLimit = settings.SpeedLimit * Settings.partyMovementSpeedMultiplier;
                 __result.OverrideSpeed = 5 * Settings.partyMovementSpeedMultiplier;
             }
 
@@ -81,7 +79,6 @@ namespace ToyBox.BagOfPatches {
                 ) {
                 if (Settings.partyMovementSpeedMultiplier == 1.0f) return;
                 if (!unit.CombatGroup.IsPlayerParty) return;
-                __result.SpeedLimit = settings.SpeedLimit * Settings.partyMovementSpeedMultiplier;
                 __result.OverrideSpeed = 5 * Settings.partyMovementSpeedMultiplier;
             }
         }

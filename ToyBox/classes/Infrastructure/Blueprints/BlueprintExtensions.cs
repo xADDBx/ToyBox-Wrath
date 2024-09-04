@@ -302,9 +302,6 @@ namespace ToyBox {
         }
         public static List<string> CollationNames(this BlueprintBuff bp, params string[] extras) {
             var names = DefaultCollationNames(bp, extras);
-            if (bp.Harmful) names.Add("Harmful");
-            if (bp.RemoveOnRest) names.Add("Rest Removes");
-            if (bp.RemoveOnResurrect) names.Add("Res Removes");
             if (bp.Ranks > 0) names.Add($"{bp.Ranks} Ranks");
 
             AddOrUpdateCachedNames(bp, names);

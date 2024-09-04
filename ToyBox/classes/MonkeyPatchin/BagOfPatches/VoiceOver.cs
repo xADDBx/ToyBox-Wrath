@@ -16,6 +16,7 @@ using System.Diagnostics;
 using Kingmaker.UnitLogic.Mechanics.Blueprints;
 using Kingmaker;
 using Kingmaker.Blueprints;
+using UnityEngine;
 
 namespace ToyBox.BagOfPatches {
     [HarmonyPatch]
@@ -32,7 +33,7 @@ namespace ToyBox.BagOfPatches {
                     currentSpeaker = null;
                 }
             }
-            [HarmonyPatch(nameof(BarkPlayer.Bark), [typeof(Entity), typeof(LocalizedString), typeof(float), typeof(bool), typeof(BaseUnitEntity), typeof(bool)])]
+            [HarmonyPatch(nameof(BarkPlayer.Bark), [typeof(Entity), typeof(LocalizedString), typeof(float), typeof(bool), typeof(BaseUnitEntity), typeof(bool), typeof(string), typeof(Color)])]
             [HarmonyPrefix]
             internal static void Bark2(Entity entity) {
                 if (entity is BaseUnitEntity entity2) {

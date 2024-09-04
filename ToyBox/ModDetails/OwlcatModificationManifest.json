@@ -1,9 +1,9 @@
 {
   "UniqueName": "0ToyBox0",
-  "Version": "1.5.22",
+  "Version": "1.6.0",
   "DisplayName": "ToyBox for RogueTrader",
   "Description": "Use Workshop-description.txt",
-  "Author": "Narria",
+  "Author": "Narria, ADDB",
   "ImageName": "0ToyBox0.jpg",
   "WorkshopId": "3107755014",
   "Repository": "https://github.com/xADDBx/ToyBox/tree/RT",

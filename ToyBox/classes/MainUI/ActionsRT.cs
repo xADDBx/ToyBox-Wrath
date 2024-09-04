@@ -19,6 +19,7 @@ using Kingmaker.UI.Selection;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Buffs;
+using Kingmaker.UnitLogic.Parts;
 using Kingmaker.Utility;
 using Kingmaker.View;
 using Kingmaker.View.MapObjects;
@@ -36,7 +37,7 @@ namespace ToyBox {
 
         public static void RestSelected() {
             foreach (var selectedUnit in UIAccess.SelectionManager.SelectedUnits) {
-                CheatsCombat.RestUnit(selectedUnit);
+                PartHealth.RestUnit(selectedUnit);
             }
         }
 

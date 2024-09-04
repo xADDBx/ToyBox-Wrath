@@ -6,6 +6,7 @@ using Kingmaker.UI.InputSystems;
 using Kingmaker.UI.Models.SettingsUI;
 using Kingmaker.Utility.GameConst;
 using Kingmaker.View.MapObjects;
+using Kingmaker.View.MapObjects.InteractionComponentBase;
 using ModKit;
 using System;
 using System.Collections.Generic;

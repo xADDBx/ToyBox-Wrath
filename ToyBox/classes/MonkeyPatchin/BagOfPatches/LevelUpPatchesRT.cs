@@ -133,7 +133,7 @@ namespace ToyBox.BagOfPatches {
             [HarmonyPatch(nameof(UnitHelper.CreatePreview))]
             [HarmonyPostfix]
             public static void UnitHelper_CreatePreview(BaseUnitEntity _this, bool createView, ref BaseUnitEntity __result) {
-                if (new StackTrace().ToString().Contains($"{typeof(LevelUpManager).FullName}.{nameof(LevelUpManager.RecalculatePreview)}")) {
+                if (new StackTrace().ToString().Contains($"{typeof(LevelUpManager).FullName}.{nameof(LevelUpManager.CreatePreviewUnit)}")) {
                     foreach (var obj in HumanFriendlyStats.StatTypes) {
                         try {
                             var modifiableValue = _this.Stats.GetStatOptional(obj);
@@ -155,7 +155,7 @@ namespace ToyBox.BagOfPatches {
             [HarmonyPostfix]
             public static void CreateEntity(BaseUnitEntity __result) {
                 if (Settings.toggleSetDefaultRespecLevelZero || Settings.toggleSetDefaultRespecLevelFifteen || Settings.toggleSetDefaultRespecLevelThirtyfive) {
-                    if (new StackTrace().ToString().Contains($"{typeof(LevelUpManager).FullName}.{nameof(LevelUpManager.RecalculatePreview)}")) {
+                    if (new StackTrace().ToString().Contains($"{typeof(LevelUpManager).FullName}.{nameof(LevelUpManager.CreatePreviewUnit)}")) {
                         __result.Progression.Respec();
                     }
                 }

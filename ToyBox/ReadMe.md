@@ -43,7 +43,8 @@ Here is a summarized list of features. This list only includes a part of the fea
 - **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
-### ToyBox Rogue - Ver 1.5.22 built for Rogue Trader 1.2.0.30
+### ToyBox Rogue - Ver 1.6.0 built for Rogue Trader *******
+* (***ADDB***) Fix for new version.
 * (***ADDB***) Skip "Copying..." phase when no search query is used.
 * (***ADDB***) Optimize "Collating..." phase. A lot. Like, really a lot.
 * (***ADDB***) Even more BP Loader optimizations. Ugh. (In relation to that added ToyBox => Settings => "Blueprint Loader Amount of Shards").

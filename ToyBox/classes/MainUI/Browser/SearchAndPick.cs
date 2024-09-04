@@ -105,7 +105,7 @@ namespace ToyBox {
                 return bp.CollationNames("?", $"{bp.GetCost().ToBinString("⊙".yellow())}");
                 }),
             new NamedTypeFilter<BlueprintItemEquipmentUsable>("Usable", null, bp => bp.CollationNames(bp.SubtypeName, $"{bp.GetCost().ToBinString("⊙".yellow())}")),
-            new NamedTypeFilter<BlueprintUnit>("Units", null, bp => bp.CollationNames(bp.Type?.Name ?? bp.Race?.Name ?? "?", $"CR{bp.CR}")),
+            new NamedTypeFilter<BlueprintUnit>("Units", null, bp => bp.CollationNames(bp.Race?.Name ?? "?", $"CR{bp.CR}")),
             new NamedTypeFilter<BlueprintUnit>("Units CR", null, bp => bp.CollationNames($"CR {bp.CR}")),
             new NamedTypeFilter<BlueprintRace>("Races", null, bp => bp.CollationNames()),
             new NamedTypeFilter<BlueprintArea>("Areas", null, bp => bp.CollationNames()),

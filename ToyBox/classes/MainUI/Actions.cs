@@ -44,12 +44,7 @@ namespace ToyBox {
         public static void RemoveAllBuffs() {
             foreach (var target in Game.Instance.Player.PartyAndPets) {
                 foreach (var buff in new List<Buff>(target.Descriptor().Buffs.Enumerable)) {
-                    if (buff.Blueprint.IsClassFeature || buff.Blueprint.IsHiddenInUI) {
-                        continue;
-                    }
-
-                    if (buff.Blueprint.IsFromSpell) {
-                        target.Descriptor().Facts.Remove(buff); // Always remove spell effects, even if they'd persist
+                    if (buff.Blueprint.IsHiddenInUI) {
                         continue;
                     }
 
