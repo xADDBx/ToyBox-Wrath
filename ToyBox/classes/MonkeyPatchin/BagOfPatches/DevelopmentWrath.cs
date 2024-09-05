@@ -64,25 +64,10 @@ namespace ToyBox.classes.MonkeyPatchin.BagOfPatches {
         // This patch if for you @ArcaneTrixter and @Vek17
         [HarmonyPatch(typeof(UnityModManager.Logger), nameof(UnityModManager.Logger.Write))]
         private static class Logger_Logger_Patch {
-            private static bool Prefix(string str, bool onlyNative = false) {
-                if (str == null)
-                    return false;
-                var stripHTMLNative = settings.stripHtmlTagsFromNativeConsole;
-                var sriptHTMLHistory = settings.stripHtmlTagsFromUMMLogsTab;
-                Console.WriteLine(stripHTMLNative ? str.StripHTML() : str);
-
-                if (onlyNative)
-                    return false;
-                if (sriptHTMLHistory) str = str.StripHTML();
-                UnityModManager.Logger.buffer.Add(str);
-                UnityModManager.Logger.history.Add(str);
-
-                if (UnityModManager.Logger.history.Count >= UnityModManager.Logger.historyCapacity * 2) {
-                    var result = UnityModManager.Logger.history.Skip(UnityModManager.Logger.historyCapacity);
-                    UnityModManager.Logger.history.Clear();
-                    UnityModManager.Logger.history.AddRange(result);
-                }
-                return false;
+            private static void Prefix(ref string str, bool onlyNative = false) {
+                try {
+                    if ((onlyNative && settings.stripHtmlTagsFromNativeConsole) || (!onlyNative && settings.stripHtmlTagsFromUMMLogsTab)) str = str.StripHTML();
+                } catch { }
             }
         }
 

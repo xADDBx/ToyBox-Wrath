@@ -77,6 +77,9 @@
 * (***ADDB***) Added option to enable blueprint preloading in ToyBox => Settings.
 * (***ADDB***) Added options to change Blueprint Loading thread amount and chunk size in ToyBox => Settings.
 
+### Toybox Wrath - Ver 1.5.34 (built for 2.4.0x)
+* (***ADDB***) Fix ToyBox breaking UnityModManager for some players using the default Doorstop injection type?
+
 ### Toybox Wrath - Ver 1.5.34 (built for 2.3.3k)
 * (***ADDB***) Description of some Crusade Events was not shown by default because of a missing Guard Clause. I also rewrote some faulty preview code; hopefully I didn't break any of the relic/decree result thingy.
 
