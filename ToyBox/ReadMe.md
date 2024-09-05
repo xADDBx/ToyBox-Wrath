@@ -37,6 +37,8 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
+### Toybox Wrath - Ver 1.6.3 (built for 2.4.0x)
+* (***ADDB***) Maybe Fix ToyBox breaking UnityModManager for some players using the default Doorstop injection type.
   
 ### Toybox Wrath - Ver 1.6.2 (built for 2.3.3k)
 * (***ADDB***) Fix regression where Show All for Crusade General Skills didn't work.
@@ -76,9 +78,6 @@
 * (***ADDB***) Added options to use BPIdCache and Automatically build said cache (by forcing a preload) in ToyBox => Settings.
 * (***ADDB***) Added option to enable blueprint preloading in ToyBox => Settings.
 * (***ADDB***) Added options to change Blueprint Loading thread amount and chunk size in ToyBox => Settings.
-
-### Toybox Wrath - Ver 1.5.34 (built for 2.4.0x)
-* (***ADDB***) Fix ToyBox breaking UnityModManager for some players using the default Doorstop injection type?
 
 ### Toybox Wrath - Ver 1.5.34 (built for 2.3.3k)
 * (***ADDB***) Description of some Crusade Events was not shown by default because of a missing Guard Clause. I also rewrote some faulty preview code; hopefully I didn't break any of the relic/decree result thingy.
