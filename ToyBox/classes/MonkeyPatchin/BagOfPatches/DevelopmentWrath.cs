@@ -17,7 +17,6 @@ using ModKit;
 using Newtonsoft.Json;
 using Owlcat.Runtime.Core.Logging;
 using UnityModManagerNet;
-using static Kingmaker.EntitySystem.Persistence.Versioning.JsonUpgradeSystem;
 
 namespace ToyBox.classes.MonkeyPatchin.BagOfPatches {
     internal class Development {
@@ -41,26 +40,6 @@ namespace ToyBox.classes.MonkeyPatchin.BagOfPatches {
                 }
             }
         }
-#if false
-        [HarmonyPatch(typeof(SmartConsole), nameof(SmartConsole.Initialise))]
-        private static class SmartConsole_Initialise_Patch {
-            private static void Postfix() {
-                if (settings.toggleDevopmentMode) {
-                    SmartConsoleCommands.Register();
-                }
-            }
-        }
-
-        [HarmonyPatch(typeof(Owlcat.Runtime.Core.Logging.Logger), nameof(Owlcat.Runtime.Core.Logging.Logger.ForwardToUnity))]
-        private static class UberLoggerLogger_ForwardToUnity_Patch {
-            private static void Prefix(ref object message) {
-                if (settings.toggleUberLoggerForwardPrefix) {
-                    var message1 = "[UberLogger] " + message as string;
-                    message = message1 as object;
-                }
-            }
-        }
-#endif
         // This patch if for you @ArcaneTrixter and @Vek17
         [HarmonyPatch(typeof(UnityModManager.Logger), nameof(UnityModManager.Logger.Write))]
         private static class Logger_Logger_Patch {
@@ -125,31 +104,5 @@ namespace ToyBox.classes.MonkeyPatchin.BagOfPatches {
                 if (__instance.Blueprint == null) Mod.Warn($"Fact type '{__instance}' failed to load. UniqueID: {__instance.UniqueId}");
             }
         }
-#if false
-        [HarmonyPatch(typeof(JsonUpgradeSystem))]
-        public static class JsonUpgradeSystemPatch {
-            [HarmonyPatch(nameof(JsonUpgradeSystem.GetUpgraders), typeof(SaveInfo))]
-            [HarmonyPrefix]
-            private static bool GetUpgraders(SaveInfo saveInfo, IEnumerable<UpgraderEntry> __result) {
-                return false;
-                if (!settings.enableLoadWithMissingBlueprints) return true;
-                var saveVersionsSet = new HashSet<int>(saveInfo.Versions);
-                var availableList = s_Updaters.Select(u => u.Version).ToList();
-                var availableSet = new HashSet<int>(availableList);
-                var saveVersions = string.Join(", ", saveInfo.Versions.Select(i => i.ToString()).ToArray());
-                var availVersions = string.Join(", ", availableList.Select(i => i.ToString()).ToArray());
-                Mod.Warn($"save versions: {saveVersions}");
-                Mod.Warn($"available versions: {availVersions}");
-                foreach (var version in saveInfo.Versions) {
-                    if (!availableSet.Contains(version)) {
-                        Mod.Warn(string.Format("Unknown version in save info: {0}", version) + string.Format("\nSave versions: {0}", saveInfo.Versions) + string.Format("\nKnown versions: {0}", availableList));
-//                        throw new JsonUpgradeException(string.Format("Unknown version in save info: {0}", version) + string.Format("\nSave versions: {0}", saveInfo.Versions) + string.Format("\nKnown versions: {0}", availableList));
-                    }
-                }
-                __result = s_Updaters.Where(u => !saveVersionsSet.Contains(u.Version));
-                return false;
-            }
-        }
-#endif
     }
 }
