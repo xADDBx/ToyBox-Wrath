@@ -453,13 +453,16 @@ namespace ToyBox.BagOfPatches {
         [HarmonyPatch]
         private static class AbilityData_CanBeCastByCaster_Patch {
             [HarmonyPatch(typeof(AbilityData), nameof(AbilityData.CanBeCastByCaster), MethodType.Getter)]
-            [HarmonyPrefix]
-            public static bool PostfixCasterRestriction(ref bool __result, AbilityData __instance) {
-                if (Settings.toggleIgnoreAbilityAnyRestriction && __instance?.Caster?.Unit?.Descriptor?.IsPartyOrPet() == true) {
-                    __result = true;
-                    return false;
+            [HarmonyPostfix]
+            public static void PostfixCasterRestriction(ref bool __result, AbilityData __instance) {
+                try {
+                    if (Settings.toggleIgnoreAbilityAnyRestriction && __instance?.Caster?.Unit?.Descriptor?.IsPartyOrPet() == true) {
+                        __result = true;
+                    }
                 }
-                return true;
+                catch (Exception e) {
+                    Mod.Error(e);
+                }
             }
         }
 
