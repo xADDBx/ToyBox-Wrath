@@ -40,10 +40,15 @@ namespace ToyBox.classes.MonkeyPatchin.BagOfPatches {
                 }
             }
         }
-        // This patch if for you @ArcaneTrixter and @Vek17
-        [HarmonyPatch(typeof(UnityModManager.Logger), nameof(UnityModManager.Logger.Write))]
+        [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.Awake))]
         private static class Logger_Logger_Patch {
-            private static void Prefix(ref string str, bool onlyNative = false) {
+            //Delay real patch until later to prevent error?
+            [HarmonyPostfix]
+            private static void Postfix() {
+                Main.HarmonyInstance.Patch(AccessTools.Method(typeof(UnityModManager.Logger), nameof(UnityModManager.Logger.Write)),
+                    new(AccessTools.Method(typeof(Logger_Logger_Patch), nameof(PrefixPatch))));
+            }
+            private static void PrefixPatch(ref string str, bool onlyNative = false) {
                 try {
                     if ((onlyNative && settings.stripHtmlTagsFromNativeConsole) || (!onlyNative && settings.stripHtmlTagsFromUMMLogsTab)) str = str.StripHTML();
                 } catch { }

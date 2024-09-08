@@ -5,7 +5,7 @@ namespace ModKit.Private {
         // Helper functionality.
 
         private static readonly GUIContent _LabelContent = new();
-        public static readonly GUIContent CheckOn = new(ChecklyphOn);
+        public static readonly GUIContent CheckOn = new(CheckGlyphOn);
         public static readonly GUIContent CheckOff = new(CheckGlyphOff);
         public static readonly GUIContent DisclosureOn = new(DisclosureGlyphOn);
         public static readonly GUIContent DisclosureOff = new(DisclosureGlyphOff);

@@ -178,7 +178,7 @@ namespace ToyBox.Inventory {
         private static class ItemSlotViewPatch {
             [HarmonyPatch(nameof(ItemSlotView<EquipSlotVM>.RefreshItem))]
             [HarmonyPostfix]
-            public static void RefreshItem(InventoryEquipSlotView __instance) {
+            public static void RefreshItem(ItemSlotView<EquipSlotVM> __instance) {
                 if (__instance.ViewModel.HasItem && __instance.ViewModel.IsScroll && Settings.toggleHighlightCopyableScrolls) {
                     //                            modLogger.Log($"found {itemSlotPCView.ViewModel}");
                     __instance.m_Icon.CrossFadeColor(new Color(0.5f, 1.0f, 0.5f, 1.0f), 0.2f, true, true);

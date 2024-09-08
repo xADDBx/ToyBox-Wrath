@@ -407,7 +407,7 @@ namespace ToyBox.BagOfPatches {
 
         [HarmonyPatch(typeof(RuleDealStatDamage), nameof(RuleDealStatDamage.Immune), MethodType.Getter)]
         private static class RuleDealStatDamage_Immune_Patch {
-            public static void Postfix(RuleDrainEnergy __instance, ref bool __result) {
+            public static void Postfix(RuleDealStatDamage __instance, ref bool __result) {
                 if (__instance.Target.Descriptor.IsPartyOrPet() && Settings.togglePartyAbilityDamageImmunity) {
                     __result = true;
                 }
@@ -783,8 +783,13 @@ namespace ToyBox.BagOfPatches {
                 return true;
             }
         }
-        [HarmonyPatch(typeof(FogOfWarController), "<CollectRevealers>g__CollectUnit|15_0")]
+        [HarmonyPatch]
         public static class FogOfWarController_CollectRevealers_CompilerMethod_Patch {
+            [HarmonyTargetMethod]
+            public static MethodBase TargetMethod() {
+                return AccessTools.Method(typeof(FogOfWarController), "<CollectRevealers>g__CollectUnit|15_0");
+            }
+            [HarmonyPrefix]
             public static void Prefix(UnitEntityData unit) {
                 var revealer = unit.View.SureFogOfWarRevealer();
                 if (Settings.fowMultiplier != 1) {

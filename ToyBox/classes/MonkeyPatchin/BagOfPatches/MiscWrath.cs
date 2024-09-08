@@ -522,7 +522,7 @@ namespace ToyBox.BagOfPatches {
                 }
             }
 
-            private static void Postfix(Kingmaker.Items.Slots.ItemSlot __instance, ItemEntity __state) {
+            private static void Postfix(Kingmaker.Items.Slots.ItemSlot __instance, ref ItemEntity __state) {
                 if (Game.Instance.CurrentMode == GameModeType.Default && settings.togglAutoEquipConsumables) {
                     if (__state != null) {
                         var blueprint = __state.Blueprint;

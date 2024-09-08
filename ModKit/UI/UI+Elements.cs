@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ModKit {
     public static partial class UI {
 
-        public static string ChecklyphOn = $"<color=green><b>{Glyphs.CheckOn}</b></color>";
+        public static string CheckGlyphOn = $"<color=green><b>{Glyphs.CheckOn}</b></color>";
         public static string CheckGlyphOff = $"<color=#B8B8B8FF>{Glyphs.CheckOff}</color>"; // #A0A0A0E0
         public static string CheckGlyphEmpty = $" <color=#B8B8B8FF>{Glyphs.CheckEmpty}</color> ";
         public static string DisclosureGlyphOn = $"<color=orange><b>{Glyphs.DisclosureOn}</b></color>"; // ▼▲∧⋀

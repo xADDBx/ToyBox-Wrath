@@ -26,7 +26,7 @@ namespace ToyBox.BagOfPatches {
         [HarmonyPatch(new Type[] { typeof(UnitEntityData), typeof(LevelUpState.CharBuildMode), typeof(bool) })]
         public static class LevelUpState_Patch {
             [HarmonyPriority(Priority.Low)]
-            public static void Postfix(UnitDescriptor unit, LevelUpState.CharBuildMode mode, ref LevelUpState __instance, bool isPregen) {
+            public static void Postfix(LevelUpState.CharBuildMode mode, ref LevelUpState __instance, bool isPregen) {
                 try {
                     var isCustom = (__instance?.IsEmployee ?? false) || (__instance?.IsLoreCompanion ?? false);
                     if ((isCustom && settings.characterCreationAbilityPointsOverrideMerc) || (!isCustom && settings.characterCreationAbilityPointsOverridePlayer)) {
