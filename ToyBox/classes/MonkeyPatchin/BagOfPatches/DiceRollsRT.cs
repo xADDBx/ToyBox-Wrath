@@ -113,16 +113,19 @@ namespace ToyBox.BagOfPatches {
                 __instance.m_Result = result;
             }
         }
-        [HarmonyPatch(nameof(RulebookEvent.Dice.D10), MethodType.Getter)]
-        [HarmonyPostfix]
-        private static void GetDice(ref RuleRollD10 __result) {
-            if (Rulebook.CurrentContext.Current is RuleRollInitiative initiativeEvent) {
-                if (BaseUnitDataUtils.CheckUnitEntityData(initiativeEvent.InitiatorUnit, settings.roll1Initiative)) {
-                    __result.m_Result = 1;
-                } else if (BaseUnitDataUtils.CheckUnitEntityData(initiativeEvent.InitiatorUnit, settings.roll5Initiative)) {
-                    __result.m_Result = 5;
-                } else if (BaseUnitDataUtils.CheckUnitEntityData(initiativeEvent.InitiatorUnit, settings.roll10Initiative)) {
-                    __result.m_Result = 10;
+        [HarmonyPatch(typeof(RulebookEvent.Dice))]
+        public static class RulebookEvent_Dice_Patch {
+            [HarmonyPatch(nameof(RulebookEvent.Dice.D10), MethodType.Getter)]
+            [HarmonyPostfix]
+            private static void GetDice(ref RuleRollD10 __result) {
+                if (Rulebook.CurrentContext.Current is RuleRollInitiative initiativeEvent) {
+                    if (BaseUnitDataUtils.CheckUnitEntityData(initiativeEvent.InitiatorUnit, settings.roll1Initiative)) {
+                        __result.m_Result = 1;
+                    } else if (BaseUnitDataUtils.CheckUnitEntityData(initiativeEvent.InitiatorUnit, settings.roll5Initiative)) {
+                        __result.m_Result = 5;
+                    } else if (BaseUnitDataUtils.CheckUnitEntityData(initiativeEvent.InitiatorUnit, settings.roll10Initiative)) {
+                        __result.m_Result = 10;
+                    }
                 }
             }
         }

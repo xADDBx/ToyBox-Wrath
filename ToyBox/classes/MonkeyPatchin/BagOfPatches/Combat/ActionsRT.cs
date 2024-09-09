@@ -47,7 +47,6 @@ namespace ToyBox.BagOfPatches {
         }
 
 
-        [HarmonyPatch(typeof(PartAbilityCooldowns))]
         public static class PartAbilityCooldownsPatch {
             private static readonly string[] abilityGroupToDecooldownIds = new string[] {
                 "1cf206b13141425491c379bc75ef0699", //WeaponAttackAbilityGroup

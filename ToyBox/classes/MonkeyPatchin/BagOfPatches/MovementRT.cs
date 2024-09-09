@@ -19,6 +19,7 @@ using Kingmaker.Pathfinding;
 using Kingmaker.UnitLogic;
 using UnityEngine;
 using UnityModManager = UnityModManagerNet.UnityModManager;
+using Kingmaker.Mechanics.Entities;
 
 namespace ToyBox.BagOfPatches {
     internal static class Movement {
@@ -45,15 +46,16 @@ namespace ToyBox.BagOfPatches {
             [HarmonyPatch(nameof(UnitHelper.CreateMoveCommandUnit))]
             [HarmonyPostfix]
             public static void CreateMoveCommandUnit(
-                    BaseUnitEntity unit,
+                    AbstractUnitEntity unit,
                     MoveCommandSettings settings,
                     float[] costPerEveryCell,
                     ForcedPath forcedPath,
                     ref UnitMoveToProperParams __result
 
                 ) {
+                if (!(unit is BaseUnitEntity baseUnit)) return;
                 if (Settings.partyMovementSpeedMultiplier == 1.0f) return;
-                if (!unit.CombatGroup.IsPlayerParty) return;
+                if (!baseUnit.CombatGroup.IsPlayerParty) return;
                 __result.OverrideSpeed = 5 * Settings.partyMovementSpeedMultiplier;
             }
 

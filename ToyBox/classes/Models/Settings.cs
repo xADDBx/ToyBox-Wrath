@@ -250,6 +250,8 @@ namespace ToyBox {
         public bool toggleMultipleRomance = false;
         public bool toggleRemoteCompanionDialog = false;
         public bool toggleExCompanionDialog = false;
+        public bool toggleOverrideOccupation = false;
+        public HashSet<string> usedOccupations = new();
         public bool toggleShowAnswersForEachConditionalResponse = false;
         public bool toggleMakePreviousAnswersMoreClear = false;
 

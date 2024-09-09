@@ -123,6 +123,9 @@ namespace ToyBox {
                 }
             }
         }
+        public static bool IsPartyOrPetInterface(this IBaseUnitEntity unit) {
+            return (unit as BaseUnitEntity)?.IsPartyOrPet() ?? false;
+        }
         public static bool IsPartyOrPet(this UnitDescriptor unit) {
             if (unit?
                     .OriginalBlueprint == null

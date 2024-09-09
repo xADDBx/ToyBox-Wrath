@@ -44,6 +44,8 @@ Here is a summarized list of features. This list only includes a part of the fea
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
 ### ToyBox Rogue - Ver 1.6.0 built for Rogue Trader *******
+* (***ADDB***) It is now possible to override origin for dialog purposes, making it possible to role play as a different (or multiple different) origins compared to what was chosen at character creation (Bag of Tricks => Dialog).
+* (***ADDB***) Something something static Harmony Patch Analyzer => Fixes; Initiative Rolls Cheats never worked???
 * (***ADDB***) Fix for new version.
 * (***ADDB***) Skip "Copying..." phase when no search query is used.
 * (***ADDB***) Optimize "Collating..." phase. A lot. Like, really a lot.

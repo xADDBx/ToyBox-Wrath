@@ -83,8 +83,8 @@ namespace ToyBox.BagOfPatches {
         [HarmonyPatch(typeof(PrerequisiteLevel), nameof(PrerequisiteLevel.MeetsInternal))]
         public static class PrerequisiteLevelPatch {
             [HarmonyPostfix]
-            public static void MeetsInternal(PrerequisiteLevel __instance, BaseUnitEntity unit, ref bool __result) {
-                if (!unit.IsPartyOrPet()) return; // don't give extra feats to NPCs
+            public static void MeetsInternal(PrerequisiteLevel __instance, IBaseUnitEntity unit, ref bool __result) {
+                if (!unit.IsPartyOrPetInterface()) return; // don't give extra feats to NPCs
                 if (!__result && Settings.toggleIgnorePrerequisiteClassLevel) {
                     OwlLogging.Log($"PrerequisiteLevel.MeetsInternal - {unit.CharacterName} - {__instance.GetCaptionInternal()} -{__result} -> {true} ");
                     __result = true;
@@ -94,8 +94,8 @@ namespace ToyBox.BagOfPatches {
         [HarmonyPatch(typeof(PrerequisiteFact), nameof(PrerequisiteFact.MeetsInternal))]
         public static class PrerequisiteFactPatch {
             [HarmonyPostfix]
-            public static void MeetsInternal(PrerequisiteFact __instance, BaseUnitEntity unit, ref bool __result) {
-                if (!unit.IsPartyOrPet()) return; // don't give extra feats to NPCs
+            public static void MeetsInternal(PrerequisiteFact __instance, IBaseUnitEntity unit, ref bool __result) {
+                if (!unit.IsPartyOrPetInterface()) return; // don't give extra feats to NPCs
                 if (!__result && Settings.toggleFeaturesIgnorePrerequisites) {
                     if (!new StackTrace().ToString().Contains("Kingmaker.UI.MVVM.VM.CharGen")) {
                         OwlLogging.Log($"PrerequisiteFact.MeetsInternal - {unit.CharacterName} - {__instance.GetCaptionInternal()} - {__result} -> {true} (Not: {__instance.Not}");
@@ -107,8 +107,8 @@ namespace ToyBox.BagOfPatches {
         [HarmonyPatch(typeof(PrerequisiteStat), nameof(PrerequisiteStat.MeetsInternal))]
         public static class PrerequisiteStatPatch {
             [HarmonyPostfix]
-            public static void MeetsInternal(PrerequisiteStat __instance, BaseUnitEntity unit, ref bool __result) {
-                if (!unit.IsPartyOrPet()) return; // don't give extra feats to NPCs
+            public static void MeetsInternal(PrerequisiteStat __instance, IBaseUnitEntity unit, ref bool __result) {
+                if (!unit.IsPartyOrPetInterface()) return; // don't give extra feats to NPCs
                 if (!__result && Settings.toggleIgnorePrerequisiteStatValue) {
                     OwlLogging.Log($"PrerequisiteStat.MeetsInternal - {unit.CharacterName} - {__instance.GetCaptionInternal()} -{__result} -> {true} ");
                     __result = true;
@@ -118,10 +118,12 @@ namespace ToyBox.BagOfPatches {
         [HarmonyPatch(typeof(Prerequisite), nameof(Prerequisite.Meet), [typeof(ElementsList), typeof(IBaseUnitEntity)])]
         public static class Prerequisite_Meet_Patch {
             [HarmonyPostfix]
-            public static void Meet(PrerequisiteStat __instance, IBaseUnitEntity unit, ref bool __result) {
-                if (Settings.toggleIgnoreCareerPrerequisites && __instance.Owner is BlueprintCareerPath) {
-                    OwlLogging.Log($"PrerequisiteFact.MeetsInternal - {unit.CharacterName} - {__instance.GetCaptionInternal()} - {__result} -> {true}");
-                    __result = true;
+            public static void Meet(Prerequisite __instance, IBaseUnitEntity unit, ref bool __result) {
+                if (__instance is PrerequisiteStat) {
+                    if (Settings.toggleIgnoreCareerPrerequisites && __instance.Owner is BlueprintCareerPath) {
+                        OwlLogging.Log($"PrerequisiteFact.MeetsInternal - {unit.CharacterName} - {__instance.GetCaptionInternal()} - {__result} -> {true}");
+                        __result = true;
+                    }
                 }
             }
         }

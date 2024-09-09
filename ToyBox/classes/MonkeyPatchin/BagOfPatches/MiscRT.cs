@@ -163,7 +163,7 @@ namespace ToyBox.BagOfPatches {
                 yield return null;
             }
 
-            private static void Postfix(Kingmaker.Items.Slots.ItemSlot __instance, ItemEntity __state) {
+            private static void Postfix(Kingmaker.Items.Slots.ItemSlot __instance, ref ItemEntity __state) {
                 if (Game.Instance.CurrentMode == GameModeType.Default && Settings.togglAutoEquipConsumables) {
                     if (__state != null) {
                         var blueprint = __state.Blueprint;
@@ -180,7 +180,7 @@ namespace ToyBox.BagOfPatches {
 
         [HarmonyPatch(typeof(InventorySlotView), nameof(InventorySlotPCView.OnClick))]
         public static class InventorySlotView_OnClick_Patch {
-            public static bool Prefix(InventorySlotPCView __instance) {
+            public static bool Prefix(InventorySlotView __instance) {
                 Mod.Debug("InventorySlotPCView.OnClick");
                 if (Settings.toggleShiftClickToFastTransfer && KeyBindings.GetBinding("ClickToTransferModifier").IsModifierActive) {
                     __instance.OnDoubleClick();

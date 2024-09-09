@@ -18,7 +18,6 @@ using ModKit;
 using Newtonsoft.Json;
 using Owlcat.Runtime.Core.Logging;
 using UnityModManagerNet;
-using static Kingmaker.EntitySystem.Persistence.Versioning.JsonUpgradeSystem;
 
 namespace ToyBox.classes.MonkeyPatchin.BagOfPatches {
     internal class Development {

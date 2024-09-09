@@ -96,11 +96,11 @@ namespace ToyBox.BagOfPatches {
                 }
             }
         }
-
+        [HarmonyPatch]
         public static class Evalualtors_CompanionInParty_Patch {
             [HarmonyPatch(typeof(AbstractUnitEvaluator), nameof(AbstractUnitEvaluator.GetValueInternal))]
             [HarmonyPrefix]
-            public static bool GetValueInternal(AbstractUnitEvaluator __instance, ref MechanicEntity __result) {
+            public static bool GetValueInternal(AbstractUnitEvaluator __instance, ref Entity __result) {
                 if (__instance is Evalutors.CompanionInParty ___instance) {
                     Mod.Debug($"Evalutors checking {___instance} guid:{___instance.AssetGuid} owner:{___instance.Owner.name} guid: {___instance.Owner.AssetGuid}) value: {__result}");
                     if (!settings.toggleRemoteCompanionDialog) return true;
@@ -361,6 +361,16 @@ namespace ToyBox.BagOfPatches {
                 if (!settings.toggleShowAnswersForEachConditionalResponse) return true;
                 __result = Game.Instance.Player.Dialog.SelectedAnswers.Any(a => a.AssetGuid == __instance.Answer.Value.AssetGuid);
                 return false;
+            }
+        }
+        [HarmonyPatch(typeof(HasFact), nameof(HasFact.CheckCondition))]
+        public static class HasFact_CheckCondition_Occupation_Patch {
+            [HarmonyPostfix]
+            public static void CheckCondition(HasFact __instance, ref bool __result) {
+                if (!settings.toggleOverrideOccupation || __instance.Unit.GetValue() != Game.Instance.Player.MainCharacterEntity) return;
+                if (settings.usedOccupations.Contains(__instance.Fact.AssetGuid)) {
+                    __result = true;
+                }
             }
         }
     }

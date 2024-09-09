@@ -3,6 +3,7 @@
 using Kingmaker;
 using Kingmaker.AreaLogic.Etudes;
 using Kingmaker.Blueprints;
+using Kingmaker.Blueprints.Facts;
 using Kingmaker.Cheats;
 using Kingmaker.Controllers;
 using Kingmaker.Controllers.Dialog;
@@ -14,6 +15,7 @@ using Kingmaker.PubSubSystem;
 using Kingmaker.UnitLogic;
 using Kingmaker.View;
 using ModKit;
+using ModKit.Utility.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +23,15 @@ using ToyBox.BagOfPatches;
 using ToyBox.classes.MainUI;
 using UnityEngine;
 using UnityModManagerNet;
-using static ModKit.UI;
 namespace ToyBox {
     public static class BagOfTricks {
         public static Settings Settings => Main.Settings;
-
+                                                         // AstraMilitarum                   ,  Commissar                        ,  Criminal
+        private static readonly string[] OccupationIds = [ "4b908491051a4f36b9703b95e048a5a3", "00b183680643424abe015263aac81c5b", "8fab55c9130a4ae0a745f4fa1674c5df",
+                                  // MinistorumCrusader               ,  NavyOfficer                      ,  Nobility                         ,  SanctionedPsyker
+                                    "d840a5dc947546e0b4ac939287191fd8", "962c310fd1664ae996c759e4d11a2d88", "06180233245249eea90d222bb1c13f00", "1518d1434ed646039215da3fdda6b096" ];
+        private static IEnumerable<BlueprintUnitFact> Occupations;
+        private static Browser<BlueprintUnitFact, BlueprintUnitFact> OccupationBrowser = new(true, true, false, false) { DisplayShowAllGUI = false };
         // cheats combat
         private const string RestAll = "Rest All";
         private const string RestSelected = "Rest Selected";
@@ -239,6 +245,28 @@ namespace ToyBox {
                            Toggle("Include Former Companions".localize(), ref Settings.toggleExCompanionDialog, 300.width());
                            150.space();
                            Label("This also includes companions who left the party".localize().green());
+                       }
+                   },
+                   () => {
+                       Toggle("Override Story Occupation (e.g. Sanctioned Psyker)".localize(), ref Settings.toggleOverrideOccupation, 300.width());
+                   },
+                   () => {
+                       if (Settings.toggleOverrideOccupation) {
+                           if ((Occupations?.Count() ?? 0) == 0) {
+                               Occupations = BlueprintLoader.Shared.GetBlueprintsByGuids<BlueprintUnitFact>(OccupationIds);
+                           }
+                           if (Occupations?.Count() > 0) {
+                               using (VerticalScope()) {
+                                   OccupationBrowser.OnGUI(Occupations, () => Occupations, o => o, o => BlueprintExtensions.GetSearchKey(o), o => [BlueprintExtensions.GetSortKey(o)], null, (o, maybeO) => {
+                                       Label(BlueprintExtensions.GetSortKey(o), Width(500));
+                                       if (Settings.usedOccupations.Contains(o.AssetGuid)) {
+                                           ActionButton("Remove", () => Settings.usedOccupations.Remove(o.AssetGuid));
+                                       } else {
+                                           ActionButton("Add", () => Settings.usedOccupations.Add(o.AssetGuid));
+                                       }
+                                   });
+                               }
+                           }
                        }
                    },
                    () => {
