@@ -37,6 +37,11 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
+### Toybox Wrath - Ver 1.6.4 (built for 2.4.0x)
+* (***ADDB***) Add Micros new Static Harmony Patch Analyzer; Adjusted some patches based on that
+* (***CascadingDragon***) Attempt to fix disappearing ability bars (if you have this issue; feel free to reach out to us).
+* *Note: it seems some people still have the UnityModManager breaking issue. If you have that, we'd appreciate you contacting us about this in the Modding Channels of the Owlcat Discord.*
+  
 ### Toybox Wrath - Ver 1.6.3 (built for 2.4.0x)
 * (***ADDB***) Maybe Fix ToyBox breaking UnityModManager for some players using the default Doorstop injection type.
   
