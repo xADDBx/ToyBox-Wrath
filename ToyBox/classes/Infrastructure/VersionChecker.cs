@@ -10,6 +10,9 @@ using UnityModManagerNet;
 
 namespace ToyBox {
     public static class VersionChecker {
+        // Find first entry where Mod Version of entry >= current mod version
+        // Using that entry, the mod is compatible if the current game version is < than the game version in the entry
+        // Meaning, an entry [x, y] will, for every mod with version <= x mark every version >= y as incompatible
         public static bool IsGameVersionSupported(Version modVersion, UnityModManager.ModEntry.ModLogger logger, string linkToIncompatibilitiesFile) {
             try {
                 using var web = new WebClient();
