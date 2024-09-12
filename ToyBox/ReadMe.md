@@ -38,7 +38,7 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
 ### Toybox Wrath - Ver 1.6.5 (built for 2.4.0x)
-* (***ADDB***) In v1.5.26 (late July '24), I had buffs that were class features or hidden in ui excluded from Buff Multiplier. I did this because they were hidden in the BuffExclusionEditor, so I assumed they didn't need to be multiplied. Since I since people report this to me as a bug, I instead reversed this and now made those buffs visible in the BuffExclusionEditor instead.
+* (***ADDB***) In v1.5.26 (late July '24), I had buffs that were class features or hidden in ui excluded from Buff Multiplier. I did this because they were hidden in the BuffExclusionEditor, so I assumed they didn't need to be multiplied. Since I had people report this to me as a bug, I instead reversed this and now made those buffs visible in the BuffExclusionEditor instead.
 
 ### Toybox Wrath - Ver 1.6.4 (built for 2.4.0x)
 * (***ADDB***) Add Micros new Static Harmony Patch Analyzer; Adjusted some patches based on that
