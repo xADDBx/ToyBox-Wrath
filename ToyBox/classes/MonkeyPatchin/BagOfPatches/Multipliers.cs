@@ -241,32 +241,6 @@ namespace ToyBox.BagOfPatches {
             return TimeSpan.FromTicks(Convert.ToInt64(adjusted));
         }
 
-        [HarmonyPatch(typeof(ItemEntity), nameof(ItemEntity.AddEnchantment), new Type[] {
-            typeof(BlueprintItemEnchantment),
-            typeof(MechanicsContext),
-            typeof(Rounds?)
-        })]
-        public static class ItemEntity_AddEnchantment_Patch {
-            // Beware, black magic happens! I don't know how the runtime magically turns a BlueprintItemEnchantment into a BlueprintBuff, but since no NRE happens it has to happen somehow.
-            // Stacktrace:
-            // at ToyBox.BagOfPatches.Multipliers+ItemEntity_AddEnchantment_Patch.Prefix (Kingmaker.UnitLogic.Buffs.Blueprints.BlueprintBuff blueprint, Kingmaker.UnitLogic.Mechanics.MechanicsContext parentContext, System.Nullable`1[Kingmaker.Utility.Rounds]& duration)
-            // at MonoMod.Utils.DynamicMethodDefinition.Kingmaker.Items.ItemEntity.AddEnchantment_Patch1(Kingmaker.Items.ItemEntity , Kingmaker.Blueprints.Items.Ecnchantments.BlueprintItemEnchantment , Kingmaker.UnitLogic.Mechanics.MechanicsContext , System.Nullable`1[T] )
-            // at Kingmaker.UnitLogic.FactLogic.BuffEnchantAnyWeapon.OnActivate()
-#pragma warning disable MHA013 // Patch method parameter does not match target
-            public static void Prefix(BlueprintBuff blueprint, MechanicsContext parentContext, ref Rounds? duration) {
-                try {
-                    if (!parentContext?.MaybeCaster?.IsPlayersEnemy ?? false && isGoodBuff(blueprint)) {
-                        if (duration != null) {
-                            duration = new Rounds((int)(duration.Value.Value * settings.buffDurationMultiplierValue));
-                        }
-                    }
-                } catch (Exception e) {
-                    Mod.Error(e.ToString());
-                }
-            }
-#pragma warning restore MHA013 // Patch method parameter does not match target
-        }
-
         [HarmonyPatch(typeof(DifficultyPresetsList), nameof(DifficultyPresetsList.GetAdjustmentPreset))]
         public static class DifficultyPresetList_EnemyHpMultiplier_Patch {
             public static void Postfix(ref DifficultyPresetsList.StatsAdjustmentPreset __result, StatsAdjustmentsType preset) {
