@@ -469,8 +469,10 @@ namespace ToyBox.BagOfPatches {
             }
             [HarmonyFinalizer]
             public static Exception SuppressError(Exception __exception, AbilityData __instance) {
-                Mod.Log($"Suppressing AbilityData.CanBeCastByCaster Exception:\nInstance: {__instance?.ToString()}, {__instance?.Blueprint?.ToString()}, {__instance?.Blueprint?.AssetGuid}");
-                Mod.Debug($"Suppressed Exception:\n{__exception.ToString()}");
+                if (__exception != null) {
+                    Mod.Log($"Suppressing AbilityData.CanBeCastByCaster Exception:\nInstance: {__instance?.ToString()}, {__instance?.Blueprint?.ToString()}, {__instance?.Blueprint?.AssetGuid}");
+                    Mod.Debug($"Suppressed Exception:\n{__exception.ToString()}");
+                }
                 return null;
             }
         }
