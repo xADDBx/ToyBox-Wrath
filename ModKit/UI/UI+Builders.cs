@@ -121,7 +121,7 @@ namespace ModKit {
             }
             if (IsNarrow)
                 numColumns = Math.Min(3, numColumns);
-            var splitItems = items.ToList().Partition(numColumns);
+            var splitItems = items.ToList().Chunk(numColumns).Select(i => i.ToList()).ToList();
             Column(splitItems,
                    rowItems => {
                        Row(rowItems, rowItem => action(rowItem), title, options);

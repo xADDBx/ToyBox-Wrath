@@ -36,27 +36,34 @@ namespace ModKit {
             LocalizationManager.Export();
         }
         private static void ResetGUI(ModEntry modEntry) => ModKitSettings.Load();
-        public static void Error(string? str) {
+        public static void Error(string str) {
             str = str.yellow().bold();
-            modLogger?.Error(str + "\n" + Environment.StackTrace);
+            modLogger?.Error(str + "\n" + new System.Diagnostics.StackTrace(1, true).ToString());
         }
         public static void Error(Exception ex) => Error(ex.ToString());
         public static void Warn(string str) {
             if (logLevel >= LogLevel.Warning)
                 modLogger?.Log("[Warn] ".orange().bold() + str);
         }
-        public static void Log(string? str) {
+        public static void Log(string str) {
             if (logLevel >= LogLevel.Info)
                 modLogger?.Log("[Info] " + str);
         }
         public static void Log(int indent, string s) => Log("    ".Repeat(indent) + s);
-        public static void Debug(string? str) {
+        public static void Debug(string str) {
             if (logLevel >= LogLevel.Debug)
                 modLogger?.Log("[Debug] ".green() + str);
         }
-        public static void Trace(string? str) {
+        public static void Trace(string str) {
             if (logLevel >= LogLevel.Trace)
                 modLogger?.Log("[Trace] ".color(RGBA.lightblue) + str);
+        }
+
+        public delegate void ShowGUINotifierMethod();
+        public static ShowGUINotifierMethod NotifyOnShowGUI;
+
+        public static void OnShowGUI() {
+            if (NotifyOnShowGUI != null) NotifyOnShowGUI();
         }
     }
 }

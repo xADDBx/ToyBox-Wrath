@@ -111,7 +111,10 @@ namespace ModKit {
             options = options.AddDefaults();
             var names = Enum.GetNames(typeof(TEnum));
             var formatedNames = names;
-            var nameToEnum = value.NameToValueDictionary();
+            var enumType = value.GetType();
+            var nameToEnum = Enum.GetValues(enumType)
+                .Cast<TEnum>()
+                .ToDictionary(e => Enum.GetName(enumType, e), e => e);
             if (titleFormater != null)
                 formatedNames = names.Select((n) => titleFormater(n, nameToEnum[n])).ToArray();
             formatedNames = formatedNames.Select(n => n.localize()).ToArray();

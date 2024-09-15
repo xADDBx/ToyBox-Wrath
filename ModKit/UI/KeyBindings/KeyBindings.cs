@@ -56,7 +56,7 @@ namespace ModKit {
                         conflicts[bindCode] = conflict;
                     }
                 }
-                conflicts = conflicts.Filter(kvp => kvp.Value.Count > 1);
+                conflicts = conflicts.Where(kvp => kvp.Value.Count > 1).ToDictionary(it => it.Key, it => it.Value);
                 //Logger.Log($"conflicts: {String.Join(", ", conflicts.Select(kvp => $"{kvp.Key.orange()} : {kvp.Value.Count}".cyan())).yellow()}");
             }
             public static void RemoveConflicts(KeyBind keyBind) {

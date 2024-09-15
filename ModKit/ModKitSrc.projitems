@@ -15,19 +15,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)DataViewer\Indexer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataViewer\ObjectSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataViewer\ReflectionSearch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataViewer\ReflectionSearchResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataViewer\ReflectionTree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataViewer\ReflectionTreeView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataViewer\UnsafeForceCast.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModKit\LocalizationManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ModKit\MenuManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModKit\ModKit.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ModKit\ModManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModKit\ModKitSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModKit\SettingsController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\Browser\BrowserModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\ColorUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Glyphs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\KeyBindings\KeyBindings.cs" />
@@ -44,14 +40,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\UI+Toggles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\UI+Wrappers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\UIHelpers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utility\EmbeddedResourceUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)utility\Chunk.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Extensions\CodeInstructionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Dictionary\DoubleDictionary.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)utility\extensions\EnumExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Extensions\MiscExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Extensions\RichTextExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utility\Extensions\UnityExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utility\GUISubScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\KeyBindings\UI+KeyBindings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\NamedTypes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Dictionary\SerializableDictionary.cs" />
@@ -60,7 +53,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Reflection\ReflectionFieldCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Reflection\ReflectionMethodCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Reflection\ReflectionPropertyCache.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utility\Search.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
