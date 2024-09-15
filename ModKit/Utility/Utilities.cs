@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 namespace ModKit {
-    public static partial class Utilities {
+    public static class Utilities {
         public static TValue? GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue = default) {
             if (dictionary == null) { throw new ArgumentNullException(nameof(dictionary)); } // using C# 6
             if (key == null) { throw new ArgumentNullException(nameof(key)); } //  using C# 6
@@ -86,6 +86,28 @@ namespace ModKit {
                 }
             }
             return prefix.Length > 0 ? values.Select(s => s.Replace(prefix, "")).ToArray() : values;
+        }
+        // Credits to https://github.com/microsoftenator2022
+        /// <summary>
+        /// Divides input sequence into chunks of at most <paramref name="chunkSize"/>
+        /// </summary>
+        /// <returns>Sequence of sequences of <paramref name="chunkSize"/> elements. The last chunk will contain at most <paramref name="chunkSize"/> elements</returns>
+        public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int chunkSize) {
+            var chunk = new T[chunkSize];
+            var i = 0;
+
+            foreach (var element in source) {
+                chunk[i] = element;
+
+                i++;
+                if (i == chunkSize) {
+                    yield return chunk;
+                    chunk = new T[chunkSize];
+                    i = 0;
+                }
+            }
+
+            if (i > 0 && i < chunkSize) yield return chunk.Take(i);
         }
     }
     public static class CloneUtil<T> {

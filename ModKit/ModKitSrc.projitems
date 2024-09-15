@@ -40,7 +40,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\UI+Toggles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\UI+Wrappers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\UIHelpers.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)utility\Chunk.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Extensions\CodeInstructionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Dictionary\DoubleDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Extensions\MiscExtensions.cs" />
