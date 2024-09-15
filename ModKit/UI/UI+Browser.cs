@@ -169,10 +169,10 @@ namespace ModKit {
                                 25.space();
                             }
                             if (isCollating) {
-                                Label("Collating...".localize().cyan().bold(), AutoWidth());
+                                Label("Collating...".localize().Cyan().Bold(), AutoWidth());
                                 25.space();
                             } else if (_doCopyToEnd) {
-                                Label("Copying...".localize().cyan().bold(), AutoWidth());
+                                Label("Copying...".localize().Cyan().Bold(), AutoWidth());
                                 25.space();
                             }
                         }
@@ -198,7 +198,7 @@ namespace ModKit {
                             Label(matchesText, ExpandWidth(false));
                         }
                         if (_matchCount > SearchLimit) {
-                            string? pageLabel = "Page: ".localize().orange() + _currentPage.ToString().cyan() + " / " + _pageCount.ToString().cyan();
+                            string? pageLabel = "Page: ".localize().Orange() + _currentPage.ToString().Cyan() + " / " + _pageCount.ToString().Cyan();
                             25.space();
                             Label(pageLabel, ExpandWidth(false));
                             ActionButton("-", () => {

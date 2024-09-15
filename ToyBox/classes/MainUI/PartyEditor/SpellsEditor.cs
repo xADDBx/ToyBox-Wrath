@@ -33,15 +33,15 @@ namespace ToyBox {
                 using (HorizontalScope()) {
                     selectedSpellBookChanged = SelectionGrid(ref selectedSpellbook, titles, Math.Min(titles.Length, 7), AutoWidth());
                     if (selectedSpellbook >= names.Length) selectedSpellbook = 0;
-                    DisclosureToggle("Edit".localize().orange().bold(), ref editSpellbooks);
+                    DisclosureToggle(RichText.Bold(RichText.Orange("Edit".localize())), ref editSpellbooks);
                     Space(-50);
                     var mergeableClasses = ch.MergableClasses().ToList();
                     if (spellbook.IsStandaloneMythic || mergeableClasses.Count() == 0) {
-                        Label($"Mythic Merging".localize().cyan(), AutoWidth());
+                        Label(RichText.Cyan($"Mythic Merging".localize()), AutoWidth());
                         25.space();
-                        Label("When you get standalone mythic spellbooks you can merge them here by select.".localize().green());
+                        Label(RichText.Green("When you get standalone mythic spellbooks you can merge them here by select.".localize()));
                     } else {
-                        Label($"Merge Mythic:".localize().cyan(), 175.width());
+                        Label(RichText.Cyan($"Merge Mythic:".localize()), 175.width());
                         25.space();
                         foreach (var cl in mergeableClasses) {
                             var sb = spellbook;
@@ -50,8 +50,8 @@ namespace ToyBox {
                         }
                         25.space();
                         using (VerticalScope()) {
-                            Label("Merging your mythic spellbook will cause you to transfer all mythic spells to your normal spellbook and gain caster levels equal to your mythic level. You will then be able to re-select spells on next level up or mythic level up. Merging a second mythic spellbook will transfer the spells but not increase your caster level further.  If you want more CL then increase it below.".localize().green());
-                            Label("Warning: This is irreversible. Please save before continuing!".localize().Orange());
+                            Label(RichText.Green("Merging your mythic spellbook will cause you to transfer all mythic spells to your normal spellbook and gain caster levels equal to your mythic level. You will then be able to re-select spells on next level up or mythic level up. Merging a second mythic spellbook will transfer the spells but not increase your caster level further.  If you want more CL then increase it below.".localize()));
+                            Label(RichText.Orange("Warning: This is irreversible. Please save before continuing!".localize()));
                         }
                     }
                 }
@@ -76,9 +76,9 @@ namespace ToyBox {
                             0,
                             (lvl) => {
                                 if (lvl < spellbook.Blueprint.MaxSpellLevel + 1) {
-                                    var levelText = spellbook.Blueprint?.SpellsPerDay?.GetCount(casterLevel, lvl) != null ? $"L{lvl}".bold() : $"L{lvl}".grey();
+                                    var levelText = spellbook.Blueprint?.SpellsPerDay?.GetCount(casterLevel, lvl) != null ? ModKit.RichText.Bold($"L{lvl}") : ModKit.RichText.Grey($"L{lvl}");
                                     var knownCount = spellbook.GetKnownSpells(lvl).Count;
-                                    var countText = knownCount > 0 ? $" ({knownCount})".white() : "";
+                                    var countText = knownCount > 0 ? ModKit.RichText.White($" ({knownCount})") : "";
                                     return levelText + countText;
                                 } else {
                                     return "All Spells".localize();
@@ -138,7 +138,7 @@ namespace ToyBox {
                         },
                         feature => feature.Blueprint,
                         blueprint => $"{GetTitle(blueprint)}" + (Settings.searchDescriptions ? $" {blueprint.GetDescription()}" : ""),
-                                        blueprint => new[] { GetTitle(blueprint) },
+                                        blueprint => (new[] { GetTitle(blueprint) }),
                         () => {
                             using (HorizontalScope()) {
                                 bool needsReload = false;
@@ -160,13 +160,13 @@ namespace ToyBox {
                                 if (needsReload) spellBrowser.ResetSearch();
                                 GUI.enabled = !spellBrowser.isSearching;
                                 Space(20);
-                                ActionButton("Add All".localize(), () => CasterHelpers.HandleAddAllSpellsOnPartyEditor(ch.Descriptor(), spellBrowser.filteredDefinitions.Cast<BlueprintAbility>().ToList()), AutoWidth());
+                                ActionButton("Add All".localize(), () => CasterHelpers.HandleAddAllSpellsOnPartyEditor(ch.Descriptor(), (List<BlueprintAbility>)spellBrowser.filteredDefinitions.Cast<BlueprintAbility>().ToList()), AutoWidth());
                                 Space(20);
                                 ActionButton("Remove All".localize(), () => CasterHelpers.HandleAddAllSpellsOnPartyEditor(ch.Descriptor()), AutoWidth());
                                 GUI.enabled = true;
                                 if ((spellbook.Blueprint.MaxSpellLevel + 1) == selectedSpellbookLevel) {
                                     10.space();
-                                    Label("Spells are added at Level: ".localize().green() + SelectedNewSpellLvl.ToString().orange(), AutoWidth());
+                                    Label(ModKit.RichText.Green("Spells are added at Level: ".localize()) + ModKit.RichText.Orange(SelectedNewSpellLvl.ToString()), AutoWidth());
                                     10.space();
                                     ActionButton("-", () => {
                                         if (SelectedNewSpellLvl >= 0) {

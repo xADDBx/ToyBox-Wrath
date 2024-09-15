@@ -164,7 +164,7 @@ namespace ToyBox.Multiclass {
                 var classData = unit.Progression.GetClassData(state.SelectedClass);
                 if (classData == null || classData.Spellbook == null)
                     return false;
-                Mod.Debug($"ApplySpellbook.Apply".orange());
+                Mod.Debug($"ApplySpellbook.Apply".Orange());
                 var spellbook1 = unit.DemandSpellbook(classData.Spellbook);
                 if ((bool)(SimpleBlueprint)state.SelectedClass.Spellbook && state.SelectedClass.Spellbook != classData.Spellbook) {
                     var spellbook2 = unit.Spellbooks.FirstOrDefault(s => s.Blueprint == state.SelectedClass.Spellbook);
@@ -230,7 +230,7 @@ namespace ToyBox.Multiclass {
         private static class ApplyClassMechanics_ApplyProgressions_Patch {
             public static bool Prefix(LevelUpState state, UnitDescriptor unit) {
                 if (!settings.toggleMulticlass) return true;
-                Mod.Debug($"ApplyClassMechanics_ApplyProgressions_Patch - {unit.CharacterName.orange()} - class: {state.SelectedClass} nextLevel: {state.NextClassLevel}");
+                Mod.Debug($"ApplyClassMechanics_ApplyProgressions_Patch - {unit.CharacterName.Orange()} - class: {state.SelectedClass} nextLevel: {state.NextClassLevel}");
                 BlueprintCharacterClass blueprintCharacterClass = null;
                 if (unit.TryGetPartyMemberForLevelUpVersion(out var ch)
                     && ch.TryGetClass(state.SelectedClass, out var cl)
@@ -242,14 +242,14 @@ namespace ToyBox.Multiclass {
                 var progressions = features.Select(f => f.Blueprint).OfType<BlueprintProgression>().ToList();  // this ToList is important because it prevents mutation exceptions
                 foreach (var blueprintProgression in progressions) {
                     var p = blueprintProgression;
-                    Mod.Debug($"    prog: {p.name.yellow()}");
+                    Mod.Debug($"    prog: {p.name.Yellow()}");
                     if (blueprintCharacterClass != null
                         // && p.Classes.Contains<BlueprintCharacterClass>(blueprintCharacterClass)) 
                         && p.IsChildProgressionOf(unit, blueprintCharacterClass) // Mod Line replacing above
                         ) {
                         var feature = unit.Progression.Features.Enumerable.FirstItem(f => f.Blueprint == p);
                         feature?.SetSource(blueprintCharacterClass, state.NextClassLevel);
-                        Mod.Debug($"    feature: {feature.Name.cyan()} - levlel: {state.NextClassLevel}");
+                        Mod.Debug($"    feature: {feature.Name.Cyan()} - levlel: {state.NextClassLevel}");
                         //feature?.SetSource(blueprintCharacterClass, 1);
                     }
                     LevelUpHelper.UpdateProgression(state, unit, p);
@@ -267,7 +267,7 @@ namespace ToyBox.Multiclass {
                 // Fix this.
 
                 var UnitProgressionData_CharacterLevel = AccessTools.Property(typeof(UnitProgressionData), nameof(UnitProgressionData.CharacterLevel));
-                Mod.Trace($"UnitProgressionData_CopyFrom_Patch - {unit.CharacterName.orange()} - {UnitProgressionData_CharacterLevel}");
+                Mod.Trace($"UnitProgressionData_CopyFrom_Patch - {unit.CharacterName.Orange()} - {UnitProgressionData_CharacterLevel}");
 
                 UnitProgressionData_CharacterLevel.SetValue(__result.Descriptor.Progression, unit.Descriptor.Progression.CharacterLevel);
                 __result.Descriptor.Progression.MythicLevel = unit.Descriptor.Progression.MythicLevel;

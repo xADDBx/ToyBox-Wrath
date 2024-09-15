@@ -20,7 +20,7 @@ namespace ToyBox.classes.MainUI {
             if (Game.Instance?.Player == null) return;
             var ks = KingdomState.Instance;
             if (ks == null) {
-                UI.Label("You must unlock the crusade before you can access these toys.".localize().yellow().bold());
+                UI.Label("You must unlock the crusade before you can access these toys.".localize().Yellow().Bold());
                 return;
             }
             var moraleState = ks.MoraleState;
@@ -49,10 +49,10 @@ namespace ToyBox.classes.MainUI {
             UI.Div(0, 25);
             UI.HStack("Kingdom".localize(), 1,
                 () => {
-                    UI.Label("increment".localize().cyan(), UI.Width(325));
+                    UI.Label("increment".localize().Cyan(), UI.Width(325));
                     var increment = UI.IntTextField(ref settings.increment, null, UI.Width(150));
                     UI.Space(25);
-                    UI.Label("Experimental".localize().orange().bold());
+                    UI.Label("Experimental".localize().Orange().Bold());
                 },
                 () => {
                     using (UI.VerticalScope()) {
@@ -68,8 +68,8 @@ namespace ToyBox.classes.MainUI {
                             var conditions = KingdomRoot.Instance.RankUps.Conditions[kingdomStat.Type];
                             using (UI.HorizontalScope()) {
                                 var rank = kingdomStat.Rank;
-                                var exp = kingdomStat.Value.ToString().orange();
-                                var required = conditions.GetRequiredStatValue(kingdomStat.Rank + 1).ToString().cyan();
+                                var exp = kingdomStat.Value.ToString().Orange();
+                                var required = conditions.GetRequiredStatValue(kingdomStat.Rank + 1).ToString().Cyan();
                                 UI.ValueAdjuster(kingdomStat.Type.ToString().localize(), () => kingdomStat.Rank, v => kingdomStat.Rank = v, 1, 0, 8);
                                 UI.Space(42);
                                 UI.Label(exp, UI.Width(150));
@@ -84,13 +84,13 @@ namespace ToyBox.classes.MainUI {
                             }
                         }
                         UI.Div(0, 0, 800);
-                        UI.DescriptiveLabel("Cost Modifiers".localize(), ("The following modifiers all work on ".green() + "cost = cost (1 + modifier) ".yellow() + "so a value of ".green() + "-1".yellow() + " means the cost is free, ".green() + "0".yellow() + " is normal cost and ".green() + "2".yellow() + " increases it 3x".green()).localize());
+                        UI.DescriptiveLabel("Cost Modifiers".localize(), ("The following modifiers all work on ".Green() + "cost = cost (1 + modifier) ".Yellow() + "so a value of ".Green() + "-1".Yellow() + " means the cost is free, ".Green() + "0".Yellow() + " is normal cost and ".Green() + "2".Yellow() + " increases it 3x".Green()).localize());
                         UI.Slider("Claim Cost Modifier".localize(), () => ks.ClaimCostModifier, v => ks.ClaimCostModifier = v, -1, 2, 0, 1);
                         UI.Slider("Claim Time Modifier".localize(), () => ks.ClaimTimeModifier, v => ks.ClaimTimeModifier = v, -1, 2, 0, 1);
                         UI.Slider("Rankup Time Modifer".localize(), () => ks.RankupTimeModifier, v => ks.RankupTimeModifier = v, -1, 2, 0, 1);
                         UI.Slider("Build Time Modifier".localize(), ref settings.kingdomBuildingTimeModifier, -1, 2, 0, 1);
                         UI.Div(0, 0, 800);
-                        UI.DescriptiveLabel("Random Encounters".localize(), ("The following modifiers all work on ".green() + "chance = chance (1 + modifier) ".yellow() + "so a value of ".green() + "-1".yellow() + " means the chance is 0, ".green() + "0".yellow() + " is chance cost and ".green() + "2".yellow() + " increases it 3x".green()).localize());
+                        UI.DescriptiveLabel("Random Encounters".localize(), ("The following modifiers all work on ".Green() + "chance = chance (1 + modifier) ".Yellow() + "so a value of ".Green() + "-1".Yellow() + " means the chance is 0, ".Green() + "0".Yellow() + " is chance cost and ".Green() + "2".Yellow() + " increases it 3x".Green()).localize());
                         UI.Slider("% Chance (Unclaimed)".localize(), () => ks.REModifierUnclaimed, v => ks.REModifierUnclaimed = v, -1f, 2f, 0f, 1);
                         UI.Slider("% Chance (Claimed)".localize(), () => ks.REModifierClaimed, v => ks.REModifierClaimed = v, -1, 2, -0.5f, 1);
                         UI.Slider("% Chance (Upgraded)".localize(), () => ks.REModifierUpgraded, v => ks.REModifierUnclaimed = v, -1f, 2f, -1f, 1);
@@ -110,8 +110,8 @@ namespace ToyBox.classes.MainUI {
                     }
                 },
                 () => {
-                    UI.Label("Finances".localize().cyan(), UI.Width(325));
-                    UI.Label(ks.Resources.Finances.ToString().orange().bold(), UI.Width(100));
+                    UI.Label("Finances".localize().Cyan(), UI.Width(325));
+                    UI.Label(ks.Resources.Finances.ToString().Orange().Bold(), UI.Width(100));
                     UI.ActionButton("Gain ".localize() + $"{settings.increment}", () => {
                         ks.Resources += KingdomResourcesAmount.FromFinances(settings.increment);
                     }, UI.AutoWidth());
@@ -120,8 +120,8 @@ namespace ToyBox.classes.MainUI {
                     }, UI.AutoWidth());
                 },
                 () => {
-                    UI.Label("Materials".localize().cyan(), UI.Width(325));
-                    UI.Label(ks.Resources.Materials.ToString().orange().bold(), UI.Width(100));
+                    UI.Label("Materials".localize().Cyan(), UI.Width(325));
+                    UI.Label(ks.Resources.Materials.ToString().Orange().Bold(), UI.Width(100));
                     UI.ActionButton("Gain ".localize() + $"{settings.increment}", () => {
                         ks.Resources += KingdomResourcesAmount.FromMaterials(settings.increment);
                     }, UI.AutoWidth());
@@ -130,8 +130,8 @@ namespace ToyBox.classes.MainUI {
                     }, UI.AutoWidth());
                 },
                 () => {
-                    UI.Label("Favors".localize().cyan(), UI.Width(325));
-                    UI.Label(ks.Resources.Favors.ToString().orange().bold(), UI.Width(100));
+                    UI.Label("Favors".localize().Cyan(), UI.Width(325));
+                    UI.Label(ks.Resources.Favors.ToString().Orange().Bold(), UI.Width(100));
                     UI.ActionButton("Gain ".localize() + $"{settings.increment}", () => {
                         ks.Resources += KingdomResourcesAmount.FromFavors(settings.increment);
                     }, UI.AutoWidth());
@@ -151,7 +151,7 @@ namespace ToyBox.classes.MainUI {
 
                     UI.Slider("Crusade card resolution time multiplier".localize(), ref settings.kingdomTaskResolutionLengthMultiplier, -1, 2, 0, 2, "", UI.Width(400));
                     UI.Space(25);
-                    UI.Label("Multiplies crusade card resolution time by (1 + modifier). -1 will make things as fast as possible (minimum 1 day to avoid possible bugs)".localize().green());
+                    UI.Label("Multiplies crusade card resolution time by (1 + modifier). -1 will make things as fast as possible (minimum 1 day to avoid possible bugs)".localize().Green());
                 },
             () => {
                 UI.Slider("Build Time Modifier".localize(), ref settings.kingdomBuildingTimeModifier, -1, 2, 0, 2, "", UI.Width(400));
@@ -160,7 +160,7 @@ namespace ToyBox.classes.MainUI {
                     instance.BuildingTimeModifier = settings.kingdomBuildingTimeModifier;
                 }
                 UI.Space(25);
-                UI.Label("Multiplies build time by (1 + modifier). -1 will make new buildings instant.".localize().green());
+                UI.Label("Multiplies build time by (1 + modifier). -1 will make new buildings instant.".localize().Green());
             },
                 () => {
                     var startDate = Game.Instance.BlueprintRoot.Calendar.GetStartDate();
@@ -170,8 +170,8 @@ namespace ToyBox.classes.MainUI {
                         UI.Space(15);
                         UI.Div(0, 0, 800);
                         using (UI.HorizontalScope()) {
-                            UI.Label("Date".localize().cyan(), UI.Width(325));
-                            UI.Label(dateText.orange().bold(), UI.AutoWidth());
+                            UI.Label("Date".localize().Cyan(), UI.Width(325));
+                            UI.Label(dateText.Orange().Bold(), UI.AutoWidth());
                             UI.ActionButton("+1 " + "Day".localize(), () => { Actions.KingdomTimelineAdvanceDays(1); }, UI.Width(150));
                             UI.ActionButton("+1 " + "Month".localize(), () => {
                                 Actions.KingdomTimelineAdvanceDays(KingdomState.Instance.DaysTillNextMonth);

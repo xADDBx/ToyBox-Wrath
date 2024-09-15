@@ -270,7 +270,7 @@ namespace ToyBox {
         }
 
         void UpdateSpellCount(int count) {
-            m_title_label?.AddSuffix($" ({count} spells)".size(25), '(');
+            m_title_label?.AddSuffix($" ({count} spells)".Size(25), '(');
         }
         void RemoveSpellCount() {
             m_title_label?.AddSuffix(null, '(');
@@ -408,7 +408,7 @@ namespace ToyBox {
 
             UnitEntityData unit = m_selected_unit;
             if (unit == null) return result;
-            Mod.Log($"GetLearnableScrolls for {unit.CharacterName.orange()}");
+            Mod.Log($"GetLearnableScrolls for {unit.CharacterName.Orange()}");
             foreach (ItemEntity item in UIUtility.GetStashItems()) {
                 CopyScroll scroll = item.Blueprint.GetComponent<CopyScroll>();
                 if (scroll != null && scroll.CanCopy(item, unit)) {

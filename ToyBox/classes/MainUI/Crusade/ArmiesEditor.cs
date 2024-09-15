@@ -116,7 +116,7 @@ namespace ToyBox.classes.MainUI {
             if (Game.Instance?.Player == null) return;
             var kingdom = KingdomState.Instance;
             if (kingdom == null) {
-                Label("You must unlock the crusade before you can access these toys.".localize().yellow().bold());
+                Label(RichText.Bold(RichText.Yellow("You must unlock the crusade before you can access these toys.".localize())));
                 return;
             }
             HStack("Tweaks".localize(), 1,
@@ -158,9 +158,9 @@ namespace ToyBox.classes.MainUI {
                        if (playerArmies != null) {
                            ActionButton("Add All Current Units".localize(), () => AddAllCurrentUnits(), 200.width());
                            110.space();
-                           Label("Adds all currently active friendly units that are neither recruitable nor Mercanries to Mercenary units.".localize().green());
+                           Label(RichText.Green("Adds all currently active friendly units that are neither recruitable nor Mercanries to Mercenary units.".localize()));
                        } else {
-                           Label("Need Armies To Add All Current Units".localize().yellow());
+                           Label(RichText.Yellow("Need Armies To Add All Current Units".localize()));
                            25.space();
                            HelpLabel("You should be on the global map and have the Crusade active".localize());
                        }
@@ -168,12 +168,12 @@ namespace ToyBox.classes.MainUI {
                    () => {
                        BindableActionButton(RerollAll, true, 200.width());
                        Space(-93);
-                       Label("Rerolls Mercenary Units for free.".localize().green());
+                       Label(RichText.Green("Rerolls Mercenary Units for free.".localize()));
                    },
                    () => {
                        BindableActionButton(ApplyRecruitGrowth, true, 200.width());
                        Space(-93);
-                       Label("Applies the regular recruits growth directly.".localize().green());
+                       Label(RichText.Green("Applies the regular recruits growth directly.".localize()));
                    },
                    () => {
                        ValueAdjustorEditable("Mercenary Slots".localize(),
@@ -185,13 +185,13 @@ namespace ToyBox.classes.MainUI {
                    },
                    () => {
                        using (VerticalScope()) {
-                           Toggle("Add new units in friendly armies to Mercenary Pool if not Recruitable.".localize().cyan(), ref settings.toggleAddNewUnitsAsMercenaries, AutoWidth());
+                           Toggle(RichText.Cyan("Add new units in friendly armies to Mercenary Pool if not Recruitable.".localize()), ref settings.toggleAddNewUnitsAsMercenaries, AutoWidth());
                            10.space();
                            Div();
                            15.space();
                        }
                    },
-                   () => DisclosureToggle("Show Recruitment Pools".localize().Orange(), ref discloseMercenaryUnits),
+                   () => DisclosureToggle(RichText.Orange("Show Recruitment Pools".localize()), ref discloseMercenaryUnits),
                    () => {
                        if (discloseMercenaryUnits) {
                            using (VerticalScope()) {
@@ -204,8 +204,8 @@ namespace ToyBox.classes.MainUI {
                                        return armyBlueprints;
                                    },
                                    (unit) => unit,
-                                   (unit) => IsInRecruitPool.GetValueOrDefault(unit.GetHashCode(), false) ? unit.GetDisplayName().orange().bold() : unit.GetDisplayName(),
-                                   (unit) => new[] { $"{unit.NameSafe()} {unit.GetDisplayName()} {unit.Description}" },
+                                   (unit) => IsInRecruitPool.GetValueOrDefault(unit.GetHashCode(), false) ? RichText.Bold(RichText.Orange(unit.GetDisplayName())) : unit.GetDisplayName(),
+                                   (unit) => (new[] { $"{unit.NameSafe()} {unit.GetDisplayName()} {unit.Description}" }),
                                    () => {
                                        var bluh = ummWidth - 50;
                                        var titleWidth = (bluh / (IsWide ? 3.0f : 4.0f)) - 100;
@@ -217,16 +217,16 @@ namespace ToyBox.classes.MainUI {
                                        20.space();
                                        Label("Weight (Mercenary) or Growth (Recruit)".localize(), AutoWidth());
                                    },
-                                   (unit, _) => {
+                                   (BlueprintUnit unit, BlueprintUnit _) => {
                                        var bluh = ummWidth - 50;
                                        var titleWidth = (bluh / (IsWide ? 3.0f : 4.0f) - 20);
                                        bool isInMercPool = IsInMercenaryPool.GetValueOrDefault(unit.GetHashCode(), false);
                                        bool isInKingdomPool = IsInRecruitPool.GetValueOrDefault(unit.GetHashCode(), recruitPool.Contains(unit));
                                        var title = unit.GetDisplayName();
                                        if (isInKingdomPool)
-                                           title = title.orange().bold();
+                                           title = RichText.Bold(RichText.Orange(title));
                                        else if (isInMercPool)
-                                           title = title.cyan().bold();
+                                           title = RichText.Bold(RichText.Cyan(title));
                                        Label(title, Width((int)titleWidth));
                                        using (VerticalScope()) {
                                            using (HorizontalScope()) {
@@ -243,7 +243,7 @@ namespace ToyBox.classes.MainUI {
                                                                 IsInMercenaryPool[unit.GetHashCode()] = isInMercPool;
                                                             },
                                                             150.width());
-                                               var poolText = $"{(isInMercPool ? "Merc".localize().cyan() : "")}".Trim();
+                                               var poolText = $"{(isInMercPool ? RichText.Cyan("Merc".localize()) : "")}".Trim();
                                                50.space();
                                                Label(poolText, Width(200));
                                                25.space();
@@ -280,7 +280,7 @@ namespace ToyBox.classes.MainUI {
                                                                 IsInRecruitPool[unit.GetHashCode()] = isInKingdomPool;
                                                             },
                                                             150.width());
-                                               var poolText = $"{(isInKingdomPool ? ("Recruit".localize() + $" ({poolInfo?.Growth})").orange() : "")}".Trim();
+                                               var poolText = $"{(isInKingdomPool ? RichText.Orange(("Recruit".localize() + $" ({poolInfo?.Growth})")) : "")}".Trim();
                                                50.space();
                                                Label(poolText, Width(200));
                                                25.space();
@@ -352,8 +352,8 @@ namespace ToyBox.classes.MainUI {
                                 BlueprintUnit squadToAdd = null;
 
                                 using (HorizontalScope()) {
-                                    Label(army.Data.ArmyName.ToString().orange().bold(), MinWidth(100), MaxWidth(250));
-                                    Label(army.ArmyType.ToString().cyan(), MinWidth(100), MaxWidth(250));
+                                    Label(RichText.Bold(RichText.Orange(army.Data.ArmyName.ToString())), MinWidth(100), MaxWidth(250));
+                                    Label(RichText.Cyan(army.ArmyType.ToString()), MinWidth(100), MaxWidth(250));
                                     if (leader != null) {
                                         showLeader = toggleStates.GetValueOrDefault(leader, false);
                                         if (DisclosureToggle(leader.LocalizedName, ref showLeader, 350)) {
@@ -362,7 +362,7 @@ namespace ToyBox.classes.MainUI {
                                         }
                                     } else Space(353);
                                     var squads = army.Data.Squads;
-                                    Label(squads.Count.ToString().cyan(), Width(35));
+                                    Label(RichText.Cyan(squads.Count.ToString()), Width(35));
                                     showSquads = toggleStates.GetValueOrDefault(squads, false);
                                     if (DisclosureToggle("Squads".localize(), ref showSquads, 125)) {
                                         selectedArmy = army == selectedArmy ? null : army;
@@ -371,7 +371,7 @@ namespace ToyBox.classes.MainUI {
                                     }
                                     Space(50);
                                     var displayName = army.Location?.GetDisplayName() ?? "traveling on a path".localize();
-                                    Label(displayName.yellow(), Width(400));
+                                    Label(RichText.Yellow(displayName), Width(400));
                                     Space(25);
                                     var distStr = distance >= 0 ? $"{distance:0.#}" : "-";
                                     Label(distStr, Width(50));
@@ -403,46 +403,46 @@ namespace ToyBox.classes.MainUI {
                                         using (HorizontalScope()) {
                                             Space(100);
                                             using (VerticalScope()) {
-                                                Label("Stats".localize().yellow());
-                                                ValueAdjuster("Level".localize().cyan(), () => leader.Level, (l) => leader.m_Level = l, 1, 0, 20, 375.width());
-                                                ValueAdjustorEditable("Experience".localize().cyan(), () => leader.Experience, (e) => leader.m_Experience = e, 100, 0, int.MaxValue, 375.width());
+                                                Label(RichText.Yellow("Stats".localize()));
+                                                ValueAdjuster(RichText.Cyan("Level".localize()), () => leader.Level, (l) => leader.m_Level = l, 1, 0, 20, 375.width());
+                                                ValueAdjustorEditable(RichText.Cyan("Experience".localize()), () => leader.Experience, (e) => leader.m_Experience = e, 100, 0, int.MaxValue, 375.width());
                                                 var stats = leader.Stats;
-                                                ValueAdjuster("Attack Bonus".localize().cyan(),
+                                                ValueAdjuster(RichText.Cyan("Attack Bonus".localize()),
                                                     () => stats.AttackBonus.BaseValue,
                                                     (v) => stats.AttackBonus.BaseValue = v, 1,
                                                     stats.AttackBonus.MinValue,
                                                     stats.AttackBonus.MaxValue,
                                                     Width(375));
-                                                ValueAdjuster("Defense Bonus".localize().cyan(),
+                                                ValueAdjuster(RichText.Cyan("Defense Bonus".localize()),
                                                     () => stats.DefenseBonus.BaseValue,
                                                     (v) => stats.DefenseBonus.BaseValue = v, 1,
                                                     stats.DefenseBonus.MinValue,
                                                     stats.DefenseBonus.MaxValue,
                                                     Width(375));
-                                                ValueAdjuster("Infirmary Size".localize().cyan(),
+                                                ValueAdjuster(RichText.Cyan("Infirmary Size".localize()),
                                                     () => stats.InfirmarySize.BaseValue,
                                                     (v) => stats.InfirmarySize.BaseValue = v, 25,
                                                     stats.InfirmarySize.MinValue,
                                                     stats.InfirmarySize.MaxValue, Width(375));
-                                                ValueAdjuster("Mana".localize().cyan(),
+                                                ValueAdjuster(RichText.Cyan("Mana".localize()),
                                                     () => stats.CurrentMana,
                                                     (v) => stats.CurrentMana = v, 5,
                                                     stats.MaxMana.MinValue,
                                                     stats.MaxMana.MaxValue,
                                                     Width(375));
-                                                ValueAdjuster("Max Mana".localize().cyan(),
+                                                ValueAdjuster(RichText.Cyan("Max Mana".localize()),
                                                     () => stats.MaxMana.BaseValue,
                                                     (v) => stats.MaxMana.BaseValue = v, 5,
                                                     stats.MaxMana.MinValue,
                                                     stats.MaxMana.MaxValue,
                                                     Width(375));
-                                                ValueAdjuster("Mana Regen".localize().cyan(),
+                                                ValueAdjuster(RichText.Cyan("Mana Regen".localize()),
                                                     () => stats.ManaRegeneration.BaseValue,
                                                     (v) => stats.ManaRegeneration.BaseValue = v, 1,
                                                     stats.ManaRegeneration.MinValue,
                                                     stats.ManaRegeneration.MaxValue,
                                                     Width(375));
-                                                ValueAdjuster("Spell Strength".localize().cyan(),
+                                                ValueAdjuster(RichText.Cyan("Spell Strength".localize()),
                                                     () => stats.SpellStrength.BaseValue,
                                                     (v) => stats.SpellStrength.BaseValue = v, 1,
                                                     stats.SpellStrength.MinValue,
@@ -451,8 +451,8 @@ namespace ToyBox.classes.MainUI {
                                         }
                                         using (HorizontalScope()) {
                                             Space(100);
-                                            Label("Skills".localize().yellow(), Width(85));
-                                            if (DisclosureToggle("Show All".localize().orange().bold(), ref showAllLeaderSkills, 125)) {
+                                            Label(RichText.Yellow("Skills".localize()), Width(85));
+                                            if (DisclosureToggle(RichText.Bold(RichText.Orange("Show All".localize())), ref showAllLeaderSkills, 125)) {
                                                 toggleStates[leader.Skills] = showAllLeaderSkills;
                                             }
                                             //UI.Space(285);
@@ -477,7 +477,7 @@ namespace ToyBox.classes.MainUI {
                                                 using (HorizontalScope()) {
                                                     Space(100);
                                                     var skillName = (string)skill.LocalizedName;
-                                                    if (leaderHasSkill) skillName = skillName.cyan();
+                                                    if (leaderHasSkill) skillName = RichText.Cyan(skillName);
                                                     Label(skillName, Width(375));
                                                     Space(25);
                                                     if (leaderHasSkill)
@@ -486,7 +486,7 @@ namespace ToyBox.classes.MainUI {
                                                         ActionButton("Add".localize(), () => { skillToAdd = skill; }, Width(150));
                                                     Space(100);
                                                     var description = (string)skill.LocalizedDescription;
-                                                    Label(description.StripHTML().green());
+                                                    Label(RichText.Green(description.StripHTML()));
                                                 }
                                             }
                                         if (skillToAdd != null) leader.AddSkill(skillToAdd, true);
@@ -534,9 +534,9 @@ namespace ToyBox.classes.MainUI {
                                     Div(0, 10);
                                     using (VerticalScope()) {
                                         using (HorizontalScope()) {
-                                            Label("Squad Name".localize().yellow(), Width(475));
+                                            Label(RichText.Yellow("Squad Name".localize()), Width(475));
                                             Space(25);
-                                            Label("Unit Count".localize().yellow(), Width(250));
+                                            Label(RichText.Yellow("Unit Count".localize()), Width(250));
                                         }
                                     }
                                     using (VerticalScope()) {
@@ -560,7 +560,7 @@ namespace ToyBox.classes.MainUI {
                                             }
                                         }
                                         if (title == "Player Armies".localize()) {
-                                            if (DisclosureToggle("Add Squads".localize().Yellow(), ref showAddSquad, 125)) {
+                                            if (DisclosureToggle(RichText.Yellow("Add Squads".localize()), ref showAddSquad, 125)) {
                                                 toggleShowSquadStates[squads] = showAddSquad;
                                             }
                                         }
@@ -574,7 +574,7 @@ namespace ToyBox.classes.MainUI {
                                             var growthPool = recruitManager.Growth;
                                             using (VerticalScope()) {
                                                 using (HorizontalScope()) {
-                                                    Label("Unit Count".localize().cyan(), AutoWidth());
+                                                    Label(RichText.Cyan("Unit Count".localize()), AutoWidth());
                                                     count = IntTextField(ref settings.unitCount, null, Width(150));
                                                 }
 

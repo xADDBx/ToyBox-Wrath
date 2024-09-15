@@ -42,7 +42,7 @@ namespace ToyBox {
                 () => {
                     Slider("Feature Selection Multiplier".localize(), ref Settings.featsMultiplier, 0, 10, 1, "", Width(600));
                     Space(25);
-                    Label("This allows you to select a given feature more than once at level up".localize().green());
+                    Label("This allows you to select a given feature more than once at level up".localize().Green());
                 },
                 () => {
                     ActionButton("Maximize Mythic Flexibility".localize(),
@@ -52,14 +52,14 @@ namespace ToyBox {
                                      Settings.toggleAllowMythicPets = true;
                                  });
                     25.space();
-                    HelpLabel(("This will set options below to enable you to choose mythics more freely for both you, companions and even pets" + "\nNote:".orange().bold() + " this will also ignore other class restrictions for non mythic").localize());
+                    HelpLabel(("This will set options below to enable you to choose mythics more freely for both you, companions and even pets" + "\nNote:".Orange().Bold() + " this will also ignore other class restrictions for non mythic").localize());
 
                 },
                 () => Toggle("Apply Feature Selection Multiplier to party members".localize(), ref Settings.toggleFeatureMultiplierCompanions),
                 () => {
                     Toggle("Allow Multiple Archetypes When Selecting A New Class".localize(), ref Settings.toggleMultiArchetype);
                     25.space();
-                    Label("This allows you to select combinations of archetypes when selecting a class for the first time that contain distinct spellbooks".localize().green());
+                    Label("This allows you to select combinations of archetypes when selecting a class for the first time that contain distinct spellbooks".localize().Green());
                 },
                 () => Toggle("Make All Feature Selections Optional".localize(), ref Settings.toggleOptionalFeatSelection),
                 () => {
@@ -77,17 +77,17 @@ namespace ToyBox {
                 () => {
                     Toggle("Ignore Class Restrictions".localize(), ref Settings.toggleIgnoreClassRestrictions);
                     Space(25);
-                    Label(("Experimental".cyan() + ": in addition to regular leveling, this allows you to choose any mythic class each time you level up starting from mythic rank 1. This may have interesting and unexpected effects. Backup early and often...".green()).localize());
+                    Label(("Experimental".Cyan() + ": in addition to regular leveling, this allows you to choose any mythic class each time you level up starting from mythic rank 1. This may have interesting and unexpected effects. Backup early and often...".Green()).localize());
                 },
                 () => {
                     Toggle("Ignore Feature Restrictions".localize(), ref Settings.toggleIgnoreFeatRestrictions);
                     Space(25);
-                    Label(("Experimental".cyan() + ": lets you select any feat ignoring prerequisites.".green()).localize());
+                    Label(("Experimental".Cyan() + ": lets you select any feat ignoring prerequisites.".Green()).localize());
                 },
                 () => {
                     Toggle("Ignore Feature Recommendations".localize(), ref Settings.toggleFeatureRecommendations);
                     Space(25);
-                    Label(("Makes the thumbs up/down in disappear in selections".green()).localize());
+                    Label(("Makes the thumbs up/down in disappear in selections".Green()).localize());
                 },
                 () => Toggle("Allow Companions to Take Mythic Classes".localize(), ref Settings.toggleAllowCompanionsToBecomeMythic),
                 () => Toggle("Allow Pets to Take Mythic Classes".localize(), ref Settings.toggleAllowMythicPets),
@@ -119,21 +119,21 @@ namespace ToyBox {
                 );
             Div(0, 25);
             HStack("Mythic Paths".localize(), 1,
-                   () => Label("Warning! Using these might break your game somehow. Recommend for experimental tinkering like trying out different builds, and not for actually playing the game.".localize().green()),
+                   () => Label("Warning! Using these might break your game somehow. Recommend for experimental tinkering like trying out different builds, and not for actually playing the game.".localize().Green()),
                    () => ActionButton("Unlock Aeon".localize(), Actions.UnlockAeon, Width(300)),
                    () => ActionButton("Unlock Azata".localize(), Actions.UnlockAzata, Width(300)),
                    () => ActionButton("Unlock Trickster".localize(), Actions.UnlockTrickster, Width(300)),
                    () => ActionButton("Unlock Lich".localize(), Actions.UnlockLich, Width(300)),
-                   () => { ActionButton("Unlock Swarm".localize(), Actions.UnlockSwarm, Width(300)); Space(25); Label("Only available at Mythic level 8 or higher".localize().green()); },
-                   () => { ActionButton("Unlock Gold Dragon".localize(), Actions.UnlockGoldDragon, Width(300)); Space(25); Label("Only available at Mythic level 8 or higher".localize().green()); },
+                   () => { ActionButton("Unlock Swarm".localize(), Actions.UnlockSwarm, Width(300)); Space(25); Label("Only available at Mythic level 8 or higher".localize().Green()); },
+                   () => { ActionButton("Unlock Gold Dragon".localize(), Actions.UnlockGoldDragon, Width(300)); Space(25); Label("Only available at Mythic level 8 or higher".localize().Green()); },
                    () => {
-                       ActionButton("All Mythic Paths".localize().orange(), Actions.UnlockAllBasicMythicPaths, Width(300));
+                       ActionButton("All Mythic Paths".localize().Orange(), Actions.UnlockAllBasicMythicPaths, Width(300));
                        Space(25);
-                       Label("Unlock mythic paths besides Legend and Devil which block progression".localize().green());
+                       Label("Unlock mythic paths besides Legend and Devil which block progression".localize().Green());
                    },
                    () => Label("", Height(10)),
-                   () => { ActionButton("Unlock Devil".localize(), Actions.UnlockDevil, Width(300)); Space(25); Label("Prevents you from advancing in Aeon or Azata".localize().green()); },
-                   () => { ActionButton("Unlock Legend".localize(), Actions.UnlockLegend, Width(300)); Space(25); Label("Prevents you from advancing all other Mythic Path".localize().green()); },
+                   () => { ActionButton("Unlock Devil".localize(), Actions.UnlockDevil, Width(300)); Space(25); Label("Prevents you from advancing in Aeon or Azata".localize().Green()); },
+                   () => { ActionButton("Unlock Legend".localize(), Actions.UnlockLegend, Width(300)); Space(25); Label("Prevents you from advancing all other Mythic Path".localize().Green()); },
                    () => { }
                 );
             Div(0, 25);
@@ -143,7 +143,7 @@ namespace ToyBox {
                     Toggle("Multiple Classes On Level-Up".localize(), ref Settings.toggleMulticlass);
                     Space(25);
                     using (VerticalScope()) {
-                        Label("Experimental - With this enabled you can configure characters in the Party Editor to gain levels in additional classes whenever they level up. See the link for more information on this campaign variant.".localize().green());
+                        Label("Experimental - With this enabled you can configure characters in the Party Editor to gain levels in additional classes whenever they level up. See the link for more information on this campaign variant.".localize().Green());
                         LinkButton("Gestalt Characters".localize(), "https://www.d20srd.org/srd/variant/classes/gestaltCharacters.htm");
                         Space(15);
                     }

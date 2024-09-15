@@ -71,10 +71,10 @@ namespace ToyBox {
                                        },
                                        (info, _) => {
                                            var isCurrent = _currentSaves.Contains(info);
-                                           var characterName = isCurrent ? info.PlayerCharacterName.orange() : info.PlayerCharacterName;
+                                           var characterName = isCurrent ? info.PlayerCharacterName.Orange() : info.PlayerCharacterName;
                                            Label(characterName, 400.width());
                                            25.space();
-                                           Label($"{info.Area.AreaName.StringValue()}".cyan(), 400.width());
+                                           Label($"{info.Area.AreaName.StringValue()}".Cyan(), 400.width());
                                            if (Settings.toggleShowGameIDs) {
                                                25.space();
                                                ClipboardLabel(info.GameId, 400.width());

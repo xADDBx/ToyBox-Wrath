@@ -108,7 +108,7 @@ namespace ModKit {
             get {
                 if (_rarityTexture == null)
                     _rarityTexture = new Texture2D(1, 1);
-                _rarityTexture.SetPixel(0, 0, RGBA.black.color());
+                _rarityTexture.SetPixel(0, 0, RGBA.black.Color());
                 _rarityTexture.Apply();
                 return _rarityTexture;
             }

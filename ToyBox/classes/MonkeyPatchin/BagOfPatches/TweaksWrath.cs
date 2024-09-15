@@ -2,9 +2,11 @@
 using HarmonyLib;
 using JetBrains.Annotations;
 using Kingmaker;
+using Kingmaker.Armies.TacticalCombat;
 using Kingmaker.Armies.TacticalCombat.Controllers;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Area;
+using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.Items.Armors;
 using Kingmaker.Blueprints.Items.Components;
 using Kingmaker.Blueprints.Items.Equipment;
@@ -37,6 +39,7 @@ using Kingmaker.UI.MainMenuUI;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Abilities.Components.Base;
 using Kingmaker.UnitLogic.Abilities.Components.CasterCheckers;
 using Kingmaker.UnitLogic.Abilities.Components.TargetCheckers;
 using Kingmaker.UnitLogic.ActivatableAbilities;
@@ -67,6 +70,7 @@ using ToyBox;
 using TurnBased.Controllers;
 using TurnBased.Utility;
 using UnityEngine;
+using static Kingmaker.Blueprints.Area.FactHolder;
 
 namespace ToyBox.BagOfPatches {
     internal static partial class Tweaks {
@@ -450,9 +454,8 @@ namespace ToyBox.BagOfPatches {
             }
         }
 
-        [HarmonyPatch]
+        [HarmonyPatch(typeof(AbilityData), nameof(AbilityData.CanBeCastByCaster), MethodType.Getter)]
         private static class AbilityData_CanBeCastByCaster_Patch {
-            [HarmonyPatch(typeof(AbilityData), nameof(AbilityData.CanBeCastByCaster), MethodType.Getter)]
             [HarmonyPostfix]
             public static void PostfixCasterRestriction(ref bool __result, AbilityData __instance) {
                 try {
@@ -463,6 +466,12 @@ namespace ToyBox.BagOfPatches {
                 catch (Exception e) {
                     Mod.Error(e);
                 }
+            }
+            [HarmonyFinalizer]
+            public static Exception SuppressError(Exception __exception, AbilityData __instance) {
+                Mod.Log($"Suppressing AbilityData.CanBeCastByCaster Exception:\nInstance: {__instance?.ToString()}, {__instance?.Blueprint?.ToString()}, {__instance?.Blueprint?.AssetGuid}");
+                Mod.Debug($"Suppressed Exception:\n{__exception.ToString()}");
+                return null;
             }
         }
 

@@ -17,7 +17,7 @@ namespace ToyBox {
         public static void OnGUI() {
             bool justInit = false;
             if (availableAchievements == null || availableAchievements?.Count == 0 || justInit) {
-                UI.Label("Achievements not available until you load a save.".localize().yellow().bold());
+                UI.Label(RichText.Bold(RichText.Yellow("Achievements not available until you load a save.".localize())));
                 availableAchievements = Game.Instance?.Player?
                     .Achievements?
                     .m_Achievements?
@@ -37,7 +37,7 @@ namespace ToyBox {
                 () => availableAchievements,
                 current => current,
                 achievement => $"{achievement.Data.AchievementName} {achievement.Data.GetDescription()} {achievement.Data.name}",
-                achievement => new[] { achievement.Data.name },
+                achievement => (new[] { achievement.Data.name }),
                 () => {
                     using (VerticalScope()) {
                         Toggle("Show GUIDs".localize(), ref Main.Settings.showAssetIDs);
@@ -54,7 +54,7 @@ namespace ToyBox {
                     var text = achievement.Data.name.MarkedSubstring(AchievementBrowser.SearchText);
                     if (Main.Settings.showAssetIDs) text += $" ({achievement.Data.AssetGuid})";
                     if (maybeAchievement != null) {
-                        text = text.Cyan().Bold();
+                        text = RichText.Bold(text.Cyan());
                     }
                     Label(text, Width((int)titleWidth));
 

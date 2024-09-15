@@ -130,7 +130,7 @@ namespace ToyBox {
             if (Main.IsInGame) {
                 using (HorizontalScope()) {
                     Space(25);
-                    Label("increment".localize().cyan(), AutoWidth());
+                    Label("increment".localize().Cyan(), AutoWidth());
                     IntTextField(ref Settings.increment, null, Width(150));
                 }
                 var increment = Settings.increment;
@@ -140,8 +140,8 @@ namespace ToyBox {
                        1,
                        () => {
                            var money = Game.Instance.Player.Money;
-                           Label("Gold".localize().cyan(), Width(150));
-                           Label(money.ToString().orange().bold(), Width(200));
+                           Label("Gold".localize().Cyan(), Width(150));
+                           Label(money.ToString().Orange().Bold(), Width(200));
                            ActionButton("Gain ".localize() + $"{increment}", () => Game.Instance.Player.GainMoney(increment), AutoWidth());
                            ActionButton("Lose ".localize() + $"{increment}",
                                         () => {
@@ -152,14 +152,14 @@ namespace ToyBox {
                        },
                        () => {
                            var exp = mainChar.Progression.Experience;
-                           Label("Experience".localize().cyan(), Width(150));
-                           Label(exp.ToString().orange().bold(), Width(200));
+                           Label("Experience".localize().Cyan(), Width(150));
+                           Label(exp.ToString().Orange().Bold(), Width(200));
                            ActionButton("Gain ".localize() + $"{increment}", () => { Game.Instance.Player.GainPartyExperience(increment); }, AutoWidth());
                        },
                     () => {
                         var corruption = Game.Instance.Player.Corruption;
-                        Label("Corruption".localize().cyan(), Width(150));
-                        Label(corruption.CurrentValue.ToString().orange().bold(), Width(200));
+                        Label("Corruption".localize().Cyan(), Width(150));
+                        Label(corruption.CurrentValue.ToString().Orange().Bold(), Width(200));
                         ActionButton($"Clear".localize(), () => corruption.Clear(), AutoWidth());
                         25.space();
                         Toggle("Disable Corruption".localize(), ref Settings.toggleDisableCorruption);
@@ -186,12 +186,12 @@ namespace ToyBox {
                            using (HorizontalScope()) {
                                using (VerticalScope(220.width())) {
                                    using (HorizontalScope()) {
-                                       Toggle(("Be a " + "Murder".red().bold() + " Hobo".orange()).localize(), ref Settings.togglekillOnEngage, 222.width());
+                                       Toggle(("Be a " + "Murder".Red().Bold() + " Hobo".Orange()).localize(), ref Settings.togglekillOnEngage, 222.width());
                                        KeyBindPicker(ToggleMurderHobo, "", 50);
                                    }
                                }
                                158.space();
-                               Label(("If ticked, this will " + "MURDER".red().bold() + " all who dare to engage you!".green()).localize(), AutoWidth());
+                               Label(("If ticked, this will " + "MURDER".Red().Bold() + " all who dare to engage you!".Green()).localize(), AutoWidth());
                            }
                            using (HorizontalScope()) {
                                if (Toggle("Log ToyBox Keyboard Commands In Game".localize(), ref Mod.ModKitSettings.toggleKeyBindingsOutputToTranscript, 450.width()))
@@ -217,7 +217,7 @@ namespace ToyBox {
                            }
                        }
                        Space(25);
-                       Label("You can enable hot keys to teleport members of your party to your mouse cursor on Area or the Global Map".localize().green());
+                       Label("You can enable hot keys to teleport members of your party to your mouse cursor on Area or the Global Map".localize().Green());
                    });
             Div(0, 25);
             HStack("Unit Copying".localize(),
@@ -244,7 +244,7 @@ namespace ToyBox {
                    () => {
                        BindableActionButton(RerollInteractionSkillChecks, true);
                        Space(-75);
-                       Label("This resets all the skill check rolls for all interactable objects in the area".localize().green());
+                       Label("This resets all the skill check rolls for all interactable objects in the area".localize().Green());
                    },
             () => {
                 NonBindableActionButton("Set Perception to 40".localize(), () => {
@@ -281,14 +281,14 @@ namespace ToyBox {
             HStack("Dialog".localize(),
                    1,
                    () => {
-                       Toggle(("♥♥ ".red() + "Love is Free".bold() + " ♥♥".red()).localize(), ref Settings.toggleAllowAnyGenderRomance, 300.width());
+                       Toggle(("♥♥ ".Red() + "Love is Free".Bold() + " ♥♥".Red()).localize(), ref Settings.toggleAllowAnyGenderRomance, 300.width());
                        25.space();
-                       Label(("Allow ".green() + "any gender".color(RGBA.purple) + " " + "for any ".green() + "R".color(RGBA.red) + "o".orange() + "m".yellow() + "a".green() + "n".cyan() + "c".color(RGBA.blue) + "e".color(RGBA.purple)).localize());
+                       Label(("Allow ".Green() + "any gender".Color(RGBA.purple) + " " + "for any ".Green() + "R".Color(RGBA.red) + "o".Orange() + "m".Yellow() + "a".Green() + "n".Cyan() + "c".Color(RGBA.blue) + "e".Color(RGBA.purple)).localize());
                    },
                    () => {
-                       Toggle("Jealousy Begone!".localize().bold(), ref Settings.toggleMultipleRomance, 300.width());
+                       Toggle("Jealousy Begone!".localize().Bold(), ref Settings.toggleMultipleRomance, 300.width());
                        25.space();
-                       Label(("Allow ".green() + "multiple".color(RGBA.purple) + " romances at the same time".green()).localize());
+                       Label(("Allow ".Green() + "multiple".Color(RGBA.purple) + " romances at the same time".Green()).localize());
                    },
                    () => {
                        if (Settings.toggleMultipleRomance) {
@@ -303,31 +303,31 @@ namespace ToyBox {
                        }
                    },
                    () => {
-                       Toggle("Friendship is Magic".localize().bold(), ref Settings.toggleFriendshipIsMagic, 300.width());
+                       Toggle("Friendship is Magic".localize().Bold(), ref Settings.toggleFriendshipIsMagic, 300.width());
                        25.space();
-                       Label(("Experimental".orange() + " your friends forgive even your most vile choices.").localize().green());
+                       Label(("Experimental".Orange() + " your friends forgive even your most vile choices.").localize().Green());
                    },
                    () => {
                        Toggle("Disallow Companions Leaving Party".localize(), ref Settings.toggleBlockUnrecruit, 300.width());
                        200.space();
-                       Label(("Warning: ".color(RGBA.red) + " Only use when Friendship is Magic doesn't work, and then turn off immediately after. Can otherwise break your save").localize().orange());
+                       Label(("Warning: ".Color(RGBA.red) + " Only use when Friendship is Magic doesn't work, and then turn off immediately after. Can otherwise break your save").localize().Orange());
                    },
                    () => {
                        Toggle("Previously Chosen Dialog Is Smaller ".localize(), ref Settings.toggleMakePreviousAnswersMoreClear, 300.width());
                        200.space();
-                       Label("Draws dialog choices that you have previously selected in smaller type".localize().green());
+                       Label("Draws dialog choices that you have previously selected in smaller type".localize().Green());
                    },
                    () => {
-                       Toggle("Expand Dialog To Include Remote Companions".localize().bold(), ref Settings.toggleRemoteCompanionDialog, 300.width());
+                       Toggle("Expand Dialog To Include Remote Companions".localize().Bold(), ref Settings.toggleRemoteCompanionDialog, 300.width());
                        200.space();
-                       Label(("Experimental".orange() + " Allow remote companions to make comments on dialog you are having.").localize().green());
+                       Label(("Experimental".Orange() + " Allow remote companions to make comments on dialog you are having.").localize().Green());
                    },
                    () => {
                        if (Settings.toggleRemoteCompanionDialog) {
                            50.space();
                            Toggle("Include Former Companions".localize(), ref Settings.toggleExCompanionDialog, 300.width());
                            150.space();
-                           Label("This also includes companions who left the party such as Wenduag if you picked Lann".localize().green());
+                           Label("This also includes companions who left the party such as Wenduag if you picked Lann".localize().Green());
                        }
                    },
                    () => {
@@ -341,7 +341,7 @@ namespace ToyBox {
                            }
                        }
                        200.space();
-                       Label("Some responses such as comments about your mythic powers will always choose the first one by default. This will show a copy of the answer and the condition for each possible response that an NPC might make to you based on".localize().green());
+                       Label("Some responses such as comments about your mythic powers will always choose the first one by default. This will show a copy of the answer and the condition for each possible response that an NPC might make to you based on".localize().Green());
                    },
 #if DEBUG
                    () => {
@@ -365,7 +365,7 @@ namespace ToyBox {
                    1,
                    () => {
                        Toggle("Allow Achievements While Using Mods".localize(), ref Settings.toggleAllowAchievementsDuringModdedGame, 500.width());
-                       Label("This is intended for you to be able to enjoy the game while using mods that enhance your quality of life.  Please be mindful of the player community and avoid using this mod to trivialize earning prestige achievements like Sadistic Gamer. The author is in discussion with Owlcat about reducing the scope of achievement blocking to just these. Let's show them that we as players can mod and cheat responsibly.".localize().orange());
+                       Label("This is intended for you to be able to enjoy the game while using mods that enhance your quality of life.  Please be mindful of the player community and avoid using this mod to trivialize earning prestige achievements like Sadistic Gamer. The author is in discussion with Owlcat about reducing the scope of achievement blocking to just these. Let's show them that we as players can mod and cheat responsibly.".localize().Orange());
                    },
                    () => {
                        Toggle("Skip Splash Screen".localize(), ref Settings.toggleSkipSplashScreen, 500.width());
@@ -377,7 +377,7 @@ namespace ToyBox {
                    },
                    () => {
                        Toggle("Click On Equip Slots To Filter Inventory".localize(), ref Settings.togglEquipSlotInventoryFiltering, 500.width());
-                       HelpLabel($"If you tick this you can click on equipment slots to filter the inventory for items that fit in it.\nFor more {"Enhanced Inventory".orange()} and {"Spellbook".orange()} check out the {"Loot & Spellbook Tab".orange().bold()}".localize());
+                       HelpLabel($"If you tick this you can click on equipment slots to filter the inventory for items that fit in it.\nFor more {"Enhanced Inventory".Orange()} and {"Spellbook".Orange()} check out the {"Loot & Spellbook Tab".Orange().Bold()}".localize());
                    },
                    () => {
                        Toggle("Enhanced Load/Save".localize(), ref Settings.toggleEnhancedLoadSave, 500.width());
@@ -394,7 +394,7 @@ namespace ToyBox {
                        HelpLabel("Hold down shift during launch to bypass".localize());
                    },
                    () => Toggle("Make game continue to play music on lost focus".localize(), ref Settings.toggleContinueAudioOnLostFocus),
-                   () => Toggle(("Game Over Fix For " + "LEEEROOOOOOOYYY JEEEENKINS!!!".color(RGBA.maroon) + " omg he just ran in!").localize(), ref Settings.toggleGameOverFixLeeerrroooooyJenkins),
+                   () => Toggle(("Game Over Fix For " + "LEEEROOOOOOOYYY JEEEENKINS!!!".Color(RGBA.maroon) + " omg he just ran in!").localize(), ref Settings.toggleGameOverFixLeeerrroooooyJenkins),
                    () => {
                        503.space();
                        HelpLabel("Prevents dumb companions (that's you Greybor) from wiping the party by running running into the dragon room and dying...".localize());
@@ -416,7 +416,7 @@ namespace ToyBox {
                                Toggle("Deskari Begone!".localize(), ref Settings.toggleDeskariBegone);
                            }
                        }
-                       Label("Some players find spiders and other swarms icky. This replaces them with something more pleasant".localize().green());
+                       Label("Some players find spiders and other swarms icky. This replaces them with something more pleasant".localize().Green());
                    },
                    () => Toggle("Make tutorials not appear if disabled in settings".localize(), ref Settings.toggleForceTutorialsToHonorSettings),
                    () => {
@@ -429,7 +429,7 @@ namespace ToyBox {
                    () => {
                        var modifier = KeyBindings.GetBinding("InventoryUseModifier");
                        var modifierText = modifier.Key == KeyCode.None ? "Modifer" : modifier.ToString();
-                       Toggle("Allow ".localize() + $"{modifierText}".cyan() + (" + Click".cyan() + " To Use Items In Inventory").localize(), ref Settings.toggleShiftClickToUseInventorySlot, 470.width());
+                       Toggle("Allow ".localize() + $"{modifierText}".Cyan() + (" + Click".Cyan() + " To Use Items In Inventory").localize(), ref Settings.toggleShiftClickToUseInventorySlot, 470.width());
                        if (Settings.toggleShiftClickToUseInventorySlot) {
                            ModifierPicker("InventoryUseModifier", "", 0);
                        }
@@ -437,7 +437,7 @@ namespace ToyBox {
                    () => {
                        var modifier = KeyBindings.GetBinding("ClickToTransferModifier");
                        var modifierText = modifier.Key == KeyCode.None ? "Modifer" : modifier.ToString();
-                       Toggle("Allow ".localize() + $"{modifierText}".cyan() + (" + Click".cyan() + " To Transfer Entire Stack").localize(), ref Settings.toggleShiftClickToFastTransfer, 470.width());
+                       Toggle("Allow ".localize() + $"{modifierText}".Cyan() + (" + Click".Cyan() + " To Transfer Entire Stack").localize(), ref Settings.toggleShiftClickToFastTransfer, 470.width());
                        if (Settings.toggleShiftClickToFastTransfer) {
                            ModifierPicker("ClickToTransferModifier", "", 0);
                        }
@@ -446,12 +446,12 @@ namespace ToyBox {
                    () => {
                        Toggle("Make Puzzle Symbols More Clear".localize(), ref Settings.togglePuzzleRelief);
                        25.space();
-                       HelpLabel(("ToyBox Archeologists can tag confusing puzzle pieces with green numbers in the game world and for inventory tool tips it will show text like this: " + "[PuzzlePiece Green3x1]".yellow().bold() + "\nNOTE: ".orange().bold() + "Needs game restart to take efect".orange()).localize());
+                       HelpLabel(("ToyBox Archeologists can tag confusing puzzle pieces with green numbers in the game world and for inventory tool tips it will show text like this: " + "[PuzzlePiece Green3x1]".Yellow().Bold() + "\nNOTE: ".Orange().Bold() + "Needs game restart to take efect".Orange()).localize());
                    },
                 () => {
                     ActionButton("Clear Action Bar".localize(), () => Actions.ClearActionBar());
                     50.space();
-                    Label("Make sure you have auto-fill turned off in settings or else this will just reset to default".localize().green());
+                    Label("Make sure you have auto-fill turned off in settings or else this will just reset to default".localize().Green());
                 },
                    () => ActionButton("Fix Incorrect Main Character".localize(),
                                       () => {
@@ -467,13 +467,13 @@ namespace ToyBox {
                                       },
                                       AutoWidth()),
                    () => {
-                       Toggle("Enable Loading with Blueprint Errors".localize().color(RGBA.maroon), ref Settings.enableLoadWithMissingBlueprints);
+                       Toggle("Enable Loading with Blueprint Errors".localize().Color(RGBA.maroon), ref Settings.enableLoadWithMissingBlueprints);
                        25.space();
-                       Label($"This {"incredibly dangerous".bold()} setting overrides the default behavior of failing to load saves depending on missing blueprint mods. This desperate action can potentially enable you to recover your saved game, though you'll have to respec at minimum.".localize().orange());
+                       Label($"This {"incredibly dangerous".Bold()} setting overrides the default behavior of failing to load saves depending on missing blueprint mods. This desperate action can potentially enable you to recover your saved game, though you'll have to respec at minimum.".localize().Orange());
                    },
                    () => {
                        if (Settings.enableLoadWithMissingBlueprints) {
-                           Label("To permanently remove these modded blueprint dependencies, load the damaged saved game, change areas, and then save the game. You can then respec any characters that were impacted.".localize().orange());
+                           Label("To permanently remove these modded blueprint dependencies, load the damaged saved game, change areas, and then save the game. You can then respec any characters that were impacted.".localize().Orange());
                        }
                    },
                    () => {
@@ -481,13 +481,13 @@ namespace ToyBox {
                            Div(0, 25, 1280);
                            var useAlt = Settings.useAlternateTimeScaleMultiplier;
                            var mainTimeScaleTitle = "Game Time Scale".localize();
-                           if (useAlt) mainTimeScaleTitle = mainTimeScaleTitle.grey();
+                           if (useAlt) mainTimeScaleTitle = mainTimeScaleTitle.Grey();
                            var altTimeScaleTitle = "Alternate Time Scale".localize();
-                           if (!useAlt) altTimeScaleTitle = altTimeScaleTitle.grey();
+                           if (!useAlt) altTimeScaleTitle = altTimeScaleTitle.Grey();
                            using (HorizontalScope()) {
                                LogSlider(mainTimeScaleTitle, ref Settings.timeScaleMultiplier, 0f, 20, 1, 1, "", Width(450));
                                Space(25);
-                               Label("Speeds up or slows down the entire game (movement, animation, everything)".localize().green());
+                               Label("Speeds up or slows down the entire game (movement, animation, everything)".localize().Green());
                            }
                            using (HorizontalScope()) {
                                LogSlider(altTimeScaleTitle, ref Settings.alternateTimeScaleMultiplier, 0f, 20, 5, 1, "", Width(450));
@@ -495,9 +495,10 @@ namespace ToyBox {
                            using (HorizontalScope()) {
                                BindableActionButton(TimeScaleMultToggle, true);
                                Space(-95);
-                               Label("Bindable hot key to swap between main and alternate time scale multipliers".localize().green());
+                               Label("Bindable hot key to swap between main and alternate time scale multipliers".localize().Green());
                            }
                            Div(0, 25, 1280);
+                           Actions.ApplyTimeScale();
                        }
                    },
                    () => Slider("Turn Based Combat Delay".localize(), ref Settings.turnBasedCombatStartDelay, 0f, 4f, 4f, 1, "", Width(450)),
@@ -514,7 +515,7 @@ namespace ToyBox {
                                        }));
                                    }
                                    Space(15);
-                                   Label("This allows you to play with the originally released Unfair difficulty. ".localize().green() + ("Note:".orange().bold() + "This Unfair difficulty was bugged and applied the intended difficulty modifers twice. ToyBox allows you to keep playing at this Brutal difficulty level and beyond.  Use the slider below to select your desired Brutality Level".green()).localize(), Width(1200));
+                                   Label("This allows you to play with the originally released Unfair difficulty. ".localize().Green() + ("Note:".Orange().Bold() + "This Unfair difficulty was bugged and applied the intended difficulty modifers twice. ToyBox allows you to keep playing at this Brutal difficulty level and beyond.  Use the slider below to select your desired Brutality Level".Green()).localize(), Width(1200));
                                    Space(15);
                                    using (HorizontalScope()) {
                                        if (Slider("Brutality Level".localize(), ref Settings.brutalDifficultyMultiplier, 1f, 8f, 2f, 1, "", Width(450))) {
@@ -541,7 +542,7 @@ namespace ToyBox {
                                        }
                                        using (VerticalScope(AutoWidth())) {
                                            Space(UnityModManager.UI.Scale(3));
-                                           Label(label.localize().bold(), largeStyle, AutoWidth());
+                                           Label(label.localize().Bold(), largeStyle, AutoWidth());
                                        }
                                    }
                                    Space(-10);
@@ -556,15 +557,15 @@ namespace ToyBox {
             EnhancedCamera.OnGUI();
             Div(0, 25);
             HStack("Alignment".localize(), 1,
-                   () => { Toggle("Fix Alignment Shifts".localize(), ref Settings.toggleAlignmentFix); Space(119); Label("Makes alignment shifts towards pure good/evil/lawful/chaotic only shift on those axes".localize().green()); },
-                   () => { Toggle("Prevent Alignment Changes".localize(), ref Settings.togglePreventAlignmentChanges); Space(25); Label("See Party Editor for more fine grained alignment locking per character".localize().green()); },
+                   () => { Toggle("Fix Alignment Shifts".localize(), ref Settings.toggleAlignmentFix); Space(119); Label("Makes alignment shifts towards pure good/evil/lawful/chaotic only shift on those axes".localize().Green()); },
+                   () => { Toggle("Prevent Alignment Changes".localize(), ref Settings.togglePreventAlignmentChanges); Space(25); Label("See Party Editor for more fine grained alignment locking per character".localize().Green()); },
                    () => { }
                 );
             Div(0, 25);
             HStack("Cheats".localize(), 1,
                    () => {
                        Toggle("Prevent Traps from triggering".localize(), ref Settings.disableTraps, 500.width());
-                       Label("Enterint a Trap Zone while having Traps disabled will prevent that Trap from triggering even if you deactivate this option in the future".localize().green());
+                       Label("Enterint a Trap Zone while having Traps disabled will prevent that Trap from triggering even if you deactivate this option in the future".localize().Green());
                    },
                    () => Toggle("Unlimited Stacking of Modifiers (Stat/AC/Hit/Damage/Etc)".localize(), ref Settings.toggleUnlimitedStatModifierStacking),
                    () => {
@@ -617,7 +618,7 @@ namespace ToyBox {
                 () => EnumGrid("Disable Attacks Of Opportunity".localize(), ref Settings.noAttacksOfOpportunitySelection, AutoWidth()),
                     () => EnumGrid("Can Move Through".localize(), ref Settings.allowMovementThroughSelection, AutoWidth()),
                     () => {
-                        Space(328); Label("This allows characters you control to move through the selected category of units during combat".localize().green(), AutoWidth());
+                        Space(328); Label("This allows characters you control to move through the selected category of units during combat".localize().Green(), AutoWidth());
                     }
 #if false
                 () => { UI.Slider("Collision Radius Multiplier", ref settings.collisionRadiusMultiplier, 0f, 2f, 1f, 1, "", UI.AutoWidth()); },
@@ -633,7 +634,7 @@ namespace ToyBox {
                                 0f, 120f, 5f, 2, "min".localize(), AutoWidth()),
                         () => {
                             Space(25);
-                            Label("Please rest after adjusting to recalculate your spell slots.".localize().green());
+                            Label("Please rest after adjusting to recalculate your spell slots.".localize().Green());
                         },
                         () => Toggle("Witch/Shaman: Cackling/Shanting Extends Hexes By 10 Min (Out Of Combat)".localize(), ref Settings.toggleExtendHexes),
                         () => Toggle("Allow Simultaneous Activatable Abilities (Like Judgements)".localize(), ref Settings.toggleAllowAllActivatable),
@@ -720,17 +721,17 @@ namespace ToyBox {
                     Space(25);
                     Toggle("Whole Team Moves Same Speed".localize(), ref Settings.toggleMoveSpeedAsOne);
                     Space(25);
-                    Label("Adjusts the movement speed of your party in area maps".localize().green());
+                    Label("Adjusts the movement speed of your party in area maps".localize().Green());
                 },
                 () => {
                     LogSlider("Travel Speed".localize(), ref Settings.travelSpeedMultiplier, 0f, 20, 1, 1, "", Width(600));
                     Space(25);
-                    Label("Adjusts the movement speed of your party on world maps".localize().green());
+                    Label("Adjusts the movement speed of your party on world maps".localize().Green());
                 },
                 () => {
                     LogSlider("Companion Cost".localize(), ref Settings.companionCostMultiplier, 0, 20, 1, 1, "", Width(600));
                     Space(25);
-                    Label("Adjusts costs of hiring mercenaries at the Pathfinder vendor".localize().green());
+                    Label("Adjusts costs of hiring mercenaries at the Pathfinder vendor".localize().Green());
 
                 },
                 () => LogSlider("Enemy HP Multiplier".localize(), ref Settings.enemyBaseHitPointsMultiplier, 0.1f, 20, 1, 1, "", AutoWidth()),
@@ -743,7 +744,6 @@ namespace ToyBox {
                 },
                 () => { }
                 );
-            Actions.ApplyTimeScale();
             Div(0, 25);
             DiceRollsGUI.OnGUI();
             Div(0, 25);
@@ -753,7 +753,7 @@ namespace ToyBox {
                     using (VerticalScope()) {
                         Div(0, 25);
                         using (HorizontalScope()) {
-                            Label("Primary".localize().orange(), AutoWidth()); Space(215); Label("good for party".localize().green());
+                            Label("Primary".localize().Orange(), AutoWidth()); Space(215); Label("good for party".localize().Green());
                         }
                         Space(25);
                         EnumGrid("Modify Summons For".localize(), ref Settings.summonTweakTarget1, AutoWidth());
@@ -761,7 +761,7 @@ namespace ToyBox {
                         Slider("Level Increase/Decrease".localize(), ref Settings.summonLevelModifier1, -20f, +20f, 0f, 0, "", AutoWidth());
                         Div(0, 25);
                         using (HorizontalScope()) {
-                            Label("Secondary".localize().orange(), AutoWidth()); Space(215); Label("good for larger group or to reduce enemies".localize().green());
+                            Label("Secondary".localize().Orange(), AutoWidth()); Space(215); Label("good for larger group or to reduce enemies".localize().Green());
                         }
                         Space(25);
                         EnumGrid("Modify Summons For".localize(), ref Settings.summonTweakTarget2, AutoWidth());

@@ -51,7 +51,7 @@ namespace ToyBox {
 
                 () => {
                     if (BlueprintLoader.Shared.IsLoading) {
-                        Label(("Blueprints".orange().bold() + " loading: ").localize() + BlueprintLoader.Shared.progress.ToString("P2").cyan().bold());
+                        Label(("Blueprints".Orange().Bold() + " loading: ").localize() + BlueprintLoader.Shared.progress.ToString("P2").Cyan().Bold());
                     } else Space(25);
                 },
                 () => {
@@ -151,8 +151,8 @@ namespace ToyBox {
             VStack(null, buffs?.Where(bp => showDefaults || !SettingsDefaults.DefaultBuffsToIgnoreForDurationMultiplier.Contains(bp.AssetGuidThreadSafe))
                 ?.OrderBy(BlueprintExtensions.GetSortKey).Select<BlueprintBuff, Action>(bp => () => {
                     using (HorizontalScope()) {
-                        Label(BlueprintExtensions.GetTitle(bp).cyan().bold(), Width(titleWidth));
-                        Label(bp.NameSafe().orange().bold(), Width(complexNameWidth));
+                        Label(BlueprintExtensions.GetTitle(bp).Cyan().Bold(), Width(titleWidth));
+                        Label(bp.NameSafe().Orange().Bold(), Width(complexNameWidth));
                         if (settings.showAssetIDs) {
                             ClipboardLabel(bp.AssetGuidThreadSafe, ExpandWidth(false), Width(guidWidth));
                         }
@@ -169,18 +169,18 @@ namespace ToyBox {
                                 RemoveBuff(bp.AssetGuidThreadSafe);
                             });
                         }
-                        Label(bp.GetDescription().green());
+                        Label(bp.GetDescription().Green());
                     }
                     Space(25);
                 })
             .Prepend(() => {
                 using (HorizontalScope()) {
-                    Label("In-Game Name".localize().red().bold(), Width(titleWidth));
-                    Label("Internal Name".localize().red().bold(), Width(complexNameWidth));
+                    Label("In-Game Name".localize().Red().Bold(), Width(titleWidth));
+                    Label("Internal Name".localize().Red().Bold(), Width(complexNameWidth));
                     if (settings.showAssetIDs) {
-                        Label("Guid".localize().red().bold(), Width(guidWidth));
+                        Label("Guid".localize().Red().Bold(), Width(guidWidth));
                     }
-                    Label("Description".localize().red().bold());
+                    Label("Description".localize().Red().Bold());
                 }
             })
             .Append(() => { })

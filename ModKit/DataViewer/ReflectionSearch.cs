@@ -11,8 +11,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
 using static ModKit.Utility.ReflectionCache;
-using static ModKit.Utility.StringExtensions;
-using static ModKit.Utility.RichTextExtensions;
+using static ModKit.StringExtensions;
 
 namespace ModKit.DataViewer {
     /**

@@ -32,7 +32,7 @@ namespace ToyBox {
                    },
                    () => {
                        Toggle("Click On Equip Slots To Filter Inventory".localize(), ref Settings.togglEquipSlotInventoryFiltering, 500.width());
-                       HelpLabel($"If you tick this you can click on equipment slots to filter the inventory for items that fit in it.\nFor more {"Enhanced Inventory".orange()} and {"Spellbook".orange()} check out the {"Loot & Spellbook Tab".orange().bold()}".localize());
+                       HelpLabel($"If you tick this you can click on equipment slots to filter the inventory for items that fit in it.\nFor more {RichText.Orange("Enhanced Inventory")} and {RichText.Orange("Spellbook")} check out the {RichText.Bold(RichText.Orange("Loot & Spellbook Tab"))}".localize());
                    },
                    () => {
                        Toggle("Auto Follow While Holding Camera Follow Key".localize(), ref Settings.toggleAutoFollowHold, 400.width());
@@ -43,7 +43,7 @@ namespace ToyBox {
                    () => {
                        var modifier = KeyBindings.GetBinding("InventoryUseModifier");
                        var modifierText = modifier.Key == KeyCode.None ? "Modifer" : modifier.ToString();
-                       Toggle("Allow ".localize() + $"{modifierText}".cyan() + (" + Click".cyan() + " To Use Items In Inventory").localize(), ref Settings.toggleShiftClickToUseInventorySlot, 470.width());
+                       Toggle("Allow ".localize() + RichText.Cyan($"{modifierText}") + (RichText.Cyan(" + Click") + " To Use Items In Inventory").localize(), ref Settings.toggleShiftClickToUseInventorySlot, 470.width());
                        if (Settings.toggleShiftClickToUseInventorySlot) {
                            ModifierPicker("InventoryUseModifier", "", 0);
                        }
@@ -51,7 +51,7 @@ namespace ToyBox {
                    () => {
                        var modifier = KeyBindings.GetBinding("ClickToTransferModifier");
                        var modifierText = modifier.Key == KeyCode.None ? "Modifer" : modifier.ToString();
-                       Toggle("Allow ".localize() + $"{modifierText}".cyan() + (" + Click".cyan() + " To Transfer Entire Stack").localize(), ref Settings.toggleShiftClickToFastTransfer, 470.width());
+                       Toggle("Allow ".localize() + RichText.Cyan($"{modifierText}") + (RichText.Cyan(" + Click") + " To Transfer Entire Stack").localize(), ref Settings.toggleShiftClickToFastTransfer, 470.width());
                        if (Settings.toggleShiftClickToFastTransfer) {
                            ModifierPicker("ClickToTransferModifier", "", 0);
                        }
@@ -74,12 +74,12 @@ namespace ToyBox {
                    () => {
                        Toggle("Make Puzzle Symbols More Clear".localize(), ref Settings.togglePuzzleRelief);
                        25.space();
-                       HelpLabel(("ToyBox Archeologists can tag confusing puzzle pieces with green numbers in the game world and for inventory tool tips it will show text like this: " + "[PuzzlePiece Green3x1]".yellow().bold() + "\nNOTE: ".orange().bold() + "Needs game restart to take efect".orange()).localize());
+                       HelpLabel(("ToyBox Archeologists can tag confusing puzzle pieces with green numbers in the game world and for inventory tool tips it will show text like this: " + RichText.Bold(RichText.Yellow("[PuzzlePiece Green3x1]")) + RichText.Bold(RichText.Orange("\nNOTE: ")) + RichText.Orange("Needs game restart to take efect")).localize());
                    },
                    () => {
                        ActionButton("Clear Action Bar".localize(), () => Actions.ClearActionBar());
                        50.space();
-                       Label("Make sure you have auto-fill turned off in settings or else this will just reset to default".localize().green());
+                       Label(RichText.Green("Make sure you have auto-fill turned off in settings or else this will just reset to default".localize()));
                    },
                    () => ActionButton("Fix Incorrect Main Character".localize(),
                                       () => {
@@ -104,14 +104,14 @@ namespace ToyBox {
                            Toggle("Color Item Names".localize(), ref Settings.toggleColorLootByRarity);
                        }
                        using (VerticalScope()) {
-                           Label($"This makes loot function like Diablo or Borderlands. {"Note: turning this off requires you to save and reload for it to take effect.".orange()}".localize()
-                                     .green());
+                           Label(RichText.Green($"This makes loot function like Diablo or Borderlands. {RichText.Orange("Note: turning this off requires you to save and reload for it to take effect.")}".localize()
+));
                        }
                    },
                    () => {
                        if (Settings.UsingLootRarity) {
                            using (VerticalScope(400.width())) {
-                               Label("Minimum Rarity For Loot Rarity Tags/Colors".localize().cyan(), AutoWidth());
+                               Label(RichText.Cyan("Minimum Rarity For Loot Rarity Tags/Colors".localize()), AutoWidth());
                                RarityGrid(ref Settings.minRarityToColor, 4, AutoWidth());
                            }
                        }
@@ -121,7 +121,7 @@ namespace ToyBox {
                            using (VerticalScope(300)) {
                                using (HorizontalScope(300)) {
                                    using (VerticalScope()) {
-                                       Label("Maximum Rarity To Hide:".localize().cyan(), AutoWidth());
+                                       Label(RichText.Cyan("Maximum Rarity To Hide:".localize()), AutoWidth());
                                        RarityGrid(ref Settings.maxRarityToHide, 4, AutoWidth());
                                    }
                                }
@@ -129,7 +129,7 @@ namespace ToyBox {
                            50.space();
                            using (VerticalScope()) {
                                Label("");
-                               HelpLabel($"This hides map pins of loot containers containing at most the selected rarity. {"Note: Changing settings requires reopening the map.".orange()}".localize());
+                               HelpLabel($"This hides map pins of loot containers containing at most the selected rarity. {RichText.Orange("Note: Changing settings requires reopening the map.")}".localize());
                            }
                        }
                    },
@@ -147,7 +147,7 @@ namespace ToyBox {
                                if (Toggle("Enable Enhanced Inventory".localize(), ref Settings.toggleEnhancedInventory, 300.width()))
                                    EnhancedInventory.RefreshRemappers();
                                25.space();
-                               Label("Selected features revived from Xenofell's excellent mod".localize().green());
+                               Label(RichText.Green("Selected features revived from Xenofell's excellent mod".localize()));
                            }
                        }
                    },
@@ -158,10 +158,10 @@ namespace ToyBox {
                            using (HorizontalScope()) {
                                Toggle("Always Keep Search Filter Active".localize(), ref Settings.toggleDontClearSearchWhenLoseFocus, 300.width());
                                25.space();
-                               HelpLabel(("When ticked, this keeps your search active when you click to dismiss the Search Bar. This allows you to apply the search to different item categories.\n" + "Untick this if you wish for the standard game behavior where it clears your search".orange()).localize());
+                               HelpLabel(("When ticked, this keeps your search active when you click to dismiss the Search Bar. This allows you to apply the search to different item categories.\n" + RichText.Orange("Untick this if you wish for the standard game behavior where it clears your search")).localize());
                            }
                            using (HorizontalScope()) {
-                               Label("Enabled Sort Categories".localize().Cyan(), 300.width());
+                               Label(RichText.Cyan("Enabled Sort Categories".localize()), 300.width());
                                25.space();
                                HelpLabel("Here you can choose which Sort Options appear in the popup menu".localize());
                                divRect = DivLastRect();
@@ -198,7 +198,7 @@ namespace ToyBox {
                        using (VerticalScope()) {
                            Rect divRect;
                            using (HorizontalScope()) {
-                               Label("Enabled Search Filters".localize().Cyan(), 300.width());
+                               Label(RichText.Cyan("Enabled Search Filters".localize()), 300.width());
                                25.space();
                                HelpLabel("Here you can choose which Search filters appear in the popup menu".localize());
                                divRect = DivLastRect();
@@ -235,7 +235,7 @@ namespace ToyBox {
                        if (Toggle("Enable Enhanced Spellbook".localize(), ref Settings.toggleEnhancedSpellbook, 300.width()))
                            EnhancedInventory.RefreshRemappers();
                        25.space();
-                       Label("Various spellbook enhancements revived from Xenofell's excellent mod".localize().green());
+                       Label(RichText.Green("Various spellbook enhancements revived from Xenofell's excellent mod".localize()));
                    },
                    () => {
                        if (Settings.toggleEnhancedSpellbook) {
@@ -249,7 +249,7 @@ namespace ToyBox {
                                15.space();
                                Rect divRect;
                                using (HorizontalScope()) {
-                                   Label("Spellbook Search Criteria".localize().Cyan(), 300.width());
+                                   Label(RichText.Cyan("Spellbook Search Criteria".localize()), 300.width());
                                    25.space();
                                    HelpLabel("Here you can choose which Search filters appear in the spellbook search popup menu".localize());
                                    divRect = DivLastRect();

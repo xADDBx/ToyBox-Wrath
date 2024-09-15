@@ -30,12 +30,12 @@ namespace ToyBox.classes.MainUI {
         public static Dictionary<BlueprintAiAction, Browser<Consideration, Consideration>> TargetConsiderationBrowser = new();
 
         public static void OnGUI() {
-            Label("Group".orange().bold());
+            Label("Group".Orange().Bold());
             CharacterPicker.OnFilterPickerGUI();
             Div();
             using (HorizontalScope()) {
                 50.space();
-                Label("Character".orange().bold());
+                Label("Character".Orange().Bold());
             }
             5.space();
             CharacterPicker.OnCharacterPickerGUI(50);
@@ -45,9 +45,9 @@ namespace ToyBox.classes.MainUI {
         }
         public static void OnBrainGUI(UnitEntityData ch) {
             if (ch == null) return;
-            Label("This allows you to edit the AI for your characters much like Gambits in Final Fantasy 12, Dragon Age, or Pillars of Eternity. You can either choose one of the available default brains or build a custom one by choosing from a list of AI actions".green());
+            Label("This allows you to edit the AI for your characters much like Gambits in Final Fantasy 12, Dragon Age, or Pillars of Eternity. You can either choose one of the available default brains or build a custom one by choosing from a list of AI actions".Green());
             using (HorizontalScope()) {
-                Label("Current Brain: ".cyan() + ch.Brain.Blueprint.GetDisplayName());
+                Label("Current Brain: ".Cyan() + ch.Brain.Blueprint.GetDisplayName());
                 10.space();
                 if (Toggle("Customize", ref _customBrain)) if (_customBrain) _pickBrain = false;
                 if (!_customBrain) {
@@ -65,7 +65,7 @@ namespace ToyBox.classes.MainUI {
                         ActionBrowser.ResetSearch();
                     }
                 } else
-                    Label("Blueprints".orange().bold() + " loading: " + BlueprintLoader.Shared.progress.ToString("P2").cyan().bold());
+                    Label("Blueprints".Orange().Bold() + " loading: " + BlueprintLoader.Shared.progress.ToString("P2").Cyan().Bold());
             }
 
 
@@ -81,7 +81,7 @@ namespace ToyBox.classes.MainUI {
                     ReflectionTreeView.DetailToggle("Inspect", bp, action != null ? action : bp);
                     var attributes = bp.GetCustomAttributes();
                     var text = String.Join("\n", attributes.Select((name, value) => $"{name}: {value}"));
-                    Label($"{text.green()}", AutoWidth());
+                    Label($"{text.Green()}", AutoWidth());
                 },
                 (bp, action) => {
                     ReflectionTreeView.OnDetailGUI((bp));
@@ -89,7 +89,7 @@ namespace ToyBox.classes.MainUI {
                         if (action?.ActorConsiderations.Count > 0) {
                             using (HorizontalScope()) {
                                 150.space();
-                                Label($"{"Actor Considerations".orange().bold()} - {ch.CharacterName.cyan()}");
+                                Label($"{"Actor Considerations".Orange().Bold()} - {ch.CharacterName.Cyan()}");
                             }
                             ConsiderationBrowser.OnGUI(
                                action.ActorConsiderations,
@@ -104,7 +104,7 @@ namespace ToyBox.classes.MainUI {
 
                                    var attributes = bp.GetCustomAttributes();
                                    var text = string.Join("\n", attributes.Select((name, value) => $"{name} : {value}"));
-                                   Label(text.green(), AutoWidth());
+                                   Label(text.Green(), AutoWidth());
                                },
                                (bp, _) => ReflectionTreeView.OnDetailGUI(bp, 150),
                                150, true, false
@@ -112,7 +112,7 @@ namespace ToyBox.classes.MainUI {
                         }
                         using (HorizontalScope()) {
                             150.space();
-                            Label($"Target Consideration".orange());
+                            Label($"Target Consideration".Orange());
                         }
                         var targetConsiderationsBrowser = TargetConsiderationBrowser.GetValueOrDefault(bp, null);
                         if (targetConsiderationsBrowser == null) {
@@ -131,7 +131,7 @@ namespace ToyBox.classes.MainUI {
                                 ReflectionTreeView.DetailToggle("", bp);
                                 var attributes = bp.GetCustomAttributes();
                                 var text = string.Join("\n", attributes.Select((name, value) => $"{name} : {value}"));
-                                Label(text.green(), AutoWidth());
+                                Label(text.Green(), AutoWidth());
                             },
                             (bp, _) => ReflectionTreeView.OnDetailGUI(bp, 150),
                             150, true, false

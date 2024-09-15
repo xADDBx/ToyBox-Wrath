@@ -137,12 +137,12 @@ namespace ModKit {
             public override string ToString() { // Why can't Unity display these ⌥⌃⇧⌘ ???  ⌗⌃⌥⇧⇑⌂©ăåâÂ
                 var result = "";
                 if (Ctrl)
-                    result += "^".cyan();
+                    result += "^".Cyan();
                 if (Shift)
-                    result += "⇑".cyan();
+                    result += "⇑".Cyan();
                 if (Alt || Cmd)
-                    result += "Alt".cyan();
-                return result + (Ctrl || Shift || Alt ? "+".cyan() : "") + Key.ToString();
+                    result += "Alt".Cyan();
+                return result + (Ctrl || Shift || Alt ? "+".Cyan() : "") + Key.ToString();
             }
         }
     }

@@ -24,11 +24,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)ModKit\ModKit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModKit\ModKitSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModKit\SettingsController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\ColorUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\RichText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Glyphs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\KeyBindings\KeyBindings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Private\Toggle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\RichText.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Styles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\UI+Browser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\UI+Builders.cs" />
@@ -43,7 +42,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Extensions\CodeInstructionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Dictionary\DoubleDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Extensions\MiscExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utility\Extensions\RichTextExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\KeyBindings\UI+KeyBindings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\NamedTypes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Dictionary\SerializableDictionary.cs" />

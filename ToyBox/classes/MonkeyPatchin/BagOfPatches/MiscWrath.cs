@@ -530,7 +530,7 @@ namespace ToyBox.BagOfPatches {
                         if (item != null) {
                             Game.Instance.ScheduleAction(() => {
                                 try {
-                                    Mod.Debug($"refill {item.m_Blueprint.Name.cyan()}");
+                                    Mod.Debug($"refill {item.m_Blueprint.Name.Cyan()}");
                                     __instance.InsertItem(item);
                                 } catch (Exception e) {
                                     Mod.Error($"{e}");

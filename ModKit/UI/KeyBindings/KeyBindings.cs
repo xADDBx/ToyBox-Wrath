@@ -11,7 +11,7 @@ namespace ModKit {
                                                                                          .GetValueOrDefault(keyBind.bindCode, new List<string> { }).Where(id => id != keyBind.ID);
         public static void RemoveConflicts(this KeyBind keyBind) => KeyBindings.RemoveConflicts(keyBind);
         public static string ToggleTranscriptForState(string identifier, bool state)
-            => $"Toggle: {identifier.blue()} -> {(state ? "True".blue() : "False".red())}";
+            => $"Toggle: {identifier.Blue()} -> {(state ? "True".Blue() : "False".Red())}";
 
         // This maintains the association of actions and KeyBinds associate with a specific identifier. Since we can not persist the action we persist the keybind and the client needs to register the action with the identifier each time the mod is initialized. This also contains logic to detect conflicts.  
         // NOTE: This also provides an OnUpdate call and any client of this must manually call it during an OnUpdate block in their mod for KeyBindings to function correctly
@@ -107,7 +107,7 @@ namespace ModKit {
                             entry.action();
                             lastTriggered = binding;
                             if (!Mod.ModKitSettings.toggleKeyBindingsOutputToTranscript) continue;
-                            Mod.InGameTranscriptLogger?.Invoke(entry.description != null ? entry.description(identifier) : $"Action " + identifier.blue());
+                            Mod.InGameTranscriptLogger?.Invoke(entry.description != null ? entry.description(identifier) : $"Action " + identifier.Blue());
                         }
                 }
             }

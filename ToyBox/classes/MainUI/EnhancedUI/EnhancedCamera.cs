@@ -22,7 +22,7 @@ namespace ToyBox {
                    () => {
                        Toggle("Enable Rotate on all maps and cutscenes".localize(), ref Settings.toggleRotateOnAllMaps, 400.width());
                        153.space();
-                       Label(("Note:".orange() + " For cutscenes and some situations the rotation keys are disabled so you have to hold down Mouse3 to drag in order to get rotation".green()).localize());
+                       Label((RichText.Orange("Note:") + RichText.Green(" For cutscenes and some situations the rotation keys are disabled so you have to hold down Mouse3 to drag in order to get rotation")).localize());
                    },
                    () => {
                        if (Toggle("Enable Mouse3 Dragging To Aim The Camera".localize(), ref Settings.toggleCameraPitch, 400.width())) {
@@ -40,10 +40,10 @@ namespace ToyBox {
                    () => {
                        Toggle("Alt + Mouse Wheel To Adjust Clip Plane".localize(), ref Settings.toggleUseAltMouseWheelToAdjustClipPlane);
                    },
-                   () => Label("Rotation Options".localize().cyan()),
+                   () => Label(RichText.Cyan("Rotation Options".localize())),
                    () => {
                        50.space();
-                       Label("Mouse:".localize().cyan(), 125.width());
+                       Label(RichText.Cyan("Mouse:".localize()), 125.width());
                        25.space();
                        Toggle("Invert X Axis".localize(), ref Settings.toggleInvertXAxis);
                        if (Settings.toggleCameraPitch) {
@@ -53,7 +53,7 @@ namespace ToyBox {
                    },
                    () => {
                        50.space();
-                       Label("Keyboard:".localize().cyan(), 125.width());
+                       Label(RichText.Cyan("Keyboard:".localize()), 125.width());
                        25.space();
                        Toggle("Invert X Axis".localize(), ref Settings.toggleInvertKeyboardXAxis);
                    },

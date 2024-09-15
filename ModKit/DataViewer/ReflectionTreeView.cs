@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using static ModKit.UI;
-using static ModKit.Utility.StringExtensions;
+using static ModKit.StringExtensions;
 using Object = System.Object;
 
 namespace ModKit.DataViewer {
@@ -38,7 +38,7 @@ namespace ModKit.DataViewer {
                 reflectionTreeView.Indent = indent;
                 using (HorizontalScope()) {
                     Space(indent);
-                    Label("Inspecting: ".localize().grey() + reflectionTreeView.Root.ToString().orange().bold());
+                    Label("Inspecting: ".localize().Grey() + reflectionTreeView.Root.ToString().Orange().Bold());
                 }
                 reflectionTreeView.OnGUI(false);
                 return true;
@@ -292,13 +292,13 @@ namespace ModKit.DataViewer {
                     if (!Mod.ModKitSettings.toggleDataViewerShowNullAndEmpties
                         && (enumerableCount == 0 || node.IsNull))
                         return;
-                    if (enumerableCount >= 0) name += $"[{enumerableCount}]".yellow();
+                    if (enumerableCount >= 0) name += $"[{enumerableCount}]".Yellow();
                     var typeName = node.InstType?.Name ?? node.Type?.Name;
                     ToggleButton(ref expanded,
-                                 $"[{node.NodeTypePrefix}] ".color(RGBA.grey)
+                                 $"[{node.NodeTypePrefix}] ".Color(RGBA.grey)
                                  + name
                                  + " : "
-                                 + typeName.color(
+                                 + typeName.Color(
                                      node.IsBaseType
                                          ? RGBA.grey
                                          : node.IsGameObject
@@ -331,7 +331,7 @@ namespace ModKit.DataViewer {
                     var text = "";
                     var style = GUI.skin.label;
                     if (node.InstType != null && node.InstType != node.Type) {
-                        text = node.InstType.Name.color(RGBA.yellow);
+                        text = node.InstType.Name.Color(RGBA.yellow);
                         style = _buttonStyle;
                         Label(text, _buttonStyle, GUILayout.ExpandWidth(false));
                     }

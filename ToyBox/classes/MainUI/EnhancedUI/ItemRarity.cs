@@ -162,17 +162,17 @@ namespace ToyBox {
             return component != null ? RarityType.Notable : Rarity(bp.Rating(item));
         }
         public static RarityType Rarity(this BlueprintItemEnchantment bp) => bp.Rating().Rarity();
-        public static Color Color(this RarityType rarity, float adjust = 0) => RarityColors[(int)rarity].color(adjust);
-        public static string? Rarity(this string s, RarityType rarity, float adjust = 0) => s.color(RarityColors[(int)rarity]);
-        public static string? DarkModeRarity(this string s, RarityType rarity, float adjust = 0) => s.color(DarkModeRarityColors[(int)rarity]);
+        public static Color Color(this RarityType rarity, float adjust = 0) => RarityColors[(int)rarity].Color(adjust);
+        public static string? Rarity(this string s, RarityType rarity, float adjust = 0) => s.Color(RarityColors[(int)rarity]);
+        public static string? DarkModeRarity(this string s, RarityType rarity, float adjust = 0) => s.Color(DarkModeRarityColors[(int)rarity]);
 
         public static string? RarityInGame(this string? s, RarityType rarity, float adjust = 0) {
-            var name = Settings.toggleColorLootByRarity ? s.color(RarityColors[(int)rarity]) : s;
+            var name = Settings.toggleColorLootByRarity ? s.Color(RarityColors[(int)rarity]) : s;
             if (!Settings.toggleShowRarityTags) return name;
             if (Settings.toggleColorLootByRarity)
-                return name + " " + $"[{rarity}]".darkGrey().bold(); //.SizePercent(75);
+                return name + " " + $"[{rarity}]".DarkGrey().Bold(); //.SizePercent(75);
             else
-                return name + " " + $"[{rarity}]".Rarity(rarity).bold(); //.SizePercent(75);
+                return name + " " + $"[{rarity}]".Rarity(rarity).Bold(); //.SizePercent(75);
         }
         public static string? GetString(this RarityType rarity, float adjust = 0) => rarity.ToString().Rarity(rarity, adjust);
         public static void Hide(this LocalMapLootMarkerPCView localMapLootMarkerPCView) {

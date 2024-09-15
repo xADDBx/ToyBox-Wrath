@@ -13,7 +13,7 @@ namespace ToyBox {
             void BonusItemOptions(string? itemTypeName, string? bonusType, ref int enchantLevel, ref int stackSize, Action accessory = null) {
                 using (HorizontalScope()) {
                     Label($"{itemTypeName.Cyan()}:", 180.width());
-                    Label($"{bonusType.orange()}", 150.width());
+                    Label($"{RichText.Orange(bonusType)}", 150.width());
                     Slider(ref enchantLevel, 0, 20, 0, "", 300.width());
                     Slider(ref stackSize, 0, 20, 1, "", 300.width());
                     accessory?.Invoke();
@@ -31,7 +31,7 @@ namespace ToyBox {
 
             void DamageTypeOptions<T>(string? title, SerializableDictionary<T, bool> settings) where T : Enum {
                 using (HorizontalScope()) {
-                    Label(title.orange(), 220.width());
+                    Label(RichText.Orange(title), 220.width());
                     using (VerticalScope()) {
                         settings.Keys
                                 .Select((type, index) => new { type, index })

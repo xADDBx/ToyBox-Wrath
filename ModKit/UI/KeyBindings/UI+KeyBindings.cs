@@ -15,7 +15,7 @@ namespace ModKit {
             var keyBind = KeyBindings.GetBinding(identifier);
             var isEditing = identifier == selectedIdentifier;
             var isEditingOther = selectedIdentifier != null && identifier != selectedIdentifier && oldValue != null;
-            var label = keyBind.IsEmpty ? isEditing ? "Cancel".localize() : "Bind".localize() : keyBind.ToString().orange().bold();
+            var label = keyBind.IsEmpty ? isEditing ? "Cancel".localize() : "Bind".localize() : keyBind.ToString().Orange().Bold();
             showHint = showHint && isEditing;
             var conflicts = keyBind.Conflicts();
             using (VerticalScope(options)) {
@@ -38,12 +38,12 @@ namespace ModKit {
                 if (conflicts.Count() > 0) {
                     ActionButton("Replace".localize(), () => { bind.RemoveConflicts(); });
                     ActionButton("Clear".localize(), () => { KeyBindings.ClearBinding(bind.ID); });
-                    Label("conflicts".localize().orange().bold() + "\n" + string.Join("\n", conflicts));
+                    Label("conflicts".localize().Orange().Bold() + "\n" + string.Join("\n", conflicts));
                 }
                 if (showHint) {
                     var hint = "";
                     if (keyBind.IsEmpty)
-                        hint = oldValue == null ? "set key binding".localize().green() : "press key".localize().green();
+                        hint = oldValue == null ? "set key binding".localize().Green() : "press key".localize().Green();
                     Label(hint);
                     if (oldValue != null)
                         ActionButton("Clear".localize(),
@@ -103,7 +103,7 @@ namespace ModKit {
         public static void KeyBindPicker(string? identifier, string? title, float indent = 0, float titleWidth = 0) {
             using (HorizontalScope()) {
                 Space(indent);
-                Label(title.bold(), titleWidth == 0 ? ExpandWidth(false) : Width(titleWidth));
+                Label(title.Bold(), titleWidth == 0 ? ExpandWidth(false) : Width(titleWidth));
                 Space(25);
                 EditKeyBind(identifier, true);
             }
@@ -112,7 +112,7 @@ namespace ModKit {
         // UI.KeyBindings.GetBinding(<identifier>).IsModifierActive
         public static void ModifierPicker(string? identifier, string title, float indent = 0, float titleWidth = 0) {
             using (HorizontalScope()) {
-                Label(title.bold(), titleWidth == 0 ? ExpandWidth(false) : Width(titleWidth));
+                Label(title.Bold(), titleWidth == 0 ? ExpandWidth(false) : Width(titleWidth));
                 Space(25);
                 EditKeyBind(identifier, true, true);
             }

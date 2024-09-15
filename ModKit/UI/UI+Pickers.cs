@@ -18,7 +18,7 @@ namespace ModKit {
             if (IsNarrow)
                 xCols = Math.Min(4, xCols);
             var sel = selected;
-            var titles = texts.Select((a, i) => i == sel ? a.orange().bold() : a);
+            var titles = texts.Select((a, i) => i == sel ? a.Orange().Bold() : a);
             if (xCols <= 0)
                 xCols = texts.Count();
             selected = GL.SelectionGrid(selected, titles.ToArray(), xCols, options);
@@ -26,7 +26,7 @@ namespace ModKit {
         }
         public static bool SelectionGrid(string title, ref int selected, string[] texts, int xCols, params GUILayoutOption[] options) {
             using (HorizontalScope()) {
-                Label(title.cyan(), Width(300));
+                Label(title.Cyan(), Width(300));
                 Space(25);
                 return SelectionGrid(ref selected, texts, xCols, options);
             }
@@ -37,7 +37,7 @@ namespace ModKit {
             if (IsNarrow)
                 xCols = Math.Min(4, xCols);
             var sel = selected;
-            var titles = texts.Select((a, i) => i == sel ? a.orange().bold() : a);
+            var titles = texts.Select((a, i) => i == sel ? a.Orange().Bold() : a);
             if (xCols <= 0)
                 xCols = texts.Count();
             selected = GL.SelectionGrid(selected, titles.ToArray(), xCols, style, options);
@@ -49,7 +49,7 @@ namespace ModKit {
             if (IsNarrow)
                 xCols = Math.Min(4, xCols);
             var sel = selected;
-            var titles = items.Select((a, i) => i == sel ? $"{a}".orange().bold() : $"{a}");
+            var titles = items.Select((a, i) => i == sel ? $"{a}".Orange().Bold() : $"{a}");
             if (xCols <= 0)
                 xCols = items.Count();
             selected = GL.SelectionGrid(selected, titles.ToArray(), xCols, options);
@@ -61,7 +61,7 @@ namespace ModKit {
             if (IsNarrow)
                 xCols = Math.Min(4, xCols);
             var sel = selected;
-            var titles = items.Select((a, i) => i == sel ? $"{a}".orange().bold() : $"{a}");
+            var titles = items.Select((a, i) => i == sel ? $"{a}".Orange().Bold() : $"{a}");
             if (xCols <= 0)
                 xCols = items.Count();
             selected = GL.SelectionGrid(selected, titles.ToArray(), xCols, style, options);
@@ -69,7 +69,7 @@ namespace ModKit {
         }
         public static void ActionSelectionGrid(ref int selected, string[] texts, int xCols, Action<int> action, params GUILayoutOption[] options) {
             var sel = selected;
-            var titles = texts.Select((a, i) => i == sel ? a.orange().bold() : a);
+            var titles = texts.Select((a, i) => i == sel ? a.Orange().Bold() : a);
             if (xCols <= 0)
                 xCols = texts.Count();
             sel = GL.SelectionGrid(selected, titles.ToArray(), xCols, options);
@@ -84,7 +84,7 @@ namespace ModKit {
         }
         public static void ActionSelectionGrid(ref int selected, string[] texts, int xCols, Action<int> action, GUIStyle style, params GUILayoutOption[] options) {
             var sel = selected;
-            var titles = texts.Select((a, i) => i == sel ? a.orange().bold() : a);
+            var titles = texts.Select((a, i) => i == sel ? a.Orange().Bold() : a);
             if (xCols <= 0)
                 xCols = texts.Count();
             sel = GL.SelectionGrid(selected, titles.ToArray(), xCols, style, options);
@@ -134,7 +134,7 @@ namespace ModKit {
         public static bool EnumGrid<TEnum>(string? title, ref TEnum value, int xCols, params GUILayoutOption[] options) where TEnum : struct {
             var changed = false;
             using (HorizontalScope()) {
-                Label(title.cyan(), Width(300));
+                Label(title.Cyan(), Width(300));
                 Space(25);
                 changed = EnumGrid(ref value, xCols, null, options);
             }
@@ -143,7 +143,7 @@ namespace ModKit {
         public static bool EnumGrid<TEnum>(string? title, ref TEnum value, params GUILayoutOption[] options) where TEnum : struct {
             var changed = false;
             using (HorizontalScope()) {
-                Label(title.cyan(), Width(300));
+                Label(title.Cyan(), Width(300));
                 Space(25);
                 changed = EnumGrid(ref value, 0, null, options);
             }
@@ -153,7 +153,7 @@ namespace ModKit {
         public static bool EnumGrid<TEnum>(string title, ref TEnum value, int xCols, GUIStyle? style = null, params GUILayoutOption[] options) where TEnum : struct {
             var changed = false;
             using (HorizontalScope()) {
-                Label(title.cyan(), Width(300));
+                Label(title.Cyan(), Width(300));
                 Space(25);
                 changed = EnumGrid(ref value, xCols, null, style, options);
             }
@@ -163,7 +163,7 @@ namespace ModKit {
         public static bool EnumGrid<TEnum>(string title, ref TEnum value, int xCols, Func<string, TEnum, string?>? titleFormater = null, params GUILayoutOption[] options) where TEnum : struct {
             var changed = false;
             using (HorizontalScope()) {
-                Label(title.cyan(), Width(300));
+                Label(title.Cyan(), Width(300));
                 Space(25);
                 changed = EnumGrid(ref value, xCols, titleFormater, options);
             }
@@ -172,7 +172,7 @@ namespace ModKit {
         public static bool EnumGrid<TEnum>(string title, ref TEnum value, int xCols, Func<string, TEnum, string?>? titleFormater = null, GUIStyle? style = null, params GUILayoutOption[] options) where TEnum : struct {
             var changed = false;
             using (HorizontalScope()) {
-                Label(title.cyan(), Width(300));
+                Label(title.Cyan(), Width(300));
                 Space(25);
                 changed = EnumGrid(ref value, xCols, titleFormater, style, options);
             }
@@ -181,7 +181,7 @@ namespace ModKit {
         public static bool EnumGrid<TEnum>(string title, Func<TEnum> get, Action<TEnum> set, params GUILayoutOption[] options) where TEnum : struct {
             var changed = false;
             using (HorizontalScope()) {
-                Label(title.cyan(), Width(300));
+                Label(title.Cyan(), Width(300));
                 Space(25);
                 var value = get();
                 changed = EnumGrid(ref value, 0, null, options);
@@ -206,7 +206,7 @@ namespace ModKit {
             if (selected > range.Count())
                 selected = 0;
             var sel = selected;
-            var titles = range.Select((a, i) => i == sel ? titleFormater(a).orange().bold() : titleFormater(a));
+            var titles = range.Select((a, i) => i == sel ? titleFormater(a).Orange().Bold() : titleFormater(a));
             if (xCols > range.Count())
                 xCols = range.Count();
             if (xCols <= 0)
@@ -219,9 +219,9 @@ namespace ModKit {
             var sel = selectedIndex;
             string[] titles;
             if (shouldLocalize) {
-                titles = items.Select((item, i) => i == sel ? item.name.localize().orange().bold() : item.name.localize()).ToArray();
+                titles = items.Select((item, i) => i == sel ? item.name.localize().Orange().Bold() : item.name.localize()).ToArray();
             } else {
-                titles = items.Select((item, i) => i == sel ? item.name.orange().bold() : item.name).ToArray();
+                titles = items.Select((item, i) => i == sel ? item.name.Orange().Bold() : item.name).ToArray();
             }
             if (title?.Length > 0) { Label(title); }
             selectedIndex = GL.SelectionGrid(selectedIndex, titles, 6);
@@ -283,7 +283,7 @@ namespace ModKit {
                 selected = selectedItemIndex >= 0 ? items[selectedItemIndex] : null;
                 //if (changed) Mod.Log($"sel index: {selectedItemIndex} sel: {selected}");
             } else {
-                Label("No Items".localize().grey(), options);
+                Label("No Items".localize().Grey(), options);
             }
             return changed;
         }
@@ -374,7 +374,7 @@ namespace ModKit {
                             pageSize = 1000;
                         }
                         if (currentPage > totalPages || currentPage < 1) currentPage = 1;
-                        string pageLabel = "Page: ".localize().orange() + currentPage.ToString().cyan() + " / " + totalPages.ToString().cyan();
+                        string pageLabel = "Page: ".localize().Orange() + currentPage.ToString().Cyan() + " / " + totalPages.ToString().Cyan();
                         Label(pageLabel, ExpandWidth(false));
                         var maybeNewPage = currentPage;
                         ActionButton("-", () => {

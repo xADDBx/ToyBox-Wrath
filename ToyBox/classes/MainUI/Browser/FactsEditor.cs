@@ -59,7 +59,7 @@ namespace ToyBox {
             text = text.MarkedSubstring(browser.SearchText);
             var titleKey = $"{blueprint.AssetGuid}";
             if (feature != null) {
-                text = text.Cyan().Bold();
+                text = RichText.Bold(text.Cyan());
             }
             if (blueprint is BlueprintFeatureSelection featureSelection
                 || blueprint is BlueprintParametrizedFeature parametrizedFeature
@@ -90,7 +90,7 @@ namespace ToyBox {
                     var v = rankFeature.GetRank();
                     decrease.BlueprintActionButton(ch, blueprint, () => todo.Add(() => decrease!.action(blueprint, ch, repeatCount)), 60);
                     Space(10f);
-                    Label($"{v}".orange().bold(), Width(30));
+                    Label(RichText.Bold(RichText.Orange($"{v}")), Width(30));
                     increase.BlueprintActionButton(ch, blueprint, () => todo.Add(() => increase!.action(blueprint, ch, repeatCount)), 60);
                     Space(17);
                     remainingWidth -= 190;
@@ -119,7 +119,7 @@ namespace ToyBox {
                         Space(60);
                     }
                     Space(10f);
-                    Label($"{level}".orange().bold(), Width(30));
+                    Label(RichText.Bold(RichText.Orange($"{level}")), Width(30));
                     if (level < 10) {
                         UI.ActionButton(">", () => {
                             todo.Add(() => {
@@ -166,7 +166,7 @@ namespace ToyBox {
                 try {
                     if (Settings.showAssetIDs)
                         ClipboardLabel(blueprint.AssetGuid.ToString(), AutoWidth());
-                    Label(blueprint.Description.StripHTML().MarkedSubstring(browser.SearchText).green(), Width(remainingWidth - 100));
+                    Label(RichText.Green(blueprint.Description.StripHTML().MarkedSubstring(browser.SearchText)), Width(remainingWidth - 100));
                 } catch (Exception e) {
                     Mod.Warn($"Error in blueprint: {blueprint.AssetGuid}");
                     Mod.Warn($"         name: {blueprint.name}");
@@ -191,12 +191,12 @@ namespace ToyBox {
                         () => featureSelection.AllFeatures.OrderBy(f => f.Name),
                         e => e.feature,
                         f => $"{GetSearchKey(f)} " + (Settings.searchDescriptions ? f.Description : ""),
-                        f => new[] { GetTitle(f) },
+                        f => (new[] { GetTitle(f) }),
                         null,
-                        (f, selectionEntry) => {
+                        (BlueprintFeature f, FeatureSelectionEntry selectionEntry) => {
                             bool characterHasEntry = ch?.HasFeatureSelection(featureSelection, f) ?? false;
                             var title = GetTitle(f).MarkedSubstring(FeatureSelectionBrowser.SearchText);
-                            if (characterHasEntry) title = title.Cyan().Bold();
+                            if (characterHasEntry) title = RichText.Bold(title.Cyan());
                             var titleWidth = (ummWidth / (IsWide ? 3.5f : 4.0f)) - 200;
                             Label(title, Width(titleWidth));
                             78.space();
@@ -276,28 +276,28 @@ namespace ToyBox {
                                                  150.width());
                                 15.space();
                             }
-                            Label(f.GetDescription().StripHTML().MarkedSubstring(FeatureSelectionBrowser.SearchText).green());
+                            Label(RichText.Green(f.GetDescription().StripHTML().MarkedSubstring(FeatureSelectionBrowser.SearchText)));
                         },
                         null,
                         100);
                     });
                     break;
                 case BlueprintParametrizedFeature parametrizedFeature:
-                    Browser.OnDetailGUI(blueprint, bp => {
+                    Browser.OnDetailGUI(blueprint, (Action<object>)(bp => {
                         ParameterizedFeatureBrowser.needsReloadData |= browser.needsReloadData;
                         ParameterizedFeatureBrowser.OnGUI(
                           ch?.ParameterizedFeatureItems(parametrizedFeature),
                           () => parametrizedFeature.Items.OrderBy(i => i.Name),
                           i => i,
                           i => $"{i.Name} " + (Settings.searchDescriptions ? i.Param?.Blueprint?.GetDescription() : ""),
-                          i => new[] { i.Name
-    },
+                          i => (new[] { i.Name
+    }),
                           null,
-                          (def, item) => {
+                          (Action<IFeatureSelectionItem, IFeatureSelectionItem>)((IFeatureSelectionItem def, IFeatureSelectionItem item) => {
                               bool characterHasEntry = ch?.HasParameterizedFeatureItem(parametrizedFeature, def) ?? false;
                               var title = def.Name.MarkedSubstring(ParameterizedFeatureBrowser.SearchText);
                               // make the title cyan if we have the item
-                              if (characterHasEntry) title = title.Cyan().Bold();
+                              if (characterHasEntry) title = RichText.Bold(title.Cyan());
 
                               var titleWidth = (ummWidth / (IsWide ? 3.5f : 4.0f));
                               Label(title, Width(titleWidth));
@@ -317,9 +317,9 @@ namespace ToyBox {
                                       }, 150.width());
                                   15.space();
                               }
-                              Label(def.Param?.Blueprint?.GetDescription().StripHTML().MarkedSubstring(ParameterizedFeatureBrowser.SearchText).green());
-                          }, null, 100);
-                    });
+                              Label((string)(def.Param?.Blueprint?.GetDescription().StripHTML().MarkedSubstring(ParameterizedFeatureBrowser.SearchText).Green()));
+                          }), null, 100);
+                    }));
                     break;
             }
         }

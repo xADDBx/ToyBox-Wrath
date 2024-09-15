@@ -67,7 +67,7 @@ namespace ModKit {
                 using (HorizontalScope()) {
                     if (title != null) {
                         if (ii == 0) {
-                            Label(title.bold(), Width(150f));
+                            Label(title.Bold(), Width(150f));
                         } else {
                             Space(153);
                         }
@@ -130,7 +130,7 @@ namespace ModKit {
 
         public static void Section(string title, params Action[] actions) {
             Space(25);
-            Label($"====== {title} ======".bold(), GL.ExpandWidth(true));
+            Label($"====== {title} ======".Bold(), GL.ExpandWidth(true));
             Space(25);
             foreach (var action in actions) { action(); }
             Space(10);
@@ -140,7 +140,7 @@ namespace ModKit {
             if (selected >= actions.Count())
                 selected = 0;
             var sel = selected;
-            var titles = actions.Select((a, i) => i == sel ? a.name.orange().bold() : a.name);
+            var titles = actions.Select((a, i) => i == sel ? a.name.Orange().Bold() : a.name);
             SelectionGrid(ref selected, titles.ToArray(), 8, Width(ummWidth - 60));
             GL.BeginVertical("box");
             header?.Invoke();
@@ -154,9 +154,9 @@ namespace ModKit {
             var sel = selected;
             IEnumerable<string> titles;
             if (titleFormatter != null) {
-                titles = actions.Select((a, i) => i == sel ? titleFormatter(a.name).orange().bold() : titleFormatter(a.name));
+                titles = actions.Select((a, i) => i == sel ? titleFormatter(a.name).Orange().Bold() : titleFormatter(a.name));
             } else {
-                titles = actions.Select((a, i) => i == sel ? a.name.orange().bold() : a.name);
+                titles = actions.Select((a, i) => i == sel ? a.name.Orange().Bold() : a.name);
             }
             if (SelectionGrid(ref selected, titles.ToArray(), 8, Width(ummWidth - 60))) onChangeTab(sel, selected);
             GL.BeginVertical("box");

@@ -34,11 +34,11 @@ namespace ModKit {
             options = options.AddDefaults();
             var changed = false;
             if (width == 0 && !disclosureStyle) {
-                width = toggleStyle.CalcSize(new GUIContent(title.bold())).x + GUI.skin.box.CalcSize(Private.UI.CheckOn).x + 10;
+                width = toggleStyle.CalcSize(new GUIContent(title.Bold())).x + GUI.skin.box.CalcSize(Private.UI.CheckOn).x + 10;
             }
             options = options.AddItem(width == 0 ? AutoWidth() : Width(width)).ToArray();
             if (!disclosureStyle) {
-                title = value ? title.bold() : title.color(RGBA.medgrey).bold();
+                title = value ? title.Bold() : title.Color(RGBA.medgrey).Bold();
                 if (Private.UI.CheckBox(title, value, isEmpty, toggleStyle, options)) { value = !value; changed = true; }
             } else {
                 if (Private.UI.DisclosureToggle(title, value, isEmpty, options)) { value = !value; changed = true; }
@@ -96,10 +96,10 @@ namespace ModKit {
             if (labelStyle == null)
                 labelStyle = GUI.skin.box;
             if (width == 0) {
-                width = toggleStyle.CalcSize(new GUIContent(title.bold())).x + GUI.skin.box.CalcSize(Private.UI.CheckOn).x + 10;
+                width = toggleStyle.CalcSize(new GUIContent(title.Bold())).x + GUI.skin.box.CalcSize(Private.UI.CheckOn).x + 10;
             }
             options = options.AddItem(width == 0 ? AutoWidth() : Width(width)).ToArray();
-            title = value ? title.bold() : title.color(RGBA.medgrey).bold();
+            title = value ? title.Bold() : title.Color(RGBA.medgrey).Bold();
             if (Private.UI.Toggle(title, value, on, off, stateStyle, labelStyle, options)) { value = !value; changed = true; }
             return changed;
         }

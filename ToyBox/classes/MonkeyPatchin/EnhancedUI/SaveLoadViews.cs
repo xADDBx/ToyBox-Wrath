@@ -168,7 +168,7 @@ namespace ToyBox {
                     var items = groupVM.SaveLoadSlots;
                     if (items?.Count() == 0) continue;
                     items.Sort((vm1, vm2) => -vm1.Reference.SystemSaveTime.CompareTo(vm2.Reference.SystemSaveTime));
-                    Mod.Debug(groupVM.CharacterName.orange());
+                    Mod.Debug(RichText.Orange(groupVM.CharacterName));
                     var sortedStrings = items.Select(i => $"{i.Reference.SystemSaveTime} - {i.GameName}");
                     //Mod.Debug($"sorted: {string.Join("\n    ", sortedStrings)}");
                 }

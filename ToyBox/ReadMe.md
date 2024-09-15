@@ -37,6 +37,10 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
+### Toybox Wrath - Ver 1.6.6 (built for 2.4.0x)
+* (***ADDB***) Make Time Scale feature apply on game launch instead of needing to open GUI.
+* (***ADDB***) Band-Aid fix for disappearing ability bars. This should be fixed for now. Someone should probably still look into addressing the issues of the refill belt consumeables feature.
+
 ### Toybox Wrath - Ver 1.6.5 (built for 2.4.0x)
 * (***ADDB***) In v1.5.26 (late July '24), I had buffs that were class features or hidden in ui excluded from Buff Multiplier. I did this because they were hidden in the BuffExclusionEditor, so I assumed they didn't need to be multiplied. Since I had people report this to me as a bug, I instead reversed this and now made those buffs visible in the BuffExclusionEditor instead.
 

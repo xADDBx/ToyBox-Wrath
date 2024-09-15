@@ -69,11 +69,11 @@ namespace ToyBox.Multiclass {
                     var isPet = unit.Unit?.IsPet ?? false;
                     var useDefaultMulticlassOptions = state.IsCharGen() && !isPet;
                     var options = MulticlassOptions.Get(useDefaultMulticlassOptions ? null : unit);
-                    Mod.Trace($"SelectClass_Apply_Patch, unit: {unit.CharacterName.orange()} useDefaultMulticlassOptions: {useDefaultMulticlassOptions} mode:{state.Mode} isCharGen: {state.IsCharGen()} is1stLvl: {state.IsFirstCharacterLevel} isPet: {isPet} isPlayerChar: {unit.CharacterName == "Player Character"} level: {state.NextClassLevel.ToString().yellow()}".cyan().bold());
+                    Mod.Trace(RichText.Bold(RichText.Cyan($"SelectClass_Apply_Patch, unit: {RichText.Orange(unit.CharacterName)} useDefaultMulticlassOptions: {useDefaultMulticlassOptions} mode:{state.Mode} isCharGen: {state.IsCharGen()} is1stLvl: {state.IsFirstCharacterLevel} isPet: {isPet} isPlayerChar: {unit.CharacterName == "Player Character"} level: {RichText.Yellow(state.NextClassLevel.ToString())}")));
 
                     if (options == null || options.Count == 0)
                         return;
-                    Mod.Trace($"    selected options: {options}".orange());
+                    Mod.Trace(RichText.Orange($"    selected options: {options}"));
                     //selectedMulticlassSet.ForEach(cl => Main.Log($"    {cl}"));
 
                     // applying classes
@@ -82,7 +82,7 @@ namespace ToyBox.Multiclass {
                     foreach (var characterClass in Main.multiclassMod.AllClasses) {
                         if (characterClass.IsMythic != selectedClass.IsMythic) continue;
                         if (Main.multiclassMod.AppliedMulticlassSet.Contains(characterClass)) {
-                            Mod.Warn($"SelectClass_Apply_Patch - duplicate application of multiclass detected: {characterClass.name.yellow()}");
+                            Mod.Warn($"SelectClass_Apply_Patch - duplicate application of multiclass detected: {RichText.Yellow(characterClass.name)}");
                             continue;
                         }
                         if (options.Contains(characterClass)) {
@@ -93,11 +93,11 @@ namespace ToyBox.Multiclass {
                             && options.Contains(characterClass)
                             ) {
                             stateReplacer.Replace(null, 0); // TODO - figure out and document what this is doing
-                            Mod.Trace($"       {characterClass.Name} matches".cyan());
+                            Mod.Trace(RichText.Cyan($"       {characterClass.Name} matches"));
                             //stateReplacer.Replace(characterClass, unit.Progression.GetClassLevel(characterClass));
 
                             if (new SelectClass(characterClass).Check(state, unit)) {
-                                Mod.Trace($"         - {nameof(SelectClass)}.{nameof(SelectClass.Apply)}*({characterClass}, {unit})".cyan());
+                                Mod.Trace(RichText.Cyan($"         - {nameof(Kingmaker.UnitLogic.Class.LevelUp.Actions.SelectClass)}.{nameof(SelectClass.Apply)}*({characterClass}, {unit})"));
 
                                 unit.Progression.AddClassLevel_NotCharacterLevel(characterClass);
                                 //state.NextClassLevel = unit.Progression.GetClassLevel(characterClass);
@@ -111,16 +111,16 @@ namespace ToyBox.Multiclass {
                     }
                     stateReplacer.Restore();
 
-                    Mod.Trace($"    checking archetypes for {unit.CharacterName}".cyan());
+                    Mod.Trace(RichText.Cyan($"    checking archetypes for {unit.CharacterName}"));
                     // applying archetypes
                     ForEachAppliedMulticlass(state, unit, () => {
-                        Mod.Trace($"    {state.SelectedClass.HashKey()} SelectClass-ForEachApplied".cyan().bold());
+                        Mod.Trace(RichText.Bold(RichText.Cyan($"    {state.SelectedClass.HashKey()} SelectClass-ForEachApplied")));
                         var selectedClass = state.SelectedClass;
                         var archetypeOptions = options.ArchetypeOptions(selectedClass);
                         foreach (var archetype in state.SelectedClass.Archetypes) {
                             // here is where we need to start supporting multiple archetypes of the same class
                             if (archetypeOptions.Contains(archetype)) {
-                                Mod.Trace($"    adding archetype: ${archetype.Name}".cyan().bold());
+                                Mod.Trace(RichText.Bold(RichText.Cyan($"    adding archetype: ${archetype.Name}")));
                                 AddArchetype addArchetype = new(state.SelectedClass, archetype);
                                 unit.SetClassIsGestalt(addArchetype.CharacterClass, true);
                                 if (addArchetype.Check(state, unit)) {
@@ -403,7 +403,7 @@ namespace ToyBox.Multiclass {
                     options.SetArchetypeOptions(cl, archetypeOptions);
                 }
                 MulticlassOptions.Set(ch, options);
-                Mod.Debug($"ch: {ch?.CharacterName.ToString().orange() ?? "null"} class: {cl?.name ?? "null"} isArch: {viewModel.IsArchetype} arch: {viewModel.Archetype} chArchetype:{chArchetype} - options: {options}");
+                Mod.Debug($"ch: {ch?.CharacterName.ToString().Orange() ?? "null"} class: {cl?.name ?? "null"} isArch: {viewModel.IsArchetype} arch: {viewModel.Archetype} chArchetype:{chArchetype} - options: {options}");
                 var canvas = Game.Instance.UI.Canvas;
                 var transform = canvas != null ? canvas.transform : Game.Instance.UI.MainMenu.transform;
                 var charGemClassPhaseDetailedView = transform.Find("ChargenPCView/ContentWrapper/DetailedViewZone/PhaseClassDetaildPCView");

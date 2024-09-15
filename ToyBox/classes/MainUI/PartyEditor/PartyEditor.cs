@@ -79,12 +79,12 @@ namespace ToyBox {
                 buttonCount++;
             } else if (!player.AllCharacters.Contains(ch)) {
                 recruitableCount++;
-                ActionButton("Recruit".localize().cyan(), () => { charToRecruit = ch; }, Width(150));
+                ActionButton("Recruit".localize().Cyan(), () => { charToRecruit = ch; }, Width(150));
                 Space(25);
                 buttonCount++;
             }
             if (player.AllCharacters.Contains(ch) && !ch.IsMainCharacter && !ch.IsStoryCompanion()) {
-                ActionButton("Unrecruit".cyan(),
+                ActionButton("Unrecruit".Cyan(),
                              () => {
                                  charToUnrecruit = ch;
                                  charToRemove = ch;
@@ -95,7 +95,7 @@ namespace ToyBox {
             }
             if (ch.CanRespec()) {
                 respecableCount++;
-                ActionButton("Respec".localize().cyan(), () => { Actions.ToggleModWindow(); ch.DoRespec(); }, Width(150));
+                ActionButton("Respec".localize().Cyan(), () => { Actions.ToggleModWindow(); ch.DoRespec(); }, Width(150));
             } else {
                 Space(153);
             }
@@ -106,7 +106,7 @@ namespace ToyBox {
             ActionButton("Log Caster Info", () => CasterHelpers.GetOriginalCasterLevel(ch.Descriptor()),
                 AutoWidth());
 #endif
-            ActionButton("Kill".localize().cyan(), () => CheatsCombat.KillUnit(ch));
+            ActionButton("Kill".localize().Cyan(), () => CheatsCombat.KillUnit(ch));
             Label("", AutoWidth());
         }
         public static void OnGUI() {
@@ -131,9 +131,9 @@ namespace ToyBox {
             var isWide = IsWide;
             if (Main.IsInGame) {
                 using (HorizontalScope()) {
-                    Label($"Party Level ".localize().cyan() + $"{Game.Instance.Player.PartyLevel}".orange().bold(), AutoWidth());
+                    Label($"Party Level ".localize().Cyan() + $"{Game.Instance.Player.PartyLevel}".Orange().Bold(), AutoWidth());
                     Space(110);
-                    ReflectionTreeView.DetailToggle($"Inspect Party {"(for modders)".orange()}".localize(), "All", characterList, 0);
+                    ReflectionTreeView.DetailToggle($"Inspect Party {"(for modders)".Orange()}".localize(), "All", characterList, 0);
 #if false   // disabled until we fix performance
                     var encounterCR = CheatsCombat.GetEncounterCr();
                     if (encounterCR > 0) {
@@ -159,12 +159,12 @@ namespace ToyBox {
                     if (Game.Instance.Player.AllCharacters.Contains(ch)) {
                         var oldEditState = nameEditState;
                         if (isWide) {
-                            if (EditableLabel(ref name, ref nameEditState, 200, n => n.orange().bold(), MinWidth(100), MaxWidth(400))) {
+                            if (EditableLabel(ref name, ref nameEditState, 200, n => n.Orange().Bold(), MinWidth(100), MaxWidth(400))) {
                                 ch.Descriptor().CustomName = name;
                                 Main.SetNeedsResetGameUI();
                             }
                         } else
-                            if (EditableLabel(ref name, ref nameEditState, 200, n => n.orange().bold(), Width(230))) {
+                            if (EditableLabel(ref name, ref nameEditState, 200, n => n.Orange().Bold(), Width(230))) {
                             ch.Descriptor().CustomName = name;
                             Main.SetNeedsResetGameUI();
                         }
@@ -173,9 +173,9 @@ namespace ToyBox {
                         }
                     } else {
                         if (isWide)
-                            Label(ch.CharacterName.orange().bold(), MinWidth(100), MaxWidth(400));
+                            Label(ch.CharacterName.Orange().Bold(), MinWidth(100), MaxWidth(400));
                         else
-                            Label(ch.CharacterName.orange().bold(), Width(230));
+                            Label(ch.CharacterName.Orange().Bold(), Width(230));
                     }
                     Space(5);
                     var distance = mainChar.DistanceTo(ch); ;
@@ -184,9 +184,9 @@ namespace ToyBox {
                     int nextLevel;
                     for (nextLevel = level; xpTable.HasBonusForLevel(nextLevel + 1) && progression.Experience >= xpTable.GetBonus(nextLevel + 1); nextLevel++) { }
                     if (nextLevel <= level || !isOnTeam)
-                        Label((level < 10 ? "   lvl" : "   lv").green() + $" {level}", Width(90));
+                        Label((level < 10 ? "   lvl" : "   lv").Green() + $" {level}", Width(90));
                     else
-                        Label((level < 10 ? "  " : "") + $"{level} > " + $"{nextLevel}".cyan(), Width(90));
+                        Label((level < 10 ? "  " : "") + $"{level} > " + $"{nextLevel}".Cyan(), Width(90));
                     // Level up code adapted from Bag of Tricks https://www.nexusmods.com/pathfinderkingmaker/mods/2
                     if (player.AllCharacters.Contains(ch)) {
                         if (xpTable.HasBonusForLevel(nextLevel + 1)) {
@@ -198,9 +198,9 @@ namespace ToyBox {
                     Space(10);
                     var nextML = progression.MythicExperience;
                     if (nextML <= mythicLevel || !isOnTeam)
-                        Label((mythicLevel < 10 ? "  my" : "  my").green() + $" {mythicLevel}", Width(90));
+                        Label((mythicLevel < 10 ? "  my" : "  my").Green() + $" {mythicLevel}", Width(90));
                     else
-                        Label((level < 10 ? "  " : "") + $"{mythicLevel} > " + $"{nextML}".cyan(), Width(90));
+                        Label((level < 10 ? "  " : "") + $"{mythicLevel} > " + $"{nextML}".Cyan(), Width(90));
                     if (player.AllCharacters.Contains(ch)) {
                         if (progression.MythicExperience < 10) {
                             ActionButton("+1", () => {
@@ -285,15 +285,15 @@ namespace ToyBox {
             }
             Space(25);
             if (recruitableCount > 0) {
-                Label($"{recruitableCount} " + ("character(s) can be ".orange().bold() + "Recruited".cyan() + ". This allows you to add non party NPCs to your party as if they were mercenaries".green()).localize());
+                Label($"{recruitableCount} " + ("character(s) can be ".Orange().Bold() + "Recruited".Cyan() + ". This allows you to add non party NPCs to your party as if they were mercenaries".Green()).localize());
             }
             if (respecableCount > 0) {
-                Label($"{respecableCount} " + ("character(s) can be ".orange().bold() + "Respecced".cyan() + ". Pressing Respec will close the mod window and take you to character level up".green()).localize());
-                Label(("WARNING".yellow().bold() + " The Respec UI is ".orange() + "Non Interruptable".yellow().bold() + " please save before using".orange()).localize());
+                Label($"{respecableCount} " + ("character(s) can be ".Orange().Bold() + "Respecced".Cyan() + ". Pressing Respec will close the mod window and take you to character level up".Green()).localize());
+                Label(("WARNING".Yellow().Bold() + " The Respec UI is ".Orange() + "Non Interruptable".Yellow().Bold() + " please save before using".Orange()).localize());
             }
             if (recruitableCount > 0 || respecableCount > 0) {
-                Label(("WARNING".yellow().bold() + " these features are ".orange() + "EXPERIMENTAL".yellow().bold() + " and uses unreleased and likely buggy code.".orange()).localize());
-                Label(("BACK UP".yellow().bold() + " before playing with this feature.You will lose your mythic ranks but you can restore them in this Party Editor.".orange()).localize());
+                Label(("WARNING".Yellow().Bold() + " these features are ".Orange() + "EXPERIMENTAL".Yellow().Bold() + " and uses unreleased and likely buggy code.".Orange()).localize());
+                Label(("BACK UP".Yellow().Bold() + " before playing with this feature.You will lose your mythic ranks but you can restore them in this Party Editor.".Orange()).localize());
             }
             Space(25);
             foreach (var action in todo)

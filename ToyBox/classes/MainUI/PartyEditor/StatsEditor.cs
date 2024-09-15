@@ -135,7 +135,7 @@ namespace ToyBox {
                             }));
                             if (unknownID) {
                                 25.space();
-                                Label("Unknown ID!".localize().Red());
+                                Label(RichText.Red("Unknown ID!".localize()));
                             }
                         }
                         if (CustomPortraitsManager.Instance.GetExistingCustomPortraitIds() is string[] customIDs) {
@@ -220,7 +220,7 @@ namespace ToyBox {
             using (HorizontalScope()) {
                 100.space();
                 Label("Alignment".localize(), Width(425));
-                Label($"{alignment.Name()}".color(alignment.Color()).bold(), Width(1250f));
+                Label(RichText.Bold($"{alignment.Name()}".Color(alignment.Color())), Width(1250f));
             }
             using (HorizontalScope()) {
                 528.space();
@@ -232,16 +232,16 @@ namespace ToyBox {
                 100.space();
                 var text = "Shift Alignment % by".localize()?.Split('%');
                 if (text.Length < 2) {
-                    Label($"Shift Alignment {alignment.Acronym().color(alignment.Color()).bold()} {(charAlignment.VectorRaw * 50).ToString().Cyan()} by", 340.width());
+                    Label($"Shift Alignment {RichText.Bold(alignment.Acronym().Color(alignment.Color()))} {(charAlignment.VectorRaw * 50).ToString().Cyan()} by", 340.width());
                 } else {
-                    Label($"{text?[0]}{alignment.Acronym().color(alignment.Color()).bold()} {(charAlignment.VectorRaw * 50).ToString().Cyan()}{text?[1]}", 340.width());
+                    Label($"{text?[0]}{RichText.Bold(alignment.Acronym().Color(alignment.Color()))} {(charAlignment.VectorRaw * 50).ToString().Cyan()}{text?[1]}", 340.width());
                 }
                 5.space();
                 var increment = IntTextField(ref Settings.alignmentIncrement, null, 55.width());
                 var maskIndex = -1;
                 20.space();
                 var titles = AlignmentShiftDirections.Select(
-                    a => $"{increment.ToString("+0;-#").orange()} {a.ToString().localize().color(a.Color()).bold()}").ToArray();
+                    a => $"{RichText.Orange(increment.ToString("+0;-#"))} {a.ToString().localize().Color(a.Color()).Bold()}").ToArray();
                 if (SelectionGrid(ref maskIndex, titles, 3, 650.width())) {
                     charAlignment.Shift(AlignmentShiftDirections[maskIndex], increment, ToyboxAlignmentProvider);
                 }
@@ -252,13 +252,13 @@ namespace ToyBox {
                 100.space();
                 Label("Alignment Lock".localize(), 425.width());
                 //UI.Label($"{alignmentMask.ToString()}".color(alignmentMask.Color()).bold(), UI.Width(325));
-                Label($"Experimental - this sets a mask on your alignment shifts. {"Warning".bold().orange()}{": Using this may change your alignment.".orange()}".localize().green());
+                Label(RichText.Green($"Experimental - this sets a mask on your alignment shifts. {RichText.Orange("Warning".Bold())}{RichText.Orange(": Using this may change your alignment.")}".localize()));
             }
             using (HorizontalScope()) {
                 528.space();
                 var maskIndex = Array.IndexOf(AlignmentMasks, alignmentMask);
                 var titles = AlignmentMasks.Select(
-                    a => a.ToString().localize().color(a.Color()).bold()).ToArray();
+                    a => a.ToString().localize().Color(a.Color()).Bold()).ToArray();
                 if (SelectionGrid(ref maskIndex, titles, 3, 650.width())) {
                     ch.Descriptor().Alignment.LockAlignment(AlignmentMasks[maskIndex], new Alignment?());
                 }
@@ -292,7 +292,7 @@ namespace ToyBox {
                         using (HorizontalScope()) {
                             Label("Size".localize(), Width(425));
                             var size = ch.Descriptor().State.Size;
-                            Label($"{size}".orange().bold(), Width(175));
+                            Label(RichText.Bold(RichText.Orange($"{size}")), Width(175));
                         }
                         Label("Pick size modifier to overwrite default.".localize());
                         Label("Pick none to stop overwriting.".localize());
@@ -333,7 +333,7 @@ namespace ToyBox {
                         if (lastScale != scaleMultiplier) {
                             ch.View.gameObject.transform.localScale = new Vector3(lastScale, lastScale, lastScale);
                         }
-                        if (LogSliderCustomLabelWidth("Visual Character Size Multiplier".localize().color(RGBA.none) + " (This setting is per-save)".localize(), ref lastScale, 0.01f, 40f, 1, 2, "", 400, AutoWidth())) {
+                        if (LogSliderCustomLabelWidth("Visual Character Size Multiplier".localize().Color(RGBA.none) + " (This setting is per-save)".localize(), ref lastScale, 0.01f, 40f, 1, 2, "", 400, AutoWidth())) {
                             Main.Settings.perSave.characterModelSizeMultiplier[ch.HashKey()] = lastScale;
                             ch.View.gameObject.transform.localScale = new Vector3(lastScale, lastScale, lastScale);
                             lastScaleSize[ch.HashKey()] = lastScale;
@@ -387,30 +387,30 @@ namespace ToyBox {
                         using (HorizontalScope()) {
                             Space(100);
                             Label("Swarm Power".localize(), Width(150));
-                            Label("Currently:".localize() + $" {SwarmPart.CurrentStrength}/{SwarmPart.CurrentScale}".green());
+                            Label("Currently:".localize() + RichText.Green($" {SwarmPart.CurrentStrength}/{SwarmPart.CurrentScale}"));
                         }
                         using (HorizontalScope()) {
                             Space(100);
-                            Label("Warning:".localize().red().bold(), Width(150));
-                            Label("This is not reversible.".localize().orange().bold(), Width(250));
+                            Label(RichText.Bold(RichText.Red("Warning:".localize())), Width(150));
+                            Label(RichText.Bold(RichText.Orange("This is not reversible.".localize())), Width(250));
                             Space(25);
                             ActionButton("Increase Swarm Power".localize(), () => todo.Add(() => SwarmPart.AddStrength(_increase)));
                             Space(10);
                             IntTextField(ref _increase, "", MinWidth(50), AutoWidth());
                             Space(25);
-                            Label("This increases your Swarm Power by the provided value.".localize().green());
+                            Label(RichText.Green("This increases your Swarm Power by the provided value.".localize()));
                         }
                     }
                     if (SwarmClones != null) {
                         using (HorizontalScope()) {
                             Space(100);
                             Label("Swarm Clones".localize(), Width(150));
-                            Label("Currently:".localize() + $" {SwarmClones?.m_SpawnedPetRefs?.Count}".green());
+                            Label("Currently:".localize() + RichText.Green($" {SwarmClones?.m_SpawnedPetRefs?.Count}"));
                         }
                         using (HorizontalScope()) {
                             Space(100);
-                            Label("Warning:".localize().red().bold(), Width(150));
-                            Label("This is not reversible.".localize().orange().bold(), Width(250));
+                            Label(RichText.Bold(RichText.Red("Warning:".localize())), Width(150));
+                            Label(RichText.Bold(RichText.Orange("This is not reversible.".localize())), Width(250));
                             Space(25);
                             ActionButton("Remove all Clones".localize(), () => todo.Add(() => {
                                 var toRemove = SwarmClones.m_SpawnedPetRefs.ToList();
@@ -441,13 +441,13 @@ namespace ToyBox {
                 var isFemale = gender == Gender.Female;
                 using (HorizontalScope(Width(200))) {
                     if (Toggle(isFemale ? "Female".localize() : "Male".localize(), ref isFemale,
-                        "♀".color(RGBA.magenta).bold(),
-                        "♂".color(RGBA.aqua).bold(),
+                        RichText.Bold("♀".Color(RGBA.magenta)),
+                        RichText.Bold("♂".Color(RGBA.aqua)),
                         0, largeStyle, GUI.skin.box, Width(300), Height(20))) {
                         ch.Descriptor().SetCustomGender(isFemale ? Gender.Female : Gender.Male);
                     }
                 }
-                Label("Changing your gender may cause visual glitches".localize().green());
+                Label(RichText.Green("Changing your gender may cause visual glitches".localize()));
             }
             Space(10);
             Div(100, 20, 755);
@@ -480,7 +480,7 @@ namespace ToyBox {
                                      AutoWidth());
                         Space(20);
                         var val = modifiableValue.BaseValue;
-                        Label($"{val}".orange().bold(), Width(50f));
+                        Label(RichText.Bold(RichText.Orange($"{val}")), Width(50f));
                         ActionButton(" > ",
                                      () => {
                                          modifiableValue.BaseValue += 1;

@@ -456,9 +456,9 @@ namespace ToyBox {
                         .Groups.Cast<Group>().FirstOrDefault()?
                         .Captures.Cast<Capture>().FirstOrDefault()?
                         .Value is string link) {
-                        result += $" {link}[{item.Name.RarityInGame(item.Rarity())}]</link>".sizePercent(75);
+                        result += $" {link}[{item.Name.RarityInGame(item.Rarity())}]</link>".SizePercent(75);
                     } else
-                        result += $" [{item.Name.RarityInGame(item.Rarity())}]".sizePercent(75);
+                        result += $" [{item.Name.RarityInGame(item.Rarity())}]".SizePercent(75);
                 }
             }
             return result;
@@ -536,14 +536,14 @@ namespace ToyBox {
                                             where subEventSol.m_AvailConditions.HasConditions && subEventSol.m_AvailConditions.Conditions[0] is FlagUnlocked flagUnlockCond && sol.m_SuccessEffects.Actions.ToList().Find(act => act is UnlockFlag) is UnlockFlag intermediateFlagUnlocked && intermediateFlagUnlocked.flag == flagUnlockCond.ConditionFlag
                                             select subEventSol;
                             if (finalSols.Count() > 1)
-                                solStrings += " leads to\n".sizePercent(75);
+                                solStrings += " leads to\n".SizePercent(75);
                             foreach (var endSolution in finalSols) {
                                 solStrings += $"    {endSolution.PreviewText()}\n";
                             }
                         } else
                             solStrings += "\n";
                     }
-                    __instance.m_Description.text += solStrings.sizePercent(87);
+                    __instance.m_Description.text += solStrings.SizePercent(87);
                 }
                 __instance.m_MechanicalDescription.text = mechanicalDescription;
                 __instance.m_MechanicalDescription.gameObject.SetActive(mechanicalDescription != null);
@@ -599,7 +599,7 @@ namespace ToyBox {
                     color32 = DialogAnswerView.Colors.SelectedAnswer;
                     __instance.AnswerText.alpha = 0.45f;
                     if (Settings.toggleMakePreviousAnswersMoreClear)
-                        __instance.AnswerText.text = text.sizePercent(83);
+                        __instance.AnswerText.text = text.SizePercent(83);
                 } else
                     __instance.AnswerText.alpha = 1.0f;
                 __instance.AnswerText.color = (Color)color32;

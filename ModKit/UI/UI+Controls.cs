@@ -49,8 +49,8 @@ namespace ModKit {
             }
         }
         public static void ClipboardLabel(string title, params GUILayoutOption[] options) => GUILayout.TextArea(title, options);
-        public static void HelpLabel(string? title, params GUILayoutOption[] options) => Label(title.green(), options);
-        public static void HelpLabel(string title, GUIStyle style, params GUILayoutOption[] options) => Label(title.green(), style, options);
+        public static void HelpLabel(string? title, params GUILayoutOption[] options) => Label(title.Green(), options);
+        public static void HelpLabel(string title, GUIStyle style, params GUILayoutOption[] options) => Label(title.Green(), style, options);
         public static void DescriptiveLabel(string? title, string? description, params GUILayoutOption[] options) {
             options = options.AddDefaults(Width(300));
             using (HorizontalScope()) {
@@ -76,11 +76,11 @@ namespace ModKit {
                 using (HorizontalScope(options)) {
                     TextField(ref editState.Item2, null, MinWidth(minWidth), AutoWidth());
                     Space(15);
-                    if (GL.Button(Glyphs.CheckOff.red(), GUI.skin.box, AutoWidth())) {
+                    if (GL.Button(Glyphs.CheckOff.Red(), GUI.skin.box, AutoWidth())) {
                         editState = (null, null);
                     }
                     // ReSharper disable once InvertIf
-                    if (GL.Button(Glyphs.CheckOn.green(), GUI.skin.box, AutoWidth())
+                    if (GL.Button(Glyphs.CheckOn.Green(), GUI.skin.box, AutoWidth())
                         || userHasHitReturn && focusedControlName == label) {
                         label = editState.Item2;
                         changed = true;
@@ -214,13 +214,13 @@ namespace ModKit {
                 ActionButton(title, () => { areYouSure = !areYouSure; });
                 if (areYouSureState) {
                     Space(25);
-                    Label("Are you sure?".localize().yellow());
+                    Label("Are you sure?".localize().Yellow());
                     Space(25);
-                    ActionButton("YES".localize().yellow().bold(), action);
+                    ActionButton("YES".localize().Yellow().Bold(), action);
                     Space(10);
-                    ActionButton("NO".localize().green(), () => areYouSure = false);
+                    ActionButton("NO".localize().Green(), () => areYouSure = false);
                     Space(25);
-                    Label(warning.orange());
+                    Label(warning.Orange());
                 }
                 areYouSureState = areYouSure;
             }
@@ -234,16 +234,16 @@ namespace ModKit {
                 ActionButton(" < ", () => { v = Math.Max(v - increment, min); }, textBoxStyle, AutoWidth());
             else if (showMinMax) {
                 Space(-21);
-                ActionButton("min".localize().cyan() + " ", () => { }, textBoxStyle, AutoWidth());
+                ActionButton("min".localize().Cyan() + " ", () => { }, textBoxStyle, AutoWidth());
             } else {
                 34.space();
             }
             var temp = false;
-            Button($"{v}".orange().bold(), ref temp, textBoxStyle, AutoWidth());
+            Button($"{v}".Orange().Bold(), ref temp, textBoxStyle, AutoWidth());
             if (v < max)
                 ActionButton(" > ", () => { v = Math.Min(v + increment, max); }, textBoxStyle, AutoWidth());
             else if (showMinMax) {
-                ActionButton(" " + "max".localize().cyan(), () => { }, textBoxStyle, AutoWidth());
+                ActionButton(" " + "max".localize().Cyan(), () => { }, textBoxStyle, AutoWidth());
                 Space(-27);
             } else
                 34.space();
@@ -272,7 +272,7 @@ namespace ModKit {
         public static bool ValueAdjuster(string title, Func<int> get, Action<int> set, int increment = 1, int min = 0, int max = int.MaxValue, bool showMinMax = true) {
             var changed = false;
             using (HorizontalScope(Width(400))) {
-                Label(title.cyan(), Width(300));
+                Label(title.Cyan(), Width(300));
                 Space(15);
                 var value = get();
                 changed = ValueAdjuster(ref value, increment, min, max, showMinMax);
@@ -284,7 +284,7 @@ namespace ModKit {
         public static bool ValueAdjuster(string? title, Func<int> get, Action<int> set, int increment = 1, int min = 0, int max = int.MaxValue, params GUILayoutOption[] options) {
             var changed = false;
             using (HorizontalScope()) {
-                Label(title.cyan(), options);
+                Label(title.Cyan(), options);
                 Space(15);
                 var value = get();
                 changed = ValueAdjuster(ref value, increment, min, max);
@@ -299,7 +299,7 @@ namespace ModKit {
         public static bool ValueAdjustorEditable(string? title, Func<int> get, Action<int> set, int increment = 1, int min = 0, int max = int.MaxValue, params GUILayoutOption[] options) {
             var changed = false;
             using (HorizontalScope()) {
-                Label(title.cyan(), options);
+                Label(title.Cyan(), options);
                 Space(15);
                 var value = get();
                 changed = ValueAdjuster(ref value, increment, min, max);
@@ -320,7 +320,7 @@ namespace ModKit {
             var value = get();
             var inc = increment;
             using (HorizontalScope(options)) {
-                Label(title.cyan(), ExpandWidth(true));
+                Label(title.Cyan(), ExpandWidth(true));
                 Space(25);
                 var fieldWidth = GUI.skin.textField.CalcSize(new GUIContent(max.ToString())).x;
                 if (ValueAdjuster(ref value, inc, min, max)) {
@@ -343,7 +343,7 @@ namespace ModKit {
                 Space(25);
                 FloatTextField(ref newValue, null, Width(75));
                 if (units.Length > 0)
-                    Label($"{units}".orange().bold(), Width(25 + GUI.skin.label.CalcSize(new GUIContent(units)).x));
+                    Label($"{units}".Orange().Bold(), Width(25 + GUI.skin.label.CalcSize(new GUIContent(units)).x));
                 Space(25);
                 ActionButton("Reset".localize(), () => { newValue = defaultValue; }, AutoWidth());
             }
@@ -361,7 +361,7 @@ namespace ModKit {
             using (HorizontalScope(options)) {
                 using (VerticalScope(Width(300))) {
                     Space((SliderTop - 1).point());
-                    Label(title.cyan(), Width(300));
+                    Label(title.Cyan(), Width(300));
                     Space(SliderBottom.point());
                 }
                 Space(25);
@@ -377,7 +377,7 @@ namespace ModKit {
                     Space(SliderBottom.point());
                 }
                 if (units.Length > 0)
-                    Label($"{units}".orange().bold(), Width(25 + GUI.skin.label.CalcSize(new GUIContent(units)).x));
+                    Label($"{units}".Orange().Bold(), Width(25 + GUI.skin.label.CalcSize(new GUIContent(units)).x));
                 Space(25);
                 using (VerticalScope(AutoWidth())) {
                     Space((SliderTop - 0).point());
@@ -422,7 +422,7 @@ namespace ModKit {
             BeginHorizontal(options);
             using (VerticalScope(Width(300))) {
                 Space((SliderTop - 1).point());
-                Label(title.cyan(), Width(300));
+                Label(title.Cyan(), Width(300));
                 Space(SliderBottom.point());
             }
             Space(25);
@@ -446,7 +446,7 @@ namespace ModKit {
                 Space(SliderBottom.point());
             }
             if (units.Length > 0)
-                Label($"{units}".orange().bold(), Width(25 + GUI.skin.label.CalcSize(new GUIContent(units)).x));
+                Label($"{units}".Orange().Bold(), Width(25 + GUI.skin.label.CalcSize(new GUIContent(units)).x));
             Space(25);
             using (VerticalScope(AutoWidth())) {
                 Space((SliderTop + 0).point());
@@ -473,7 +473,7 @@ namespace ModKit {
             BeginHorizontal(options);
             using (VerticalScope(Width(labelWidth))) {
                 Space((SliderTop - 1).point());
-                Label(title.cyan(), Width(labelWidth));
+                Label(title.Cyan(), Width(labelWidth));
                 Space(SliderBottom.point());
             }
             Space(25);
@@ -497,7 +497,7 @@ namespace ModKit {
                 Space(SliderBottom.point());
             }
             if (units.Length > 0)
-                Label($"{units}".orange().bold(), Width(25 + GUI.skin.label.CalcSize(new GUIContent(units)).x));
+                Label($"{units}".Orange().Bold(), Width(25 + GUI.skin.label.CalcSize(new GUIContent(units)).x));
             Space(25);
             using (VerticalScope(AutoWidth())) {
                 Space((SliderTop + 0).point());

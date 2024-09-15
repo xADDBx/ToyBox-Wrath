@@ -28,7 +28,7 @@ namespace ToyBox.Multiclass {
         }
         public static void AddClassLevel_NotCharacterLevel(this UnitProgressionData instance, BlueprintCharacterClass characterClass) {
             //instance.SureClassData(characterClass).Level++;
-            Mod.Debug($"AddClassLevel_NotCharLevel: class = {characterClass.name.cyan()} - lvl:{instance.GetClassLevel(characterClass)} - {string.Join(", ", instance.Features.Enumerable.Select(f => f.Name.orange()))}");
+            Mod.Debug($"AddClassLevel_NotCharLevel: class = {RichText.Cyan(characterClass.name)} - lvl:{instance.GetClassLevel(characterClass)} - {string.Join(", ", (System.Collections.Generic.IEnumerable<string>)instance.Features.Enumerable.Select(f => RichText.Orange(f.Name)))}");
             ReflectionCache.GetMethod<UnitProgressionData, Func<UnitProgressionData, BlueprintCharacterClass, ClassData>>
                 ("SureClassData")(instance, characterClass).Level++;
             //instance.CharacterLevel++;

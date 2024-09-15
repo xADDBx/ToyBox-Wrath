@@ -17,7 +17,7 @@ namespace ToyBox.classes.MainUI {
             if (Game.Instance?.Player == null) return;
             var ks = KingdomState.Instance;
             if (ks == null) {
-                Label("You must unlock the crusade before you can access these toys.".localize().yellow().bold());
+                Label("You must unlock the crusade before you can access these toys.".localize().Yellow().Bold());
                 return;
             }
             Div(0, 25);
@@ -38,7 +38,7 @@ namespace ToyBox.classes.MainUI {
                 () => {
                     using (VerticalScope()) {
                         if (ks.ActiveEvents?.Count == 0)
-                            Label("No active events".localize().orange().bold());
+                            Label("No active events".localize().Orange().Bold());
                         foreach (var activeEvent in ks.ActiveEvents) {
                             /* If it's an event not a decree
                              * Events are associated with Tasks by EventTask
@@ -49,9 +49,9 @@ namespace ToyBox.classes.MainUI {
                             if (activeEvent.AssociatedTask == null) {
                                 Div(0, 25);
                                 using (HorizontalScope()) {
-                                    Label(activeEvent.FullName.cyan(), 350.width());
+                                    Label(activeEvent.FullName.Cyan(), 350.width());
                                     25.space();
-                                    Label(activeEvent.EventBlueprint.InitialDescription.StripHTML().green());
+                                    Label(activeEvent.EventBlueprint.InitialDescription.StripHTML().Green());
                                 }
                             }
                         }
@@ -69,13 +69,13 @@ namespace ToyBox.classes.MainUI {
                     using (VerticalScope()) {
 
                         if (ks.ActiveTasks.Count() == 0)
-                            Label("No active decrees".localize().orange().bold());
+                            Label("No active decrees".localize().Orange().Bold());
                         foreach (var activeTask in ks.ActiveEvents) {
                             if (activeTask.AssociatedTask != null) {
                                 Div(0, 25);
                                 var task = activeTask.AssociatedTask;
                                 using (HorizontalScope()) {
-                                    Label(task.Name.cyan(), 350.width());
+                                    Label(task.Name.Cyan(), 350.width());
                                     25.space();
                                     if (task.IsInProgress)
                                         Label("Ends in".localize() + (task.EndsOn - ks.CurrentDay).ToString() + "days".localize(), 200.width());
@@ -100,7 +100,7 @@ namespace ToyBox.classes.MainUI {
                                         249.space();
                                     25.space();
                                     var taskBlueprint = task.Event.EventBlueprint as BlueprintKingdomProject;
-                                    Label(task.Description.StripHTML().orange() + "\n" + taskBlueprint.MechanicalDescription.ToString().StripHTML().green());
+                                    Label(task.Description.StripHTML().Orange() + "\n" + taskBlueprint.MechanicalDescription.ToString().StripHTML().Green());
                                 }
                             }
                         }

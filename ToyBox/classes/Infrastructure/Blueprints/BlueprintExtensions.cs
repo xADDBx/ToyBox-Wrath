@@ -74,7 +74,7 @@ namespace ToyBox {
                     if (name == "<null>" || name.StartsWith("[unknown key: ")) {
                         name = formatter(blueprint.name);
                     } else if (Settings.showDisplayAndInternalNames) {
-                        name += $" : {blueprint.name.color(RGBA.darkgrey)}";
+                        name += $" : {blueprint.name.Color(RGBA.darkgrey)}";
                     }
                 }
                 return name;
@@ -88,7 +88,7 @@ namespace ToyBox {
                     if (name == "<null>" || name.StartsWith("[unknown key: ")) {
                         name = formatter(blueprint.name);
                     } else if (Settings.showDisplayAndInternalNames) {
-                        name += $" : {blueprint.name.color(RGBA.darkgrey)}";
+                        name += $" : {blueprint.name.Color(RGBA.darkgrey)}";
                     }
                 }
                 return name;
@@ -242,7 +242,7 @@ namespace ToyBox {
                 namesSet.Add(typeName);
 
                 foreach (var attribute in bp.Attributes()) {
-                    namesSet.Add(attribute.orange());
+                    namesSet.Add(attribute.Orange());
                 }
                 names = namesSet.ToList();
                 _cachedCollationNames.Add(bp, names);

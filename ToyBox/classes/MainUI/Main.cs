@@ -115,7 +115,7 @@ namespace ToyBox {
                 Mod.logLevel = Settings.loggingLevel;
                 Mod.InGameTranscriptLogger = text => {
                     Mod.Log("CombatLog - " + text);
-                    var message = new CombatLogMessage("ToyBox".blue() + " - " + text, Color.black, PrefixIcon.RightArrow);
+                    var message = new CombatLogMessage("ToyBox".Blue() + " - " + text, Color.black, PrefixIcon.RightArrow);
                     var messageLog = LogThreadService.Instance.m_Logs[LogChannelType.Common].FirstOrDefault(x => x is MessageLogThread);
                     var tacticalCombatLog = LogThreadService.Instance.m_Logs[LogChannelType.TacticalCombat].FirstOrDefault(x => x is MessageLogThread);
                     messageLog?.AddMessage(message);
@@ -146,7 +146,7 @@ namespace ToyBox {
             try {
                 if (!oldToyBoxPath.IsNullOrEmpty()) {
                     if (!File.Exists(thisSettingsPath)) {
-                        Mod.Log("Settings file not found attempting to migrate from older ToyBox".yellow());
+                        Mod.Log("Settings file not found attempting to migrate from older ToyBox".Yellow());
                         Mod.Log($"Checking {oldToyBoxPath}");
                         File.Copy(Path.Combine(oldToyBoxPath, "Settings.xml"), thisSettingsPath);
                         var thisUserSettingsPath = Path.Combine(thisToyBoxPath, "UserSettings");
@@ -158,7 +158,7 @@ namespace ToyBox {
                             Mod.Log($"    {otherPath} => {thisPath}");
                             File.Copy(otherPath, thisPath, true);
                         }
-                        Mod.Log("ToyBox settings migration => SUCCESS".green());
+                        Mod.Log("ToyBox settings migration => SUCCESS".Green());
                     }
                     Mod.Warn("Removing old detected ToyBox version!");
                     File.Delete(oldToyBoxPath + UnityModManager.Config.ModInfo);
@@ -168,7 +168,7 @@ namespace ToyBox {
                     // Directory.Delete(oldToyBoxPath, true);
                 } else {
                     if (!File.Exists(thisSettingsPath)) {
-                        Mod.Log("No old ToyBox version found... creating default settings".yellow());
+                        Mod.Log("No old ToyBox version found... creating default settings".Yellow());
                     }
                 }
             } catch (Exception e) {
@@ -241,12 +241,12 @@ namespace ToyBox {
             if (!Enabled) return;
             IsModGUIShown = true;
             if (!IsInGame) {
-                Label("ToyBox has limited functionality from the main menu".localize().yellow().bold());
+                Label("ToyBox has limited functionality from the main menu".localize().Yellow().Bold());
             }
             if (!IsWide) {
                 using (HorizontalScope()) {
                     ActionButton("Maximize Window".localize(), Actions.MaximizeModWindow);
-                    Label(("Note ".magenta().bold() + "ToyBox was designed to offer the best user experience at widths of 1920 or higher. Please consider increasing your resolution up of at least 1920x1080 (ideally 4k) and go to Unity Mod Manager 'Settings' tab to change the mod window width to at least 1920.  Increasing the UI scale is nice too when running at 4k".orange().bold()).localize());
+                    Label(("Note ".Magenta().Bold() + "ToyBox was designed to offer the best user experience at widths of 1920 or higher. Please consider increasing your resolution up of at least 1920x1080 (ideally 4k) and go to Unity Mod Manager 'Settings' tab to change the mod window width to at least 1920.  Increasing the UI scale is nice too when running at 4k".Orange().Bold()).localize());
                 }
             }
             try {
@@ -254,8 +254,8 @@ namespace ToyBox {
                 userHasHitReturn = e.keyCode == KeyCode.Return;
                 focusedControlName = GUI.GetNameOfFocusedControl();
                 if (_caughtException != null) {
-                    Label("ERROR".red().bold() + $": caught exception {_caughtException}");
-                    ActionButton("Reset".orange().bold(), () => { ResetGUI(modEntry); }, AutoWidth());
+                    Label("ERROR".Red().Bold() + $": caught exception {_caughtException}");
+                    ActionButton("Reset".Orange().Bold(), () => { ResetGUI(modEntry); }, AutoWidth());
                     return;
                 }
 #if false
@@ -270,7 +270,7 @@ namespace ToyBox {
                 TabBar(ref Settings.selectedTab,
                     () => {
                         if (BlueprintLoader.Shared.IsLoading) {
-                            Label("Blueprints".orange().bold() + " loading: " + BlueprintLoader.Shared.progress.ToString("P2").cyan().bold());
+                            Label("Blueprints".Orange().Bold() + " loading: " + BlueprintLoader.Shared.progress.ToString("P2").Cyan().Bold());
                         } else Space(25);
                     },
                     (oldTab, newTab) => {
@@ -356,7 +356,7 @@ namespace ToyBox {
                 var timeSinceRequest = DateTime.Now.Subtract(_resetRequestTime).TotalMilliseconds;
                 //Main.Log($"timeSinceRequest - {timeSinceRequest}");
                 if (timeSinceRequest > 1000) {
-                    Mod.Debug($"resetExecuted - {timeSinceRequest}".cyan());
+                    Mod.Debug($"resetExecuted - {timeSinceRequest}".Cyan());
                     _needsResetGameUI = true;
                     _resetRequested = false;
                 }

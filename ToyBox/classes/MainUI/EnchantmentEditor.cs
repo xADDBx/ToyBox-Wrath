@@ -56,7 +56,7 @@ namespace ToyBox.classes.MainUI {
                 EnchantmentBrowser.doCollation = true;
                 EnchantmentBrowser.SortDirection = Browser.sortDirection.Descending;
             }
-            Label(("Sandal says '".orange() + "Enchantment'".cyan().bold()).localize());
+            Label((RichText.Orange("Sandal says '") + RichText.Bold(RichText.Cyan("Enchantment'"))).localize());
             // load blueprints
             if (enchantments == null) {
                 var blueprints = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintItemEnchantment>();
@@ -92,7 +92,7 @@ namespace ToyBox.classes.MainUI {
                         buttonStyle,
                         Width(175));
                     Space(25);
-                    if (VPicker("Ench. Types".localize().cyan(), ref EnchantmentBrowser.collationKey, EnchantmentBrowser.collatedDefinitions?.Keys.ToList() ?? new(), "All".localize(), (s) => s.localize(), ref collationSearchText, Width(175))) {
+                    if (VPicker(RichText.Cyan("Ench. Types".localize()), ref EnchantmentBrowser.collationKey, (List<string>)(EnchantmentBrowser.collatedDefinitions?.Keys.ToList() ?? new()), "All".localize(), (s) => s.localize(), ref collationSearchText, Width(175))) {
                         Mod.Debug($"collationKey: {EnchantmentBrowser.collationKey}");
                     }
                 }
@@ -113,7 +113,7 @@ namespace ToyBox.classes.MainUI {
                         ActionIntTextField(ref searchLimit, "Search Limit".localize(), (i) => searchLimit = i < 1 ? 1 : i, null, 100.width());
                         if (searchLimit > 1000) { searchLimit = 1000; }
                         if (inventory.Count > searchLimit) {
-                            string pageLabel = "Page: ".localize().orange() + _currentPage.ToString().cyan() + " / " + _pageCount.ToString().cyan();
+                            string pageLabel = RichText.Orange("Page: ".localize()) + RichText.Cyan(_currentPage.ToString()) + " / " + RichText.Cyan(_pageCount.ToString());
                             25.space();
                             Label(pageLabel, ExpandWidth(false));
                             ActionButton("-", () => {
@@ -165,14 +165,14 @@ namespace ToyBox.classes.MainUI {
                             rarityButtonStyle,
                             Width(375));
                     } else {
-                        Label("No Items".localize().grey(), Width(375));
+                        Label(RichText.Grey("No Items".localize()), Width(375));
                     }
                 }
                 remainingWidth -= 400;
                 Space(10);
                 // Section Column - Main Area
                 using (VerticalScope(MinWidth(remainingWidth))) {
-                    Label("Import/Export allows you to save and add a list of items to a file based on the type (e.g. Weapon.json). These files live in a new ToyBox folder that in the same folder that contains your saved games ".localize().green());
+                    Label(RichText.Green("Import/Export allows you to save and add a list of items to a file based on the type (e.g. Weapon.json). These files live in a new ToyBox folder that in the same folder that contains your saved games ".localize()));
                     if (selectedItem != null) {
                         var item = selectedItem;
                         //UI.Label("Target".cyan());
@@ -182,14 +182,14 @@ namespace ToyBox.classes.MainUI {
                             //Main.Log($"item.Name - {item.Name.ToString().Rarity(rarity)} rating: {item.Blueprint.Rating(item)}");
                             Space(25);
                             using (VerticalScope(Width(320))) {
-                                Label(item.NameAndOwner(false).bold(), Width(320));
+                                Label(RichText.Bold(item.NameAndOwner(false)), Width(320));
                                 25.space();
                                 var bp = item.Blueprint;
-                                Label("rating: ".localize() + $"{item.Rating().ToString().orange().bold()} (" + "bp".localize() + $":{item.Blueprint.Rating().ToString().orange().bold()})".cyan());
+                                Label("rating: ".localize() + $"{RichText.Bold(RichText.Orange(item.Rating().ToString()))} (" + "bp".localize() + RichText.Cyan($":{RichText.Bold(RichText.Orange(item.Blueprint.Rating().ToString()))})"));
                                 using (HorizontalScope()) {
                                     var modifers = bp.Attributes();
                                     if (item.IsEpic) modifers = modifers.Prepend("epic ");
-                                    Label(string.Join(" ", modifers).cyan(), AutoWidth());
+                                    Label(RichText.Cyan(string.Join(" ", modifers)), AutoWidth());
                                     //if (bp is BlueprintItemWeapon bpW) {
                                     //    if (bpW.IsMagic) UI.Label("magic ".cyan(), UI.AutoWidth());
                                     //    if (bpW.IsNotable) UI.Label("notable ".Rarity(RarityType.Notable), UI.AutoWidth());
@@ -208,31 +208,31 @@ namespace ToyBox.classes.MainUI {
                             if (item is ItemEntityShield shield) {
                                 using (VerticalScope()) {
                                     using (HorizontalScope()) {
-                                        Label("Shield".orange(), Width(100));
+                                        Label(RichText.Orange("Shield"), Width(100));
                                         TargetItemGUI(shield.ArmorComponent);
                                     }
                                     Div();
                                     if (shield.WeaponComponent != null) {
                                         using (HorizontalScope()) {
-                                            Label("Spikes".orange(), Width(100));
+                                            Label(RichText.Orange("Spikes"), Width(100));
                                             TargetItemGUI(shield.WeaponComponent);
                                         }
                                         ActionButton("Remove ", () => shield.WeaponComponent = null, AutoWidth());
                                     } else {
                                         var compTitle = shield.Blueprint.WeaponComponent?.name;
-                                        compTitle = compTitle != null ? " from " + compTitle.yellow() : "";
-                                        ActionButton("Add " + "Spikes".orange() + compTitle, () => shield.WeaponComponent = new ItemEntityWeapon(shield.Blueprint.WeaponComponent ?? basicSpikeShield, shield), AutoWidth());
+                                        compTitle = compTitle != null ? " from " + RichText.Yellow(compTitle) : "";
+                                        ActionButton("Add " + RichText.Orange("Spikes") + compTitle, () => shield.WeaponComponent = new ItemEntityWeapon(shield.Blueprint.WeaponComponent ?? basicSpikeShield, shield), AutoWidth());
                                     }
                                 }
                             } else if (item is ItemEntityWeapon weapon && weapon.Second != null) {
                                 using (VerticalScope()) {
                                     using (HorizontalScope()) {
-                                        Label("Main".orange(), Width(100));
+                                        Label(RichText.Orange("Main"), Width(100));
                                         TargetItemGUI(weapon);
                                     }
                                     Div();
                                     using (HorizontalScope()) {
-                                        Label("2nd".orange(), Width(100));
+                                        Label(RichText.Orange("2nd"), Width(100));
                                         TargetItemGUI(weapon.Second);
                                     }
                                 }
@@ -241,7 +241,7 @@ namespace ToyBox.classes.MainUI {
                             }
                         }
                         using (HorizontalScope()) {
-                            ActionButton(("Sandal".cyan() + ", yer a Trickster!").localize(), () => {
+                            ActionButton((RichText.Cyan("Sandal") + ", yer a Trickster!").localize(), () => {
                                 AddTricksterEnchantmentsTier1(item);
                             }, AutoWidth());
                             ActionButton("Gimmie More!".localize().DarkModeRarity(RarityType.Epic), () => {
@@ -251,8 +251,8 @@ namespace ToyBox.classes.MainUI {
                                 AddTricksterEnchantmentsTier2or3(item, true);
                             }, rarityButtonStyle, AutoWidth());
                             using (VerticalScope()) {
-                                Label(("Sandal".cyan() + " has discovered the mythic path of Trickster and can reveal hidden secrets in your items".green()).localize());
-                                Label("This applies the Trickster Lore Nature Enchantment Bonus at stage 1/2/3 respectively".localize().green());
+                                Label((RichText.Cyan("Sandal") + RichText.Green(" has discovered the mythic path of Trickster and can reveal hidden secrets in your items")).localize());
+                                Label(RichText.Green("This applies the Trickster Lore Nature Enchantment Bonus at stage 1/2/3 respectively".localize()));
                             }
                         }
                         Div();
@@ -281,22 +281,22 @@ namespace ToyBox.classes.MainUI {
                             using (HorizontalScope()) {
                                 Label(name, Width(100));
                                 Space(25);
-                                Label($"{enchantBP.Rating().ToString().orange().bold()}".cyan(), 30.width());
+                                Label(RichText.Cyan($"{RichText.Bold(RichText.Orange(enchantBP.Rating().ToString()))}"), 30.width());
                                 Space(25);
-                                Label(entry.Value ? "Custom".localize().yellow() : "Perm".localize().orange(), Width(100));
+                                Label(entry.Value ? RichText.Yellow("Custom".localize()) : RichText.Orange("Perm".localize()), Width(100));
                                 Space(25);
                                 ActionButton("Remove".localize(), () => RemoveEnchantment(item, enchant), AutoWidth());
                                 var description = enchantBP.Description;
                                 if (description != null) {
                                     Space(25);
-                                    Label(description.StripHTML().green());
+                                    Label(RichText.Green(description.StripHTML()));
                                 }
                             }
                         }
                     }
                 }
             } else {
-                Label("No Enchantments".orange());
+                Label(RichText.Orange("No Enchantments"));
             }
         }
         public static void EnchantmentsListGUI() {
@@ -323,13 +323,13 @@ namespace ToyBox.classes.MainUI {
                                 }
                                 using (HorizontalScope()) {
                                     Space(5);
-                                    Label("Enchantment".localize().blue(), Width(320));
+                                    Label(RichText.Blue("Enchantment".localize()), Width(320));
                                     Space(275);
-                                    Label("Rating".localize().blue(), Width(75));
+                                    Label(RichText.Blue("Rating".localize()), Width(75));
                                     Space(10);
-                                    Label("Ench. Type".localize().blue(), Width(140));
+                                    Label(RichText.Blue("Ench. Type".localize()), Width(140));
                                     Space(130);
-                                    Label("Description".localize().blue());
+                                    Label(RichText.Blue("Description".localize()));
 
                                 }
                             }
@@ -342,17 +342,17 @@ namespace ToyBox.classes.MainUI {
                                 if (selectedItem is ItemEntityShield shield) {
                                     using (VerticalScope(Width(260))) {
                                         using (HorizontalScope()) {
-                                            ActionButton("+ " + "Armor".localize().orange(), () => AddClicked(enchant), Width(130));
+                                            ActionButton("+ " + RichText.Orange("Armor".localize()), () => AddClicked(enchant), Width(130));
                                             if (shield.ArmorComponent.Enchantments.Any(e => e.Blueprint == enchant))
-                                                ActionButton("- " + "Armor".localize().orange(), () => RemoveClicked(enchant), Width(130));
+                                                ActionButton("- " + RichText.Orange("Armor".localize()), () => RemoveClicked(enchant), Width(130));
                                             else
                                                 Space(130);
                                         }
                                         if (shield.WeaponComponent != null) {
                                             using (HorizontalScope()) {
-                                                ActionButton("+ " + "Spikes".localize().orange(), () => AddClicked(enchant, true), Width(130));
+                                                ActionButton("+ " + RichText.Orange("Spikes".localize()), () => AddClicked(enchant, true), Width(130));
                                                 if (shield.WeaponComponent.Enchantments.Any(e => e.Blueprint == enchant))
-                                                    ActionButton("- " + "Spikes".localize().orange(), () => RemoveClicked(enchant, true), Width(130));
+                                                    ActionButton("- " + RichText.Orange("Spikes".localize()), () => RemoveClicked(enchant, true), Width(130));
                                                 else
                                                     Space(130);
                                             }
@@ -361,16 +361,16 @@ namespace ToyBox.classes.MainUI {
                                 } else if (selectedItem is ItemEntityWeapon weapon && weapon?.Second != null) {
                                     using (VerticalScope()) {
                                         using (HorizontalScope()) {
-                                            ActionButton("+ " + "Main".localize().orange(), () => AddClicked(enchant), Width(130));
+                                            ActionButton("+ " + RichText.Orange("Main".localize()), () => AddClicked(enchant), Width(130));
                                             if (weapon.Enchantments.Any(e => e.Blueprint == enchant))
-                                                ActionButton("- " + "Main".localize().orange(), () => RemoveClicked(enchant), Width(130));
+                                                ActionButton("- " + RichText.Orange("Main".localize()), () => RemoveClicked(enchant), Width(130));
                                             else
                                                 Space(130);
                                         }
                                         using (HorizontalScope()) {
-                                            ActionButton("+ " + "Offhand".localize().orange(), () => AddClicked(enchant, true), Width(130));
+                                            ActionButton("+ " + RichText.Orange("Offhand".localize()), () => AddClicked(enchant, true), Width(130));
                                             if (weapon.Second.Enchantments.Any(e => e.Blueprint == enchant))
-                                                ActionButton("- " + "Offhand".localize().orange(), () => RemoveClicked(enchant, true), Width(130));
+                                                ActionButton("- " + RichText.Orange("Offhand".localize()), () => RemoveClicked(enchant, true), Width(130));
                                             else
                                                 Space(130);
                                         }
@@ -383,13 +383,13 @@ namespace ToyBox.classes.MainUI {
                                         Space(133);
                                 }
                                 Space(15);
-                                Label($"{enchant.Rating()}".yellow(), 75.width()); // ⊙
+                                Label(RichText.Yellow($"{enchant.Rating()}"), 75.width()); // ⊙
                                 Space(10);
-                                var description = enchant.Description.StripHTML().green();
-                                if (enchant.Comment?.Length > 0) description = enchant.Comment.orange() + " " + description;
-                                if (enchant.Prefix?.Length > 0) description = enchant.Prefix.yellow() + " " + description;
-                                if (enchant.Suffix?.Length > 0) description = enchant.Suffix.yellow() + " " + description;
-                                Label(enchant.CollationNames().First().Replace("Enchantment", "").cyan(), Width(150));
+                                var description = RichText.Green(enchant.Description.StripHTML());
+                                if (enchant.Comment?.Length > 0) description = RichText.Orange(enchant.Comment) + " " + description;
+                                if (enchant.Prefix?.Length > 0) description = RichText.Yellow(enchant.Prefix) + " " + description;
+                                if (enchant.Suffix?.Length > 0) description = RichText.Yellow(enchant.Suffix) + " " + description;
+                                Label(RichText.Cyan(enchant.CollationNames().First().Replace("Enchantment", "")), Width(150));
                                 using (VerticalScope()) {
                                     if (Settings.showAssetIDs) ClipboardLabel(enchant.AssetGuid.ToString(), AutoWidth());
                                     using (HorizontalScope()) {

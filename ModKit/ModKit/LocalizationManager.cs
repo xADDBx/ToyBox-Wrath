@@ -86,13 +86,13 @@ namespace ModKit {
                 if (!IsDefault) {
                     if (!(_local?.Strings.TryGetValue(key, out localizedString)) ?? true) {
                         _local?.Strings.Add(key, "");
-                        Mod.Debug($"Unlocalized Key: '{key.orange().bold()}' in current locale: " + key);
+                        Mod.Debug($"Unlocalized Key: '{key.Orange().Bold()}' in current locale: " + key);
                     }
                 }
                 if (IsDefault || localizedString == "") {
                     if (!(_localDefault?.Strings.TryGetValue(key, out localizedString)) ?? true) {
                         _localDefault?.Strings.Add(key, key);
-                        Mod.Warn($"Unlocalized Key: '{key.orange().bold()}' in default locale");
+                        Mod.Warn($"Unlocalized Key: '{key.Orange().Bold()}' in default locale");
                     }
                 }
                 return localizedString != null ? localizedString : key;

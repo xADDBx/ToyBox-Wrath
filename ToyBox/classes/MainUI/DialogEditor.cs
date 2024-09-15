@@ -49,7 +49,7 @@ namespace ToyBox {
 
         public static void OnGUI(this DialogController dialogController) {
             if (dialogController.CurrentCue == null) {
-                Label("No Active Dialog".localize().cyan());
+                Label(RichText.Cyan("No Active Dialog".localize()));
             }
             dialogController.CurrentCue?.OnGUI("Current".localize());
             dialogController.Answers?.OnGUI("Answer".localize());
@@ -70,22 +70,22 @@ namespace ToyBox {
                     var displayText = cue.DisplayText;
                     if (visited && displayText.Length > 50)
                         displayText = displayText.StripHTML().Substring(0, 50) + "...";
-                    Label($"{cue.GetDisplayName().yellow()} {displayText.orange()}");
+                    Label($"{RichText.Yellow(cue.GetDisplayName())} {RichText.Orange(displayText)}");
                     var resultsText = cue.ResultsText().StripHTML().Trim();
                     if (!resultsText.IsNullOrEmpty()) {
                         using (HorizontalScope()) {
                             Label("", Indent.width());
-                            Label(resultsText.yellow());
+                            Label(RichText.Yellow(resultsText));
                         }
                     }
                     if (cue.Conditions?.Conditions?.Count() > 0) {
                         using (HorizontalScope()) {
-                            Label("Cond".localize().color(RGBA.teal), Indent.width());
-                            Label(PreviewUtilities.FormatConditions(cue.Conditions).color(RGBA.teal));
+                            Label("Cond".localize().Color(RGBA.teal), Indent.width());
+                            Label(PreviewUtilities.FormatConditions(cue.Conditions).Color(RGBA.teal));
                         }
                     }
                     if (visited) {
-                        Label($"[Repeat]".localize().yellow());
+                        Label(RichText.Yellow($"[Repeat]".localize()));
                         return;
                     }
                     Visited.Add(cue);
@@ -137,7 +137,7 @@ namespace ToyBox {
             using (HorizontalScope()) {
                 OnTitleGUI(title);
                 using (VerticalScope()) {
-                    var text = $"{answer.GetDisplayName().yellow()} {answer.DisplayText}";
+                    var text = $"{RichText.Yellow(answer.GetDisplayName())} {answer.DisplayText}";
                     if (answer.NextCue is CueSelection nextCueSelection && nextCueSelection.Cues.Any()) {
                         Browser.DetailToggle(text, nextCueSelection, nextCueSelection);
                         Browser.OnDetailGUI(nextCueSelection, (_) => nextCueSelection.OnGUI("Next".localize()));
@@ -145,7 +145,7 @@ namespace ToyBox {
                         Label(text);
                     var checkStrings = PreviewUtilities.FormatConditionsAsList(answer);
                     foreach (var checkString in checkStrings) {
-                        Label(checkString.color(RGBA.teal));
+                        Label(checkString.Color(RGBA.teal));
                     }
 #if false                    
                     if (answer.HasShowCheck) {
@@ -169,7 +169,7 @@ namespace ToyBox {
                     if (!resultsText.IsNullOrEmpty()) {
                         using (HorizontalScope()) {
                             Label("", Indent.width());
-                            Label(resultsText.yellow());
+                            Label(RichText.Yellow(resultsText));
                         }
                     }
                 }
@@ -196,7 +196,7 @@ namespace ToyBox {
         }
         private static void OnTitleGUI(string? title) {
             if (title != null) {
-                Label(title.cyan(), Indent.width());
+                Label(RichText.Cyan(title), Indent.width());
             } else
                 Indent.space();
         }

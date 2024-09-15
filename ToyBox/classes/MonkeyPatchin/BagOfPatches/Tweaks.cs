@@ -2,6 +2,7 @@
 using Kingmaker.View.MapObjects.Traps;
 using Kingmaker.AreaLogic.Etudes;
 using System;
+using Kingmaker.Controllers;
 
 namespace ToyBox.BagOfPatches {
     internal static partial class Tweaks {
@@ -21,6 +22,17 @@ namespace ToyBox.BagOfPatches {
                 if (Settings.allEtudesReadable) {
                     __result = false;
                 }
+            }
+        }
+        [HarmonyPatch(typeof(TimeController))]
+        public static class TimeController_Patch {
+            [HarmonyPatch(MethodType.Constructor)]
+            [HarmonyPostfix]
+            public static void Const(TimeController __instance) {
+                var timeScale = Main.Settings.useAlternateTimeScaleMultiplier
+                    ? Main.Settings.alternateTimeScaleMultiplier
+                    : Main.Settings.timeScaleMultiplier;
+                __instance.DebugTimeScale = timeScale;
             }
         }
     }

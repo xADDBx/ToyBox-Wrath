@@ -67,8 +67,8 @@ namespace ToyBox {
                 _parent = rootEtudeId;
                 _selected = _parent;
             }
-            Label(("Note".orange().bold() + " this is a new and exciting feature that allows you to see for the first time the structure and some basic relationships of ".green() + "Etudes".cyan().bold() + " and other ".green() + "Elements".cyan().bold() + " that control the progression of your game story. Etudes are hierarchical in structure and additionally contain a set of ".green() + "Elements".cyan().bold() + " that can both conditions to check and actions to execute when the etude is started. As you browe you will notice there is a disclosure triangle next to the name which will show the children of the Etude.  Etudes that have ".green() + "Elements".cyan().bold() + " will offer a second disclosure triangle next to the status that will show them to you.".green()).localize());
-            Label(("WARNING".yellow().bold() + " this tool can both miraculously fix your broken progression or it can break it even further. Save and back up your save before using.".orange()).localize());
+            Label((RichText.Bold(RichText.Orange("Note")) + RichText.Green(" this is a new and exciting feature that allows you to see for the first time the structure and some basic relationships of ") + RichText.Bold(RichText.Cyan("Etudes")) + RichText.Green(" and other ") + RichText.Bold(RichText.Cyan("Elements")) + RichText.Green(" that control the progression of your game story. Etudes are hierarchical in structure and additionally contain a set of ") + RichText.Bold(RichText.Cyan("Elements")) + RichText.Green(" that can both conditions to check and actions to execute when the etude is started. As you browe you will notice there is a disclosure triangle next to the name which will show the children of the Etude.  Etudes that have ") + RichText.Bold(RichText.Cyan("Elements")) + RichText.Green(" will offer a second disclosure triangle next to the status that will show them to you.")).localize());
+            Label((RichText.Bold(RichText.Yellow("WARNING")) + RichText.Orange(" this tool can both miraculously fix your broken progression or it can break it even further. Save and back up your save before using.")).localize());
             using (HorizontalScope(AutoWidth())) {
                 if (_parent == BlueprintGuid.Empty)
                     return;
@@ -130,7 +130,7 @@ namespace ToyBox {
             using (HorizontalScope()) {
                 Label(""); firstRect = GUILayoutUtility.GetLastRect();
                 using (VerticalScope(GUI.skin.box)) {
-                    if (VPicker<BlueprintArea>("Areas".localize().orange().bold(), ref _selectedArea, _areas, "All".localize(), bp => {
+                    if (VPicker(RichText.Bold(RichText.Orange("Areas".localize())), ref _selectedArea, _areas, "All".localize(), bp => {
                         var name = bp.name; // bp.AreaDisplayName;
                         if (name?.Length == 0) name = bp.AreaName;
                         if (name?.Length == 0) name = bp.NameSafe();
@@ -223,11 +223,11 @@ namespace ToyBox {
                         Indent(indent);
                         var style = GUIStyle.none;
                         style.fontStyle = FontStyle.Normal;
-                        if (_selected == etudeID) name = name.orange().bold();
+                        if (_selected == etudeID) name = RichText.Bold(RichText.Orange(name));
 
                         using (HorizontalScope(Width(825))) {
                             if (etude.ChildrenId.Count == 0) etude.ShowChildren = ToggleState.None;
-                            ToggleButton(ref etude.ShowChildren, name.orange().bold(), (state) => OpenCloseAllChildren(etude, state));
+                            ToggleButton(ref etude.ShowChildren, RichText.Bold(RichText.Orange(name)), (state) => OpenCloseAllChildren(etude, state));
                             Space(25);
                             var eltCount = etude.Blueprint.m_AllElements.Count;
                             if (eltCount > 0)
@@ -259,11 +259,11 @@ namespace ToyBox {
                         //}
 
                         Space(100);
-                        Label(etude.State.ToString().yellow(), Width(125));
+                        Label(RichText.Yellow(etude.State.ToString()), Width(125));
                         Space(-2);
                         Space(25);
                         if (EtudeValidationProblem(etudeID, etude) is { } reason) {
-                            UI.Label($"{reason.cyan()}".yellow(), 300.width());
+                            UI.Label(RichText.Yellow($"{RichText.Cyan(reason)}"), 300.width());
                             UI.Space(25);
                         }
                         Label("🔗", AutoWidth());
@@ -279,7 +279,7 @@ namespace ToyBox {
                             TextField(ref guid);
                         }
                         if (showComments && !Main.Settings.showAssetIDs && !string.IsNullOrEmpty(etude.Comment)) {
-                            Label(etude.Comment.green(), ExpandWidth(true));
+                            Label(RichText.Green(etude.Comment), ExpandWidth(true));
                         }
                         Label("", AutoWidth());
                     }
@@ -290,7 +290,7 @@ namespace ToyBox {
                             Space(310);
                             Indent(indent);
                             Space(933);
-                            Label(etude.Comment.green(), ExpandWidth(true));
+                            Label(RichText.Green(etude.Comment), ExpandWidth(true));
                             Label("", AutoWidth());
                         }
                     }
@@ -306,30 +306,30 @@ namespace ToyBox {
                                         using (HorizontalScope(450)) {
                                             if (element is GameAction gameAction) {
                                                 try {
-                                                    ActionButton(gameAction.GetCaption().yellow(), gameAction.RunAction);
+                                                    ActionButton(RichText.Yellow(gameAction.GetCaption()), gameAction.RunAction);
                                                 } catch (Exception e) {
-                                                    Mod.Warn($"{gameAction.GetCaption()} failed to run {e.ToString().yellow()}");
+                                                    Mod.Warn($"{gameAction.GetCaption()} failed to run {RichText.Yellow(e.ToString())}");
                                                 }
                                             } else
-                                                Label(element.GetCaption().yellow() ?? "?");
+                                                Label(RichText.Yellow(element.GetCaption()) ?? "?");
                                             Space(25);
                                             ReflectionTreeView.DetailToggle("Inspect".localize(), element, element, 100);
                                             Space(0);
                                         }
                                         Space(25);
                                         if (element is Condition condition)
-                                            Label($"{element.GetType().Name.cyan()} : {condition.CheckCondition().ToString().orange()}", Width(250));
+                                            Label($"{RichText.Cyan(element.GetType().Name)} : {RichText.Orange(condition.CheckCondition().ToString())}", Width(250));
                                         else if (element is Conditional conditional)
-                                            Label($"{element.GetType().Name.cyan()} : {conditional.ConditionsChecker.Check().ToString().orange()} - {string.Join(", ", conditional.ConditionsChecker.Conditions.Select(c => c.GetCaption())).yellow()}", Width(250));
+                                            Label($"{RichText.Cyan(element.GetType().Name)} : {RichText.Orange(conditional.ConditionsChecker.Check().ToString())} - {RichText.Yellow(string.Join(", ", (IEnumerable<string>)conditional.ConditionsChecker.Conditions.Select(c => c.GetCaption())))}", Width(250));
                                         else
-                                            Label(element.GetType().Name.cyan(), Width(250));
+                                            Label(RichText.Cyan(element.GetType().Name), Width(250));
                                         if (element is AnotherEtudeOfGroupIsPlaying otherGroup)
                                             Label($"{conflictCount}", Width(50));
                                         else
                                             Width(53);
                                         Space(25);
                                         if (showComments)
-                                            Label(element.GetDescription().green());
+                                            Label(RichText.Green(element.GetDescription()));
 
                                     }
                                     if (element is StartEtude started) {

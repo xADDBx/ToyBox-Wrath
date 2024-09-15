@@ -232,7 +232,7 @@ namespace ToyBox.BagOfPatches {
                         .NotNull()
                         .Distinct()
                         .Nearest(dialogPosition);
-                Mod.Debug($"found {unit?.CharacterName ?? "no one".cyan()} position: {unit?.Position.ToString() ?? "n/a"}");
+                Mod.Debug($"found {unit?.CharacterName ?? "no one".Cyan()} position: {unit?.Position.ToString() ?? "n/a"}");
                 if (unit != null) {
                     if (unit.DistanceTo(dialogPosition) > 25) {
                         var mainChar = Game.Instance.Player.MainCharacter.Value;

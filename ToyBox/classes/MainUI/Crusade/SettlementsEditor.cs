@@ -18,14 +18,14 @@ namespace ToyBox.classes.MainUI {
             if (Game.Instance?.Player == null) return;
             var kingdom = KingdomState.Instance;
             if (kingdom == null) {
-                Label("You must unlock the crusade before you can access these toys.".localize().yellow().bold());
+                Label(RichText.Bold(RichText.Yellow("You must unlock the crusade before you can access these toys.".localize())));
                 return;
             }
             HStack("Settlements".localize(), 1,
                 () => {
                     using (VerticalScope()) {
                         if (kingdom.SettlementsManager.Settlements.Count == 0)
-                            Label(("None".orange().bold() + " - please progress further into the game".green()).localize());
+                            Label((RichText.Bold(RichText.Orange("None")) + RichText.Green(" - please progress further into the game")).localize());
                         Toggle("Ignore building restrions".localize(), ref Settings.toggleIgnoreSettlementRestrictions, AutoWidth());
                         /*
                         if (Settings.toggleIgnoreSettlementRestrictions) {
@@ -37,7 +37,7 @@ namespace ToyBox.classes.MainUI {
                             var showBuildings = false;
                             var buildings = settlement.Buildings;
                             using (HorizontalScope()) {
-                                Label(settlement.Name.orange().bold(), 350.width());
+                                Label(RichText.Bold(RichText.Orange(settlement.Name)), 350.width());
                                 25.space();
                                 if (EnumGrid(ref settlement.m_Level)) {
 
@@ -52,7 +52,7 @@ namespace ToyBox.classes.MainUI {
                                 foreach (var building in buildings) {
                                     using (HorizontalScope()) {
                                         100.space();
-                                        Label(building.Blueprint.name.cyan(), 350.width());
+                                        Label(RichText.Cyan(building.Blueprint.name), 350.width());
                                         ActionButton("Finish".localize(), () => {
                                             building.IsFinished = true;
                                             building.FinishedOn = kingdom.CurrentDay;
@@ -61,7 +61,7 @@ namespace ToyBox.classes.MainUI {
                                         25.space();
                                         Label(building.IsFinished.ToString(), 200.width());
                                         25.space();
-                                        Label(building.Blueprint.MechanicalDescription.ToString().StripHTML().orange() + "\n" + building.Blueprint.Description.ToString().StripHTML().green());
+                                        Label(RichText.Orange(building.Blueprint.MechanicalDescription.ToString().StripHTML()) + "\n" + RichText.Green(building.Blueprint.Description.ToString().StripHTML()));
                                     }
                                 }
                             }

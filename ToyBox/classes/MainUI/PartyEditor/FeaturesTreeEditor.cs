@@ -27,7 +27,7 @@ namespace ToyBox {
             if (!Main.IsInGame) return;
             var activeScene = SceneManager.GetActiveScene().name;
             if (Game.Instance?.Player == null || activeScene == "MainMenu" || activeScene == "Start") {
-                UI.Label(" * Please start or load the game first.".localize().color(RGBA.yellow));
+                UI.Label(" * Please start or load the game first.".localize().Color(RGBA.yellow));
                 return;
             }
             if (_buttonStyle == null)
@@ -65,7 +65,7 @@ namespace ToyBox {
                             void draw(FeaturesTree.FeatureNode node) {
                                 using (UI.HorizontalScope()) {
                                     var levelText = node.Level == 0 ? "" : $" {node.Level} - ";
-                                    var blueprintName = $"[{node.Blueprint.name}]".color(node.IsMissing ? RGBA.maroon : RGBA.aqua);
+                                    var blueprintName = $"[{node.Blueprint.name}]".Color(node.IsMissing ? RGBA.maroon : RGBA.aqua);
                                     var titleText = $"{levelText}{node.Name.Bold()} {blueprintName}";
                                     if (node.ChildNodes.Count > 0) {
                                         if (node.Expanded == ToggleState.None) {
