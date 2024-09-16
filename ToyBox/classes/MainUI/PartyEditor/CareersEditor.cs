@@ -33,10 +33,10 @@ namespace ToyBox {
                 using (HorizontalScope()) {
                     using (HorizontalScope(Width(600))) {
                         Space(100);
-                        Label("Character Level".localize().cyan(), Width(250));
+                        Label(RichText.Cyan("Character Level".localize()), Width(250));
                         ActionButton("<", () => prog.CharacterLevel = Math.Max(0, prog.CharacterLevel - 1), AutoWidth());
                         Space(25);
-                        Label("level".localize().green() + $": {prog.CharacterLevel}", Width(100f));
+                        Label(RichText.Green("level".localize()) + $": {prog.CharacterLevel}", Width(100f));
                         ActionButton(">", () => prog.CharacterLevel = Math.Min(
                                                     int.MaxValue, // TODO: is this right?
                                                     prog.CharacterLevel + 1),
@@ -45,13 +45,13 @@ namespace ToyBox {
                     ActionButton("Reset".localize(), () => ch.resetClassLevel(), Width(150));
                     Space(23);
                     using (VerticalScope()) {
-                        Label("This directly changes your character level but will not change exp or adjust any features associated with your character. To do a normal level up use +1 Lvl above.  This gets recalculated when you reload the game.  ".localize().green());
+                        Label(RichText.Green("This directly changes your character level but will not change exp or adjust any features associated with your character. To do a normal level up use +1 Lvl above.  This gets recalculated when you reload the game.  ".localize()));
                     }
                 }
                 using (HorizontalScope()) {
                     using (HorizontalScope(Width(600))) {
                         Space(100);
-                        Label("Experience".localize().cyan(), Width(250));
+                        Label(RichText.Cyan("Experience".localize()), Width(250));
                         Space(25);
                         int tmpExp = prog.Experience;
                         IntTextField(ref tmpExp, null, Width(150f));
@@ -67,7 +67,7 @@ namespace ToyBox {
                         }, AutoWidth());
                         Space(27);
                     }
-                    Label("This sets your experience to match the current value of character level".localize().green());
+                    Label(RichText.Green("This sets your experience to match the current value of character level".localize()));
                 }
 #if false
                 Div(100, 25);
@@ -117,11 +117,11 @@ namespace ToyBox {
                         Space(100);
                         using (VerticalScope(Width(250))) {
                             var className = cd.path.Name;
-                            Label(className.orange(), Width(250));
+                            Label(RichText.Orange(className), Width(250));
                         }
                         //                        ActionButton("<", () => cd.level = Math.Max(0, cd.level - 1), AutoWidth());
                         Space(25);
-                        Label("level".localize().green() + $": {cd.level}", Width(100f));
+                        Label(RichText.Green("level".localize()) + $": {cd.level}", Width(100f));
                         //var maxLevel = 20;
                         //ActionButton(">", () => cd.level = Math.Min(maxLevel, cd.level + 1), AutoWidth());
                         Space(23);

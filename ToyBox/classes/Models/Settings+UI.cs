@@ -17,12 +17,12 @@ namespace ToyBox {
                 () => {
                     ActionButton("Reset UI".localize(), Main.SetNeedsResetGameUI);
                     25.space();
-                    Label(("Tells the game to reset the in game UI.".green() + " Warning".yellow() + " Using this in dialog or the book will dismiss that dialog which may break progress so use with care".orange()).localize());
+                    Label(("Tells the game to reset the in game UI.".Green() + " Warning".Yellow() + " Using this in dialog or the book will dismiss that dialog which may break progress so use with care".Orange()).localize());
                 },
                 () => {
                     Toggle("Enable Game Development Mode".localize(), ref Main.Settings.toggleDevopmentMode);
                     Space(25);
-                    HelpLabel($"This turns on the developer console which lets you access cheat commands, shows a FPS window (hide with F11), etc.\n{"Warning: ".yellow().bold()}{"You may need to restart the game for this to fully take effect".orange()}".localize());
+                    HelpLabel($"This turns on the developer console which lets you access cheat commands, shows a FPS window (hide with F11), etc.\n{"Warning: ".Yellow().Bold()}{"You may need to restart the game for this to fully take effect".Orange()}".localize());
                 },
                 () => Label(""),
                 () => EnumGrid("Log Level".localize(), ref Main.Settings.loggingLevel, AutoWidth()),
@@ -63,11 +63,11 @@ namespace ToyBox {
                     }
                     using (VerticalScope()) {
                         using (HorizontalScope()) {
-                            Label("Current Culture".localize().cyan(), Width(275));
+                            Label("Current Culture".localize().Cyan(), Width(275));
                             Space(25);
-                            Label($"{uiCulture.DisplayName}({uiCulture.Name})".orange());
+                            Label($"{uiCulture.DisplayName}({uiCulture.Name})".Orange());
                             Space(25);
-                            ActionButton("Export current locale to file".localize().cyan(), () => LocalizationManager.Export());
+                            ActionButton("Export current locale to file".localize().Cyan(), () => LocalizationManager.Export());
                             Space(25);
                             LinkButton("Open the Localization Guide".localize(), "https://github.com/cabarius/ToyBox/wiki/Localization-Guide");
                         }
@@ -76,7 +76,7 @@ namespace ToyBox {
                             Toggle("Only show languages with existing localization files".localize(), ref Main.Settings.onlyShowLanguagesWithFiles);
                         }
                         Div(0, 25);
-                        if (GridPicker<CultureInfo>("Culture", ref uiCulture, cultures, null, ci => $"{ci.Name.cyan().bold()} {ci.DisplayName.orange()}", ref cultureSearchText, 6, rarityButtonStyle, Width(ummWidth - 350))) {
+                        if (GridPicker<CultureInfo>("Culture", ref uiCulture, cultures, null, ci => $"{ci.Name.Cyan().Bold()} {ci.DisplayName.Orange()}", ref cultureSearchText, 6, rarityButtonStyle, Width(ummWidth - 350))) {
                             Mod.ModKitSettings.uiCultureCode = uiCulture.Name;
                             LocalizationManager.Update();
                         }

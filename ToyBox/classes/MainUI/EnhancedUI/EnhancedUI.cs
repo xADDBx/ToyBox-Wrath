@@ -33,7 +33,7 @@ namespace ToyBox {
                    () => {
                        var modifier = KeyBindings.GetBinding("InventoryUseModifier");
                        var modifierText = modifier.Key == KeyCode.None ? "Modifer" : modifier.ToString();
-                       Toggle("Allow ".localize() + $"{modifierText}".cyan() + (" + Click".cyan() + " To Use Items In Inventory").localize(), ref Settings.toggleShiftClickToUseInventorySlot, 470.width());
+                       Toggle("Allow ".localize() + RichText.Cyan($"{modifierText}") + (RichText.Cyan(" + Click") + " To Use Items In Inventory").localize(), ref Settings.toggleShiftClickToUseInventorySlot, 470.width());
                        if (Settings.toggleShiftClickToUseInventorySlot) {
                            ModifierPicker("InventoryUseModifier", "", 0);
                        }
@@ -41,7 +41,7 @@ namespace ToyBox {
                    () => {
                        var modifier = KeyBindings.GetBinding("ClickToTransferModifier");
                        var modifierText = modifier.Key == KeyCode.None ? "Modifer" : modifier.ToString();
-                       Toggle("Allow ".localize() + $"{modifierText}".cyan() + (" + Click".cyan() + " To Transfer Entire Stack").localize(), ref Settings.toggleShiftClickToFastTransfer, 470.width());
+                       Toggle("Allow ".localize() + RichText.Cyan($"{modifierText}") + (RichText.Cyan(" + Click") + " To Transfer Entire Stack").localize(), ref Settings.toggleShiftClickToFastTransfer, 470.width());
                        if (Settings.toggleShiftClickToFastTransfer) {
                            ModifierPicker("ClickToTransferModifier", "", 0);
                        }
@@ -74,14 +74,14 @@ namespace ToyBox {
                            Toggle("Color Item Names".localize(), ref Settings.toggleColorLootByRarity);
                        }
                        using (VerticalScope()) {
-                           Label($"This makes loot function like Diablo or Borderlands. {"Note: turning this off requires you to save and reload for it to take effect.".orange()}".localize()
-                                     .green());
+                           Label(RichText.Green($"This makes loot function like Diablo or Borderlands. {RichText.Orange("Note: turning this off requires you to save and reload for it to take effect.")}".localize()
+));
                        }
                    },
                    () => {
                        if (Settings.UsingLootRarity) {
                            using (VerticalScope(400.width())) {
-                               Label("Minimum Rarity For Loot Rarity Tags/Colors".localize().cyan(), AutoWidth());
+                               Label(RichText.Cyan("Minimum Rarity For Loot Rarity Tags/Colors".localize()), AutoWidth());
                                RarityGrid(ref Settings.minRarityToColor, 4, AutoWidth());
                            }
                        }
@@ -91,7 +91,7 @@ namespace ToyBox {
                            using (VerticalScope(300)) {
                                using (HorizontalScope(300)) {
                                    using (VerticalScope()) {
-                                       Label("Maximum Rarity To Hide:".localize().cyan(), AutoWidth());
+                                       Label(RichText.Cyan("Maximum Rarity To Hide:".localize()), AutoWidth());
                                        RarityGrid(ref Settings.maxRarityToHide, 4, AutoWidth());
                                    }
                                }
@@ -99,7 +99,7 @@ namespace ToyBox {
                            50.space();
                            using (VerticalScope()) {
                                Label("");
-                               HelpLabel($"This hides map pins of loot containers containing at most the selected rarity. {"Note: Changing settings requires reopening the map.".orange()}".localize());
+                               HelpLabel($"This hides map pins of loot containers containing at most the selected rarity. {RichText.Orange("Note: Changing settings requires reopening the map.")}".localize());
                            }
                        }
                    },

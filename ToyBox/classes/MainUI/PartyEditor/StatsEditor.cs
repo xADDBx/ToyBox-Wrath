@@ -11,6 +11,7 @@ using Kingmaker.UnitLogic.Alignments;
 using Kingmaker.Visual.Sound;
 using ModKit;
 using ModKit.Utility;
+using ModKit.Utility.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -120,11 +121,11 @@ namespace ToyBox {
                                 portraitDir.Create();
                             }
                             var outFile = new FileInfo(Path.Combine(portraitDir.FullName, BlueprintRoot.Instance.CharGenRoot.PortraitSmallName + BlueprintRoot.Instance.CharGenRoot.PortraitsFormat));
-                            portrait.SmallPortrait.texture.SaveTextureToFile(outFile.FullName, -1, -1, UnityExtensions.SaveTextureFileFormat.PNG, 100, false);
+                            portrait.SmallPortrait.texture.SaveTextureToFile(outFile.FullName, -1, -1, MiscExtensions.SaveTextureFileFormat.PNG, 100, false);
                             outFile = new FileInfo(Path.Combine(portraitDir.FullName, BlueprintRoot.Instance.CharGenRoot.PortraitMediumName + BlueprintRoot.Instance.CharGenRoot.PortraitsFormat));
-                            portrait.HalfLengthPortrait.texture.SaveTextureToFile(outFile.FullName, -1, -1, UnityExtensions.SaveTextureFileFormat.PNG, 100, false);
+                            portrait.HalfLengthPortrait.texture.SaveTextureToFile(outFile.FullName, -1, -1, MiscExtensions.SaveTextureFileFormat.PNG, 100, false);
                             outFile = new FileInfo(Path.Combine(portraitDir.FullName, BlueprintRoot.Instance.CharGenRoot.PortraitBigName + BlueprintRoot.Instance.CharGenRoot.PortraitsFormat));
-                            portrait.FullLengthPortrait.texture.SaveTextureToFile(outFile.FullName, -1, -1, UnityExtensions.SaveTextureFileFormat.PNG, 100, false);
+                            portrait.FullLengthPortrait.texture.SaveTextureToFile(outFile.FullName, -1, -1, MiscExtensions.SaveTextureFileFormat.PNG, 100, false);
                             Process.Start(portraitDir.FullName);
                         } catch (Exception ex) {
                             Mod.Error(ex.ToString());
@@ -164,7 +165,7 @@ namespace ToyBox {
                             }));
                             if (unknownID) {
                                 25.space();
-                                Label("Unknown ID!".localize().Red());
+                                Label(RichText.Red("Unknown ID!".localize()));
                             }
                         }
                         if (CustomPortraitsManager.Instance.GetExistingCustomPortraitIds() is string[] customIDs) {
@@ -238,13 +239,13 @@ namespace ToyBox {
                         if (ch != null) {
                             if (ch.Asks.List != null) {
                                 if (!(ch.IsCustomCompanion() || ch.IsMainCharacter)) {
-                                    Label("You're about to change the voice of a non-custom character. That's untested.".localize().red().bold());
+                                    Label(RichText.Bold(RichText.Red("You're about to change the voice of a non-custom character. That's untested.".localize())));
                                 } else if (!BlueprintExtensions.GetTitle(ch.Asks.List).StartsWith("RT")) {
-                                    Label("You have given a custom character a non-default voice. That's untested.".localize().red().bold());
+                                    Label(RichText.Bold(RichText.Red("You have given a custom character a non-default voice. That's untested.".localize())));
                                 }
                             }
                             if (blueprintVoiceBrowser?.ShowAll ?? false) {
-                                Label("Giving characters voices besides the default ones is untested.".localize().red().bold());
+                                Label(RichText.Bold(RichText.Red("Giving characters voices besides the default ones is untested.".localize())));
                             }
                             if (Event.current.type == EventType.Layout && blueprintVoiceBps == null) {
                                 blueprintVoiceBps = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintUnitAsksList>();
@@ -258,7 +259,7 @@ namespace ToyBox {
                                 (definition, _currentDict) => {
                                     bool isCurrentVoice = definition == ch.Asks.List;
                                     if (isCurrentVoice) {
-                                        Label(BlueprintExtensions.GetTitle(definition).green(), 500.width());
+                                        Label(RichText.Green(BlueprintExtensions.GetTitle(definition)), 500.width());
                                         ActionButton("Play Example".localize(), () => {
                                             new BarkWrapper(definition.GetComponent<UnitAsksComponent>().PartyMemberUnconscious, ch.View.Asks).Schedule();
                                         }, 150.width());
@@ -316,14 +317,14 @@ namespace ToyBox {
                                 continue;
                             }
                             using (HorizontalScope()) {
-                                Label(dir.ToString().localize().orange(), 200.width());
+                                Label(RichText.Orange(dir.ToString().localize()), 200.width());
                                 ActionButton(" < ",
                                              () => modifySoulmark(dir, soulMark, ch, soulMark.Rank - 1, soulMark.Rank - 2),
                                              GUI.skin.box,
                                              AutoWidth());
                                 Space(20);
                                 var val = soulMark.Rank - 1;
-                                Label($"{val}".orange().bold(), Width(50f));
+                                Label(RichText.Bold(RichText.Orange($"{val}")), Width(50f));
                                 ActionButton(" > ",
                                              () => modifySoulmark(dir, soulMark, ch, soulMark.Rank - 1, soulMark.Rank),
                                              GUI.skin.box,
@@ -349,7 +350,7 @@ namespace ToyBox {
                         using (HorizontalScope()) {
                             Label("Size".localize(), Width(425));
                             var size = ch.Descriptor().State.Size;
-                            Label($"{size}".orange().bold(), Width(175));
+                            Label(RichText.Bold(RichText.Orange($"{size}")), Width(175));
                         }
                         Label("Pick size modifier to overwrite default.".localize());
                         Label("Pick none to stop overwriting.".localize());
@@ -390,7 +391,7 @@ namespace ToyBox {
                         if (lastScale != scaleMultiplier) {
                             ch.View.gameObject.transform.localScale = new Vector3(lastScale, lastScale, lastScale);
                         }
-                        if (LogSliderCustomLabelWidth("Visual Character Size Multiplier".localize().color(RGBA.none), ref lastScale, 0.01f, 40f, 1, 2, "", 400, AutoWidth())) {
+                        if (LogSliderCustomLabelWidth("Visual Character Size Multiplier".localize().Color(RGBA.none), ref lastScale, 0.01f, 40f, 1, 2, "", 400, AutoWidth())) {
                             Main.Settings.perSave.characterModelSizeMultiplier[ch.HashKey()] = lastScale;
                             ch.View.gameObject.transform.localScale = new Vector3(lastScale, lastScale, lastScale);
                             lastScaleSize[ch.HashKey()] = lastScale;
@@ -431,13 +432,13 @@ namespace ToyBox {
                 var isFemale = gender == Gender.Female;
                 using (HorizontalScope(Width(200))) {
                     if (Toggle(isFemale ? "Female".localize() : "Male".localize(), ref isFemale,
-                        "♀".color(RGBA.magenta).bold(),
-                        "♂".color(RGBA.aqua).bold(),
+                        RichText.Bold("♀".Color(RGBA.magenta)),
+                        RichText.Bold("♂".Color(RGBA.aqua)),
                         0, largeStyle, GUI.skin.box, Width(300), Height(20))) {
                         ch.Descriptor().SetCustomGender(isFemale ? Gender.Female : Gender.Male);
                     }
                 }
-                Label("Changing your gender may cause visual glitches".localize().green());
+                Label(RichText.Green("Changing your gender may cause visual glitches".localize()));
             }
             Space(10);
             Div(100, 20, 755);
@@ -469,7 +470,7 @@ namespace ToyBox {
                                      AutoWidth());
                         Space(20);
                         var val = modifiableValue.ModifiedValue;
-                        Label($"{val}".orange().bold(), Width(50f));
+                        Label(RichText.Bold(RichText.Orange($"{val}")), Width(50f));
                         ActionButton(" > ",
                                      () => {
                                          modifiableValue.BaseValue += 1;

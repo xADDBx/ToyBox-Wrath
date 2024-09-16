@@ -37,7 +37,7 @@ namespace ToyBox {
             NavigateTo? navigateTo = null
         ) {
             List<Action> todo = new();
-            if (titleFormatter == null) titleFormatter = (t) => t.orange().bold();
+            if (titleFormatter == null) titleFormatter = (t) => RichText.Bold(RichText.Orange(t));
             if (remainingWidth == 0) remainingWidth = ummWidth - indent;
             var index = 0;
             IEnumerable<SimpleBlueprint> simpleBlueprints = blueprints.ToList();
@@ -62,7 +62,7 @@ namespace ToyBox {
                     () => { },
                     Width(160));
                 Space(40);
-                Label("Parameter".cyan() + ": " + $"{repeatCount}".orange(), ExpandWidth(false));
+                Label(RichText.Cyan("Parameter") + ": " + RichText.Orange($"{repeatCount}"), ExpandWidth(false));
                 repeatCount = Math.Max(1, repeatCount);
                 repeatCount = Math.Min(100, repeatCount);
                 EndHorizontal();
@@ -73,7 +73,7 @@ namespace ToyBox {
                 var currentCount = count++;
                 var description = blueprint.GetDescription().MarkedSubstring(Settings.searchText);
                 if (blueprint is BlueprintItem itemBlueprint && itemBlueprint.FlavorText?.Length > 0)
-                    description = $"{itemBlueprint.FlavorText.StripHTML().color(RGBA.notable).MarkedSubstring(Settings.searchText)}\n{description}";
+                    description = $"{itemBlueprint.FlavorText.StripHTML().Color(RGBA.notable).MarkedSubstring(Settings.searchText)}\n{description}";
                 float titleWidth = 0;
                 var remWidth = remainingWidth - indent;
                 using (HorizontalScope()) {
@@ -87,15 +87,15 @@ namespace ToyBox {
                     if (Settings.showDisplayAndInternalNames && displayName.Length > 0 && displayName != name) {
                         // FIXME - horrible perf bottleneck 
                         if (titles.Contains("Remove".localize()) || titles.Contains("Lock".localize())) {
-                            title = displayName.cyan().bold();
+                            title = RichText.Bold(RichText.Cyan(displayName));
                         } else {
                             title = titleFormatter(displayName);
                         }
-                        title = $"{title} : {name.color(RGBA.darkgrey)}";
+                        title = $"{title} : {name.Color(RGBA.darkgrey)}";
                     } else {
                         // FIXME - horrible perf bottleneck 
                         if (titles.Contains("Remove".localize()) || titles.Contains("Lock".localize())) {
-                            title = name.cyan().bold();
+                            title = RichText.Bold(RichText.Cyan(name));
                         } else {
                             title = titleFormatter(name);
                         }
@@ -116,7 +116,7 @@ namespace ToyBox {
                             var lockAction = actions.ElementAt(lockIndex);
                             ActionButton("<", () => { flags.SetFlagValue(flagBP, flags.GetFlagValue(flagBP) - 1); }, Width(50));
                             Space(25);
-                            Label($"{flags.GetFlagValue(flagBP)}".orange().bold(), MinWidth(50));
+                            Label(RichText.Bold(RichText.Orange($"{flags.GetFlagValue(flagBP)}")), MinWidth(50));
                             ActionButton(">", () => { flags.SetFlagValue(flagBP, flags.GetFlagValue(flagBP) + 1); }, Width(50));
                             Space(50);
                             ActionButton(lockAction.name, () => { lockAction.action(blueprint, unit, repeatCount); }, Width(120));
@@ -170,7 +170,7 @@ namespace ToyBox {
                                 typeString = $"{typeString} - {rarity}".Rarity(rarity);
                             }
                             if (!typeString.Contains(collatorString)) {
-                                typeString += $" : {collatorString}".yellow();
+                                typeString += RichText.Yellow($" : {collatorString}");
                                 navigateStrings.Add(collatorString);
                             }
                         }
@@ -182,18 +182,18 @@ namespace ToyBox {
                             attributes = attr;
                     }
 
-                    if (attributes.Length > 1) typeString += $" - {attributes.orange()}";
+                    if (attributes.Length > 1) typeString += $" - {RichText.Orange(attributes)}";
 
                     if (description != null && description.Length > 0) description = $"{description}";
                     else description = "";
                     if (blueprint is BlueprintScriptableObject bpso) {
                         if (Settings.showComponents && bpso.ComponentsArray?.Length > 0) {
-                            var componentStr = string.Join<object>(", ", bpso.ComponentsArray).color(RGBA.brown);
+                            var componentStr = string.Join<object>(", ", bpso.ComponentsArray).Color(RGBA.brown);
                             if (description.Length == 0) description = componentStr;
                             else description = description + "\n" + componentStr;
                         }
                         if (Settings.showElements && bpso.ElementsArray?.Count > 0) {
-                            var elementsStr = string.Join<object>("\n", bpso.ElementsArray.Select(e => $"{e.GetType().Name.cyan()} {e.GetCaption()}")).yellow();
+                            var elementsStr = RichText.Yellow(string.Join<object>("\n", bpso.ElementsArray.Select(e => $"{e.GetType().Name.Cyan()} {e.GetCaption()}")));
                             if (description.Length == 0) description = elementsStr;
                             else description = description + "\n" + elementsStr;
                         }
@@ -208,7 +208,7 @@ namespace ToyBox {
                             } else ActionButton(typeString, () => navigateTo?.Invoke(navigateStrings.ToArray()), rarityButtonStyle);
                             Space(17);
                         }
-                        if (description.Length > 0) Label(description.green(), Width(remWidth));
+                        if (description.Length > 0) Label(RichText.Green(description), Width(remWidth));
                     }
                 }
                 if (blueprint is BlueprintFeatureSelection_Obsolete selectionBP) {
@@ -221,7 +221,7 @@ namespace ToyBox {
                                 selectionBPValuesNames[selectionBP] = nameStrings;
                             }
                             using (HorizontalScope(GUI.skin.button)) {
-                                var content = new GUIContent($"{selectionBP.Name.yellow()}");
+                                var content = new GUIContent($"{RichText.Yellow(selectionBP.Name)}");
                                 var labelWidth = GUI.skin.label.CalcSize(content).x;
                                 Space(indent);
                                 //UI.Space(indent + titleWidth - labelWidth - 25);

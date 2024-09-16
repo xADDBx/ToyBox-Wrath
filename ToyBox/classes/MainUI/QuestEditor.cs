@@ -47,24 +47,24 @@ namespace ToyBox {
         };
 
         public static bool IsRevealed(this QuestObjective objective) => objective.State == QuestObjectiveState.Started || objective.State == QuestObjectiveState.Completed;
-        public static string? stateColored(this string? text, Quest quest) => RichText.color(text, questColors[(int)quest.State]);
-        public static string? stateColored(this string? text, QuestObjective objective) => RichText.color(text, questColors[(int)objective.State]);
-        public static string? titleColored(this Quest quest) => quest.Blueprint.Title.StringValue().color(titleColors[(int)quest.State]);
+        public static string? stateColored(this string? text, Quest quest) => RichText.Color(text, questColors[(int)quest.State]);
+        public static string? stateColored(this string? text, QuestObjective objective) => RichText.Color(text, questColors[(int)objective.State]);
+        public static string? titleColored(this Quest quest) => quest.Blueprint.Title.StringValue().Color(titleColors[(int)quest.State]);
         public static string? titleColored(this QuestObjective objective, BlueprintQuestObjective? bp = null) {
             var blueprint = objective?.Blueprint ?? bp;
             var state = objective?.State ?? QuestObjectiveState.None;
             var title = blueprint.Title.StringValue();
             if (title.Length == 0) title = blueprint.ToString();
             if (blueprint.IsAddendum)
-                title = "Addendum: ".localize().color(RGBA.white) + title;
+                title = "Addendum: ".localize().Color(RGBA.white) + title;
             if (blueprint.name.Contains("_Fail"))
-                return title.red();
+                return RichText.Red(title);
             else
-                return title.color(titleColors[(int)state]);
+                return title.Color(titleColors[(int)state]);
         }
-        public static string? titleColored(this string title, QuestObjectiveState state) => title.color(titleColors[(int)state]);
-        public static string? stateString(this Quest quest) => quest.State == QuestState.None ? "" : $"{quest.State}".stateColored(quest).bold();
-        public static string? stateString(this QuestObjective objective) => objective.State == QuestObjectiveState.None ? "" : $"{objective.State}".stateColored(objective).bold();
+        public static string? titleColored(this string title, QuestObjectiveState state) => title.Color(titleColors[(int)state]);
+        public static string? stateString(this Quest quest) => quest.State == QuestState.None ? "" : RichText.Bold($"{quest.State}".stateColored(quest));
+        public static string? stateString(this QuestObjective objective) => objective.State == QuestObjectiveState.None ? "" : RichText.Bold($"{objective.State}".stateColored(objective));
     }
 
     public class QuestEditor {
@@ -81,7 +81,7 @@ namespace ToyBox {
             var index = 0;
             var contentColor = GUI.contentColor;
             using (HorizontalScope()) {
-                Label("Quests".localize().cyan());
+                Label(RichText.Cyan("Quests".localize()));
             }
             var split = quests.GroupBy(q => q.State == QuestState.Completed).OrderBy(g => g.Key);
             using (HorizontalScope()) {
@@ -106,13 +106,13 @@ namespace ToyBox {
                     if (!Settings.toggleQuestHideCompleted || quest.State != QuestState.Completed || _selectedQuests[index]) {
                         using (HorizontalScope()) {
                             50.space();
-                            Label(quest.Blueprint.Title.StringValue().orange().bold(), Width(600));
+                            Label(RichText.Bold(RichText.Orange(quest.Blueprint.Title.StringValue())), Width(600));
                             50.space();
                             DisclosureToggle(quest.stateString(), ref _selectedQuests[index]);
                             if (Settings.toggleQuestInspector)
                                 ReflectionTreeView.DetailToggle("Inspect".localize(), quest, quest, 0);
                             50.space();
-                            Label(quest.Blueprint.Description.StringValue().StripHTML().green());
+                            Label(RichText.Green(quest.Blueprint.Description.StringValue().StripHTML()));
                         }
                         if (Settings.toggleQuestInspector) {
                             ReflectionTreeView.OnDetailGUI(quest);
@@ -157,7 +157,7 @@ namespace ToyBox {
                                                 }
                                             }
                                             DrawTeleports(questObjective);
-                                            Label(questObjective.Blueprint.Description.StringValue().StripHTML().green(), 1000.width());
+                                            Label(RichText.Green(questObjective.Blueprint.Description.StringValue().StripHTML()), 1000.width());
                                             Label("", AutoWidth());
                                         }
                                         if (Settings.toggleQuestInspector) {
@@ -190,7 +190,7 @@ namespace ToyBox {
                                                                 } else 153.space();
                                                             }
                                                             DrawTeleports(childObjective);
-                                                            Label(childObjective.Blueprint.Description.StringValue().StripHTML().green(), 1000.width());
+                                                            Label(RichText.Green(childObjective.Blueprint.Description.StringValue().StripHTML()), 1000.width());
                                                             Label("", AutoWidth());
                                                         }
                                                         if (Settings.toggleQuestInspector) {

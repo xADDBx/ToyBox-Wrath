@@ -92,20 +92,20 @@ namespace ToyBox {
                 if (bp.m_NonIdentifiedNameText?.ToString().Length > 0) return bp.CollationNames(bp.m_NonIdentifiedNameText);
                 return bp.CollationNames(bp.ItemType.ToString());
             }),
-            new NamedTypeFilter<BlueprintItemEquipment>("Equipment", null, (bp) =>  bp.CollationNames(bp.ItemType.ToString(), $"{bp.GetCost().ToBinString("⊙".yellow())}")),
+            new NamedTypeFilter<BlueprintItemEquipment>("Equipment", null, (bp) =>  bp.CollationNames(bp.ItemType.ToString(), $"{bp.GetCost().ToBinString(RichText.Yellow("⊙"))}")),
             new NamedTypeFilter<BlueprintItemEquipment>("Equip (rarity)", null, (bp) => new List<string?> {bp.Rarity().GetString() }),
             new NamedTypeFilter<BlueprintItemWeapon>("Weapons", null, (bp) => {
                 var family = bp.Family;
                 var category = bp.Category;
-                return bp.CollationNames(family.ToString(), category.ToString(), $"{bp.GetCost().ToBinString("⊙".yellow())}");
+                return bp.CollationNames(family.ToString(), category.ToString(), $"{bp.GetCost().ToBinString(RichText.Yellow("⊙"))}");
                 // return bp.CollationNames("?", $"{bp.GetCost().ToBinString("⊙".yellow())}");
                 }),
             new NamedTypeFilter<BlueprintItemArmor>("Armor", null, (bp) => {
                 var type = bp.Type;
-                if (type != null) return bp.CollationNames(type.DefaultName, $"{bp.GetCost().ToBinString("⊙".yellow())}");
-                return bp.CollationNames("?", $"{bp.GetCost().ToBinString("⊙".yellow())}");
+                if (type != null) return bp.CollationNames(type.DefaultName, $"{bp.GetCost().ToBinString(RichText.Yellow("⊙"))}");
+                return bp.CollationNames("?", $"{bp.GetCost().ToBinString(RichText.Yellow("⊙"))}");
                 }),
-            new NamedTypeFilter<BlueprintItemEquipmentUsable>("Usable", null, bp => bp.CollationNames(bp.SubtypeName, $"{bp.GetCost().ToBinString("⊙".yellow())}")),
+            new NamedTypeFilter<BlueprintItemEquipmentUsable>("Usable", null, bp => bp.CollationNames(bp.SubtypeName, $"{bp.GetCost().ToBinString(RichText.Yellow("⊙"))}")),
             new NamedTypeFilter<BlueprintUnit>("Units", null, bp => bp.CollationNames(bp.Race?.Name ?? "?", $"CR{bp.CR}")),
             new NamedTypeFilter<BlueprintUnit>("Units CR", null, bp => bp.CollationNames($"CR {bp.CR}")),
             new NamedTypeFilter<BlueprintRace>("Races", null, bp => bp.CollationNames()),
@@ -280,7 +280,7 @@ namespace ToyBox {
                             using (VerticalScope()) {
                                 using (HorizontalScope()) {
                                     if (hasRepeatableAction) {
-                                        Label("Parameter".localize().cyan() + ": ", ExpandWidth(false));
+                                        Label(RichText.Cyan("Parameter".localize()) + ": ", ExpandWidth(false));
                                         ActionIntTextField(
                                             ref repeatCount,
                                             "repeatCount",
@@ -308,11 +308,11 @@ namespace ToyBox {
                         },
                         (bp, maybeBP) => {
                             GetTitle(bp);
-                            Func<string, string> titleFormatter = (t) => t.orange().bold();
+                            Func<string, string> titleFormatter = (t) => RichText.Bold(RichText.Orange(t));
                             if (remainingWidth == 0) remainingWidth = ummWidth;
                             var description = bp.GetDescription().MarkedSubstring(Settings.searchText);
                             if (bp is BlueprintItem itemBlueprint && itemBlueprint.FlavorText?.Length > 0)
-                                description = $"{itemBlueprint.FlavorText.StripHTML().color(RGBA.notable).MarkedSubstring(Settings.searchText)}\n{description}";
+                                description = $"{itemBlueprint.FlavorText.StripHTML().Color(RGBA.notable).MarkedSubstring(Settings.searchText)}\n{description}";
                             float titleWidth = 0;
                             var remWidth = remainingWidth;
                             using (HorizontalScope()) {
@@ -340,9 +340,9 @@ namespace ToyBox {
                                 // var removeIndex = titles.IndexOf("Remove".localize());
                                 // var lockIndex = titles.IndexOf("Lock".localize());
                                 if (removeIndex > -1 || lockIndex > -1) {
-                                    title = GetTitle(bp, name => name.cyan().bold());
+                                    title = GetTitle(bp, name => RichText.Bold(RichText.Cyan(name)));
                                 } else {
-                                    title = GetTitle(bp, name => name.orange().bold());
+                                    title = GetTitle(bp, name => RichText.Bold(RichText.Orange(name)));
                                 }
                                 titleWidth = (remainingWidth / (IsWide ? 3 : 4));
                                 var text = title.MarkedSubstring(Settings.searchText);
@@ -361,7 +361,7 @@ namespace ToyBox {
                                         var lockAction = actions.ElementAt(lockIndex);
                                         ActionButton("<", () => { flags.SetFlagValue(flagBP, flags.GetFlagValue(flagBP) - 1); }, Width(50));
                                         Space(25);
-                                        Label($"{flags.GetFlagValue(flagBP)}".orange().bold(), MinWidth(50));
+                                        Label(RichText.Bold(RichText.Orange($"{flags.GetFlagValue(flagBP)}")), MinWidth(50));
                                         ActionButton(">", () => { flags.SetFlagValue(flagBP, flags.GetFlagValue(flagBP) + 1); }, Width(50));
                                         Space(50);
                                         ActionButton(lockAction.name, () => { lockAction.action(bp, selectedUnit, repeatCount); }, Width(120));
@@ -417,7 +417,7 @@ namespace ToyBox {
                                             typeString = $"{typeString} - {rarity}".Rarity(rarity);
                                         }
                                         if (!typeString.Contains(collatorString)) {
-                                            typeString += $" : {collatorString}".yellow();
+                                            typeString += RichText.Yellow($" : {collatorString}");
                                         }
                                     }
                                 }
@@ -428,18 +428,18 @@ namespace ToyBox {
                                         attributes = attr;
                                 }
 
-                                if (attributes.Length > 1) typeString += $" - {attributes.orange()}";
+                                if (attributes.Length > 1) typeString += $" - {RichText.Orange(attributes)}";
 
                                 if (description != null && description.Length > 0) description = $"{description}";
                                 else description = "";
                                 if (bp is BlueprintScriptableObject bpso) {
                                     if (Settings.showComponents && bpso.ComponentsArray?.Length > 0) {
-                                        var componentStr = string.Join<object>(", ", bpso.ComponentsArray).color(RGBA.brown);
+                                        var componentStr = string.Join<object>(", ", bpso.ComponentsArray).Color(RGBA.brown);
                                         if (description.Length == 0) description = componentStr;
                                         else description = description + "\n" + componentStr;
                                     }
                                     if (Settings.showElements && bpso.ElementsArray?.Count > 0) {
-                                        var elementsStr = string.Join<object>("\n", bpso.ElementsArray.Select(e => $"{e.GetType().Name.cyan()} {e.GetCaption()}")).yellow();
+                                        var elementsStr = RichText.Yellow(string.Join<object>("\n", bpso.ElementsArray.Select(e => $"{e.GetType().Name.Cyan()} {e.GetCaption()}")));
                                         if (description.Length == 0) description = elementsStr;
                                         else description = description + "\n" + elementsStr;
                                     }
@@ -454,7 +454,7 @@ namespace ToyBox {
                                         } else Label(typeString, rarityButtonStyle);
                                         Space(17);
                                     }
-                                    if (description.Length > 0) Label(description.green(), Width(remWidth));
+                                    if (description.Length > 0) Label(RichText.Green(description), Width(remWidth));
                                 }
                             }
                             count++;

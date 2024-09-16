@@ -42,11 +42,11 @@ namespace ToyBox {
                 Label("Load a save to find options like modifying Faction Reputation, Scrap and more.".localize());
                 return;
             }
-            var selected = TypePicker("Faction Selector".localize().bold(), ref selectedFaction, factionsToPick, true);
+            var selected = TypePicker("Faction Selector".localize().Bold(), ref selectedFaction, factionsToPick, true);
             15.space();
             var faction = selected.func();
             using (HorizontalScope()) {
-                Label("Current Reputation".localize().bold() + ": ", Width(startingWidth));
+                Label("Current Reputation".localize().Bold() + ": ", Width(startingWidth));
                 using (VerticalScope()) {
                     using (HorizontalScope()) {
                         Label("Level".localize() + ": ", Width(100));
@@ -71,11 +71,11 @@ namespace ToyBox {
             Div();
             15.space();
             bool warpInit = Game.Instance.Player.WarpTravelState?.IsInitialized ?? false;
-            VStack("Resources".localize().bold(),
+            VStack("Resources".localize().Bold(),
                 () => {
                     if (warpInit) {
                         using (HorizontalScope()) {
-                            Label("Current Navigator Insight".localize().bold() + ": ", Width(startingWidth));
+                            Label("Current Navigator Insight".localize().Bold() + ": ", Width(startingWidth));
                             using (VerticalScope()) {
                                 Label(Game.Instance.Player.WarpTravelState.NavigatorResource.ToString());
                                 using (HorizontalScope()) {
@@ -93,7 +93,7 @@ namespace ToyBox {
                 },
             () => {
                 using (HorizontalScope()) {
-                    Label("Current Scrap".localize().bold() + ": ", Width(startingWidth));
+                    Label("Current Scrap".localize().Bold() + ": ", Width(startingWidth));
                     using (VerticalScope()) {
                         Label(Game.Instance.Player.Scrap.m_Value.ToString());
                         using (HorizontalScope()) {
@@ -110,7 +110,7 @@ namespace ToyBox {
             },
             () => {
                 using (HorizontalScope()) {
-                    Label("Current Profit Factor".localize().bold() + ": ", Width(startingWidth));
+                    Label("Current Profit Factor".localize().Bold() + ": ", Width(startingWidth));
                     using (VerticalScope()) {
                         Label(Game.Instance.Player.ProfitFactor.Total.ToString());
                         using (HorizontalScope()) {
@@ -129,7 +129,7 @@ namespace ToyBox {
                 using (HorizontalScope()) {
                     var VeilThicknessCounter = Game.Instance.TurnController?.VeilThicknessCounter;
                     if (VeilThicknessCounter != null && Game.Instance.LoadedAreaState?.AreaVailPart != null) {
-                        Label("Current Veil Thickness".localize().bold() + ": ", Width(startingWidth));
+                        Label("Current Veil Thickness".localize().Bold() + ": ", Width(startingWidth));
                         using (VerticalScope()) {
                             Label(VeilThicknessCounter.Value.ToString());
                             using (HorizontalScope()) {
@@ -143,10 +143,10 @@ namespace ToyBox {
                     }
                 }
             });
-            VStack("Tweaks".localize().bold(),
+            VStack("Tweaks".localize().Bold(),
                 () => {
                     using (HorizontalScope()) {
-                        if (Toggle("Disable Random Encounters in Warp".localize().bold(), ref Settings.disableWarpRandomEncounter, Width(startingWidth))) {
+                        if (Toggle("Disable Random Encounters in Warp".localize().Bold(), ref Settings.disableWarpRandomEncounter, Width(startingWidth))) {
                             if (warpInit && !Settings.disableWarpRandomEncounter) {
                                 CheatsRE.TurnOnRandomEncounters();
                             }
@@ -169,7 +169,7 @@ namespace ToyBox {
                 15.space();
                 Div();
                 15.space();
-                VStack("Customization".localize().bold(),
+                VStack("Customization".localize().Bold(),
                     () => {
                         Label("Psychic Phenomena".localize());
                         PsychicPhenomenaBrowser.OnGUI(RuleCalculatePsychicPhenomenaEffect.PsychicPhenomenaRoot.PsychicPhenomena, () => RuleCalculatePsychicPhenomenaEffect.PsychicPhenomenaRoot.PsychicPhenomena,
@@ -178,9 +178,9 @@ namespace ToyBox {
                                 using (HorizontalScope()) {
                                     var internalName = psychicphenomena.Bark.Entries[0].Text.name;
                                     string desc = psychicphenomena.Bark.Entries[0].Text.String;
-                                    Label(internalName.cyan(), Width(200));
+                                    Label(internalName.Cyan(), Width(200));
                                     Space(50);
-                                    Label(desc.green(), Width(400));
+                                    Label(desc.Green(), Width(400));
                                     if (Settings.excludedRandomPhenomena.Contains(internalName)) {
                                         ActionButton("Allow".localize(), () => Settings.excludedRandomPhenomena.Remove(internalName), AutoWidth());
                                     } else {
@@ -197,7 +197,7 @@ namespace ToyBox {
                             i => i, i => BlueprintExtensions.GetSearchKey(i.Get(), true), i => [BlueprintExtensions.GetSortKey(i.Get())], null,
                             (minorPeril, _) => {
                                 using (HorizontalScope()) {
-                                    Label(BlueprintExtensions.GetSearchKey(minorPeril.Get(), true).cyan(), Width(650));
+                                    Label(BlueprintExtensions.GetSearchKey(minorPeril.Get(), true).Cyan(), Width(650));
                                     if (Settings.excludedPerilsMinor.Contains(minorPeril.guid)) {
                                         ActionButton("Allow".localize(), () => Settings.excludedPerilsMinor.Remove(minorPeril.guid), AutoWidth());
                                     } else {
@@ -214,7 +214,7 @@ namespace ToyBox {
                             i => i, i => BlueprintExtensions.GetSearchKey(i.Get(), true), i => [BlueprintExtensions.GetSortKey(i.Get())], null,
                             (majorPeril, _) => {
                                 using (HorizontalScope()) {
-                                    Label(BlueprintExtensions.GetSearchKey(majorPeril.Get(), true).cyan(), Width(650));
+                                    Label(BlueprintExtensions.GetSearchKey(majorPeril.Get(), true).Cyan(), Width(650));
                                     if (Settings.excludedPerilsMajor.Contains(majorPeril.guid)) {
                                         ActionButton("Allow".localize(), () => Settings.excludedPerilsMajor.Remove(majorPeril.guid), AutoWidth());
                                     } else {

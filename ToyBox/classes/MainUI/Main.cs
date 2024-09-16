@@ -113,7 +113,7 @@ namespace ToyBox {
                 Mod.logLevel = Settings.loggingLevel;
                 Mod.InGameTranscriptLogger = text => {
                     Mod.Log("CombatLog - " + text);
-                    var messageText = "ToyBox".blue() + " - " + text;
+                    var messageText = "ToyBox".Blue() + " - " + text;
                     var message = new CombatLogMessage(messageText, Color.black, PrefixIcon.RightArrow);
                     var messageLog = LogThreadService.Instance.m_Logs[LogChannelType.Dialog].FirstOrDefault(x => x is DialogLogThread);
                     messageLog?.AddMessage(message);
@@ -143,7 +143,7 @@ namespace ToyBox {
             var thisSettingsPath = Path.Combine(thisToyBoxPath, "Settings.xml");
             try {
                 if (!File.Exists(thisSettingsPath)) {
-                    Mod.Log("No ToyBox settings found... creating default settings".yellow());
+                    Mod.Log("No ToyBox settings found... creating default settings".Yellow());
                 }
             } catch (Exception e) {
                 Mod.Error(e);
@@ -181,15 +181,15 @@ namespace ToyBox {
             if (!Enabled) return;
             IsModGUIShown = true;
             if (!IsInGame) {
-                Label(("Warning: ".magenta().bold() + $"This is an experimental preview of ToyBox for Rogue Trader.".orange() + " Save early and often.\r\n".yellow().bold() + "Note:".magenta().bold() + " Not all features are functional at this time. If you notice a feature doesn't work please report that on GitHub or in the modding channels on the Owlcat Discord.".orange()).localize());
+                Label(("Warning: ".Magenta().Bold() + $"This is an experimental preview of ToyBox for Rogue Trader.".Orange() + " Save early and often.\r\n".Yellow().Bold() + "Note:".Magenta().Bold() + " Not all features are functional at this time. If you notice a feature doesn't work please report that on GitHub or in the modding channels on the Owlcat Discord.".Orange()).localize());
             }
             if (!IsInGame) {
-                Label("ToyBox has limited functionality from the main menu".localize().yellow().bold());
+                Label("ToyBox has limited functionality from the main menu".localize().Yellow().Bold());
             }
             if (!IsWide) {
                 using (HorizontalScope()) {
                     ActionButton("Maximize Window".localize(), Actions.MaximizeModWindow);
-                    Label(("Note ".magenta().bold() + "ToyBox was designed to offer the best user experience at widths of 1920 or higher. Please consider increasing your resolution up of at least 1920x1080 (ideally 4k) and go to Unity Mod Manager 'Settings' tab to change the mod window width to at least 1920.  Increasing the UI scale is nice too when running at 4k".orange().bold()).localize());
+                    Label(("Note ".Magenta().Bold() + "ToyBox was designed to offer the best user experience at widths of 1920 or higher. Please consider increasing your resolution up of at least 1920x1080 (ideally 4k) and go to Unity Mod Manager 'Settings' tab to change the mod window width to at least 1920.  Increasing the UI scale is nice too when running at 4k".Orange().Bold()).localize());
                 }
             }
             try {
@@ -197,8 +197,8 @@ namespace ToyBox {
                 userHasHitReturn = e.keyCode == KeyCode.Return;
                 focusedControlName = GUI.GetNameOfFocusedControl();
                 if (_caughtException != null) {
-                    Label("ERROR".red().bold() + $": caught exception {_caughtException}");
-                    ActionButton("Reset".orange().bold(), () => { ResetGUI(modEntry); }, AutoWidth());
+                    Label("ERROR".Red().Bold() + $": caught exception {_caughtException}");
+                    ActionButton("Reset".Orange().Bold(), () => { ResetGUI(modEntry); }, AutoWidth());
                     return;
                 }
 #if false
@@ -213,7 +213,7 @@ namespace ToyBox {
                 TabBar(ref Settings.selectedTab,
                     () => {
                         if (BlueprintLoader.Shared.IsLoading) {
-                            Label("Blueprints".orange().bold() + " loading: " + BlueprintLoader.Shared.progress.ToString("P2").cyan().bold());
+                            Label("Blueprints".Orange().Bold() + " loading: " + BlueprintLoader.Shared.progress.ToString("P2").Cyan().Bold());
                         } else Space(25);
                     },
                     (oldTab, newTab) => {
@@ -286,7 +286,7 @@ namespace ToyBox {
                 var timeSinceRequest = DateTime.Now.Subtract(_resetRequestTime).TotalMilliseconds;
                 //Main.Log($"timeSinceRequest - {timeSinceRequest}");
                 if (timeSinceRequest > 1000) {
-                    Mod.Debug($"resetExecuted - {timeSinceRequest}".cyan());
+                    Mod.Debug($"resetExecuted - {timeSinceRequest}".Cyan());
                     _needsResetGameUI = true;
                     _resetRequested = false;
                 }

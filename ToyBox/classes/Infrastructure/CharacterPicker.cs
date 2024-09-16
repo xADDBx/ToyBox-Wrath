@@ -92,9 +92,9 @@ namespace ToyBox {
             if (selectedCharacter != null) {
                 using (HorizontalScope(AutoWidth())) {
                     Space(indent);
-                    Label($"{selectedCharacter.CharacterName}".orange().bold(), AutoWidth());
+                    Label($"{selectedCharacter.CharacterName}".Orange().Bold(), AutoWidth());
                     Space(5);
-                    Label("will be used for editing ".localize().green());
+                    Label("will be used for editing ".localize().Green());
                 }
             }
         }

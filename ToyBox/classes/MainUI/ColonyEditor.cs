@@ -155,7 +155,7 @@ namespace ToyBox.classes.MainUI {
                                     try {
                                         if (Settings.showAssetIDs)
                                             ClipboardLabel(trait.AssetGuid.ToString(), AutoWidth());
-                                        Label(trait.Description.StripHTML().MarkedSubstring(traitBrowser.SearchText).green(), Width(remainingWidth - 100));
+                                        Label(RichText.Green(trait.Description.StripHTML().MarkedSubstring(traitBrowser.SearchText)), Width(remainingWidth - 100));
                                     } catch (Exception e) {
                                         Mod.Warn($"Error in blueprint: {trait.AssetGuid}");
                                         Mod.Warn($"         name: {trait.name}");
@@ -217,7 +217,7 @@ namespace ToyBox.classes.MainUI {
                                 try {
                                     if (Settings.showAssetIDs)
                                         ClipboardLabel(cr.AssetGuid.ToString(), AutoWidth());
-                                    Label(cr.Description.StripHTML().MarkedSubstring(resourceBrowser.SearchText).green(), Width(remainingWidth - 100));
+                                    Label(RichText.Green(cr.Description.StripHTML().MarkedSubstring(resourceBrowser.SearchText)), Width(remainingWidth - 100));
                                 } catch (Exception e) {
                                     Mod.Warn($"Error in blueprint: {cr.AssetGuid}");
                                     Mod.Warn($"         name: {cr.name}");

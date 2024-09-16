@@ -52,7 +52,7 @@ namespace ToyBox {
             var text = GetTitle(blueprint).MarkedSubstring(browser.SearchText);
             var titleKey = $"{blueprint.AssetGuid}";
             if (feature != null) {
-                text = text.Cyan().Bold();
+                text = RichText.Bold(text.Cyan());
             }
             if (blueprint is BlueprintFeatureSelection_Obsolete featureSelection) {
                 if (Browser.DetailToggle(text, blueprint, feature != null ? feature : blueprint, (int)titleWidth))
@@ -81,7 +81,7 @@ namespace ToyBox {
                     var v = rankFeature.GetRank();
                     decrease.BlueprintActionButton(ch, blueprint, () => todo.Add(() => decrease!.action(blueprint, ch, repeatCount)), 60);
                     Space(10f);
-                    Label($"{v}".orange().bold(), Width(30));
+                    Label(RichText.Bold(RichText.Orange($"{v}")), Width(30));
                     increase.BlueprintActionButton(ch, blueprint, () => todo.Add(() => increase!.action(blueprint, ch, repeatCount)), 60);
                     Space(17);
                     remainingWidth -= 190;
@@ -108,7 +108,7 @@ namespace ToyBox {
                 try {
                     if (Settings.showAssetIDs)
                         ClipboardLabel(blueprint.AssetGuid.ToString(), AutoWidth());
-                    Label(blueprint.Description.StripHTML().MarkedSubstring(browser.SearchText).green(), Width(remainingWidth - 100));
+                    Label(RichText.Green(blueprint.Description.StripHTML().MarkedSubstring(browser.SearchText)), Width(remainingWidth - 100));
                 } catch (Exception e) {
                     Mod.Warn($"Error in blueprint: {blueprint.AssetGuid}");
                     Mod.Warn($"         name: {blueprint.name}");

@@ -67,8 +67,8 @@ namespace ToyBox {
         };
         public static bool IsActive(this ConditionsChecker checker) => checker.Conditions.Any(c => c.CheckCondition());
         public static string CaptionString(this Condition condition) =>
-            $"{condition.GetCaption().orange()} -> {(condition.CheckCondition() ? "True".green() : "False".yellow())}";
-        public static string CaptionString(this Element element) => $"{element.GetCaption().orange()}";
+            $"{condition.GetCaption().Orange()} -> {(condition.CheckCondition() ? "True".Green() : "False".Yellow())}";
+        public static string CaptionString(this Element element) => $"{element.GetCaption().Orange()}";
 
         public static bool IsQuestRelated(this Element element) => element is GiveObjective
                                                                    || element is SetObjectiveStatus

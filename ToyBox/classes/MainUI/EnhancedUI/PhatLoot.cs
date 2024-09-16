@@ -49,7 +49,7 @@ namespace ToyBox {
                 () => {
                     BindableActionButton(MassLootBox, true, Width(400));
                     Space(95 - 150);
-                    Label("Lets you open up the area's mass loot screen to grab goodies whenever you want. Normally shown only when you exit the area".localize().green());
+                    Label(RichText.Green("Lets you open up the area's mass loot screen to grab goodies whenever you want. Normally shown only when you exit the area".localize()));
                 },
                 () => { }
             );
@@ -58,12 +58,12 @@ namespace ToyBox {
                    () => {
                        Toggle("Show Everything When Leaving Map".localize(), ref Settings.toggleMassLootEverything, 400.width());
                        150.space();
-                       Label("Some items might be invisible until looted".localize().green());
+                       Label(RichText.Green("Some items might be invisible until looted".localize()));
                    },
                    () => {
                        Toggle("Steal from living NPCs".localize(), ref Settings.toggleLootAliveUnits, 400.width());
                        150.space();
-                       Label("Allow Mass Loot to steal from living NPCs".localize().green());
+                       Label(RichText.Green("Allow Mass Loot to steal from living NPCs".localize()));
                    },
                    () => { }
                   );
@@ -75,13 +75,13 @@ namespace ToyBox {
                            Toggle("Color Item Names".localize(), ref Settings.toggleColorLootByRarity, 300.width());
                        }
                        using (VerticalScope()) {
-                           Label(($"This makes loot function like Diablo or Borderlands. {"Note: turning this off requires you to save and reload for it to take effect.".orange()}"
-                                     .green()).localize());
+                           Label((RichText.Green($"This makes loot function like Diablo or Borderlands. {RichText.Orange("Note: turning this off requires you to save and reload for it to take effect.")}"
+)).localize());
                        }
                    },
                    () => {
                        using (VerticalScope(400.width())) {
-                           Label("Minimum Rarity For Loot Rarity Tags/Colors".localize().cyan(), AutoWidth());
+                           Label(RichText.Cyan("Minimum Rarity For Loot Rarity Tags/Colors".localize()), AutoWidth());
                            RarityGrid(ref Settings.minRarityToColor, 4, AutoWidth());
                        }
                    });
@@ -91,7 +91,7 @@ namespace ToyBox {
                         using (VerticalScope(300)) {
                             using (HorizontalScope(300)) {
                                 using (VerticalScope()) {
-                                    Label("Maximum Rarity To Hide:".localize().cyan(), AutoWidth());
+                                    Label(RichText.Cyan("Maximum Rarity To Hide:".localize()), AutoWidth());
                                     RarityGrid(ref Settings.maxRarityToHide, 4, AutoWidth());
                                 }
                             }
@@ -99,7 +99,7 @@ namespace ToyBox {
                         50.space();
                         using (VerticalScope()) {
                             Label("");
-                            HelpLabel($"This hides map pins of loot containers containing at most the selected rarity. {"Note: Changing settings requires reopening the map.".orange()}".localize());
+                            HelpLabel($"This hides map pins of loot containers containing at most the selected rarity. {RichText.Orange("Note: Changing settings requires reopening the map.")}".localize());
                         }
                     },
                     // The following options let you configure loot filtering and auto sell levels:".green());
@@ -116,10 +116,10 @@ namespace ToyBox {
                             areaName = Game.Instance.CurrentlyLoadedArea.AreaDisplayName;
                         } catch { }
                         var areaPrivateName = Game.Instance.CurrentlyLoadedArea.name;
-                        if (areaPrivateName != areaName) areaName += $"\n({areaPrivateName})".yellow();
+                        if (areaPrivateName != areaName) areaName += RichText.Yellow($"\n({areaPrivateName})");
                     }
-                    Label(areaName.orange().bold(), Width(300));
-                    Label("Rarity: ".localize().cyan(), AutoWidth());
+                    Label(RichText.Bold(RichText.Orange(areaName)), Width(300));
+                    Label(RichText.Cyan("Rarity: ".localize()), AutoWidth());
                     RarityGrid(ref Settings.lootChecklistFilterRarity, 4, AutoWidth());
                 },
                 () => {
@@ -133,7 +133,7 @@ namespace ToyBox {
                     Space(25); Toggle("Description".localize(), ref Settings.toggleLootChecklistFilterDescription, AutoWidth());
                 },
                 () => {
-                    if (!Main.IsInGame) { Label("Not available in the Main Menu".localize().orange()); return; }
+                    if (!Main.IsInGame) { Label(RichText.Orange("Not available in the Main Menu".localize())); return; }
                     var presentGroups = LootHelper.GetMassLootFromCurrentArea().GroupBy(p => p.InteractionLoot != null ? "Containers" : "Units");
                     var indent = 3;
                     using (VerticalScope()) {
@@ -148,7 +148,7 @@ namespace ToyBox {
                                         .Where(p =>
                                                    p.Unit == null
                                                    ).Count(p => p.GetLewtz(searchText).Lootable(rarity).Count() > 0);
-                            Label($"{group.Key.localize().cyan()}: {count}");
+                            Label($"{RichText.Cyan(group.Key.localize())}: {count}");
                             Div(indent);
                             foreach (var present in presents) {
                                 var phatLewtz = present.GetLewtz(searchText).Lootable(rarity).OrderByDescending(l => l.Rarity()).ToList();
@@ -161,7 +161,7 @@ namespace ToyBox {
                                     Div();
                                     using (HorizontalScope()) {
                                         Space(indent);
-                                        Label($"{present.GetName()}".orange().bold(), Width(325));
+                                        Label(RichText.Bold(RichText.Orange($"{present.GetName()}")), Width(325));
                                         if (present.InteractionLoot != null) {
                                         }
                                         Space(25);
@@ -174,10 +174,10 @@ namespace ToyBox {
                                                     //Main.Log($"rarity: {lewt.Blueprint.Rarity()} - color: {lewt.Blueprint.Rarity().color()}");
                                                     Label(lewt.Name.StripHTML().Rarity(lewt.Blueprint.Rarity()), showDesc || showBP ? Width(350) : AutoWidth());
                                                     if (showBP) {
-                                                        Space(100); Label(lewt.Blueprint.GetDisplayName().grey(), showDesc ? Width(350) : AutoWidth());
+                                                        Space(100); Label(RichText.Grey(lewt.Blueprint.GetDisplayName()), showDesc ? Width(350) : AutoWidth());
                                                     }
                                                     if (!showDesc) continue;
-                                                    Space(100); Label(description.StripHTML().green());
+                                                    Space(100); Label(RichText.Green(description.StripHTML()));
                                                 }
                                             }
                                         }
@@ -192,7 +192,7 @@ namespace ToyBox {
                 () => {
                     if (!isEmpty) return;
                     using (HorizontalScope()) {
-                        Label("No Loot Available".localize().orange(), AutoWidth());
+                        Label(RichText.Orange("No Loot Available".localize()), AutoWidth());
                     }
                 }
             );

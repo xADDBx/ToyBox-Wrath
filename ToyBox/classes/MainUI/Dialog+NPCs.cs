@@ -37,9 +37,9 @@ namespace ToyBox {
                 HelpLabel("This will change the color of NPC names on the highlight makers and change the color map markers to indicate that they have interesting or conditional interactions".localize());
             }
             using (HorizontalScope()) {
-                DisclosureToggle("Interesting NPCs in the local area".localize().cyan(), ref Settings.toogleShowInterestingNPCsOnQuestTab);
+                DisclosureToggle(RichText.Cyan("Interesting NPCs in the local area".localize()), ref Settings.toogleShowInterestingNPCsOnQuestTab);
                 200.space();
-                HelpLabel(("Show a list of NPCs that may have quest objectives or other interesting features " + "(Warning: Spoilers)".yellow()).localize());
+                HelpLabel(("Show a list of NPCs that may have quest objectives or other interesting features " + RichText.Yellow("(Warning: Spoilers)")).localize());
             }
             if (Settings.toogleShowInterestingNPCsOnQuestTab) {
                 using (HorizontalScope()) {
@@ -48,11 +48,11 @@ namespace ToyBox {
                         if (Shodan.AllBaseUnits is { } unitsPool) {
                             var units = Settings.toggleInterestingNPCsShowHidden ? unitsPool.All : unitsPool.ToList();
                             ConditionsBrowser.OnGUI(
-                                units.Where(u => u.InterestingnessCoefficent() >= 1),
+                                (IEnumerable<BaseUnitEntity>)units.Where(u => u.InterestingnessCoefficent() >= 1),
                                 () => units,
                                 i => i,
                                 u => u.CharacterName,
-                                u => new[] { u.CharacterName },
+                                u => (new[] { u.CharacterName }),
                                 () => {
                                     Toggle("Show Inactive Conditions", ref Settings.toggleIntrestingNPCsShowFalseConditions);
                                     if (ConditionsBrowser.ShowAll) {
@@ -69,12 +69,12 @@ namespace ToyBox {
                                     var name = u.CharacterName;
                                     var coefficient = u.InterestingnessCoefficent();
                                     if (coefficient > 0)
-                                        name = name.orange();
+                                        name = RichText.Orange(name);
                                     else
-                                        name = name.grey();
+                                        name = RichText.Grey(name);
                                     Label(name, 600.width());
                                     175.space();
-                                    Label($"Interestingness Coefficient: ".grey() + RichTextExtensions.Cyan(coefficient.ToString()));
+                                    Label(RichText.Grey($"Interestingness Coefficient: ") + RichText.Cyan(coefficient.ToString()));
                                     50.space();
                                     ReflectionTreeView.DetailToggle("Unit", u.Parts.m_Parts, u.Parts.m_Parts, 100);
                                     25.space();
@@ -93,26 +93,26 @@ namespace ToyBox {
                                         group (condition, entry) by condition.GetCaption()
                                         into g
                                         select g.Select(p => (p.condition, new object[] { p.entry.source } as IEnumerable<object>))
-                                                .Aggregate((p, q)
-                                                               => (p.condition, p.Item2.Concat(q.Item2))
+                                                .Aggregate(((Condition condition, IEnumerable<object>) p, (Condition condition, IEnumerable<object>) q)
+                                                               => (p.condition, (IEnumerable<object>)p.Item2.Concat(q.Item2))
                                                     );
                                     var elementEntries = entries.Where(e => e.HasElements && (ShowInactive || e.IsActive()));
                                     if (conditions.Any()) {
                                         using (HorizontalScope()) {
                                             115.space();
-                                            Label("Conditions".yellow());
+                                            Label(RichText.Yellow("Conditions"));
                                         }
                                     }
                                     foreach (var entry in conditions) {
                                         OnGUI(entry.condition,
-                                              string.Join(", ", entry.Item2.Select(source => source.ToString())),
+                                              string.Join(", ", (IEnumerable<string>)entry.Item2.Select(source => source.ToString())),
                                               150
                                             );
                                     }
                                     if (elementEntries.Any()) {
                                         using (HorizontalScope()) {
                                             115.space();
-                                            Label("Elements".yellow());
+                                            Label(RichText.Yellow("Elements"));
                                         }
                                     }
                                     foreach (var entry in elementEntries) {
@@ -172,7 +172,7 @@ namespace ToyBox {
         }
         public static void OnGUI(Conditional conditional, object source) {
             if (conditional.ConditionsChecker.Conditions.Any()) {
-                Label("Conditional:".localize().cyan(), 150.width());
+                Label(RichText.Cyan("Conditional:".localize()), 150.width());
                 //Label(string.Join(", ", conditional.ConditionsChecker.Conditions.Select(c => c.GetCaption())));
                 Label(conditional.Comment, 375.width());
                 using (VerticalScope()) {
@@ -181,64 +181,64 @@ namespace ToyBox {
             }
         }
         public static void OnGUI(QuestStatus questStatus, object source) {
-            Label("Quest Status: ".localize().cyan(), 150.width());
+            Label(RichText.Cyan("Quest Status: ".localize()), 150.width());
             var quest = questStatus.Quest;
             var state = GameHelper.Quests.GetQuestState(quest);
-            var title = $"{quest.Title.StringValue().orange().bold()}";
+            var title = $"{RichText.Bold(RichText.Orange(quest.Title.StringValue()))}";
             Label(title, 500.width());
             22.space();
             using (VerticalScope()) {
                 HelpLabel(quest.Description);
-                Label($"status: ".localize().cyan() + state.ToString());
-                Label("condition: ".localize().cyan() + questStatus.CaptionString());
-                Label("source: ".localize().cyan() + source.ToString().yellow());
+                Label(RichText.Cyan($"status: ".localize()) + state.ToString());
+                Label(RichText.Cyan("condition: ".localize()) + questStatus.CaptionString());
+                Label(RichText.Cyan("source: ".localize()) + RichText.Yellow(source.ToString()));
             }
         }
         public static void OnGUI(ObjectiveStatus objectiveStatus, object source) {
-            Label("Objective Status: ".localize().cyan(), 150.width());
+            Label(RichText.Cyan("Objective Status: ".localize()), 150.width());
 
             var objectiveBP = objectiveStatus.QuestObjective;
             var objective = Game.Instance.Player.QuestBook.GetObjective(objectiveBP);
             var quest = objectiveBP.Quest;
             var state = objective?.State ?? QuestObjectiveState.None;
-            var title = $"{quest.Title.StringValue().orange().bold()} : {objective.titleColored(objectiveBP)}";
+            var title = $"{RichText.Bold(RichText.Orange(quest.Title.StringValue()))} : {objective.titleColored(objectiveBP)}";
             Label(title, 500.width());
             22.space();
             using (VerticalScope()) {
                 HelpLabel(objectiveBP.Description);
-                Label($"status: ".localize().cyan() + state.ToString().titleColored(state));
-                Label("condition: ".localize().cyan() + objectiveStatus.CaptionString());
-                Label("source: ".localize().cyan() + source.ToString().yellow());
+                Label(RichText.Cyan($"status: ".localize()) + state.ToString().titleColored(state));
+                Label(RichText.Cyan("condition: ".localize()) + objectiveStatus.CaptionString());
+                Label(RichText.Cyan("source: ".localize()) + RichText.Yellow(source.ToString()));
             }
         }
         public static void OnGUI(EtudeStatus etudeStatus, object source) {
-            Label("Etude Status: ".localize().cyan(), 150.width());
+            Label(RichText.Cyan("Etude Status: ".localize()), 150.width());
             var etudeBP = etudeStatus.Etude;
-            Label(etudeBP.name.orange(), 500.width());
+            Label(RichText.Orange(etudeBP.name), 500.width());
             var etudeState = Game.Instance.Player.EtudesSystem.GetSavedState(etudeBP);
             var debugInfo = Game.Instance.Player.EtudesSystem.GetDebugInfo(etudeBP);
             22.space();
             using (VerticalScope()) {
                 HelpLabel(debugInfo);
-                Label($"status: ".localize().cyan() + etudeState.ToString());
-                Label("condition: ".localize().cyan() + etudeStatus.CaptionString());
-                Label("source: ".localize().cyan() + source.ToString().yellow());
+                Label(RichText.Cyan($"status: ".localize()) + etudeState.ToString());
+                Label(RichText.Cyan("condition: ".localize()) + etudeStatus.CaptionString());
+                Label(RichText.Cyan("source: ".localize()) + RichText.Yellow(source.ToString()));
             }
         }
         public static void OnGUI(Condition condition, object source) {
-            Label($"{condition.GetType().Name}:".cyan(), 150.width());
-            Label(source.ToString().yellow(), 500.width());
+            Label(RichText.Cyan($"{condition.GetType().Name}:"), 150.width());
+            Label(RichText.Yellow(source.ToString()), 500.width());
             22.space();
             using (VerticalScope()) {
-                Label("condition: ".localize().cyan() + condition.CaptionString());
+                Label(RichText.Cyan("condition: ".localize()) + condition.CaptionString());
             }
         }
         public static void OnOtherElementGUI(Element element, object source) {
-            Label($"{element.GetType().Name}:".cyan(), 150.width());
-            Label(source.ToString().yellow(), 500.width());
+            Label(RichText.Cyan($"{element.GetType().Name}:"), 150.width());
+            Label(RichText.Yellow(source.ToString()), 500.width());
             22.space();
             using (VerticalScope()) {
-                Label("caption: ".localize().cyan() + element.CaptionString());
+                Label(RichText.Cyan("caption: ".localize()) + element.CaptionString());
             }
         }
     }

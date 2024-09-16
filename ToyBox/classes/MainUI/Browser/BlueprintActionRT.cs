@@ -169,7 +169,7 @@ namespace ToyBox {
                     CheatsColonization.ColonizePlanet(bp);
                     OwlLogging.Log($"Colonize Planet {bp}");
                 } catch (Exception ex) {
-                    throw new Exception("Error trying to colonize Planet. Are you in the correct Star System?\n".localize().orange().bold() + ex.Message + ex.StackTrace.ToString());
+                    throw new Exception("Error trying to colonize Planet. Are you in the correct Star System?\n".localize().Orange().Bold() + ex.Message + ex.StackTrace.ToString());
                 }
             }, (bp, ch, index) => {
                 var system = bp.ConnectedAreas.FirstOrDefault(f => f is BlueprintStarSystemMap) as BlueprintStarSystemMap;
@@ -182,7 +182,7 @@ namespace ToyBox {
                     CheatsColonization.ColonizePlanet(ColonyToPlanet[bp]);
                     OwlLogging.Log($"Colonize Colony {bp}");
                 } catch (Exception ex) {
-                    throw new Exception("Error trying to colonize Planet. Are you in the correct Star System?\n".localize().orange().bold() + ex.Message + ex.StackTrace.ToString());
+                    throw new Exception("Error trying to colonize Planet. Are you in the correct Star System?\n".localize().Orange().Bold() + ex.Message + ex.StackTrace.ToString());
                 }
             }, (bp, ch, index) => {
                 if (ColonyToPlanet == null) {

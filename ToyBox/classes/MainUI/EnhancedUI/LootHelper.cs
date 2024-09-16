@@ -27,9 +27,9 @@ using UnityEngine;
 namespace ToyBox {
     public static class LootHelper {
         public static string NameAndOwner(this ItemEntity u, bool showRating, bool darkmode = false) {
-            var ret = (showRating ? $"{u.Rating()} ".orange().bold() : "");
+            var ret = (showRating ? $"{u.Rating()} ".Orange().Bold() : "");
             try {
-                ret += (u.Owner != null ? $"({u.Owner.Name}) ".orange() : "");
+                ret += (u.Owner != null ? $"({u.Owner.Name}) ".Orange() : "");
             } catch (Exception e) {
                 Mod.Error(e.ToString());
             }

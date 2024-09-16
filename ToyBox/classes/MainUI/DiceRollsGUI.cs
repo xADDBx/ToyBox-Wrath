@@ -21,7 +21,7 @@ namespace ToyBox {
                 () => EnumGrid("Initiative: Always Roll 5".localize(), ref Settings.roll5Initiative, AutoWidth()),
                 () => EnumGrid("Initiative: Always Roll 1".localize(), ref Settings.roll1Initiative, AutoWidth()),
                 () => EnumGrid("Non Combat: Take 1".localize(), ref Settings.alwaysRoll1OutOfCombat, AutoWidth()),
-                () => { 330.space(); Label("The following skill check adjustments apply only out of combat".localize().green()); },
+                () => { 330.space(); Label("The following skill check adjustments apply only out of combat".localize().Green()); },
                 () => EnumGrid("Skill Checks: Take 50".localize(), ref Settings.skillsTake50, AutoWidth()),
                 () => EnumGrid("Skill Checks: Take 25".localize(), ref Settings.skillsTake25, AutoWidth()),
                 () => EnumGrid("Skill Checks: Take 1".localize(), ref Settings.skillsTake1, AutoWidth()),

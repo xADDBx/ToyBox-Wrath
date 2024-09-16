@@ -270,7 +270,7 @@ namespace ToyBox.BagOfPatches {
                         .NotNull()
                         .Distinct()
                         .Nearest(dialogPosition);
-                Mod.Debug($"found {unit?.CharacterName ?? "no one loaded".cyan()} position: {unit?.Position.ToString() ?? "n/a"}");
+                Mod.Debug($"found {unit?.CharacterName ?? "no one loaded".Cyan()} position: {unit?.Position.ToString() ?? "n/a"}");
                 if (unit == null) {
                     unit = Game.Instance.Player.AllCharactersAndStarships.Where(isMaybeCompanion)
                         .Where(u => !IsExCompanion(u) || settings.toggleExCompanionDialog)

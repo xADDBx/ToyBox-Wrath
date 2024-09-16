@@ -106,7 +106,7 @@ namespace ToyBox {
             if (Main.IsInGame) {
                 using (HorizontalScope()) {
                     Space(25);
-                    Label("increment".localize().cyan(), AutoWidth());
+                    Label("increment".localize().Cyan(), AutoWidth());
                     IntTextField(ref Settings.increment, null, Width(150));
                 }
                 var increment = Settings.increment;
@@ -115,8 +115,8 @@ namespace ToyBox {
                        1,
                        () => {
                            var money = Game.Instance.Player.Money;
-                           Label("Gold".localize().cyan(), Width(150));
-                           Label(money.ToString().orange().bold(), Width(200));
+                           Label("Gold".localize().Cyan(), Width(150));
+                           Label(money.ToString().Orange().Bold(), Width(200));
                            ActionButton("Gain ".localize() + $"{increment}", () => Game.Instance.Player.GainMoney(increment), AutoWidth());
                            ActionButton("Lose ".localize() + $"{increment}",
                                         () => {
@@ -127,8 +127,8 @@ namespace ToyBox {
                        },
                        () => {
                            var exp = ((BaseUnitEntity)mainChar).Progression.Experience;
-                           Label("Experience".localize().cyan(), Width(150));
-                           Label(exp.ToString().orange().bold(), Width(200));
+                           Label("Experience".localize().Cyan(), Width(150));
+                           Label(exp.ToString().Orange().Bold(), Width(200));
                            ActionButton("Gain ".localize() + $"{increment}", () => { Game.Instance.Player.GainPartyExperience(increment); }, AutoWidth());
                        },
                        () => { }
@@ -152,12 +152,12 @@ namespace ToyBox {
                            using (HorizontalScope()) {
                                using (VerticalScope(220.width())) {
                                    using (HorizontalScope()) {
-                                       Toggle(("Be a " + "Murder".red().bold() + " Hobo".orange()).localize(), ref Settings.togglekillOnEngage, 222.width());
+                                       Toggle(("Be a " + "Murder".Red().Bold() + " Hobo".Orange()).localize(), ref Settings.togglekillOnEngage, 222.width());
                                        KeyBindPicker(ToggleMurderHobo, "", 50);
                                    }
                                }
                                158.space();
-                               Label(("If ticked, this will " + "MURDER".red().bold() + " all who dare to engage you!".green()).localize(), AutoWidth());
+                               Label(("If ticked, this will " + "MURDER".Red().Bold() + " all who dare to engage you!".Green()).localize(), AutoWidth());
                            }
                            using (HorizontalScope()) {
                                if (Toggle("Log ToyBox Keyboard Commands In Game".localize(), ref Mod.ModKitSettings.toggleKeyBindingsOutputToTranscript, 450.width()))
@@ -183,7 +183,7 @@ namespace ToyBox {
                            }
                        }
                        Space(25);
-                       Label("You can enable hot keys to teleport members of your party to your mouse cursor on Area or the Global Map".localize().green());
+                       Label("You can enable hot keys to teleport members of your party to your mouse cursor on Area or the Global Map".localize().Green());
                    });
             Div(0, 25);
             HStack("Common".localize(),
@@ -198,7 +198,7 @@ namespace ToyBox {
                    () => {
                        BindableActionButton(RerollInteractionSkillChecks, true);
                        Space(-75);
-                       Label("This resets all the skill check rolls for all interactable objects in the area".localize().green());
+                       Label("This resets all the skill check rolls for all interactable objects in the area".localize().Green());
                    },
                    () => BindableActionButton(ChangWeather, true),
                    () => NonBindableActionButton("Give All Items".localize(), () => CheatsUnlock.CreateAllItems("")),
@@ -220,31 +220,31 @@ namespace ToyBox {
             HStack("Dialog".localize(),
                    1,
                    () => {
-                       Toggle(("♥♥ ".red() + "Love is Free".bold() + " ♥♥".red()).localize(), ref Settings.toggleAllowAnyGenderRomance, 300.width());
+                       Toggle(("♥♥ ".Red() + "Love is Free".Bold() + " ♥♥".Red()).localize(), ref Settings.toggleAllowAnyGenderRomance, 300.width());
                        25.space();
-                       Label(("Allow ".green() + "any gender".color(RGBA.purple) + " " + "for any ".green() + "R".color(RGBA.red) + "o".orange() + "m".yellow() + "a".green() + "n".cyan() + "c".color(RGBA.blue) + "e".color(RGBA.purple)).localize());
+                       Label(("Allow ".Green() + "any gender".Color(RGBA.purple) + " " + "for any ".Green() + "R".Color(RGBA.red) + "o".Orange() + "m".Yellow() + "a".Green() + "n".Cyan() + "c".Color(RGBA.blue) + "e".Color(RGBA.purple)).localize());
                    },
                    () => {
-                       Toggle("Jealousy Begone!".localize().bold(), ref Settings.toggleMultipleRomance, 300.width());
+                       Toggle("Jealousy Begone!".localize().Bold(), ref Settings.toggleMultipleRomance, 300.width());
                        25.space();
-                       Label(("Allow ".green() + "multiple".color(RGBA.purple) + " romances at the same time".green()).localize());
+                       Label(("Allow ".Green() + "multiple".Color(RGBA.purple) + " romances at the same time".Green()).localize());
                    },
                    () => {
                        Toggle("Previously Chosen Dialog Is Smaller ".localize(), ref Settings.toggleMakePreviousAnswersMoreClear, 300.width());
                        200.space();
-                       Label("Draws dialog choices that you have previously selected in smaller type".localize().green());
+                       Label("Draws dialog choices that you have previously selected in smaller type".localize().Green());
                    },
                    () => {
                        Toggle("Expand Dialog To Include Remote Companions".localize(), ref Settings.toggleRemoteCompanionDialog, 300.width());
                        200.space();
-                       Label(" Allow remote companions to make comments on dialog you are having.".localize().green());
+                       Label(" Allow remote companions to make comments on dialog you are having.".localize().Green());
                    },
                    () => {
                        if (Settings.toggleRemoteCompanionDialog) {
                            50.space();
                            Toggle("Include Former Companions".localize(), ref Settings.toggleExCompanionDialog, 300.width());
                            150.space();
-                           Label("This also includes companions who left the party".localize().green());
+                           Label("This also includes companions who left the party".localize().Green());
                        }
                    },
                    () => {
@@ -293,7 +293,7 @@ namespace ToyBox {
                    1,
                    () => {
                        Toggle("Allow Achievements While Using Mods".localize(), ref Settings.toggleAllowAchievementsDuringModdedGame, 500.width());
-                       Label("This is intended for you to be able to enjoy the game while using mods that enhance your quality of life.  Please be mindful of the player community and avoid using this mod to trivialize earning prestige achievements like Sadistic Gamer. The author is in discussion with Owlcat about reducing the scope of achievement blocking to just these. Let's show them that we as players can mod and cheat responsibly.".localize().orange());
+                       Label("This is intended for you to be able to enjoy the game while using mods that enhance your quality of life.  Please be mindful of the player community and avoid using this mod to trivialize earning prestige achievements like Sadistic Gamer. The author is in discussion with Owlcat about reducing the scope of achievement blocking to just these. Let's show them that we as players can mod and cheat responsibly.".localize().Orange());
                    },
                    () => {
                        Toggle("Skip Splash Screen".localize(), ref Settings.toggleSkipSplashScreen, 500.width());
@@ -316,7 +316,7 @@ namespace ToyBox {
                    () => {
                        var modifier = KeyBindings.GetBinding("InventoryUseModifier");
                        var modifierText = modifier.Key == KeyCode.None ? "Modifer" : modifier.ToString();
-                       Toggle("Allow ".localize() + $"{modifierText}".cyan() + (" + Click".cyan() + " To Use Items In Inventory").localize(), ref Settings.toggleShiftClickToUseInventorySlot, 470.width());
+                       Toggle("Allow ".localize() + $"{modifierText}".Cyan() + (" + Click".Cyan() + " To Use Items In Inventory").localize(), ref Settings.toggleShiftClickToUseInventorySlot, 470.width());
                        if (Settings.toggleShiftClickToUseInventorySlot) {
                            ModifierPicker("InventoryUseModifier", "", 0);
                        }
@@ -324,7 +324,7 @@ namespace ToyBox {
                    () => {
                        var modifier = KeyBindings.GetBinding("ClickToTransferModifier");
                        var modifierText = modifier.Key == KeyCode.None ? "Modifer" : modifier.ToString();
-                       Toggle("Allow ".localize() + $"{modifierText}".cyan() + (" + Click".cyan() + " To Transfer Entire Stack").localize(), ref Settings.toggleShiftClickToFastTransfer, 470.width());
+                       Toggle("Allow ".localize() + $"{modifierText}".Cyan() + (" + Click".Cyan() + " To Transfer Entire Stack").localize(), ref Settings.toggleShiftClickToFastTransfer, 470.width());
                        if (Settings.toggleShiftClickToFastTransfer) {
                            ModifierPicker("ClickToTransferModifier", "", 0);
                        }
@@ -347,13 +347,13 @@ namespace ToyBox {
                            Div(0, 25, 1280);
                            var useAlt = Settings.useAlternateTimeScaleMultiplier;
                            var mainTimeScaleTitle = "Game Time Scale".localize();
-                           if (useAlt) mainTimeScaleTitle = mainTimeScaleTitle.grey();
+                           if (useAlt) mainTimeScaleTitle = mainTimeScaleTitle.Grey();
                            var altTimeScaleTitle = "Alternate Time Scale".localize();
-                           if (!useAlt) altTimeScaleTitle = altTimeScaleTitle.grey();
+                           if (!useAlt) altTimeScaleTitle = altTimeScaleTitle.Grey();
                            using (HorizontalScope()) {
                                LogSlider(mainTimeScaleTitle, ref Settings.timeScaleMultiplier, 0f, 20, 1, 1, "", Width(450));
                                Space(25);
-                               Label("Speeds up or slows down the entire game (movement, animation, everything)".localize().green());
+                               Label("Speeds up or slows down the entire game (movement, animation, everything)".localize().Green());
                            }
                            using (HorizontalScope()) {
                                LogSlider(altTimeScaleTitle, ref Settings.alternateTimeScaleMultiplier, 0f, 20, 5, 1, "", Width(450));
@@ -361,20 +361,20 @@ namespace ToyBox {
                            using (HorizontalScope()) {
                                BindableActionButton(TimeScaleMultToggle, true);
                                Space(-95);
-                               Label("Bindable hot key to swap between main and alternate time scale multipliers".localize().green());
+                               Label("Bindable hot key to swap between main and alternate time scale multipliers".localize().Green());
                            }
                            Div(0, 25, 1280);
                        }
                    },
                    () => Toggle("Disable end turn HotKey".localize(), ref Settings.disableEndTurnHotkey, 500.width()),
                    () => {
-                       Toggle("Enable Loading with Blueprint Errors".localize().color(RGBA.maroon), ref Settings.enableLoadWithMissingBlueprints);
+                       Toggle("Enable Loading with Blueprint Errors".localize().Color(RGBA.maroon), ref Settings.enableLoadWithMissingBlueprints);
                        25.space();
-                       Label($"This {"incredibly dangerous".bold()} setting overrides the default behavior of failing to load saves depending on missing blueprint mods. This desperate action can potentially enable you to recover your saved game, though you'll have to respec at minimum.".localize().orange());
+                       Label($"This {"incredibly dangerous".Bold()} setting overrides the default behavior of failing to load saves depending on missing blueprint mods. This desperate action can potentially enable you to recover your saved game, though you'll have to respec at minimum.".localize().Orange());
                    },
                    () => {
                        if (Settings.enableLoadWithMissingBlueprints) {
-                           Label("To permanently remove these modded blueprint dependencies, load the damaged saved game, change areas, and then save the game. You can then respec any characters that were impacted.".localize().orange());
+                           Label("To permanently remove these modded blueprint dependencies, load the damaged saved game, change areas, and then save the game. You can then respec any characters that were impacted.".localize().Orange());
                        }
                    },
                    () => { }
@@ -395,7 +395,7 @@ namespace ToyBox {
             HStack("Cheats".localize(), 1,
                    () => {
                        Toggle("Prevent Traps from triggering".localize(), ref Settings.disableTraps, 500.width());
-                       Label("Enterint a Trap Zone while having Traps disabled will prevent that Trap from triggering even if you deactivate this option in the future".localize().green());
+                       Label("Enterint a Trap Zone while having Traps disabled will prevent that Trap from triggering even if you deactivate this option in the future".localize().Green());
                    },
                    () => Toggle("Unlimited Stacking of Modifiers (Stat/AC/Hit/Damage/Etc)".localize(), ref Settings.toggleUnlimitedStatModifierStacking),
                    () => {
@@ -506,17 +506,17 @@ namespace ToyBox {
                 () => {
                     LogSlider("Max walk distance".localize(), ref Settings.walkRangeMultiplier, 0, 100, 1, 1, "", Width(600));
                     Space(25);
-                    Label("Adjusts how far of your character you can click and still cause your character to walk instead of run".localize().green());
+                    Label("Adjusts how far of your character you can click and still cause your character to walk instead of run".localize().Green());
                 },
                 () => {
                     LogSlider("Min sprint distance".localize(), ref Settings.sprintRangeMultiplier, 0, 100, 1, 1, "", Width(600));
                     Space(25);
-                    Label("Adjusts how far of your character you have to click and still cause your character to spring. If this area overlaps with walk distance then this has priority.".localize().green());
+                    Label("Adjusts how far of your character you have to click and still cause your character to spring. If this area overlaps with walk distance then this has priority.".localize().Green());
                 },
                 () => {
                     LogSlider("Movement Speed".localize(), ref Settings.partyMovementSpeedMultiplier, 0f, 20, 1, 1, "", Width(600));
                     Space(25);
-                    Label("Adjusts the movement speed of your party in area maps".localize().green());
+                    Label("Adjusts the movement speed of your party in area maps".localize().Green());
                 },
                 () => LogSlider("Buff Duration".localize(), ref Settings.buffDurationMultiplierValue, 0f, 9999, 1, 1, "", AutoWidth()),
                 () => DisclosureToggle("Exceptions to Buff Duration Multiplier (Advanced; will cause blueprints to load)".localize(), ref showBuffDurationExceptions),

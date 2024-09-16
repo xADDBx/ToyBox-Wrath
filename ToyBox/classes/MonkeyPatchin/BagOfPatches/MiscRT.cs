@@ -155,7 +155,7 @@ namespace ToyBox.BagOfPatches {
 
             private static IEnumerator FillItem(Kingmaker.Items.Slots.ItemSlot __instance, ItemEntity item) {
                 try {
-                    Mod.Debug($"refill {item.Blueprint.Name.cyan()}");
+                    Mod.Debug($"refill {item.Blueprint.Name.Cyan()}");
                     __instance.InsertItem(item);
                 } catch (Exception e) {
                     Mod.Error($"{e}");
