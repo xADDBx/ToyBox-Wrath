@@ -98,7 +98,7 @@ namespace ToyBox {
         private class FeaturesTree {
             public readonly List<FeatureNode> RootNodes = new();
 
-            public FeaturesTree(UnitProgressionData progression) {
+            public FeaturesTree(PartUnitProgression progression) {
                 Dictionary<BlueprintScriptableObject, FeatureNode> normalNodes = new();
                 List<FeatureNode> parametrizedNodes = new();
 

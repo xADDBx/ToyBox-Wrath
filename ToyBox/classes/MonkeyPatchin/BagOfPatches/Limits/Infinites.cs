@@ -23,9 +23,9 @@ namespace ToyBox.BagOfPatches {
         public static Settings settings = Main.Settings;
         public static Player player = Game.Instance.Player;
 
-        [HarmonyPatch(typeof(ItemEntity), nameof(ItemEntity.SpendCharges), new Type[] { typeof(UnitDescriptor) })]
+        [HarmonyPatch(typeof(ItemEntity), nameof(ItemEntity.SpendCharges), new Type[] { typeof(MechanicEntity) })]
         public static class ItemEntity_SpendCharges_Patch {
-            public static bool Prefix(ref bool __result, UnitDescriptor user, ItemEntity __instance) {
+            public static bool Prefix(ref bool __result, MechanicEntity user, ItemEntity __instance) {
                 if (settings.toggleInfiniteItems && user.IsPartyOrPet()) {
                     var blueprintItemEquipment = __instance.Blueprint as BlueprintItemEquipment;
                     __result = blueprintItemEquipment && blueprintItemEquipment.GainAbility; // Don't skip the check about being a valid item and having an ability to use

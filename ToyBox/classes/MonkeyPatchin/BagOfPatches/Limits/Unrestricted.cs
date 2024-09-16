@@ -38,7 +38,7 @@ namespace ToyBox.BagOfPatches {
         }
         [HarmonyPatch(typeof(ItemEntityArmor), nameof(ItemEntityArmor.CanBeEquippedInternal))]
         public static class ItemEntityArmor_CanBeEquippedInternal_Patch {
-            public static void Postfix(ItemEntityArmor __instance, UnitDescriptor owner, ref bool __result) {
+            public static void Postfix(ItemEntityArmor __instance, MechanicEntity owner, ref bool __result) {
                 if (settings.toggleEquipmentRestrictions) {
                     //Mod.Debug($"armor blueprint: {__instance?.Blueprint} - type:{__instance.Blueprint?.GetType().Name}");
                     if (__instance.Blueprint is BlueprintItemEquipment blueprint) {
@@ -49,7 +49,7 @@ namespace ToyBox.BagOfPatches {
         }
         [HarmonyPatch(typeof(ItemEntityShield), nameof(ItemEntityShield.CanBeEquippedInternal))]
         public static class ItemEntityShield_CanBeEquippedInternal_Patch {
-            public static void Postfix(ItemEntityShield __instance, UnitDescriptor owner, ref bool __result) {
+            public static void Postfix(ItemEntityShield __instance, MechanicEntity owner, ref bool __result) {
                 if (settings.toggleEquipmentRestrictions) {
                     if (__instance.Blueprint is BlueprintItemEquipment blueprint) {
                         __result = blueprint != null && blueprint.CanBeEquippedBy(owner);

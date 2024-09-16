@@ -22,13 +22,13 @@ using Application = UnityEngine.Application;
 namespace ToyBox {
     public static class EtudesEditor {
 
-        private static BlueprintGuid _parent;
-        private static BlueprintGuid _selected;
-        private static Dictionary<BlueprintGuid, EtudeInfo> loadedEtudes => EtudesTreeModel.Instance.loadedEtudes;
-        private static Dictionary<BlueprintGuid, EtudeInfo> _filteredEtudes = new();
+        private static string _parent;
+        private static string _selected;
+        private static Dictionary<string, EtudeInfo> loadedEtudes => EtudesTreeModel.Instance.loadedEtudes;
+        private static Dictionary<string, EtudeInfo> _filteredEtudes = new();
 
         // TODO: is this still the right root etude?
-        internal static BlueprintGuid rootEtudeId =
+        internal static string rootEtudeId =
                 "4f66e8b792ecfad46ae1d9ecfd7ecbc2";
         public static string searchText = "";
         public static string searchTextInput = "";
@@ -62,14 +62,14 @@ namespace ToyBox {
             }
             if (_areas == null) _areas = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintArea>()?.OrderBy(a => a.name).ToList();
             if (_areas == null) return;
-            if (_parent == BlueprintGuid.Empty) {
+            if (_parent == string.Empty) {
                 _parent = rootEtudeId;
                 _selected = _parent;
             }
             Label(("Note".orange().bold() + " this is a new and exciting feature that allows you to see for the first time the structure and some basic relationships of ".green() + "Etudes".cyan().bold() + " and other ".green() + "Elements".cyan().bold() + " that control the progression of your game story. Etudes are hierarchical in structure and additionally contain a set of ".green() + "Elements".cyan().bold() + " that can both conditions to check and actions to execute when the etude is started. As you browe you will notice there is a disclosure triangle next to the name which will show the children of the Etude.  Etudes that have ".green() + "Elements".cyan().bold() + " will offer a second disclosure triangle next to the status that will show them to you.".green()).localize());
             Label(("WARNING".yellow().bold() + " this tool can both miraculously fix your broken progression or it can break it even further. Save and back up your save before using.".orange()).localize());
             using (HorizontalScope(AutoWidth())) {
-                if (_parent == BlueprintGuid.Empty)
+                if (_parent == string.Empty)
                     return;
                 Label("Search".localize());
                 Space(25);
@@ -182,8 +182,8 @@ namespace ToyBox {
             toValues.Clear();
         }
 
-        private static HashSet<BlueprintGuid> enclosingEtudes = new();
-        private static void DrawEtude(BlueprintGuid etudeID, EtudeInfo etude, int indent) {
+        private static HashSet<string> enclosingEtudes = new();
+        private static void DrawEtude(string etudeID, EtudeInfo etude, int indent) {
             if (enclosingEtudes.Contains(etudeID)) return;
             var viewPort = ummRect;
             var topLines = firstRect.y / 30;
@@ -377,7 +377,7 @@ namespace ToyBox {
             }
         }
 
-        private static void DrawEtudeTree(BlueprintGuid etudeID, int indent, bool ignoreFilter = false) {
+        private static void DrawEtudeTree(string etudeID, int indent, bool ignoreFilter = false) {
             var etude = loadedEtudes[etudeID];
             DrawEtude(etudeID, etude, indent);
 
@@ -408,7 +408,7 @@ namespace ToyBox {
         }
         private static void ApplyFilter() {
             UpdateSearchResults();
-            var etudesOfArea = new Dictionary<BlueprintGuid, EtudeInfo>();
+            var etudesOfArea = new Dictionary<string, EtudeInfo>();
 
             _filteredEtudes = loadedEtudes;
 
@@ -417,7 +417,7 @@ namespace ToyBox {
                 _filteredEtudes = etudesOfArea;
             }
 
-            var flaglikeEtudes = new Dictionary<BlueprintGuid, EtudeInfo>();
+            var flaglikeEtudes = new Dictionary<string, EtudeInfo>();
 
             if (_showOnlyFlagLikes) {
                 flaglikeEtudes = GetFlaglikeEtudes();
@@ -436,14 +436,14 @@ namespace ToyBox {
 
         //}
 
-        private static Dictionary<BlueprintGuid, EtudeInfo> GetFlaglikeEtudes() {
-            var etudesFlaglike = new Dictionary<BlueprintGuid, EtudeInfo>();
+        private static Dictionary<string, EtudeInfo> GetFlaglikeEtudes() {
+            var etudesFlaglike = new Dictionary<string, EtudeInfo>();
 
             foreach (var etude in loadedEtudes) {
-                var flaglike = etude.Value.ChainedTo == BlueprintGuid.Empty &&
+                var flaglike = etude.Value.ChainedTo == string.Empty &&
                                 // (etude.Value.ChainedId.Count == 0) &&
-                                etude.Value.LinkedTo == BlueprintGuid.Empty &&
-                                etude.Value.LinkedArea == BlueprintGuid.Empty && !ParentHasArea(etude.Value);
+                                etude.Value.LinkedTo == string.Empty &&
+                                etude.Value.LinkedArea == string.Empty && !ParentHasArea(etude.Value);
 
                 if (flaglike) {
                     etudesFlaglike.Add(etude.Key, etude.Value);
@@ -455,18 +455,18 @@ namespace ToyBox {
         }
 
         public static bool ParentHasArea(EtudeInfo etude) {
-            if (etude.ParentId == BlueprintGuid.Empty)
+            if (etude.ParentId == string.Empty)
                 return false;
 
-            if (loadedEtudes[etude.ParentId].LinkedArea == BlueprintGuid.Empty) {
+            if (loadedEtudes[etude.ParentId].LinkedArea == string.Empty) {
                 return ParentHasArea(loadedEtudes[etude.ParentId]);
             }
 
             return true;
         }
 
-        private static Dictionary<BlueprintGuid, EtudeInfo> GetAreaEtudes() {
-            var etudesWithAreaLink = new Dictionary<BlueprintGuid, EtudeInfo>();
+        private static Dictionary<string, EtudeInfo> GetAreaEtudes() {
+            var etudesWithAreaLink = new Dictionary<string, EtudeInfo>();
 
             foreach (var etude in loadedEtudes) {
                 if (etude.Value.LinkedArea == _selectedArea.AssetGuid) {
@@ -482,7 +482,7 @@ namespace ToyBox {
             return etudesWithAreaLink;
         }
 
-        private static void AddChildsToDictionary(Dictionary<BlueprintGuid, EtudeInfo> dictionary, EtudeInfo etude) {
+        private static void AddChildsToDictionary(Dictionary<string, EtudeInfo> dictionary, EtudeInfo etude) {
             foreach (var children in etude.ChildrenId) {
                 if (dictionary.ContainsKey(children))
                     continue;
@@ -492,8 +492,8 @@ namespace ToyBox {
             }
         }
 
-        private static void AddParentsToDictionary(Dictionary<BlueprintGuid, EtudeInfo> dictionary, EtudeInfo etude) {
-            if (etude.ParentId == BlueprintGuid.Empty)
+        private static void AddParentsToDictionary(Dictionary<string, EtudeInfo> dictionary, EtudeInfo etude) {
+            if (etude.ParentId == string.Empty)
                 return;
 
             if (dictionary.ContainsKey(etude.ParentId))
@@ -527,8 +527,8 @@ namespace ToyBox {
         }
 
         // Not localizing this beacuse I doubt doing that is meaningful in any way.
-        private static string EtudeValidationProblem(BlueprintGuid etudeID, EtudeInfo etude) {
-            if (etude.ChainedTo == BlueprintGuid.Empty && etude.LinkedTo == BlueprintGuid.Empty)
+        private static string EtudeValidationProblem(string etudeID, EtudeInfo etude) {
+            if (etude.ChainedTo == string.Empty && etude.LinkedTo == string.Empty)
                 return "Chained/Linked to Nothing";
 
             foreach (var chained in etude.ChainedId) {
@@ -551,7 +551,7 @@ namespace ToyBox {
                     UpdateEtudeState(etude.Key, etude.Value);
             }
         }
-        public static void UpdateEtudeState(BlueprintGuid etudeID, EtudeInfo etude) {
+        public static void UpdateEtudeState(string etudeID, EtudeInfo etude) {
             var blueprintEtude = (BlueprintEtude)ResourcesLibrary.TryGetBlueprint(etudeID);
 
             var item = Game.Instance.Player.EtudesSystem.Etudes.GetFact(blueprintEtude);

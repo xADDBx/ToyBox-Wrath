@@ -32,9 +32,9 @@ namespace ToyBox.BagOfPatches {
         public static Settings Settings = Main.Settings;
         public static Player player = Game.Instance.Player;
 
-        [HarmonyPatch(typeof(UnitProgressionData))]
+        [HarmonyPatch(typeof(PartUnitProgression))]
         public static class UnitProgressionData_Patch {
-            public static int getMaybeZero(UnitProgressionData _instance) {
+            public static int getMaybeZero(PartUnitProgression _instance) {
                 if (Settings.toggleSetDefaultRespecLevelZero) {
                     return int.MinValue;
                 } else if (Settings.toggleSetDefaultRespecLevelFifteen) {
@@ -46,7 +46,7 @@ namespace ToyBox.BagOfPatches {
                     return tmp;
                 }
             }
-            public static ValueTuple<BlueprintCareerPath, int> maybeGetNextCareer(UnitProgressionData _instance) {
+            public static ValueTuple<BlueprintCareerPath, int> maybeGetNextCareer(PartUnitProgression _instance) {
                 ValueTuple<BlueprintCareerPath, int> ret;
                 try {
                     ret = _instance.AllCareerPaths.Last<ValueTuple<BlueprintCareerPath, int>>();
@@ -57,7 +57,7 @@ namespace ToyBox.BagOfPatches {
                 return ret;
 
             }
-            [HarmonyPatch(nameof(UnitProgressionData.Respec))]
+            [HarmonyPatch(nameof(PartUnitProgression.Respec))]
             [HarmonyTranspiler]
             public static IEnumerable<CodeInstruction> Respec(IEnumerable<CodeInstruction> instructions) {
                 bool shouldSkipNextInstruction = false;
@@ -71,7 +71,7 @@ namespace ToyBox.BagOfPatches {
                         yield return new CodeInstruction(OpCodes.Ldarg_0);
                         instruction.opcode = OpCodes.Call;
                         instruction.operand = AccessTools.Method(typeof(UnitProgressionData_Patch), nameof(UnitProgressionData_Patch.getMaybeZero));
-                    } else if (instruction.Calls(AccessTools.PropertyGetter(typeof(UnitProgressionData), nameof(UnitProgressionData.AllCareerPaths)))) {
+                    } else if (instruction.Calls(AccessTools.PropertyGetter(typeof(PartUnitProgression), nameof(PartUnitProgression.AllCareerPaths)))) {
                         instruction.operand = AccessTools.Method(typeof(UnitProgressionData_Patch), nameof(UnitProgressionData_Patch.maybeGetNextCareer));
                         shouldSkipNextInstruction = true;
                     }

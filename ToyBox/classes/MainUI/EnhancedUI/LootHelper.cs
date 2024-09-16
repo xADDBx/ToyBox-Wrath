@@ -86,7 +86,7 @@ namespace ToyBox {
                                                                                                        .GetOptional<DroppedLoot.EntityPartBreathOfMoney>()) ||
                      (bool)(UnityEngine.Object)interactionLootPart.View.GetComponent<SkinnedMeshRenderer>()))
                     source.Add(interactionLootPart);
-            var collection = source.Distinct(new LootDuplicateCheck()).Select(i => new LootWrapper {
+            var collection = source.Distinct(new MassLootHelper.LootDuplicateCheck()).Select(i => new LootWrapper {
                 InteractionLoot = i
             });
             lootFromCurrentArea.AddRange(collection);

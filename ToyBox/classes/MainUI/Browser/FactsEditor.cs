@@ -12,6 +12,7 @@ using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.Levelup.Obsolete.Blueprints.Selection;
 using Kingmaker.UnitLogic.Mechanics.Blueprints;
 using Kingmaker.UnitLogic.Mechanics.Facts;
 using Kingmaker.Utility;
@@ -53,8 +54,7 @@ namespace ToyBox {
             if (feature != null) {
                 text = text.Cyan().Bold();
             }
-            if (blueprint is BlueprintFeatureSelection featureSelection
-                ) {
+            if (blueprint is BlueprintFeatureSelection_Obsolete featureSelection) {
                 if (Browser.DetailToggle(text, blueprint, feature != null ? feature : blueprint, (int)titleWidth))
                     browser.ReloadData();
             } else

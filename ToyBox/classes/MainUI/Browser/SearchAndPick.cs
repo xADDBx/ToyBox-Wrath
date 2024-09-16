@@ -23,6 +23,7 @@ using Kingmaker.Globalmap.Blueprints.SystemMap;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.Levelup.Obsolete.Blueprints.Selection;
 using Kingmaker.UnitLogic.Mechanics.Blueprints;
 using Kingmaker.UnitLogic.Mechanics.Facts;
 using Kingmaker.UnitLogic.Progression.Paths;
@@ -63,7 +64,7 @@ namespace ToyBox {
         public static BaseUnitEntity selectedUnit;
         public static Browser<SimpleBlueprint, SimpleBlueprint> SearchAndPickBrowser = new(Mod.ModKitSettings.searchAsYouType);
         public static int[] ParamSelected = new int[1000];
-        public static Dictionary<BlueprintFeatureSelection, string[]> selectionBPValuesNames = new() { };
+        public static Dictionary<BlueprintFeatureSelection_Obsolete, string[]> selectionBPValuesNames = new() { };
 
         private static readonly NamedTypeFilter[] blueprintTypeFilters = new NamedTypeFilter[] {
             new NamedTypeFilter<SimpleBlueprint>("All", null, bp => bp.CollationNames(
@@ -345,7 +346,7 @@ namespace ToyBox {
                                 }
                                 titleWidth = (remainingWidth / (IsWide ? 3 : 4));
                                 var text = title.MarkedSubstring(Settings.searchText);
-                                if (bp is BlueprintFeatureSelection featureSelection
+                                if (bp is BlueprintFeatureSelection_Obsolete featureSelection
     ) {
                                     if (Browser.DetailToggle(text, bp, bp, (int)titleWidth))
                                         SearchAndPickBrowser.ReloadData();

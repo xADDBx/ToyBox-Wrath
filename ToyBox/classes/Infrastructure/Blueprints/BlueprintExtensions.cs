@@ -23,7 +23,7 @@ namespace ToyBox {
         public static Settings Settings => Main.Settings;
 
         private static ConditionalWeakTable<object, List<string>> _cachedCollationNames = new() { };
-        private static readonly HashSet<BlueprintGuid> BadList = new();
+        private static readonly HashSet<string> BadList = new();
         public static Dictionary<string, string> descriptionCache = new();
         internal static bool wasIncludeInternalNameForTitle = false;
         public static Dictionary<string, string> titleCache = new();

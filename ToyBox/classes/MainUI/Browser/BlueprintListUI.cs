@@ -5,6 +5,7 @@ using Kingmaker.Blueprints.Items;
 using Kingmaker.Blueprints.Items.Weapons;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.RuleSystem;
+using Kingmaker.UnitLogic.Levelup.Obsolete.Blueprints.Selection;
 using Kingmaker.Utility;
 using ModKit;
 using ModKit.DataViewer;
@@ -26,7 +27,7 @@ namespace ToyBox {
         public static int maxActions = 0;
         public static bool needsLayout = true;
         public static int[] ParamSelected = new int[1000];
-        public static Dictionary<BlueprintFeatureSelection, string[]> selectionBPValuesNames = new() { };
+        public static Dictionary<BlueprintFeatureSelection_Obsolete, string[]> selectionBPValuesNames = new() { };
 
         public static List<Action> OnGUI(BaseUnitEntity unit,
             IEnumerable<SimpleBlueprint> blueprints,
@@ -210,7 +211,7 @@ namespace ToyBox {
                         if (description.Length > 0) Label(description.green(), Width(remWidth));
                     }
                 }
-                if (blueprint is BlueprintFeatureSelection selectionBP) {
+                if (blueprint is BlueprintFeatureSelection_Obsolete selectionBP) {
                     using (HorizontalScope()) {
                         Space(titleWidth);
                         using (VerticalScope()) {

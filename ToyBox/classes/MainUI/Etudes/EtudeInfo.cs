@@ -9,7 +9,7 @@ using ModKit;
 namespace ToyBox {
     public class ConflictingGroupIdReferences {
         public string Name;
-        public List<BlueprintGuid> Etudes = new();
+        public List<string> Etudes = new();
     }
     public class EtudeInfo {
         public enum EtudeState {
@@ -23,15 +23,15 @@ namespace ToyBox {
 
         public string? Name;
         public BlueprintEtude Blueprint;
-        public BlueprintGuid ParentId;
-        public List<BlueprintGuid> LinkedId = new();
-        public List<BlueprintGuid> ChainedId = new();
-        public BlueprintGuid LinkedTo;
-        public BlueprintGuid ChainedTo;
-        public List<BlueprintGuid> ChildrenId = new();
+        public string ParentId;
+        public List<string> LinkedId = new();
+        public List<string> ChainedId = new();
+        public string LinkedTo;
+        public string ChainedTo;
+        public List<string> ChildrenId = new();
         public bool AllowActionStart;
         public EtudeState State;
-        public BlueprintGuid LinkedArea;
+        public string LinkedArea;
         public bool CompleteParent;
         public string Comment;
         public ToggleState ShowChildren;
@@ -39,12 +39,12 @@ namespace ToyBox {
         public ToggleState ShowConflicts;
         public ToggleState ShowActions;
         public bool hasSearchResults;
-        public List<BlueprintGuid> ConflictingGroups = new();
+        public List<string> ConflictingGroups = new();
         public int Priority;
     }
     public class EtudeDrawerData {
         public bool ShowChildren;
-        public Dictionary<BlueprintGuid, EtudeInfo> ChainStarts = new Dictionary<BlueprintGuid, EtudeInfo>();
+        public Dictionary<string, EtudeInfo> ChainStarts = new Dictionary<string, EtudeInfo>();
         public bool NeedToPaint;
         public int Depth;
     }

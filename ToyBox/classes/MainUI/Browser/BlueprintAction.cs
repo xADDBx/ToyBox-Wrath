@@ -21,6 +21,7 @@ using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.ActivatableAbilities;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
+using Kingmaker.UnitLogic.Levelup.Obsolete.Blueprints.Selection;
 using Kingmaker.UnitLogic.Mechanics.Blueprints;
 using Kingmaker.Utility;
 using ModKit;
@@ -103,8 +104,8 @@ namespace ToyBox {
     public static partial class BlueprintActions {
         public static IEnumerable<BlueprintAction> GetActions(this SimpleBlueprint bp) => BlueprintAction.ActionsForBlueprint(bp);
 
-        private static Dictionary<BlueprintFeatureSelection, BlueprintFeature[]> featureSelectionItems = new();
-        public static BlueprintFeature FeatureSelectionItems(this BlueprintFeatureSelection feature, int index) {
+        private static Dictionary<BlueprintFeatureSelection_Obsolete, BlueprintFeature[]> featureSelectionItems = new();
+        public static BlueprintFeature FeatureSelectionItems(this BlueprintFeatureSelection_Obsolete feature, int index) {
             if (featureSelectionItems.TryGetValue(feature, out var value)) return index < value.Length ? value[index] : null;
             value = feature.AllFeatures.OrderBy(x => x.NameSafe()).ToArray();
             if (value == null) return null;
