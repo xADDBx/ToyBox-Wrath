@@ -121,7 +121,7 @@ namespace ToyBox {
                 RogueCheats.PatchPsychicTranspiler(!Settings.customizePsychicPhenomena);
             } catch (Exception e) {
                 Mod.Error(e.ToString());
-                throw e;
+                throw;
             }
             return true;
         }

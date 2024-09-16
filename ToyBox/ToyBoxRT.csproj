@@ -9,27 +9,13 @@
 		<OutputType>Library</OutputType>
 		<Version>1.6.0</Version>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<FileAlignment>512</FileAlignment>
 		<LangVersion>latest</LangVersion>
         <Nullable>annotations</Nullable>
 		<RootNamespace>ToyBox</RootNamespace>
-		<WarningLevel>5</WarningLevel>
+        <AnalysisLevel>preview</AnalysisLevel>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <RestoreAdditionalProjectSources>https://api.nuget.org/v3/index.json</RestoreAdditionalProjectSources>
 		<RogueTraderData>$(LocalAppData)Low\Owlcat Games\Warhammer 40000 Rogue Trader</RogueTraderData>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugSymbols>true</DebugSymbols>
-		<DebugType>portable</DebugType>
-		<Optimize>false</Optimize>
-		<DefineConstants>TRACE;DEBUG;RT</DefineConstants>
-		<ErrorReport>none</ErrorReport>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<DebugType>pdbonly</DebugType>
-		<Optimize>true</Optimize>
-		<DefineConstants>TRACE;RT</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
 	</PropertyGroup>
     <ItemGroup>
         <Reference Include="$(RogueTraderInstallDir)\WH40KRT_Data\Managed\Unity*.dll" Private="false" />

@@ -116,7 +116,7 @@ namespace ToyBox {
                 }
             }
         }
-        public static void BlueprintDetailGUI<Item, Definition, k, v>(Definition blueprint, Item feature, BaseUnitEntity ch, Browser<k, v> browser)
+        public static void BlueprintDetailGUI<Item, Definition, K, V>(Definition blueprint, Item feature, BaseUnitEntity ch, Browser<K, V> browser)
             where Item : MechanicEntityFact
             where Definition : BlueprintMechanicEntityFact {
             // TODO: RT
