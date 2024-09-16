@@ -46,7 +46,7 @@
     </ItemGroup>
 	<ItemGroup>
 		<None Include="ReadMe.md" />
-		<Content Include="Localization\RogueTrader\*.*">
+		<Content Include="Localization\*.*">
 			<Link>Localization\%(Filename)%(Extension)</Link>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
