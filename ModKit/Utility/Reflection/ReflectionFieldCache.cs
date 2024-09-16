@@ -1,22 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
 namespace ModKit.Utility {
     public static partial class ReflectionCache {
-        private static readonly DoubleDictionary<Type, string?, WeakReference> _fieldCache = new();
+        private static readonly Dictionary<(Type, string), WeakReference> _fieldCache = new();
 
         private static CachedField<TField> GetFieldCache<T, TField>(string? name) {
             object cache = default;
-            if (_fieldCache.TryGetValue(typeof(T), name, out var weakRef))
+            if (_fieldCache.TryGetValue((typeof(T), name), out var weakRef))
                 cache = weakRef.Target;
             if (cache == null) {
                 if (typeof(T).IsValueType)
                     cache = new CachedFieldOfStruct<T, TField>(name);
                 else
                     cache = new CachedFieldOfClass<T, TField>(name);
-                _fieldCache[typeof(T), name] = new WeakReference(cache);
+                _fieldCache[(typeof(T), name)] = new WeakReference(cache);
                 EnqueueCache(cache);
             }
             return cache as CachedField<TField>;
@@ -24,7 +25,7 @@ namespace ModKit.Utility {
 
         private static CachedField<TField> GetFieldCache<TField>(Type type, string? name) {
             object cache = null;
-            if (_fieldCache.TryGetValue(type, name, out var weakRef))
+            if (_fieldCache.TryGetValue((type, name), out var weakRef))
                 cache = weakRef.Target;
             if (cache == null) {
                 cache =
@@ -33,7 +34,7 @@ namespace ModKit.Utility {
                     type.IsValueType ?
                     Activator.CreateInstance(typeof(CachedFieldOfStruct<,>).MakeGenericType(type, typeof(TField)), name) :
                     Activator.CreateInstance(typeof(CachedFieldOfClass<,>).MakeGenericType(type, typeof(TField)), name);
-                _fieldCache[type, name] = new WeakReference(cache);
+                _fieldCache[(type, name)] = new WeakReference(cache);
                 EnqueueCache(cache);
             }
             return cache as CachedField<TField>;

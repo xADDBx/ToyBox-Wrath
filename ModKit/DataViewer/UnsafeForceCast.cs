@@ -1,18 +1,18 @@
-﻿using ModKit.Utility;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection.Emit;
 
 namespace ModKit.DataViewer {
     internal static class UnsafeForceCast {
-        private static readonly DoubleDictionary<Type, Type, WeakReference> _cache = new();
+        private static readonly Dictionary<(Type, Type), WeakReference> _cache = new();
 
         public static Func<TInput, TOutput>? GetDelegate<TInput, TOutput>() {
             Func<TInput, TOutput>? cache = default;
-            if (_cache.TryGetValue(typeof(TInput), typeof(TOutput), out var weakRef))
+            if (_cache.TryGetValue((typeof(TInput), typeof(TOutput)), out var weakRef))
                 cache = weakRef.Target as Func<TInput, TOutput>;
             if (cache == null) {
                 cache = CreateDelegate<TInput, TOutput>();
-                _cache[typeof(TInput), typeof(TOutput)] = new WeakReference(cache);
+                _cache[(typeof(TInput), typeof(TOutput))] = new WeakReference(cache);
             }
             return cache;
         }

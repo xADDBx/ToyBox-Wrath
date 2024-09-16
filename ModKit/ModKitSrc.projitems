@@ -40,12 +40,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\UI+Wrappers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\UIHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Extensions\CodeInstructionExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utility\Dictionary\DoubleDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Extensions\MiscExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\KeyBindings\UI+KeyBindings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\NamedTypes.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utility\Dictionary\SerializableDictionary.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utility\Dictionary\TripleDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\SerializableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Reflection\ReflectionCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Reflection\ReflectionFieldCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Reflection\ReflectionMethodCache.cs" />

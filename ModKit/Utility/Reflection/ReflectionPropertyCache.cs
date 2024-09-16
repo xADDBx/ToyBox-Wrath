@@ -1,22 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
 namespace ModKit.Utility {
     public static partial class ReflectionCache {
-        private static readonly DoubleDictionary<Type, string?, WeakReference> _propertieCache = new();
+        private static readonly Dictionary<(Type, string), WeakReference> _propertieCache = new();
 
         private static CachedProperty<TProperty> GetPropertyCache<T, TProperty>(string? name) {
             object cache = null;
-            if (_propertieCache.TryGetValue(typeof(T), name, out var weakRef))
+            if (_propertieCache.TryGetValue((typeof(T), name), out var weakRef))
                 cache = weakRef.Target;
             if (cache == null) {
                 if (typeof(T).IsValueType)
                     cache = new CachedPropertyOfStruct<T, TProperty>(name);
                 else
                     cache = new CachedPropertyOfClass<T, TProperty>(name);
-                _propertieCache[typeof(T), name] = new WeakReference(cache);
+                _propertieCache[(typeof(T), name)] = new WeakReference(cache);
                 EnqueueCache(cache);
             }
             return cache as CachedProperty<TProperty>;
@@ -24,7 +25,7 @@ namespace ModKit.Utility {
 
         private static CachedProperty<TProperty> GetPropertyCache<TProperty>(Type type, string? name) {
             object cache = null;
-            if (_propertieCache.TryGetValue(type, name, out var weakRef))
+            if (_propertieCache.TryGetValue((type, name), out var weakRef))
                 cache = weakRef.Target;
             if (cache == null) {
                 cache =
@@ -33,7 +34,7 @@ namespace ModKit.Utility {
                     type.IsValueType ?
                     Activator.CreateInstance(typeof(CachedPropertyOfStruct<,>).MakeGenericType(type, typeof(TProperty)), name) :
                     Activator.CreateInstance(typeof(CachedPropertyOfClass<,>).MakeGenericType(type, typeof(TProperty)), name);
-                _propertieCache[type, name] = new WeakReference(cache);
+                _propertieCache[(type, name)] = new WeakReference(cache);
                 EnqueueCache(cache);
             }
             return cache as CachedProperty<TProperty>;

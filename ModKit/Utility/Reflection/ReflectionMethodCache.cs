@@ -43,15 +43,15 @@ namespace ModKit.Utility {
             typeof(Func<,,,,,,,,,,,,,,,,>)
         };
 
-        private static readonly TripleDictionary<Type, string, Type, WeakReference> _methodCache = new();
+        private static readonly Dictionary<(Type, string, Type), WeakReference> _methodCache = new();
 
         private static CachedMethod<TMethod> GetMethodCache<T, TMethod>(string name) where TMethod : Delegate {
             object cache = null;
-            if (_methodCache.TryGetValue(typeof(T), name, typeof(TMethod), out var weakRef))
+            if (_methodCache.TryGetValue((typeof(T), name, typeof(TMethod)), out var weakRef))
                 cache = weakRef.Target;
             if (cache == null) {
                 cache = new CachedMethodOfNonStatic<T, TMethod>(name);
-                _methodCache[typeof(T), name, typeof(TMethod)] = new WeakReference(cache);
+                _methodCache[(typeof(T), name, typeof(TMethod))] = new WeakReference(cache);
                 EnqueueCache(cache);
             }
             return cache as CachedMethod<TMethod>;
@@ -59,14 +59,14 @@ namespace ModKit.Utility {
 
         private static CachedMethod<TMethod> GetMethodCache<TMethod>(Type type, string name) where TMethod : Delegate {
             object cache = null;
-            if (_methodCache.TryGetValue(type, name, typeof(TMethod), out var weakRef))
+            if (_methodCache.TryGetValue((type, name, typeof(TMethod)), out var weakRef))
                 cache = weakRef.Target;
             if (cache == null) {
                 cache =
                     IsStatic(type) ?
                     Activator.CreateInstance(typeof(CachedMethodOfStatic<>).MakeGenericType(typeof(TMethod)), type, name) :
                     Activator.CreateInstance(typeof(CachedMethodOfNonStatic<,>).MakeGenericType(type, typeof(TMethod)), name);
-                _methodCache[type, name, typeof(TMethod)] = new WeakReference(cache);
+                _methodCache[(type, name, typeof(TMethod))] = new WeakReference(cache);
                 EnqueueCache(cache);
             }
             return cache as CachedMethod<TMethod>;
