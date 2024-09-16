@@ -93,7 +93,7 @@ namespace ToyBox {
                 _selectedCharacter = null;
                 _featuresTree = null;
                 Mod.Error(e);
-                throw e;
+                throw;
             }
         }
 

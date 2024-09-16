@@ -123,7 +123,7 @@ namespace ToyBox {
                 };
             } catch (Exception e) {
                 Mod.Error(e);
-                throw e;
+                throw;
             }
             return true;
         }

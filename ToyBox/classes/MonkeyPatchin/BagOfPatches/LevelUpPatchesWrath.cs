@@ -195,13 +195,6 @@ namespace ToyBox.BagOfPatches {
                 }
             }
         }
-        [HarmonyPatch(typeof(LevelUpController), nameof(LevelUpController.ApplyLevelUpActions))]
-        private static class b {
-            [HarmonyPrefix]
-            private static void a() {
-                System.Diagnostics.Debugger.Break();
-            }
-        }
         // ignoreSkillPointsRemaing, ignoreSkillCap
         [HarmonyPatch(typeof(SpendSkillPoint), nameof(SpendSkillPoint.Check))]
         private static class SpendSkillPoint_Check_Patch {

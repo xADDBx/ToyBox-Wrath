@@ -8,27 +8,13 @@
         <OutputType>Library</OutputType>
         <Version>1.6.6</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <FileAlignment>512</FileAlignment>
         <LangVersion>latest</LangVersion>
         <Nullable>annotations</Nullable>
         <RootNamespace>ToyBox</RootNamespace>
-        <WarningLevel>5</WarningLevel>
+        <AnalysisLevel>preview</AnalysisLevel>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <RestoreAdditionalProjectSources>https://api.nuget.org/v3/index.json</RestoreAdditionalProjectSources>
         <WrathData>$(LocalAppData)Low\Owlcat Games\Pathfinder Wrath Of The Righteous</WrathData>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>portable</DebugType>
-        <Optimize>false</Optimize>
-        <DefineConstants>TRACE;DEBUG;Wrath</DefineConstants>
-        <ErrorReport>none</ErrorReport>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <DebugType>pdbonly</DebugType>
-        <Optimize>true</Optimize>
-        <DefineConstants>TRACE;Wrath</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="$(WrathInstallDir)\Wrath_Data\Managed\Unity*.dll" Private="false" />
@@ -46,7 +32,7 @@
         <EmbeddedResource Include="Config\bindings.json" />
         <EmbeddedResource Include="Art\**\*.png" />
         <None Include="ReadMe.md" />
-        <Content Include="Localization\Wrath\*.*">
+        <Content Include="Localization\*.*">
             <Link>Localization\%(Filename)%(Extension)</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
