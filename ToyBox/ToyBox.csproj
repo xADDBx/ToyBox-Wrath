@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <Import Project="$(SolutionDir)GamePath.props" Condition="Exists('$(SolutionDir)GamePath.props')" />
-    <Import Project="$(SolutionDir)ModKit\ModKitSrc.projitems" Label="Shared" />
     <PropertyGroup>
         <TargetFramework>net481</TargetFramework>
         <AssemblyName>ToyBox</AssemblyName>

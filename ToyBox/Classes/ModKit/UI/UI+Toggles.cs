@@ -34,7 +34,7 @@ namespace ModKit {
             options = options.AddDefaults();
             var changed = false;
             if (width == 0 && !disclosureStyle) {
-                width = toggleStyle.CalcSize(new GUIContent(title.Bold())).x + GUI.skin.box.CalcSize(Private.UI.CheckOn).x + 10;
+                width = toggleStyle.CalcSize(new GUIContent(title.Bold())).x + GUI.skin.box.CalcSize(Private.UI.CheckOnContent).x + 10;
             }
             options = options.AddItem(width == 0 ? AutoWidth() : Width(width)).ToArray();
             if (!disclosureStyle) {
@@ -96,7 +96,7 @@ namespace ModKit {
             if (labelStyle == null)
                 labelStyle = GUI.skin.box;
             if (width == 0) {
-                width = toggleStyle.CalcSize(new GUIContent(title.Bold())).x + GUI.skin.box.CalcSize(Private.UI.CheckOn).x + 10;
+                width = toggleStyle.CalcSize(new GUIContent(title.Bold())).x + GUI.skin.box.CalcSize(Private.UI.CheckOnContent).x + 10;
             }
             options = options.AddItem(width == 0 ? AutoWidth() : Width(width)).ToArray();
             title = value ? title.Bold() : title.Color(RGBA.medgrey).Bold();
