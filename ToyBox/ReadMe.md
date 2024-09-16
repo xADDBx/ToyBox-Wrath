@@ -40,6 +40,7 @@
 ### Toybox Wrath - Ver 1.6.6 (built for 2.4.0x)
 * (***ADDB***) Make Time Scale feature apply on game launch instead of needing to open GUI.
 * (***ADDB***) Band-Aid fix for disappearing ability bars. This should be fixed for now. Someone should probably still look into addressing the issues of the refill belt consumeables feature.
+* *Note:* A lot of code was refactored for this release. If anything seems off (e.g. colors not working; GUI seeming different) please report that!
 
 ### Toybox Wrath - Ver 1.6.5 (built for 2.4.0x)
 * (***ADDB***) In v1.5.26 (late July '24), I had buffs that were class features or hidden in ui excluded from Buff Multiplier. I did this because they were hidden in the BuffExclusionEditor, so I assumed they didn't need to be multiplied. Since I had people report this to me as a bug, I instead reversed this and now made those buffs visible in the BuffExclusionEditor instead.
