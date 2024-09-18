@@ -37,6 +37,9 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
+### Toybox Wrath - Ver 1.6.7 (built for 2.4.0x)
+* (***ADDB***) Probably finally fix the issue where using UnityModManager with Doorstop would cause a crash for some users.
+
 ### Toybox Wrath - Ver 1.6.6 (built for 2.4.0x)
 * (***ADDB***) Make Time Scale feature apply on game launch instead of needing to open GUI.
 * (***ADDB***) Band-Aid fix for disappearing ability bars. This should be fixed for now. Someone should probably still look into addressing the issues of the refill belt consumeables feature.

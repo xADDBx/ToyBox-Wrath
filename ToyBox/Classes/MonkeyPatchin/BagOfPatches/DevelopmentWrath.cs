@@ -40,17 +40,29 @@ namespace ToyBox.classes.MonkeyPatchin.BagOfPatches {
                 }
             }
         }
-        [HarmonyPatch(typeof(MainMenu), nameof(MainMenu.Awake))]
+        // For some reason patching Logger.Write directly will cause a crash for a very small subset of users if they have Doorstop UMM
+        // While switching to Assembly works; using this seems to be a proper workaround?
+        [HarmonyPatch(typeof(UnityModManager.Logger))]
         private static class Logger_Logger_Patch {
-            //Delay real patch until later to prevent error?
-            [HarmonyPostfix]
-            private static void Postfix() {
-                Main.HarmonyInstance.Patch(AccessTools.Method(typeof(UnityModManager.Logger), nameof(UnityModManager.Logger.Write)),
-                    new(AccessTools.Method(typeof(Logger_Logger_Patch), nameof(PrefixPatch))));
-            }
-            private static void PrefixPatch(ref string str, bool onlyNative = false) {
+            [HarmonyPatch(nameof(UnityModManager.Logger.NativeLog), [typeof(string), typeof(string)])]
+            [HarmonyPrefix]
+            private static void NativeLog(ref string str) {
                 try {
-                    if ((onlyNative && settings.stripHtmlTagsFromNativeConsole) || (!onlyNative && settings.stripHtmlTagsFromUMMLogsTab)) str = str.StripHTML();
+                    if (settings.stripHtmlTagsFromNativeConsole) str = str.StripHTML();
+                } catch { }
+            }
+            [HarmonyPatch(nameof(UnityModManager.Logger.Log), [typeof(string), typeof(string)])]
+            [HarmonyPrefix]
+            private static void Log(ref string str) {
+                try {
+                    if (settings.stripHtmlTagsFromUMMLogsTab) str = str.StripHTML();
+                } catch { }
+            }
+            [HarmonyPatch(nameof(UnityModManager.Logger.Error), [typeof(string), typeof(string)])]
+            [HarmonyPrefix]
+            private static void Error(ref string str) {
+                try {
+                    if (settings.stripHtmlTagsFromUMMLogsTab) str = str.StripHTML();
                 } catch { }
             }
         }
