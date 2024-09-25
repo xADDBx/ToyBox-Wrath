@@ -439,7 +439,14 @@ namespace ToyBox {
                                         else description = description + "\n" + componentStr;
                                     }
                                     if (Settings.showElements && bpso.ElementsArray?.Count > 0) {
-                                        var elementsStr = RichText.Yellow(string.Join<object>("\n", bpso.ElementsArray.Select(e => $"{e.GetType().Name.Cyan()} {e.GetCaption()}")));
+                                        var elementsStr = RichText.Yellow(string.Join<object>("\n", bpso.ElementsArray.Select(e => {
+                                            // Yes, Element.GetCaption() can throw. Thanks Owlcat.
+                                            var caption = "";
+                                            try {
+                                                caption = e.GetCaption();
+                                            } catch { }
+                                            return $"{e.GetType().Name.Cyan()} {caption}";
+                                        })));
                                         if (description.Length == 0) description = elementsStr;
                                         else description = description + "\n" + elementsStr;
                                     }
