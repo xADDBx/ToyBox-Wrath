@@ -30,6 +30,5 @@ namespace ToyBox {
             }
             return unitEntityDataNew;
         }
-        public static List<UnitEntityData> GetRemoteCompanions() => Game.Instance.Player.AllCharacters.Except(Game.Instance.Player.Party).Where(unit => !unit.IsPet).ToList();
     }
 }
