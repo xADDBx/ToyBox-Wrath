@@ -20,24 +20,8 @@ namespace ToyBox.BagOfPatches {
     internal static class Unrestricted {
         public static Settings settings => Main.Settings;
         public static Player player => Game.Instance.Player;
-        [HarmonyPatch(typeof(EquipmentRestrictionAlignment), nameof(EquipmentRestrictionAlignment.CanBeEquippedBy))]
-        public static class EquipmentRestrictionAlignment_CanBeEquippedBy_Patch {
-            public static void Postfix(ref bool __result) {
-                if (settings.toggleEquipmentRestrictions) {
-                    __result = true;
-                }
-            }
-        }
-        [HarmonyPatch(typeof(EquipmentRestrictionClass), nameof(EquipmentRestrictionClass.CanBeEquippedBy))]
-        public static class EquipmentRestrictionClassNew_CanBeEquippedBy_Patch {
-            public static void Postfix(ref bool __result) {
-                if (settings.toggleEquipmentRestrictions) {
-                    __result = true;
-                }
-            }
-        }
-        [HarmonyPatch(typeof(EquipmentRestrictionStat), nameof(EquipmentRestrictionStat.CanBeEquippedBy))]
-        public static class EquipmentRestrictionStat_CanBeEquippedBy_Patch {
+        [HarmonyPatch(typeof(BlueprintItemEquipment), nameof(BlueprintItemEquipment.CanBeEquippedBy))]
+        public static class BlueprintItemEquipment_CanBeEquippedBy_Patch {
             public static void Postfix(ref bool __result) {
                 if (settings.toggleEquipmentRestrictions) {
                     __result = true;
@@ -48,7 +32,6 @@ namespace ToyBox.BagOfPatches {
         public static class ItemEntityArmor_CanBeEquippedInternal_Patch {
             public static void Postfix(ItemEntityArmor __instance, UnitDescriptor owner, ref bool __result) {
                 if (settings.toggleEquipmentRestrictions) {
-                    //Mod.Debug($"armor blueprint: {__instance?.Blueprint} - type:{__instance.Blueprint?.GetType().Name}");
                     if (__instance.Blueprint is BlueprintItemEquipment blueprint) {
                         __result = blueprint.CanBeEquippedBy(owner);
                     }
@@ -65,18 +48,17 @@ namespace ToyBox.BagOfPatches {
                 }
             }
         }
-#if true
-        [HarmonyPatch(typeof(ItemEntity), nameof(ItemEntity.CanBeEquippedInternal))]
-        public static class ItemEntity_CanBeEquippedInternal_Patch {
+        [HarmonyPatch(typeof(ItemEntityWeapon), nameof(ItemEntityWeapon.CanBeEquippedInternal))]
+        public static class ItemEntityWeapon_CanBeEquippedInternal_Patch {
             [HarmonyPostfix]
-            public static void Postfix(UnitDescriptor owner, ref bool __result) {
+            public static void Postfix(ItemEntityWeapon __instance, UnitDescriptor owner, ref bool __result) {
                 if (settings.toggleEquipmentRestrictions) {
-                    //Mod.Debug($"item: {__instance}");
-                    __result = true;
+                    if (__instance.Blueprint is BlueprintItemEquipment blueprint) {
+                        __result = blueprint != null && blueprint.CanBeEquippedBy(owner);
+                    }
                 }
             }
         }
-#endif
         internal static readonly Dictionary<string, bool> PlayerAlignmentIsOverrides = new() {
             { "fdc9eb3b03cf8ef4ca6132a04970fb41", false },  // DracoshaIntro_MythicAzata_dialog - Cue_0031
         };
