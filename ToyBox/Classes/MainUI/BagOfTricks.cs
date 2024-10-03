@@ -588,7 +588,7 @@ namespace ToyBox {
                 () => Toggle("Instant Cooldown".localize(), ref Settings.toggleInstantCooldown),
                 () => Toggle("Instant Global Crusade Spells Cooldown".localize(), ref Settings.toggleInstantCrusadeSpellsCooldown),
                 () => Toggle("Spontaneous Caster Scroll Copy".localize(), ref Settings.toggleSpontaneousCopyScrolls),
-                () => Toggle("ignore Equipment Restrictions".localize(), ref Settings.toggleEquipmentRestrictions),
+                () => Toggle("Ignore Equipment Restrictions".localize(), ref Settings.toggleEquipmentRestrictions),
                 () => Toggle("Disable Armor Max Dexterity".localize(), ref Settings.toggleIgnoreMaxDexterity),
                 () => Toggle("Disable Armor Speed Reduction".localize(), ref Settings.toggleIgnoreSpeedReduction),
                 () => Toggle("Disable Armor & Shield Arcane Spell Failure".localize(), ref Settings.toggleIgnoreSpellFailure),
