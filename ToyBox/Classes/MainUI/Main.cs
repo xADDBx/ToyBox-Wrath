@@ -81,10 +81,13 @@ namespace ToyBox {
         public static List<GameObject> Objects;
         private static bool Load(UnityModManager.ModEntry modEntry) {
             try {
+                Mod.Log("Start Version Check");
                 if (!VersionChecker.IsGameVersionSupported(modEntry.Version, modEntry.Logger, LinkToIncompatibilitiesFile)) {
                     modEntry.Logger.Log("Fatal! The current Game Version has known incompatabilities with your current ToyBox version! Please Update.");
+                    modEntry.Info.DisplayName = "ToyBox" + "Update the mod!".localize().Red().Bold().SizePercent(125);
                     return false;
                 }
+                Mod.Log("Version is either compatible or Version Check failed. Continuing Load...");
 #if DEBUG
                 modEntry.OnUnload = OnUnload;
 #endif
