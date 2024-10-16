@@ -37,26 +37,34 @@ namespace ModKit {
         }
         private static void ResetGUI(ModEntry modEntry) => ModKitSettings.Load();
         public static void Error(string str, int skip = 1) {
-            str = str.Yellow().Bold();
+            if (!ModKitSettings.stripHtmlTagsFromLog) {
+                str = str.Yellow().Bold();
+            }
             modLogger?.Error(str + "\n" + new System.Diagnostics.StackTrace(skip, true).ToString());
         }
         public static void Error(Exception ex) => Error(ex.ToString(), 2);
         public static void Warn(string str) {
             if (logLevel >= LogLevel.Warning)
-                modLogger?.Log("[Warn] ".Orange().Bold() + str);
+                LogInternal("[Warn] ".Orange().Bold() + str);
         }
         public static void Log(string str) {
             if (logLevel >= LogLevel.Info)
-                modLogger?.Log("[Info] " + str);
+                LogInternal("[Info] " + str);
         }
         public static void Log(int indent, string s) => Log("    ".Repeat(indent) + s);
         public static void Debug(string str) {
             if (logLevel >= LogLevel.Debug)
-                modLogger?.Log("[Debug] ".Green() + str);
+                LogInternal("[Debug] ".Green() + str);
         }
         public static void Trace(string str) {
             if (logLevel >= LogLevel.Trace)
-                modLogger?.Log("[Trace] ".Color(RGBA.lightblue) + str);
+                LogInternal("[Trace] ".Color(RGBA.lightblue) + str);
+        }
+        public static void LogInternal(string str) {
+            if (ModKitSettings.stripHtmlTagsFromLog) {
+                str = str.StripHTML();
+            }
+            modLogger?.Log(str);
         }
 
         public delegate void ShowGUINotifierMethod();

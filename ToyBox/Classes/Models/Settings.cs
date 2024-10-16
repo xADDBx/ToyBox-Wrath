@@ -558,8 +558,6 @@ namespace ToyBox {
 
         // Development
         public LogLevel loggingLevel = LogLevel.Info;
-        public bool stripHtmlTagsFromUMMLogsTab = false;
-        public bool stripHtmlTagsFromNativeConsole = true;
         public bool toggleShowDebugInfo = true;
         public bool toggleDevopmentMode = false;
         public bool toggleUberLoggerForwardPrefix = false;
