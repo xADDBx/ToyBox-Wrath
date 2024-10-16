@@ -81,10 +81,18 @@ namespace ToyBox {
         public static List<GameObject> Objects;
         private static bool Load(UnityModManager.ModEntry modEntry) {
             try {
+                LoadSettings(modEntry);
                 Mod.Log("Start Version Check");
                 if (!VersionChecker.IsGameVersionSupported(modEntry.Version, modEntry.Logger, LinkToIncompatibilitiesFile)) {
                     modEntry.Logger.Log("Fatal! The current Game Version has known incompatabilities with your current ToyBox version! Please Update.");
-                    modEntry.Info.DisplayName = "ToyBox" + "Update the mod!".localize().Red().Bold().SizePercent(125);
+                    if (Settings.shouldTryUpdate) {
+                        modEntry.Info.DisplayName = "ToyBox" + " Trying to update the mod...".localize().Red().Bold().SizePercent(80);
+                        if (AutoUpdater.Update(modEntry.Logger, modEntry.Info.HomePage, modEntry.Info.Repository, "ToyBox")) {
+                            modEntry.Info.DisplayName = "ToyBox" + " Restart the game to finish the update!".localize().Green().Bold().SizePercent(80);
+                            return false;
+                        }
+                    }
+                    modEntry.Info.DisplayName = "ToyBox" + " Update the mod manually!".localize().Red().Bold().SizePercent(100);
                     return false;
                 }
                 Mod.Log("Version is either compatible or Version Check failed. Continuing Load...");
@@ -96,7 +104,6 @@ namespace ToyBox {
 
                 Mod.OnLoad(modEntry);
                 UIHelpers.OnLoad();
-                LoadSettings(modEntry);
                 SettingsDefaults.InitializeDefaultDamageTypes();
 
 
@@ -244,6 +251,7 @@ namespace ToyBox {
             if (!Enabled) return;
             IsModGUIShown = true;
             if (!IsInGame) {
+                Toggle("Should ToyBox automatically try to update an outdated version?".localize().Green(), ref Settings.shouldTryUpdate);
                 Label("ToyBox has limited functionality from the main menu".localize().Yellow().Bold());
             }
             if (!IsWide) {
