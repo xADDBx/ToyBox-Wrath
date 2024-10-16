@@ -560,6 +560,7 @@ namespace ToyBox {
         public LogLevel loggingLevel = LogLevel.Info;
         public bool toggleShowDebugInfo = true;
         public bool toggleDevopmentMode = false;
+        public bool toggleAlwaysUpdate = false;
         public bool toggleUberLoggerForwardPrefix = false;
         public bool toggleGuidsClipboard = true;
         public bool onlyShowLanguagesWithFiles = true;

@@ -2,11 +2,11 @@
   "Id": "0ToyBox0",
   "DisplayName": "ToyBox",
   "Author": "Narria",
-  "Version": "1.6.8",
+  "Version": "1.6.9",
   "ManagerVersion": "0.27.11",
   "Requirements": [],
   "AssemblyName": "ToyBox.dll",
   "EntryMethod": "ToyBox.Main.Load",
-  "HomePage": "https://www.nexusmods.com/pathfinderwrathoftherighteous/mods/8?tab=posts&BH=0",
+  "HomePage": "https://github.com/xADDBx/ToyBox-Wrath",
   "Repository": "https://raw.githubusercontent.com/xADDBx/ToyBox-Wrath/main/ToyBox/Repository.json"
 }

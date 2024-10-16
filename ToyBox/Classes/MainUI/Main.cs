@@ -81,13 +81,13 @@ namespace ToyBox {
         public static List<GameObject> Objects;
         private static bool Load(UnityModManager.ModEntry modEntry) {
             try {
-                LoadSettings(modEntry);
-                Mod.Log("Start Version Check");
+                Settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
+                modEntry.Logger.Log("Start Version Check");
                 if (!VersionChecker.IsGameVersionSupported(modEntry.Version, modEntry.Logger, LinkToIncompatibilitiesFile)) {
                     modEntry.Logger.Log("Fatal! The current Game Version has known incompatabilities with your current ToyBox version! Please Update.");
                     if (Settings.shouldTryUpdate) {
                         modEntry.Info.DisplayName = "ToyBox" + " Trying to update the mod...".localize().Red().Bold().SizePercent(80);
-                        if (AutoUpdater.Update(modEntry.Logger, modEntry.Info.HomePage, modEntry.Info.Repository, "ToyBox")) {
+                        if (AutoUpdater.Update(modEntry.Logger, modEntry.Info.HomePage, modEntry.Info.Repository, "ToyBox", modEntry.Info.Version)) {
                             modEntry.Info.DisplayName = "ToyBox" + " Restart the game to finish the update!".localize().Green().Bold().SizePercent(80);
                             return false;
                         }
@@ -95,7 +95,14 @@ namespace ToyBox {
                     modEntry.Info.DisplayName = "ToyBox" + " Update the mod manually!".localize().Red().Bold().SizePercent(100);
                     return false;
                 }
-                Mod.Log("Version is either compatible or Version Check failed. Continuing Load...");
+                modEntry.Logger.Log("Version is either compatible or Version Check failed. Continuing Load...");
+
+                if (Settings.toggleAlwaysUpdate) {
+                    modEntry.Logger.Log("AlwaysUpdate enabled, trying to update...");
+                    if (AutoUpdater.Update(modEntry.Logger, modEntry.Info.HomePage, modEntry.Info.Repository, "ToyBox", modEntry.Info.Version)) {
+                        modEntry.Info.DisplayName = "ToyBox" + " Restart the game to finish the update!".localize().Green().Bold().SizePercent(40);
+                    }
+                }
 #if DEBUG
                 modEntry.OnUnload = OnUnload;
 #endif
@@ -133,7 +140,8 @@ namespace ToyBox {
                 };
             } catch (Exception e) {
                 Mod.Error(e);
-                throw;
+                HarmonyInstance.UnpatchAll(modEntry.Info.Id);
+                return false;
             }
             return true;
         }
@@ -149,77 +157,6 @@ namespace ToyBox {
             return true;
         }
 #endif
-        private static void LoadSettings(UnityModManager.ModEntry modEntry) {
-            var thisToyBoxPath = modEntry.Path;
-            var thisSettingsPath = Path.Combine(thisToyBoxPath, "Settings.xml");
-            var oldToyBoxPath = CheckForOldToyBox(modEntry);
-            try {
-                if (!oldToyBoxPath.IsNullOrEmpty()) {
-                    if (!File.Exists(thisSettingsPath)) {
-                        Mod.Log("Settings file not found attempting to migrate from older ToyBox".Yellow());
-                        Mod.Log($"Checking {oldToyBoxPath}");
-                        File.Copy(Path.Combine(oldToyBoxPath, "Settings.xml"), thisSettingsPath);
-                        var thisUserSettingsPath = Path.Combine(thisToyBoxPath, "UserSettings");
-                        var otherUserSettingsPath = Path.Combine(oldToyBoxPath, "UserSettings");
-                        Directory.CreateDirectory(thisUserSettingsPath);
-                        var allFiles = Directory.GetFiles(otherUserSettingsPath, "*.*", SearchOption.AllDirectories);
-                        foreach (string otherPath in allFiles) {
-                            var thisPath = otherPath.Replace(otherUserSettingsPath, thisUserSettingsPath);
-                            Mod.Log($"    {otherPath} => {thisPath}");
-                            File.Copy(otherPath, thisPath, true);
-                        }
-                        Mod.Log("ToyBox settings migration => SUCCESS".Green());
-                    }
-                    Mod.Warn("Removing old detected ToyBox version!");
-                    File.Delete(oldToyBoxPath + UnityModManager.Config.ModInfo);
-                    File.Delete(oldToyBoxPath + "Repository.json");
-                    File.Delete(oldToyBoxPath + "ToyBox.dll");
-                    File.Delete(oldToyBoxPath + "ToyBox.pdb");
-                    // Directory.Delete(oldToyBoxPath, true);
-                } else {
-                    if (!File.Exists(thisSettingsPath)) {
-                        Mod.Log("No old ToyBox version found... creating default settings".Yellow());
-                    }
-                }
-            } catch (Exception e) {
-                Mod.Error(e);
-            }
-            Settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
-
-        }
-        private static string CheckForOldToyBox(UnityModManager.ModEntry modEntry) {
-            try {
-                var x = Directory.GetCurrentDirectory();
-                var mods = Directory.GetDirectories(x + "/Mods");
-                foreach (var mod in mods) {
-                    foreach (var file in Directory.GetFiles(mod)) {
-                        if (new FileInfo(file).Name == "ToyBox.dll" && (new DirectoryInfo(mod).FullName + @"\") != new DirectoryInfo(modEntry.Path).FullName) {
-                            var modDir = mod + @"\";
-                            try {
-                                using (StreamReader modInfoFile = File.OpenText(modDir + UnityModManager.Config.ModInfo)) {
-                                    var modInfo = JsonConvert.DeserializeObject<UnityModManager.ModInfo>(modInfoFile.ReadToEnd());
-                                    if (UnityModManager.ParseVersion(modInfo.Version) > modEntry.Version) {
-                                        // The current Assembly is the old version?
-                                        return null;
-                                    } // The current Assembly is the new version!
-                                    else {
-                                        return modDir;
-                                    }
-
-                                }
-                            } // Couldn't find/read info.json
-                            catch (Exception e) {
-                                Mod.Error(e);
-                            }
-                            return modDir;
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                Mod.Error(e);
-            }
-            return null;
-        }
         private static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) {
             Enabled = value;
             return true;
