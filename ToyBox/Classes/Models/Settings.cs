@@ -572,6 +572,7 @@ namespace ToyBox {
         public bool togglePreloadBlueprints = false;
         public bool toggleUseBPIdCache = true;
         public bool toggleAutomaticallyBuildBPIdCache = true;
+        public bool shouldTryUpdate = true;
         // Deprecated
         internal bool toggleSpellbookAbilityAlignmentChecks = false;
 
