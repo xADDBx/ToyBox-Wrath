@@ -14,6 +14,7 @@
         public bool toggleDataViewerShowNullAndEmpties = false;
         public bool UseDefaultGlyphs = true;
         public bool CheckForGlyphSupport = true;
+        public bool stripHtmlTagsFromLog = false;
 
         // Localization
         public string uiCultureCode = "en";

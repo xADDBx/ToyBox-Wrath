@@ -27,7 +27,7 @@ namespace ToyBox {
                 () => Label(""),
                 () => EnumGrid("Log Level".localize(), ref Main.Settings.loggingLevel, AutoWidth()),
                 () => Label(""),
-                () => Toggle("Strip HTML (colors) from Native Console".localize(), ref Main.Settings.stripHtmlTagsFromNativeConsole, AutoWidth()),
+                () => Toggle("Strip HTML (colors) from log".localize(), ref Mod.ModKitSettings.stripHtmlTagsFromLog, AutoWidth()),
                 () => Toggle("Enable Search as you type for Browsers (needs restart)".localize(), ref Mod.ModKitSettings.searchAsYouType, AutoWidth()),
 #if DEBUG
                 () => Toggle("Strip HTML (colors) from Logs Tab in Unity Mod Manager".localize(), ref Main.Settings.stripHtmlTagsFromUMMLogsTab),

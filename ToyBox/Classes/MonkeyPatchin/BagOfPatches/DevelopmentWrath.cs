@@ -40,33 +40,6 @@ namespace ToyBox.classes.MonkeyPatchin.BagOfPatches {
                 }
             }
         }
-        // For some reason patching Logger.Write directly will cause a crash for a very small subset of users if they have Doorstop UMM
-        // While switching to Assembly works; using this seems to be a proper workaround?
-        [HarmonyPatch(typeof(UnityModManager.Logger))]
-        private static class Logger_Logger_Patch {
-            [HarmonyPatch(nameof(UnityModManager.Logger.NativeLog), [typeof(string), typeof(string)])]
-            [HarmonyPrefix]
-            private static void NativeLog(ref string str) {
-                try {
-                    if (settings.stripHtmlTagsFromNativeConsole) str = str.StripHTML();
-                } catch { }
-            }
-            [HarmonyPatch(nameof(UnityModManager.Logger.Log), [typeof(string), typeof(string)])]
-            [HarmonyPrefix]
-            private static void Log(ref string str) {
-                try {
-                    if (settings.stripHtmlTagsFromUMMLogsTab) str = str.StripHTML();
-                } catch { }
-            }
-            [HarmonyPatch(nameof(UnityModManager.Logger.Error), [typeof(string), typeof(string)])]
-            [HarmonyPrefix]
-            private static void Error(ref string str) {
-                try {
-                    if (settings.stripHtmlTagsFromUMMLogsTab) str = str.StripHTML();
-                } catch { }
-            }
-        }
-
         [HarmonyPatch(typeof(CharGenContextVM), nameof(CharGenContextVM.HandleRespecInitiate))]
         private static class CharGenContextVM_HandleRespecInitiate_Patch {
             private static void Prefix(ref CharGenContextVM __instance, ref UnitEntityData character, ref Action successAction) {
