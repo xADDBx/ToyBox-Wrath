@@ -38,8 +38,8 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
 ### Toybox Wrath - Ver 1.6.9 (built for 2.4.1i)
-* (***ADDB***) Implement auto-update for incompatible outdated versions (auto-enabled by default).
-* (***ADDB***) Implement always auto-update (tries to keep you on the latest version) (auto-disabled by default).
+* (***ADDB***) Implement auto-update for incompatible outdated versions (enabled by default).
+* (***ADDB***) Implement always auto-update (tries to keep you on the latest version) (disabled by default).
 * (***ADDB***) Remove UMM Logger patch (finally no more issue for Doorstop?).
   
 ### Toybox Wrath - Ver 1.6.8 (built for 2.4.1i)
