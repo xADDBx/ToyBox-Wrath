@@ -37,6 +37,11 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
+### Toybox Wrath - Ver 1.6.10 (built for 2.4.1i)
+* (***ADDB***) Added check for corrupted mod files.
+* (***ADDB***) Added notice gui when the mod is opened for the first time.
+* (***ADDB***) Changed auto-update to make it less error-prone.
+
 ### Toybox Wrath - Ver 1.6.9 (built for 2.4.1i)
 * (***ADDB***) Implement auto-update for incompatible outdated versions (enabled by default).
 * (***ADDB***) Implement always auto-update (tries to keep you on the latest version) (disabled by default).
