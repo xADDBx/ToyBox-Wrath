@@ -6,7 +6,7 @@
         <Description>ToyBox</Description>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <OutputType>Library</OutputType>
-        <Version>1.6.9</Version>
+        <Version>1.6.10</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
         <Nullable>annotations</Nullable>
@@ -40,6 +40,15 @@
         <None Include="Info.json" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
     <Target Name="Deploy" AfterTargets="Build">
+        <ItemGroup>
+            <FilesToHash Include="$(TargetDir)$(AssemblyName).dll" />
+        </ItemGroup>
+        <GetFileHash Files="@(FilesToHash)" Algorithm="SHA256">
+            <Output TaskParameter="Hash" PropertyName="DllHash" />
+        </GetFileHash>
+        <WriteLinesToFile File="$(TargetDir)checksum" Lines="$(DllHash)" Overwrite="true" />
+        <Message Text="DLL Hash (SHA256): $(DllHash)" Importance="High" />
+        
         <ItemGroup>
 			<Files Include="$(TargetDir)\**\*.*" />
         </ItemGroup>
