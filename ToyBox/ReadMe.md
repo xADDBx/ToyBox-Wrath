@@ -43,8 +43,14 @@ Here is a summarized list of features. This list only includes a part of the fea
 - **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
-### ToyBox Rogue - Ver 1.6.13 built for Rogue Trader 1.2.1.19
-* (***ADDB***) Patch tool blueprint picker and blueprint references support. With this the feature is now more or less mature.
+### ToyBox Rogue - Ver 1.7.0 built for Rogue Trader 1.2.1.19
+* (***ADDB***) Finished Patch Tool:
+  * Patch tool blueprint picker and blueprint references support.
+  * Reworked UI some more
+  * Allow filtering shown fields
+  * Allow removing the last PatchOperation in a patch (to undo a change)
+* (***ADDB***) Reimplemented Allow Equipment Change During Combat. That one was more complicated to fix than I expected...
+* (***ADDB***) Hide Loot Coloring Options since we don't actually have a heuristic to determine how valuable an object is.
 
 ### ToyBox Rogue - Ver 1.6.12 built for Rogue Trader 1.2.1.19
 * (***ADDB***) Rewrite the Psychic Phenomena customizer since it seems like it might've caused crashes for some people.

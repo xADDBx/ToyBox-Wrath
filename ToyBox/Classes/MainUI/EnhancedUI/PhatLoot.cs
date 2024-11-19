@@ -68,6 +68,7 @@ namespace ToyBox {
                    () => { }
                   );
             Div(0, 25);
+#if DEBUG
             HStack("Loot Rarity Coloring".localize(), 1,
                    () => {
                        using (VerticalScope(300.width())) {
@@ -106,6 +107,7 @@ namespace ToyBox {
                     () => { }
                     );
             Div(0, 25);
+#endif
             if (Game.Instance.CurrentlyLoadedArea == null) return;
             var isEmpty = true;
             HStack("Loot Checklist".localize(), 1,
