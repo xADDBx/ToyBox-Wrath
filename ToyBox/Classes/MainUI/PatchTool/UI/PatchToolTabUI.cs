@@ -206,6 +206,7 @@ public class PatchToolTabUI {
     }
     public void ClearCache() {
         pickerGUIs.Clear();
+        pickerGUIs[(this, null)] = new();
         editStates.Clear();
         fieldsByObject.Clear();
         toggleStates.Clear();
@@ -257,10 +258,6 @@ public class PatchToolTabUI {
         }
     }
     private void FieldGUI(object parent, PatchOperation wouldBePatch, Type type, object @object, FieldInfo info) {
-        if (@object == null) {
-            Label("Null", Width(500));
-            return;
-        }
         if (typeof(Enum).IsAssignableFrom(type)) {
             var isFlagEnum = type.IsDefined(typeof(FlagsAttribute), false);
             if (!toggleStates.TryGetValue((parent, info, @object), out var state)) {
@@ -336,10 +333,14 @@ public class PatchToolTabUI {
                 }
             }
         } else if (typeof(UnityEngine.Object).IsAssignableFrom(type)) {
+            if (@object == null) {
+                Label("Null", Width(500));
+                return;
+            }
             Label(@object.ToString(), Width(500));
             Label("Unity Object".localize());
         } else if (typeof(BlueprintReferenceBase).IsAssignableFrom(type)) {
-            var guid = (@object as BlueprintReferenceBase).Guid;
+            var guid = (@object as BlueprintReferenceBase)?.Guid;
             if (guid.IsNullOrEmpty()) guid = "Null or Empty Reference";
             Label(guid, Width(500));
             if (!toggleStates.TryGetValue((parent, info, @object), out var state)) {
@@ -436,6 +437,10 @@ public class PatchToolTabUI {
                 }
             }
         } else {
+            if (@object == null) {
+                Label("Null", Width(500));
+                return;
+            }
             Label(@object.ToString(), Width(500));
             if (!toggleStates.TryGetValue((parent, info, @object), out var state)) {
                 state = false;
