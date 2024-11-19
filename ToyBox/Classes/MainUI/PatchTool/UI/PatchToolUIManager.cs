@@ -39,9 +39,18 @@ public static class PatchToolUIManager {
             for (int j = 0; j < instances.Count; j += 4) {
                 using (HorizontalScope()) {
                     for (int i = j; (i < instances.Count) && (i < j + 4); i++) {
-                        var tabName = instances[i].Target.IsNullOrEmpty() ? "New Tab".localize() : instances[i].Target;
+                        string tabName = "New Tab".localize();
+                        bool hasNoName = true;
+                        if (instances[i].Target.IsNullOrEmpty()) {
+                            tabName = instances[i].Target;
+                            hasNoName = false;
+                        }
                         if (i == selectedIndex) {
-                            ClipboardLabel($"{tabName}", Width(300));
+                            if (hasNoName) {
+                                Label(tabName, Width(300));
+                            } else {
+                                ClipboardLabel(tabName, Width(300));
+                            }
                         } else {
                             ActionButton(tabName, () => {
                                 selectedIndex = i;
