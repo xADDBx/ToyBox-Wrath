@@ -63,11 +63,14 @@ public class BlueprintPickerGUI {
                                                 Space(-17);
                                                 Label(typeString, rarityButtonStyle, AutoWidth());
                                                 Space(17);
-                                                ClipboardLabel(bp.AssetGuid.ToString(), ExpandWidth(false), Width(280));
+                                                ClipboardLabel(bp.AssetGuid.ToString(), ExpandWidth(false), Width(300));
                                                 Space(17);
                                                 if (description.Length > 0) Label(RichText.Green(description), Width(1000));
                                             }
                                         }
+                                    },
+                                    (bp, maybeBp) => {
+                                        ReflectionTreeView.OnDetailGUI(bp);
                                     });
                             } else if (Event.current.type == EventType.Repaint) {
                                 bps = BlueprintLoader.BlueprintsOfType(category).NotNull();
