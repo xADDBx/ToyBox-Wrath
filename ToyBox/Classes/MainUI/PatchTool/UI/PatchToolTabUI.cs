@@ -401,6 +401,10 @@ public class PatchToolTabUI {
                 }
             });
         } else if (PatchToolUtils.IsListOrArray(type)) {
+            if (@object == null) {
+                Label("Null", Width(500));
+                return;
+            }
             int elementCount = 0;
             if (type.IsArray) {
                 Array array = @object as Array;
