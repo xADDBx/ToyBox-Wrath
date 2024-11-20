@@ -385,6 +385,18 @@ namespace ToyBox {
                    },
                    () => Toggle("Object Highlight Toggle Mode".localize(), ref Settings.highlightObjectsToggle),
                    () => {
+                       if (Settings.highlightObjectsToggle) {
+                           50.space();
+                           Toggle("Hide Name Overtips".localize(), ref Settings.highlightObjectsToggleHideNameOvertip);
+                       }
+                   },
+                   () => {
+                       if (Settings.highlightObjectsToggle && Settings.highlightObjectsToggleHideNameOvertip) {
+                           50.space();
+                           Slider("Fade Delay".localize(), ref Settings.highlightObjectsToggleHideNameOvertipDelay, 0f, 10f, 3f, options: 200.width());
+                       }
+                   },
+                   () => {
                        Toggle("Mark Interesting NPCs".localize(), ref Settings.toggleShowInterestingNPCsOnLocalMap, 500.width());
                        HelpLabel("This will change the color of NPC names on the highlike makers and change the color map markers to indicate that they have interesting or conditional interactions".localize());
                    },

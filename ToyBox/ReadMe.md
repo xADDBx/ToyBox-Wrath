@@ -39,6 +39,7 @@
   
 ### Toybox Wrath - Ver 1.6.11 (built for 2.4.1i)
 * (***ADDB***) Reinstall on checksum failure now reinstalls current version.
+* (***Hambeard***) Added option for Name Overtips to be hidden during Highlight Toggle mode.
 
 ### Toybox Wrath - Ver 1.6.10 (built for 2.4.1i)
 * (***ADDB***) Added check for corrupted mod files.
