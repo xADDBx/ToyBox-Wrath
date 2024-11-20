@@ -14,6 +14,9 @@ using Kingmaker.View.MapObjects.SriptZones;
 using Kingmaker.View.MapObjects.Traps;
 using Owlcat.Runtime.Visual.RenderPipeline.RendererFeatures.Highlighting;
 using UnityEngine;
+using Kingmaker.UI._ConsoleUI.Overtips;
+using DG.Tweening;
+using Kingmaker.Assets.Code.UI._ConsoleUI.Overtips;
 
 namespace ToyBox.classes.MonkeyPatchin {
     public class HighlightObjectToggle {
@@ -179,6 +182,21 @@ namespace ToyBox.classes.MonkeyPatchin {
                 renderer.enabled = false;
                 renderer.forceRenderingOff = true;
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(OvertipViewPartName), nameof(OvertipViewPartName.TweenComponentsToPlace))]
+    internal static class HideOvertipsPatch {
+        [HarmonyPostfix]
+        private static void SetOvertipVisibility(OvertipViewPartName __instance, Action<Tweener> startTween, bool show) {
+            if (Main.Settings.highlightObjectsToggle
+                && Main.Settings.highlightObjectsToggleHideNameOvertip
+                && __instance.m_CharacterName.text.Length > 0
+                && show)
+
+                startTween(__instance.m_CharacterNamePanel
+                    .DOFade(0, __instance.TweenDuration)
+                    .SetDelay(Main.Settings.highlightObjectsToggleHideNameOvertipDelay));
         }
     }
 }
