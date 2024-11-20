@@ -6,17 +6,14 @@ using HarmonyLib;
 using ModKit;
 using Kingmaker;
 using Kingmaker.Controllers.MapObjects;
-using Kingmaker.EntitySystem.Entities;
 using Kingmaker.PubSubSystem;
 using Kingmaker.View;
 using Kingmaker.View.MapObjects;
 using Kingmaker.View.MapObjects.SriptZones;
-using Kingmaker.View.MapObjects.Traps;
 using Owlcat.Runtime.Visual.RenderPipeline.RendererFeatures.Highlighting;
 using UnityEngine;
 using Kingmaker.UI._ConsoleUI.Overtips;
 using DG.Tweening;
-using Kingmaker.Assets.Code.UI._ConsoleUI.Overtips;
 
 namespace ToyBox.classes.MonkeyPatchin {
     public class HighlightObjectToggle {
