@@ -383,9 +383,7 @@ namespace ToyBox {
                        Toggle("Enhanced Load/Save".localize(), ref Settings.toggleEnhancedLoadSave, 500.width());
                        HelpLabel("Adds a search field to Load/Save screen (in game only)".localize());
                    },
-                   () => {
-                       Toggle("Object Highlight Toggle Mode".localize(), ref Settings.highlightObjectsToggle);
-                   },
+                   () => Toggle("Object Highlight Toggle Mode".localize(), ref Settings.highlightObjectsToggle),
                    () => {
                        if (Settings.highlightObjectsToggle) {
                            50.space();
