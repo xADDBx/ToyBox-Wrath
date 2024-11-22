@@ -52,9 +52,6 @@ namespace ToyBox {
                 () => Label(""),
                 () => Toggle("Strip HTML (colors) from log".localize(), ref Mod.ModKitSettings.stripHtmlTagsFromLog, AutoWidth()),
                 () => Toggle("Enable Search as you type for Browsers (needs restart)".localize(), ref Mod.ModKitSettings.searchAsYouType, AutoWidth()),
-#if DEBUG
-                () => Toggle("Strip HTML (colors) from Logs Tab in Unity Mod Manager".localize(), ref Main.Settings.stripHtmlTagsFromUMMLogsTab),
-#endif
                 () => Toggle("Display guids in most tooltips, use shift + left click on items/abilities to copy guid to clipboard".localize(), ref Main.Settings.toggleGuidsClipboard, AutoWidth()),
                 () => Toggle("Check for Glyph Support".localize(), ref Mod.ModKitSettings.CheckForGlyphSupport, AutoWidth()),
                 () => {

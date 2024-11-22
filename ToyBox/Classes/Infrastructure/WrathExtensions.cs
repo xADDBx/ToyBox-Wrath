@@ -145,7 +145,7 @@ namespace ToyBox {
             } catch (Exception e) {
                 Console.Write($"{e}");
 #if DEBUG
-                return "ERROR".red().bold() + $": caught exception {e}";
+                return "ERROR".Red().Bold() + $": caught exception {e}";
 #else
                 return "";
 #endif

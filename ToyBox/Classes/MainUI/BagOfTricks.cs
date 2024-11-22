@@ -347,7 +347,7 @@ namespace ToyBox {
                    () => {
                        Toggle("Randomize NPC Responses To Dialog Choices".localize(), ref Settings.toggleRandomizeCueSelections, 300.width());
                        200.space();
-                       Label(("Some responses such as comments about your mythic powers will always choose the first one by default. This allows the game to mix things up a bit".green() + "\nWarning:".yellow().bold() + " this will introduce randomness to NPC responses to you in general and may lead to surprising or even wild outcomes".orange()).localize());
+                       Label(("Some responses such as comments about your mythic powers will always choose the first one by default. This allows the game to mix things up a bit".Green() + "\nWarning:".Yellow().Bold() + " this will introduce randomness to NPC responses to you in general and may lead to surprising or even wild outcomes".Orange()).localize());
                    },
 #endif
                    () => Toggle("Disable Dialog Restrictions (Alignment)".localize(), ref Settings.toggleDialogRestrictions),

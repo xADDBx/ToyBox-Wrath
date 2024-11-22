@@ -196,15 +196,12 @@ namespace ToyBox.BagOfPatches {
             }
         }
         // ignoreSkillPointsRemaing, ignoreSkillCap
-        [HarmonyPatch(typeof(SpendSkillPoint), nameof(SpendSkillPoint.Check))]
+        [HarmonyPatch(typeof(SpendSkillPoint))]
         private static class SpendSkillPoint_Check_Patch {
-            [HarmonyPrefix]
-            public static bool Check(ref bool __result, SpendSkillPoint __instance, LevelUpState state, UnitDescriptor unit) {
-                if (!settings.toggleIgnoreSkillCap && !settings.toggleIgnoreSkillPointsRemaining) return true;
-                __result = true;
-                if (!StatTypeHelper.Skills.Contains(__instance.Skill)) {
-                    __result = false;
-                }
+            [HarmonyPatch(nameof(SpendSkillPoint.Check)), HarmonyPostfix, HarmonyPriority(Priority.LowerThanNormal)]
+            public static void Check(ref bool __result, SpendSkillPoint __instance, LevelUpState state, UnitDescriptor unit) {
+                if (!settings.toggleIgnoreSkillCap && !settings.toggleIgnoreSkillPointsRemaining) return;
+                __result = StatTypeHelper.Skills.Contains(__instance.Skill);
 
                 if (unit.Stats.GetStat(__instance.Skill).BaseValue >= state.NextCharacterLevel) {
                     __result &= settings.toggleIgnoreSkillCap;
@@ -213,39 +210,8 @@ namespace ToyBox.BagOfPatches {
                 if (state.SkillPointsRemaining <= 0) {
                     __result &= settings.toggleIgnoreSkillPointsRemaining;
                 }
-                return false;
             }
         }
-        // ignoreSkillCap
-        // Inlining :(
-        [HarmonyPatch(typeof(LevelUpController), nameof(LevelUpController.ApplyLevelUpActions))]
-        private static class LevelUpController_ApplyLevelUpActions_Patch {
-            [HarmonyPrefix]
-            private static bool ApplyLevelUpActions(LevelUpController __instance, ref List<ILevelUpAction> __result, UnitEntityData unit) {
-                if (!settings.toggleIgnoreSkillCap && !settings.toggleIgnoreSkillPointsRemaining) return true;
-                List<ILevelUpAction> list = new List<ILevelUpAction>();
-                foreach (ILevelUpAction levelUpAction in __instance.LevelUpActions) {
-                    bool cond = levelUpAction.Check(__instance.State, unit.Descriptor);
-                    if (levelUpAction is SpendSkillPoint spendSkillPointAction) {
-                        SpendSkillPoint_Check_Patch.Check(ref cond, spendSkillPointAction, __instance.State, unit.Descriptor);
-                    }
-                    if (!cond) {
-                        LogChannel @default = PFLog.Default;
-                        string text = "Invalid action: ";
-                        ILevelUpAction levelUpAction2 = levelUpAction;
-                        @default.Log(text + ((levelUpAction2 != null) ? levelUpAction2.ToString() : null), Array.Empty<object>());
-                    } else {
-                        list.Add(levelUpAction);
-                        levelUpAction.Apply(__instance.State, unit.Descriptor);
-                        __instance.State.OnApplyAction();
-                    }
-                }
-                unit.Progression.ReapplyFeaturesOnLevelUp();
-                __result = list;
-                return false;
-            }
-        }
-
         // ignoreSkillCap
         [HarmonyPatch(typeof(CharGenSkillAllocatorVM), nameof(CharGenSkillAllocatorVM.UpdateSkillAllocator))]
         private static class CharGenSkillAllocatorVM_UpdateSkillAllocator_Patch {
