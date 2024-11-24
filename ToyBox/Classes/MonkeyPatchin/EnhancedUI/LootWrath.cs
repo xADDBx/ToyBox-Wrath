@@ -462,7 +462,10 @@ namespace ToyBox.Inventory {
                         var stream = assembly.GetManifestResourceStream(name);
                         if (stream != null) {
                             var buffer = new byte[stream.Length];
-                            stream.Read(buffer, 0, buffer.Length);
+                            var readCount = stream.Read(buffer, 0, buffer.Length);
+                            if (readCount == buffer.Length) {
+                                Mod.Debug($"Load image readCount not equal to buffer length: {readCount} != {buffer.Length}");
+                            }
                             t.LoadImage(buffer);
                         } else {
                             Mod.Error($"BundlesLoadService_RequestBundle_Patch - failed to load {name} from {assembly.FullName}");
