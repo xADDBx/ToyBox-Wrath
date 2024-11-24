@@ -41,7 +41,8 @@
 * (***ADDB***) Reinstall on checksum failure now reinstalls current version.
 * (***Hambeard***) Added option for Name Overtips to be hidden during Highlight Toggle mode.
 * (***ADDB***) Patch Tool Port Beta.
-* (***ADDB***) Fix Skill Point Cap - Needs clarification from Barley.
+* (***ADDB***) Fix Skill Point Cap.
+* (***ADDB***) Allow increasing "sel lvl" up to 40.
 
 ### Toybox Wrath - Ver 1.6.10 (built for 2.4.1i)
 * (***ADDB***) Added check for corrupted mod files.
