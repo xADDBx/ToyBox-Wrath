@@ -32,7 +32,8 @@ namespace ToyBox.classes.Infrastructure.Blueprints {
                 typeof(BlueprintBuff), typeof(BlueprintLeaderSkill), typeof(BlueprintPortrait),
                 typeof(BlueprintSpellbook), typeof(BlueprintAbility), typeof(BlueprintAreaEnterPoint),
                 typeof(BlueprintUnit), typeof(BlueprintAiAction), typeof(Consideration), 
-                typeof(BlueprintBrain), typeof(BlueprintFeature), typeof(BlueprintUnitFact)
+                typeof(BlueprintBrain), typeof(BlueprintFeature), typeof(BlueprintUnitFact),
+                typeof(BlueprintAreaPreset)
         };
 
         private static BlueprintIdCache _instance;
