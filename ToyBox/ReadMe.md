@@ -43,6 +43,7 @@
 * (***ADDB***) Patch Tool Port Beta.
 * (***ADDB***) Fix Skill Point Cap.
 * (***ADDB***) Allow increasing "sel lvl" up to 40.
+* (***ADDB***) Add LoadPreset BP Action for BlueprintAreaPresets.
 
 ### Toybox Wrath - Ver 1.6.10 (built for 2.4.1i)
 * (***ADDB***) Added check for corrupted mod files.
