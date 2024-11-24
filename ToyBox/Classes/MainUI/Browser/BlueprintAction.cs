@@ -10,6 +10,7 @@ using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Facts;
 using Kingmaker.Blueprints.Items;
 using Kingmaker.Blueprints.Quests;
+using Kingmaker.Cheats;
 using Kingmaker.Designers;
 using Kingmaker.Designers.EventConditionActionSystem.ContextData;
 using Kingmaker.ElementsSystem;
@@ -62,8 +63,8 @@ namespace ToyBox {
         }
 
         public static IEnumerable<BlueprintAction> ActionsForBlueprint(SimpleBlueprint bp) => ActionsForType(bp.GetType());
-        public static void Register<T>(string? name, BlueprintAction<T>.Perform perform, BlueprintAction<T>.CanPerform? canPerform = null, bool isRepeatable = false) where T : SimpleBlueprint {
-            var action = new BlueprintAction<T>(name, perform, canPerform, isRepeatable);
+        public static void Register<T>(string? name, BlueprintAction<T>.Perform perform, BlueprintAction<T>.CanPerform? canPerform = null, bool isRepeatable = false, bool worksInMainMenu = false) where T : SimpleBlueprint {
+            var action = new BlueprintAction<T>(name, perform, canPerform, isRepeatable, worksInMainMenu);
             var type = action.BlueprintType;
             actionsForType.TryGetValue(type, out var existing);
             existing ??= new BlueprintAction[] { };
@@ -93,9 +94,15 @@ namespace ToyBox {
 
         public new delegate bool CanPerform(BPType bp, BaseUnitEntity ch, int listValue = 0);
 
-        public BlueprintAction(string? name, Perform action, CanPerform? canPerform = null, bool isRepeatable = false) : base(name, isRepeatable) {
+        public BlueprintAction(string? name, Perform action, CanPerform? canPerform = null, bool isRepeatable = false, bool worksInMainMenu = false) : base(name, isRepeatable) {
             this.action = (bp, ch, n, index) => action((BPType)bp, ch, n, index);
-            this.canPerform = (bp, ch, index) => Main.IsInGame && bp is BPType bpt && (canPerform?.Invoke(bpt, ch, index) ?? true);
+            this.canPerform = (bp, ch, index) => {
+                try {
+                    return (worksInMainMenu || Main.IsInGame) && bp is BPType bpt && (canPerform?.Invoke(bpt, ch, index) ?? true);
+                } catch (Exception) {
+                    return false;
+                }
+            };
         }
 
         public override Type BlueprintType => typeof(BPType);
@@ -114,7 +121,10 @@ namespace ToyBox {
         }
 
         public static void InitializeActions() {
-            var flags = Game.Instance.Player.UnlockableFlags;
+            var flags = Game.Instance.Player.UnlockableFlags; 
+            BlueprintAction.Register<BlueprintAreaPreset>("Load Preset".localize(), (bp, ch, n, l) => {
+                CheatsTransfer.StartNewGame(bp);
+            }, null, false, true);
             BlueprintAction.Register<BlueprintItem>("Add".localize(),
                                                     (bp, ch, n, index) => {
                                                         Game.Instance.Player.Inventory.Add(bp, n);

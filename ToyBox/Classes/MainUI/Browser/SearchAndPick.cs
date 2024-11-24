@@ -139,6 +139,7 @@ namespace ToyBox {
             new NamedTypeFilter<BlueprintAnswer>("Answer", null, bp => bp.CaptionCollationNames()),
             new NamedTypeFilter<BlueprintPlanet>("Planets", null, bp => bp.CaptionCollationNames()),
             new NamedTypeFilter<BlueprintColony>("Colonies", null, bp => bp.CaptionCollationNames()),
+            new NamedTypeFilter<BlueprintAreaPreset>("AreaPresets", null, bp =>  bp.CollationNames()),
 #if false
             new NamedTypeFilter<BlueprintItemEquipment>("Equip (ench)", null, (bp) => {
                 try {
@@ -167,11 +168,8 @@ namespace ToyBox {
             foreach (var blueprint in bps) {
                 var actions = blueprint.GetActions();
                 if (actions.Any(a => a.isRepeatable)) hasRepeatableAction = true;
-                if (selectedUnit != null) {
-                    // FIXME - perf bottleneck 
-                    var actionCount = actions.Sum(action => action.canPerform(blueprint, selectedUnit) ? 1 : 0);
-                    maxActions = Math.Max(actionCount, maxActions);
-                }
+                var actionCount = actions.Sum(action => action.canPerform(blueprint, selectedUnit) ? 1 : 0);
+                maxActions = Math.Max(actionCount, maxActions);
             }
         }
 
