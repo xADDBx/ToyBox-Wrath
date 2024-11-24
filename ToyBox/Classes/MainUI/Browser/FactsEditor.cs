@@ -177,7 +177,6 @@ namespace ToyBox {
         public static void BlueprintDetailGUI<Item, Definition, K, V>(Definition blueprint, Item feature, UnitEntityData ch, Browser<K, V> browser)
             where Item : UnitFact
             where Definition : BlueprintUnitFact {
-            // TODO: RT
             if (ch == null) {
                 FeatureSelectionBrowser.ShowAll = true;
                 ParameterizedFeatureBrowser.ShowAll = true;
@@ -207,7 +206,7 @@ namespace ToyBox {
                                     using (HorizontalScope(125)) {
                                         if (ch != null) {
                                             Label("sel lvl", 50.width());
-                                            if (ValueAdjuster(ref level, 1, 0, 20, false)) {
+                                            if (ValueAdjuster(ref level, 1, 0, 40, false)) {
                                                 ch.RemoveFeatureSelection(featureSelection,
                                                     selectionEntry.data,
                                                     f);
