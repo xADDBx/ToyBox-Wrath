@@ -437,6 +437,7 @@ namespace ToyBox {
                            Toggle("Disable tutorials forcefully".localize(), ref Settings.toggleForceDisableTutorials);
                        }
                    },
+                   () => Toggle("Automatically skip all skippable cutscenes".localize(), ref Settings.toggleSkipSkippableCutscenes),
                    () => Toggle("Refill consumables in belt slots if in inventory".localize(), ref Settings.togglAutoEquipConsumables),
                    () => {
                        var modifier = KeyBindings.GetBinding("InventoryUseModifier");

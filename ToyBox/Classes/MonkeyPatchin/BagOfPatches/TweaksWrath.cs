@@ -856,5 +856,15 @@ namespace ToyBox.BagOfPatches {
                 }
             }
         }
+        [HarmonyPatch(typeof(CutsceneController))]
+        public static class CutsceneController_Patch {
+            [HarmonyPostfix]
+            [HarmonyPatch(nameof(CutsceneController.Activate))]
+            public static void Activate_Patch() {
+                if (Settings.toggleSkipSkippableCutscenes) {
+                    CutsceneController.SkipCutscene();
+                }
+            }
+        }
     }
 }

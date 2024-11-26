@@ -6,7 +6,7 @@
         <Description>ToyBox</Description>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <OutputType>Library</OutputType>
-        <Version>1.6.11</Version>
+        <Version>1.6.12</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
         <Nullable>annotations</Nullable>
@@ -53,7 +53,7 @@
 			<Files Include="$(TargetDir)\**\*.*" />
         </ItemGroup>
 
-        <Copy SourceFiles="@(Files)" DestinationFiles="@(Files->'$(WrathInstallDir)\Mods\$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')" />
+        <Copy SourceFiles="@(Files)" DestinationFiles="@(Files->'$(WrathInstallDir)\Mods\0$(AssemblyName)0\%(RecursiveDir)%(Filename)%(Extension)')" />
         <ZipDirectory SourceDirectory="$(MSBuildProjectDirectory)\$(OutputPath)" DestinationFile="$(MSBuildProjectDirectory)\$(OutputPath)\..\$(AssemblyName)-$(Version).zip" Overwrite="true" />
     </Target>
     <ItemGroup>
