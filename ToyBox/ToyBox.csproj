@@ -53,7 +53,7 @@
 			<Files Include="$(TargetDir)\**\*.*" />
         </ItemGroup>
 
-        <Copy SourceFiles="@(Files)" DestinationFiles="@(Files->'$(WrathInstallDir)\Mods\0$(AssemblyName)0\%(RecursiveDir)%(Filename)%(Extension)')" />
+        <Copy SourceFiles="@(Files)" DestinationFiles="@(Files->'$(WrathInstallDir)\Mods\$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')" />
         <ZipDirectory SourceDirectory="$(MSBuildProjectDirectory)\$(OutputPath)" DestinationFile="$(MSBuildProjectDirectory)\$(OutputPath)\..\$(AssemblyName)-$(Version).zip" Overwrite="true" />
     </Target>
     <ItemGroup>
