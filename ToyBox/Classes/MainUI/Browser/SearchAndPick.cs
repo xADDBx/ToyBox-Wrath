@@ -94,7 +94,7 @@ namespace ToyBox {
             new NamedTypeFilter<BlueprintAiAction>("AIActions", null, bp => bp.CollationNames()),
             new NamedTypeFilter<Consideration>("Considerations", null, bp => bp.CollationNames()),
             new NamedTypeFilter<BlueprintAbilityResource>("Ability Rsrc", null, bp => bp.CollationNames()),
-            new NamedTypeFilter<BlueprintSpellbook>("Spellbooks", null, bp => bp.CollationNames(bp.CharacterClass.Name.ToString())),
+            new NamedTypeFilter<BlueprintSpellbook>("Spellbooks", null, bp => (bp.CollationNames(bp.CharacterClass?.Name?.ToString())) ?? []),
             new NamedTypeFilter<BlueprintBuff>("Buffs", null, bp => bp.CollationNames()),
             new NamedTypeFilter<BlueprintKingdomBuff>("Kingdom Buffs", null, bp => bp.CollationNames()),
             new NamedTypeFilter<BlueprintItem>("Item", null,  (bp) => {
@@ -407,7 +407,12 @@ namespace ToyBox {
                                 Func<SimpleBlueprint, List<string>> collator;
                                 collatorCache.TryGetValue(type, out collator);
                                 if (collator != null) {
-                                    var names = collator(bp);
+                                    List<string> names = new();
+                                    try {
+                                        names = collator(bp);
+                                    } catch (Exception ex) {
+                                        Mod.Warn($"Error trying to collate for Blueprint: {bp?.name ?? "null"} (Id: {bp?.AssetGuid.ToString() ?? "null"})");
+                                    }
                                     if (names.Count > 0) {
                                         var collatorString = names.First();
                                         if (bp is BlueprintItem itemBP) {
