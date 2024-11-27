@@ -36,14 +36,12 @@
   your save before using. Remember that "with great power comes great responsibility"
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
-
-### Toybox Wrath - Ver 1.6.12 (built for 2.5.0aa)
-* (***CascadingDragon***) Add toggle for auto-skipping skippable cutscenes
   
 ### Toybox Wrath - Ver 1.7.0 (built for 2.5.0aa)
-* (***ADDB***) Reinstall on checksum failure now reinstalls current version.
+* (***ADDB***) Backported Patch Tool from RogueTrader ToyBox.
 * (***Hambeard***) Added option for Name Overtips to be hidden during Highlight Toggle mode.
-* (***ADDB***) Patch Tool Port Beta.
+* (***CascadingDragon***) Add toggle for auto-skipping skippable cutscenes
+* (***ADDB***) Reinstall on checksum failure now reinstalls current version.
 * (***ADDB***) Fix Skill Point Cap (or rather made Barley remove the issue from RespecWrath and rewrote the).
 * (***ADDB***) Allow increasing "sel lvl" up to 40.
 * (***ADDB***) Add LoadPreset BP Action for BlueprintAreaPresets.
