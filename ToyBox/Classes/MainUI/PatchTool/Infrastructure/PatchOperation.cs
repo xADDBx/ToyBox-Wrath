@@ -3,6 +3,7 @@ using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.JsonSystem.Converters;
 using Newtonsoft.Json.Linq;
 using Kingmaker.SharedTypes;
+using Kingmaker.ElementsSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -71,21 +72,25 @@ public class PatchOperation {
                     }
                     switch (CollectionOperationType) {
                         case CollectionPatchOperationType.AddAtIndex: {
+                                var newInst = Activator.CreateInstance(NewValueType);
                                 if (collection.GetType() is Type type && type.IsArray) {
                                     Array array = collection as Array;
                                     if (CollectionIndex == -1) CollectionIndex = array.Length;
                                     var elementType = type.GetElementType();
                                     Array newArray = Array.CreateInstance(elementType, array.Length + 1);
                                     Array.Copy(array, 0, newArray, 0, CollectionIndex);
-                                    newArray.SetValue(Activator.CreateInstance(NewValueType), CollectionIndex);
+                                    newArray.SetValue(newInst, CollectionIndex);
                                     Array.Copy(array, CollectionIndex, newArray, CollectionIndex + 1, array.Length - CollectionIndex);
                                     collection = newArray;
                                 } else if (collection is IList list) {
                                     if (CollectionIndex == -1) CollectionIndex = list.Count;
-                                    list.Insert(CollectionIndex, Activator.CreateInstance(NewValueType));
+                                    list.Insert(CollectionIndex, newInst);
                                     collection = list;
                                 }
-                            } 
+                                if (newInst is Element e) {
+                                    Patcher.CurrentlyPatching.AddToElementsList(e);
+                                }
+                            }
                             break;
                         case CollectionPatchOperationType.RemoveAtIndex: {
                                 if (collection.GetType() is Type type && type.IsArray) {

@@ -370,7 +370,7 @@ public class PatchToolTabUI {
                 }
             }
         } else if (primitiveTypes.Contains(type)) {
-            Label(@object.ToString(), Width(500));
+            Label(@object?.ToString() ?? "<Field is null>", Width(500));
             if (!editStates.TryGetValue((parent, info), out var curValue)) {
                 curValue = "";
             }

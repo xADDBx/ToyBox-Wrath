@@ -11,6 +11,7 @@ public static class Patcher {
     public static Dictionary<string, SimpleBlueprint> OriginalBps = new();
     public static Dictionary<string, Patch> AppliedPatches = new();
     public static Dictionary<string, Patch> KnownPatches = new();
+    public static SimpleBlueprint CurrentlyPatching = null;
     public static bool IsInitialized = false;
     public static string PatchDirectoryPath => Path.Combine(Main.ModEntry.Path, "Patches");
     public static string PatchFilePath(Patch patch) => Path.Combine(PatchDirectoryPath, $"{patch.BlueprintGuid}_{patch.PatchId}.json");
@@ -41,9 +42,12 @@ public static class Patcher {
     }
     private static SimpleBlueprint ApplyPatch(this SimpleBlueprint blueprint, Patch patch) {
         AppliedPatches[blueprint.AssetGuid.ToString()] = patch;
+        CurrentlyPatching = blueprint;
         foreach (var operation in patch.Operations) {
             operation.Apply(blueprint);
+            blueprint.OnEnable();
         }
+        CurrentlyPatching = null;
         return blueprint;
     }
     public static SimpleBlueprint ApplyPatch(this Patch patch) {
