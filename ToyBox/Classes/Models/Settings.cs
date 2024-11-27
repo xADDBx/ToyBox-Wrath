@@ -268,6 +268,7 @@ namespace ToyBox {
         public float enduringSpellsTimeThreshold = 60f;
         public float greaterEnduringSpellsTimeThreshold = 5f;
         public bool allEtudesReadable = false;
+        public bool toggleSkipSkippableCutscenes = false;
 
         // Loot 
         public bool toggleColorLootByRarity = false;
