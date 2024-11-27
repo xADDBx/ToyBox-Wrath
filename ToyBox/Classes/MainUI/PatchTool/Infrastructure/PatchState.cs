@@ -36,6 +36,7 @@ public class PatchState {
     public void CreateAndRegisterPatch() {
         if ((Operations?.Count ?? 0) == 0) return;
         CreatePatch().RegisterPatch();
+        IsDirty = true;
     }
     public Patch CreatePatch() {
         try {

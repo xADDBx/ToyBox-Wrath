@@ -41,7 +41,7 @@ public static class PatchToolUIManager {
                     for (int i = j; (i < instances.Count) && (i < j + 4); i++) {
                         string tabName = "New Tab".localize();
                         bool hasNoName = true;
-                        if (instances[i].Target.IsNullOrEmpty()) {
+                        if (!instances[i].Target.IsNullOrEmpty()) {
                             tabName = instances[i].Target;
                             hasNoName = false;
                         }

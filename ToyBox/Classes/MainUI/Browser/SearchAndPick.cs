@@ -407,7 +407,12 @@ namespace ToyBox {
                                 Func<SimpleBlueprint, List<string>> collator;
                                 collatorCache.TryGetValue(type, out collator);
                                 if (collator != null) {
-                                    var names = collator(bp);
+                                    List<string> names = new();
+                                    try {
+                                        names = collator(bp);
+                                    } catch (Exception ex) {
+                                        Mod.Warn($"Error trying to collate for Blueprint: {bp?.name ?? "null"} (Id: {bp?.AssetGuid.ToString() ?? "null"})");
+                                    }
                                     if (names.Count > 0) {
                                         var collatorString = names.First();
                                         if (bp is BlueprintItem itemBP) {
