@@ -6,7 +6,7 @@
         <Description>ToyBox</Description>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <OutputType>Library</OutputType>
-        <Version>1.7.0</Version>
+        <Version>1.7.1</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
         <Nullable>annotations</Nullable>
@@ -27,7 +27,7 @@
         <Reference Include="$(WrathInstallDir)\Wrath_Data\Managed\Newtonsoft.Json.dll*" Private="false" />
         <Reference Include="$(WrathInstallDir)\Wrath_Data\Managed\UnityModManager\UnityModManager.dll*" Publicize="true" Private="false" />
         <Reference Include="$(WrathInstallDir)\Wrath_Data\Managed\UnityModManager\0Harmony.dll*" Private="false" />
-        <Reference Include="$(WrathInstallDir)\Wrath_Data\Managed\System.IO.Compression*" Private="false" />
+        <Reference Include="System.IO.Compression" Private="false" />
     </ItemGroup>
     <ItemGroup>
         <EmbeddedResource Include="Config\bindings.json" />
