@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using System.ArrayExtensions;
+using System.Runtime.CompilerServices;
 
 namespace System {
     public static class ObjectExtensions {
@@ -65,7 +66,9 @@ namespace System {
         }
         public override int GetHashCode(object obj) {
             if (obj == null) return 0;
-            return obj.GetHashCode();
+            // E.g. WeakResourceLink can throw on GetHashCode()
+            // return obj.GetHashCode();
+            return RuntimeHelpers.GetHashCode(obj);
         }
     }
 
