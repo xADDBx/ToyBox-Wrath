@@ -411,7 +411,7 @@ namespace ToyBox {
                                     try {
                                         names = collator(bp);
                                     } catch (Exception ex) {
-                                        Mod.Warn($"Error trying to collate for Blueprint: {bp?.name ?? "null"} (Id: {bp?.AssetGuid.ToString() ?? "null"})");
+                                        Mod.Warn($"Error trying to collate for Blueprint: {bp?.name ?? "null"} (Id: {bp?.AssetGuid.ToString() ?? "null"}):\n{ex.ToString()}");
                                     }
                                     if (names.Count > 0) {
                                         var collatorString = names.First();
