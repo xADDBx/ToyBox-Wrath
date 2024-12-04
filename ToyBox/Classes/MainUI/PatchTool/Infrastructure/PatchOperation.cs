@@ -59,9 +59,9 @@ public class PatchOperation {
     public object Apply(object instance) {
         if (!(OperationType == PatchOperationType.ModifyCollection || OperationType == PatchOperationType.ModifyComplex) && !PatchedObjectType.IsAssignableFrom(instance.GetType())) throw new ArgumentException($"Type to patch {PatchedObjectType} is not assignable from instance type {instance.GetType()}\nField: {FieldName ?? null}, OperationType: {OperationType}, NestedOperationType: {NestedOperation?.OperationType.ToString() ?? "Null"} ");
         var field = GetFieldInfo(PatchedObjectType);
-        // We're in a collection, so the patched field will point to a collection, meaning we will need to work on the instance itself.
-        // By returning the changed instance, the ModifyCollection operation will set the returned value itself.
         if (PatchToolUtils.IsListOrArray(instance?.GetType()) || (PatchToolUtils.IsListOrArray(field.FieldType) && (OperationType != PatchOperationType.ModifyCollection))) {
+            // We're in a collection, so the patched field will point to a collection, meaning we will need to work on the instance itself.
+            // By returning the changed instance, the ModifyCollection operation will set the returned value itself.
             field = null;
         }
         switch (OperationType) {
