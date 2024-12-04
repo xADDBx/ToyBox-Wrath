@@ -43,7 +43,7 @@ Here is a summarized list of features. This list only includes a part of the fea
 - **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
-### ToyBox Rogue - Ver 1.7.4 built for Rogue Trader 1.2.1.26
+### ToyBox Rogue - Ver 1.7.5 built for Rogue Trader 1.2.1.26
 * (***ADDB***) Fixed major issue in the Patch Tool system (fields in a collection could cause the patch to fail with a System.ArgumentException).
 * (***ADDB***) List elements now have their exact type shown.
 
