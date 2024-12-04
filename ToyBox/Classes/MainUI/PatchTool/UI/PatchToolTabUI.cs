@@ -467,7 +467,7 @@ public class PatchToolTabUI {
         PatchOperation op = wouldBePatch.AddOperation(tmpOp);
         using (HorizontalScope()) {
             Space(-13);
-            Label($"[{index}]", Width(500));
+            Label($"[{index}] ({elem?.GetType().Name ?? "Null"})", Width(500));
             FieldGUI(parent, op, elem.GetType(), elem, info);
 
             Space(20);

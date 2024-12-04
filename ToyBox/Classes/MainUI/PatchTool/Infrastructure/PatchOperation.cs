@@ -57,15 +57,18 @@ public class PatchOperation {
         return AccessTools.Field(type, FieldName);
     }
     public object Apply(object instance) {
-        if (!(OperationType == PatchOperationType.ModifyCollection) && !PatchedObjectType.IsAssignableFrom(instance.GetType())) throw new ArgumentException($"Type to patch {PatchedObjectType} is not assignable from instance type {instance.GetType()}");
-        bool IsPatchingCollectionDirectly = PatchToolUtils.IsListOrArray(instance?.GetType());
-
-        var field = IsPatchingCollectionDirectly ? null : GetFieldInfo(PatchedObjectType);
+        if (!(OperationType == PatchOperationType.ModifyCollection || OperationType == PatchOperationType.ModifyComplex) && !PatchedObjectType.IsAssignableFrom(instance.GetType())) throw new ArgumentException($"Type to patch {PatchedObjectType} is not assignable from instance type {instance.GetType()}\nField: {FieldName ?? null}, OperationType: {OperationType}, NestedOperationType: {NestedOperation?.OperationType.ToString() ?? "Null"} ");
+        var field = GetFieldInfo(PatchedObjectType);
+        // We're in a collection, so the patched field will point to a collection, meaning we will need to work on the instance itself.
+        // By returning the changed instance, the ModifyCollection operation will set the returned value itself.
+        if (PatchToolUtils.IsListOrArray(instance?.GetType()) || (PatchToolUtils.IsListOrArray(field.FieldType) && (OperationType != PatchOperationType.ModifyCollection))) {
+            field = null;
+        }
 
         switch (OperationType) {
             case PatchOperationType.ModifyCollection: {
                     object collection;
-                    if (IsPatchingCollectionDirectly) {
+                    if (field == null) {
                         collection = instance;
                     } else {
                         collection = field.GetValue(instance);
@@ -136,19 +139,42 @@ public class PatchOperation {
                 break;
 #pragma warning restore CS0162 // Unreachable code detected
             case PatchOperationType.ModifyComplex: {
-                    var @object = field.GetValue(instance);
-                    NestedOperation.Apply(@object);
-                    field.SetValue(instance, @object);
-                }
-                break;
+                    object @object;
+                    if (field == null) {
+                        @object = instance;
+                    } else {
+                        @object = field.GetValue(instance);
+                    }
+                    var patched = NestedOperation.Apply(@object);
+                    if (field != null) {
+                        field.SetValue(instance, patched);
+                    } else {
+                        return patched;
+                    }
+                } break;
             case PatchOperationType.ModifyPrimitive: {
-                    field.SetValue(instance, Convert.ChangeType(NewValue, NewValueType));
-                } 
-                break;
+                    object patched;
+                    if (typeof(Enum).IsAssignableFrom(NewValueType)) {
+                        var tmp = Convert.ChangeType(NewValue, Enum.GetUnderlyingType(NewValueType));
+                        patched = Enum.ToObject(NewValueType, tmp);
+                    } else {
+                        patched = Convert.ChangeType(NewValue, NewValueType);
+                    }
+                    if (field != null) {
+                        field.SetValue(instance, patched);
+                    } else {
+                        return patched;
+                    }
+                } break;
             case PatchOperationType.ModifyBlueprintReference: {
                     var bpRef = Activator.CreateInstance(NewValueType) as BlueprintReferenceBase;
                     bpRef.guid = NewValue as string;
-                    field.SetValue(instance, Convert.ChangeType(bpRef, NewValueType));
+                    var patched = Convert.ChangeType(bpRef, NewValueType);
+                    if (field != null) {
+                        field.SetValue(instance, patched);
+                    } else {
+                        return patched;
+                    }
                 }
                 break;
             default: throw new NotImplementedException($"Unknown PatchOperation: {OperationType}");
