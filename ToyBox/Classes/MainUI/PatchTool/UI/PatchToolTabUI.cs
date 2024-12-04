@@ -14,8 +14,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UniRx;
 using UnityEngine;
-using static Kingmaker.Visual.Sound.SoundEventsEmitter;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 namespace ToyBox.PatchTool;
 public class PatchToolTabUI {
@@ -35,7 +33,7 @@ public class PatchToolTabUI {
     private bool showFieldsEditor = false;
     internal string Target = "";
     public int IndentPerLevel = 25;
-    private static readonly HashSet<Type> primitiveTypes = new() { typeof(string), typeof(bool), typeof(int), typeof(uint), typeof(long), typeof(ulong), typeof(float), typeof(double) };
+    internal static readonly HashSet<Type> primitiveTypes = new() { typeof(string), typeof(bool), typeof(int), typeof(uint), typeof(long), typeof(ulong), typeof(float), typeof(double) };
     public class AddItemState {
         public Browser<Type, Type> ToAddBrowser = new(true, true, false, false) { DisplayShowAllGUI = false };
         public static AddItemState Create(object parent, FieldInfo info, object @object, int index, PatchOperation wouldBePatch, PatchToolTabUI ui) {
@@ -467,7 +465,7 @@ public class PatchToolTabUI {
         PatchOperation op = wouldBePatch.AddOperation(tmpOp);
         using (HorizontalScope()) {
             Space(-13);
-            Label($"[{index}]", Width(500));
+            Label($"[{index}] ({elem?.GetType().Name ?? "Null"})", Width(500));
             FieldGUI(parent, op, elem.GetType(), elem, info);
 
             Space(20);
