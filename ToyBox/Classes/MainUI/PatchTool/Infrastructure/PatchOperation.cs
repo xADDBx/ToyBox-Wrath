@@ -152,12 +152,6 @@ public class PatchOperation {
                     }
                 } break;
             case PatchOperationType.ModifyPrimitive: {
-                    object @object;
-                    if (field == null) {
-                        @object = instance;
-                    } else {
-                        @object = field.GetValue(instance);
-                    }
                     object patched;
                     if (typeof(Enum).IsAssignableFrom(NewValueType)) {
                         var tmp = Convert.ChangeType(NewValue, Enum.GetUnderlyingType(NewValueType));
