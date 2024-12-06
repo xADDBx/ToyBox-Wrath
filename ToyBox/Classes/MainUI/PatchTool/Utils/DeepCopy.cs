@@ -46,7 +46,10 @@ namespace System {
         private static void CopyFields(object originalObject, IDictionary<object, object> visited, object cloneObject, Type typeToReflect, BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy, Func<FieldInfo, bool> filter = null) {
             foreach (FieldInfo fieldInfo in typeToReflect.GetFields(bindingFlags)) {
                 if (filter != null && filter(fieldInfo) == false) continue;
-                if (IsPrimitive(fieldInfo.FieldType)) continue;
+                if (IsPrimitive(fieldInfo.FieldType)) {
+                    fieldInfo.SetValue(cloneObject, fieldInfo.GetValue(originalObject));
+                    continue;
+                }
                 var originalFieldValue = fieldInfo.GetValue(originalObject);
                 var clonedFieldValue = InternalCopy(originalFieldValue, visited);
                 fieldInfo.SetValue(cloneObject, clonedFieldValue);
