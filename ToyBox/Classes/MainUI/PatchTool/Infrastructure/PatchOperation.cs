@@ -57,13 +57,14 @@ public class PatchOperation {
         return AccessTools.Field(type, FieldName);
     }
     public object Apply(object instance) {
-        if (!(OperationType == PatchOperationType.ModifyCollection || OperationType == PatchOperationType.ModifyComplex) && !PatchedObjectType.IsAssignableFrom(instance.GetType())) throw new ArgumentException($"Type to patch {PatchedObjectType} is not assignable from instance type {instance.GetType()}\nField: {FieldName ?? null}, OperationType: {OperationType}, NestedOperationType: {NestedOperation?.OperationType.ToString() ?? "Null"} ");
         var field = GetFieldInfo(PatchedObjectType);
-        if (PatchToolUtils.IsListOrArray(instance?.GetType()) || (PatchToolUtils.IsListOrArray(field.FieldType) && (OperationType != PatchOperationType.ModifyCollection))) {
+        if (PatchToolUtils.IsListOrArray(field.FieldType) && (OperationType != PatchOperationType.ModifyCollection)) {
             // We're in a collection, so the patched field will point to a collection, meaning we will need to work on the instance itself.
             // By returning the changed instance, the ModifyCollection operation will set the returned value itself.
             field = null;
         }
+        if (!(OperationType == PatchOperationType.ModifyCollection || OperationType == PatchOperationType.ModifyComplex) && (field != null && !field.FieldType.IsAssignableFrom(NewValueType))) throw new ArgumentException($"Type to patch {PatchedObjectType}, field {field.Name} with type {field.FieldType} is not assignable from instance type {instance.GetType()}\nField: {FieldName ?? null}, OperationType: {OperationType}, NestedOperationType: {NestedOperation?.OperationType.ToString() ?? "Null"} ");
+        
         switch (OperationType) {
             case PatchOperationType.ModifyCollection: {
                     object collection;
@@ -89,7 +90,7 @@ public class PatchOperation {
                                     list.Insert(CollectionIndex, newInst);
                                     collection = list;
                                 }
-                                if (newInst is Element e) {
+                                if (newInst is Element e && FieldName != nameof(SimpleBlueprint.m_AllElements)) {
                                     Patcher.CurrentlyPatching.AddToElementsList(e);
                                 }
                             }
