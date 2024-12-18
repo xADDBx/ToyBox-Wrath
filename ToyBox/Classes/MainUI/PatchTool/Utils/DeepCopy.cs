@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.ArrayExtensions;
 using System.Runtime.CompilerServices;
-using ModKit;
 
 namespace System {
     public static class ObjectExtensions {
