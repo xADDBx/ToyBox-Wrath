@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.ArrayExtensions;
 using System.Runtime.CompilerServices;
+using ModKit;
 
 namespace System {
     public static class ObjectExtensions {
@@ -22,15 +23,14 @@ namespace System {
             if (visited.ContainsKey(originalObject)) return visited[originalObject];
             if (typeof(Delegate).IsAssignableFrom(typeToReflect)) return null;
             var cloneObject = targetObject ?? CloneMethod.Invoke(originalObject, null);
+            visited.Add(originalObject, cloneObject);
             if (typeToReflect.IsArray) {
                 var arrayType = typeToReflect.GetElementType();
                 if (IsPrimitive(arrayType) == false) {
                     Array clonedArray = (Array)cloneObject;
                     clonedArray.ForEach((array, indices) => array.SetValue(InternalCopy(clonedArray.GetValue(indices), visited), indices));
                 }
-
             }
-            visited.Add(originalObject, cloneObject);
             CopyFields(originalObject, visited, cloneObject, typeToReflect);
             RecursiveCopyBaseTypePrivateFields(originalObject, visited, cloneObject, typeToReflect);
             return cloneObject;

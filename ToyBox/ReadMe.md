@@ -37,6 +37,12 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
+### Toybox Wrath - Ver 1.7.4 (built for 2.6.0n)
+* (***ADDB***) Patch Tool fixes:
+  * Fix Patch Tool for types implementing IList<T>
+  * Fix Patch Tool BlueprintReferences
+  * Fix Patch Tool possible stack overflow in DeepCopy
+
 ### Toybox Wrath - Ver 1.7.3 (built for 2.5.0aa)
 * (***ADDB***) Fix Patch Tool not being able to modify top level primitives.
 * (***ADDB***) Improve Patch Tool UI (now highlighting currently selected row).
