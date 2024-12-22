@@ -19,6 +19,9 @@ using System.IO;
 using System.Runtime.Serialization;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Facts;
+using Kingmaker.Blueprints.Items.Armors;
+using Kingmaker.Blueprints.Items.Weapons;
+using Kingmaker.Blueprints.Items;
 
 namespace ToyBox.classes.Infrastructure.Blueprints {
     public class BlueprintIdCache {
@@ -28,6 +31,7 @@ namespace ToyBox.classes.Infrastructure.Blueprints {
         public Dictionary<Type, HashSet<BlueprintGuid>> IdsByType = new();
 
         public static HashSet<Type> CachedIdTypes = new() {
+                typeof(BlueprintItem), typeof(BlueprintItemWeapon), typeof(BlueprintItemArmor),
                 typeof(BlueprintEtude), typeof(BlueprintArea), typeof(BlueprintItemEnchantment),
                 typeof(BlueprintBuff), typeof(BlueprintLeaderSkill), typeof(BlueprintPortrait),
                 typeof(BlueprintSpellbook), typeof(BlueprintAbility), typeof(BlueprintAreaEnterPoint),

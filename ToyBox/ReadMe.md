@@ -37,6 +37,13 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
+### Toybox Wrath - Ver 1.7.5 (built for 2.6.0n)
+* (***ADDB***) Fix somewhat critical error in PatchTool which would DeepCopy Blueprints, messing up cached references (noticeable e.g. when Proficiency Requirements aren't satisfied after patching something until the game is restarted once).
+* (***ADDB***) No longer ignore delegates when Deep Copying => Fix e.g. Abilities disappearing from Weapons after patching them until restarting the game.
+* (***ADDB***) Prevent possible issue with Patch Tool?.
+* (***ADDB***) Fixed Patch Tool not being able to manually remove the last patch operation in the Patch Manager.
+* (***ADDB***) BPId Cache now Caches Items, Weapons and Armors (mostly noticeable in that the BlueprintPicker in PatchTool now has those as categories).
+
 ### Toybox Wrath - Ver 1.7.4 (built for 2.6.0n)
 * (***ADDB***) Patch Tool fixes:
   * Fix Patch Tool for types implementing IList<T>

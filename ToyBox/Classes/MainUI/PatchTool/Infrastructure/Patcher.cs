@@ -4,6 +4,7 @@ using ModKit;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace ToyBox.PatchTool;
@@ -30,25 +31,32 @@ public static class Patcher {
             }
             IsInitialized = true;
         }
+        Stopwatch watch = new();
+        watch.Start();
+        int applied = 0;
         foreach (var patch in KnownPatches.Values) {
             try {
                 if (!Main.Settings.disabledPatches.Contains(patch.PatchId)) {
-                    patch.ApplyPatch();
+                    patch.ApplyPatch(); 
+                    applied++;
                 }
             } catch (Exception ex) {
                 Mod.Log($"Error trying to patch blueprint {patch.BlueprintGuid} with patch {patch.PatchId}:\n{ex.ToString()}");
             }
         }
+        watch.Stop();
+        Mod.Log($"Successfully applied {applied} of {KnownPatches.Values.Count} patches in {watch.ElapsedMilliseconds}ms");
     }
-    private static SimpleBlueprint ApplyPatch(this SimpleBlueprint blueprint, Patch patch) {
+    private static SimpleBlueprint ApplyPatch(this SimpleBlueprint blueprint, Patch patch, SimpleBlueprint current) {
         AppliedPatches[blueprint.AssetGuid.ToString()] = patch;
         CurrentlyPatching = blueprint;
         foreach (var operation in patch.Operations) {
             operation.Apply(blueprint);
-            blueprint.OnEnable();
+            current = DeepBlueprintCopy(blueprint, current);
+            current.OnEnable();
         }
-        CurrentlyPatching = null;
-        return blueprint;
+        CurrentlyPatching = null; 
+        return current;
     }
     public static SimpleBlueprint ApplyPatch(this Patch patch) {
         if (patch == null) return null;
@@ -58,13 +66,7 @@ public static class Patcher {
             OriginalBps[current.AssetGuid.ToString()] = DeepBlueprintCopy(current);
         }
         var copy = DeepBlueprintCopy(OriginalBps[current.AssetGuid.ToString()]);
-        var patched = copy.ApplyPatch(patch);
-        var patchedCurrent = DeepBlueprintCopy(patched, current);
-        Mod.Debug($"Assert: current == patchedCurrent: {current == patchedCurrent}");
-        Mod.Debug($"Assert: patched == copy: {patched == copy}");
-        Mod.Debug($"Assert: current != patched: {current != patched}");
-        Mod.Debug($"Assert: current != copy: {current != copy}");
-        return patchedCurrent;
+        return copy.ApplyPatch(patch, current);
     }
     public static void RestoreOriginal(string blueprintGuid) {
         if (OriginalBps.TryGetValue(blueprintGuid, out var copy)) {
@@ -86,6 +88,6 @@ public static class Patcher {
         }
     }
     public static SimpleBlueprint DeepBlueprintCopy(SimpleBlueprint blueprint, SimpleBlueprint target = null) {
-        return blueprint.Copy(target);
+        return blueprint.Copy(target, true);
     }
 }
