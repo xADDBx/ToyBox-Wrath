@@ -39,6 +39,7 @@ using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Class.Kineticist;
 using Kingmaker.Utility;
 using Kingmaker.View;
+using Kingmaker.View.MapObjects.InteractionRestrictions;
 using ModKit;
 using Owlcat.Runtime.UniRx;
 using System;
@@ -699,7 +700,15 @@ namespace ToyBox.BagOfPatches {
                 }
             }
         }
-
+        [HarmonyPatch(typeof(DisableDeviceRestrictionPart))]
+        public static class DisableDeviceRestrictionPartPatch {
+            [HarmonyPatch(nameof(DisableDeviceRestrictionPart.CheckRestriction)), HarmonyPostfix]
+            public static void CheckRestriction_Patch(DisableDeviceRestrictionPart __instance) {
+                if (settings.togglelockjam) {
+                    __instance.Jammed = false; // Sea recommended a transpiler, but this seems easier and cleaner?
+                }
+            }
+        }
         /*
          * This breaks the feature, don't enable
         [HarmonyPatch(typeof(Kingmaker.Localization.LocalizationManager))]
@@ -710,6 +719,7 @@ namespace ToyBox.BagOfPatches {
                 BPTagger.pack = AccessTools.MakeDeepCopy<LocalizationPack>(__result);
             }
         }*/
+
 #if false
         [HarmonyPatch(typeof(GraphicsSettingsController))]
         private static class GraphicsSettingsController_Patch {

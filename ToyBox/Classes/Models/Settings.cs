@@ -187,6 +187,7 @@ namespace ToyBox {
         // Tweaks
         public int kineticistBurnReduction = 0;
         public bool toggleSpontaneousCopyScrolls = false;
+        public bool togglelockjam = false;
         public bool toggleInstantEvent = false;
         public bool toggleInfiniteAbilities = false;
         public bool toggleInfiniteSpellCasts = false;
