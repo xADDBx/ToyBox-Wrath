@@ -166,6 +166,7 @@ namespace ToyBox {
         public bool toggleShowQuestMarkersOnLocalMap = false;
         public bool toggleEnhancedLoadSave = false;
         public bool toggleSkipAnyKeyToContinueWhenLoadingSaves = false;
+        public bool toggledividerlineinlog = false;
 
         // Camera
         public bool toggleAutoFollowHold = true;
