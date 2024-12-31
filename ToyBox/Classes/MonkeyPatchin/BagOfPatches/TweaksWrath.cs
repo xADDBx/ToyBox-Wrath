@@ -872,10 +872,11 @@ namespace ToyBox.BagOfPatches {
         public static class CombatController_Patch {
             [HarmonyPostfix]
             [HarmonyPatch(nameof(CombatController.StartRound))]
-            public static void StartRound_Patch() {
+            public static void StartRound_Patch(CombatController __instance){
                 if (Settings.toggledividerlineinlog) {
                     var messageLog = LogThreadService.Instance.m_Logs[LogChannelType.Common].FirstOrDefault(x => x is MessageLogThread);
-                    var message = new CombatLogMessage("========== END ROUND ==========", Color.blue, PrefixIcon.None);
+                    var roundnumber = (__instance.RoundNumber - 1).ToString(); // Since this technically happens at the start of every turn.
+                    var message = new CombatLogMessage($"========= END OF ROUND {roundnumber} =========", Color.blue, PrefixIcon.None);
                     messageLog?.AddMessage(message);
                 }
             }
