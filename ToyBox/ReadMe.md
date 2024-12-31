@@ -37,7 +37,7 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
 
-### Toybox Wrath - Ver 1.7.5 (built for 2.6.0n)
+### Toybox Wrath - Ver 1.7.6 (built for 2.6.0n)
 * (***CascadingDragon***) Add toggle to stop locks from jamming (Bag of Tricks tab, Cheats subsection)
 * (***CascadingDragon***) Add toggle to output a divider line in the combat log at the start of every round (Bag of Tricks tab, Quality of Life subsection)
 
