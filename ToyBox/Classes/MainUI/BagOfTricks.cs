@@ -391,6 +391,10 @@ namespace ToyBox {
                        }
                    },
                    () => {
+                       Toggle("Combat Log divider line".localize(), ref settings.toggledividerlineinlog, 500.width());
+                       HelpLabel("On round end, outputs a divider line in the combat log".localize());
+                   },
+                   () => {
                        if (Settings.highlightObjectsToggle && Settings.highlightObjectsToggleHideNameOvertip) {
                            50.space();
                            Slider("Fade Delay".localize(), ref Settings.highlightObjectsToggleHideNameOvertipDelay, 0f, 10f, 3f, options: 200.width());
@@ -580,6 +584,7 @@ namespace ToyBox {
                        Toggle("Prevent Traps from triggering".localize(), ref Settings.disableTraps, 500.width());
                        Label("Enterint a Trap Zone while having Traps disabled will prevent that Trap from triggering even if you deactivate this option in the future".localize().Green());
                    },
+                   () => Toggle("Prevent Locks from jamming".localize(), ref Settings.togglelockjam),
                    () => Toggle("Unlimited Stacking of Modifiers (Stat/AC/Hit/Damage/Etc)".localize(), ref Settings.toggleUnlimitedStatModifierStacking),
                    () => {
                        using (HorizontalScope()) {

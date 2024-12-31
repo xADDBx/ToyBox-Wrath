@@ -36,6 +36,8 @@ using Kingmaker.UI.FullScreenUITypes;
 using Kingmaker.UI.Group;
 using Kingmaker.UI.Kingdom;
 using Kingmaker.UI.MainMenuUI;
+using Kingmaker.UI.Models.Log.CombatLog_ThreadSystem.LogThreads.Common;
+using Kingmaker.UI.Models.Log.CombatLog_ThreadSystem;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
@@ -863,6 +865,19 @@ namespace ToyBox.BagOfPatches {
             public static void Activate_Patch() {
                 if (Settings.toggleSkipSkippableCutscenes) {
                     CutsceneController.SkipCutscene();
+                }
+            }
+        }
+        [HarmonyPatch(typeof(CombatController))]
+        public static class CombatController_Patch {
+            [HarmonyPostfix]
+            [HarmonyPatch(nameof(CombatController.StartRound))]
+            public static void StartRound_Patch(CombatController __instance){
+                if (Settings.toggledividerlineinlog) {
+                    var messageLog = LogThreadService.Instance.m_Logs[LogChannelType.Common].FirstOrDefault(x => x is MessageLogThread);
+                    var roundnumber = (__instance.RoundNumber - 1).ToString(); // Since this technically happens at the start of every turn.
+                    var message = new CombatLogMessage($"========= END OF ROUND {roundnumber} =========", Color.blue, PrefixIcon.None);
+                    messageLog?.AddMessage(message);
                 }
             }
         }
