@@ -190,9 +190,11 @@ namespace ToyBox.BagOfPatches {
                     var isOtherSpiderSwarmUnit = IsSpiderSwarmBlueprintUnit(unitEntityData.Blueprint.AssetGuidThreadSafe);
                     if (isASpider || isOtherSpiderUnit) {
                         unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintWolfStandardGUID).Prefab.AssetId;
+                        unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintWolfStandardGUID).PortraitSafe.Data;
                         return;
                     } else if (isASpiderSwarm || isOtherSpiderSwarmUnit) {
                         unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintCR2RatSwarmGUID).Prefab.AssetId;
+                        unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintCR2RatSwarmGUID).PortraitSafe.Data;
                         return;
                     }
                 }
@@ -207,12 +209,15 @@ namespace ToyBox.BagOfPatches {
                     var isOtherVescavorSwarmUnit = IsVescavorSwarmBlueprintUnit(unitEntityData.Blueprint.AssetGuidThreadSafe);
                     if (isAVescavorGuard || isOtherVescavorGuardUnit) {
                         unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintWolfStandardGUID).Prefab.AssetId;
+                        unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintWolfStandardGUID).PortraitSafe.Data;
                         return;
                     } else if (isAVescavorSwarm || isOtherVescavorSwarmUnit) {
                         unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintCR2RatSwarmGUID).Prefab.AssetId;
+                        unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintCR2RatSwarmGUID).PortraitSafe.Data;
                         return;
                     } else if (isAVescavorQueen || isOtherVescavorQueenUnit) {
                         unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintDireWolfStandardGUID).Prefab.AssetId;
+                        unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintDireWolfStandardGUID).PortraitSafe.Data;
                         return;
                     }
                 }
@@ -225,9 +230,11 @@ namespace ToyBox.BagOfPatches {
                     var isAreshkagelRetrieverUnit = IsRetrieverAreshkagelBlueprintUnit(unitEntityData.Blueprint.AssetGuidThreadSafe);
                     if (isARetriever || isOtherRetrieverUnit) {
                         unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintBearStandardGUID).Prefab.AssetId;
+                        unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintBearStandardGUID).PortraitSafe.Data;
                         return;
                     } else if (isAAreshkagelRetriever || isAreshkagelRetrieverUnit) {
                         unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintOwlBearStandardGUID).Prefab.AssetId;
+                        unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintOwlBearStandardGUID).PortraitSafe.Data;
                         return;
                     }
                 }
@@ -237,6 +244,7 @@ namespace ToyBox.BagOfPatches {
                     var isADemonDerakni = IsDemonDerakniType(type?.AssetGuidThreadSafe);
                     if (isADemonDerakni) {
                         unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintTriceratopsStandarGUID).Prefab.AssetId;
+                        unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintTriceratopsStandarGUID).PortraitSafe.Data;
                         return;
                     }
                 }
@@ -246,6 +254,7 @@ namespace ToyBox.BagOfPatches {
                     var isADeskari = IsDeskariBlueprintUnit(unitEntityData.Blueprint.AssetGuidThreadSafe);
                     if (isADeskari) {
                         unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintMastodonStandarGUID).Prefab.AssetId;
+                        unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintMastodonStandarGUID).PortraitSafe.Data;
                         return;
                     }
                 }
@@ -263,9 +272,11 @@ namespace ToyBox.BagOfPatches {
 
                     if (isASpider || isOtherSpiderUnit) {
                         blueprintUnit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintWolfStandardGUID).Prefab;
+                        blueprintUnit.PortraitSafe = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintWolfStandardGUID).PortraitSafe;
                         return;
                     } else if (isASpiderSwarm || isOtherSpiderSwarmUnit) {
                         blueprintUnit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintCR2RatSwarmGUID).Prefab;
+                        blueprintUnit.PortraitSafe = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintCR2RatSwarmGUID).PortraitSafe;
                         return;
                     }
                 }
@@ -281,12 +292,15 @@ namespace ToyBox.BagOfPatches {
 
                     if (isAVescavorGuard || isOtherVescavorGuardUnit) {
                         blueprintUnit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintWolfStandardGUID).Prefab;
+                        blueprintUnit.PortraitSafe = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintWolfStandardGUID).PortraitSafe;
                         return;
                     } else if (isAVescavorSwarm || isOtherVescavorSwarmUnit) {
                         blueprintUnit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintCR2RatSwarmGUID).Prefab;
+                        blueprintUnit.PortraitSafe = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintCR2RatSwarmGUID).PortraitSafe;
                         return;
                     } else if (isAVescavorQueen || isOtherVescavorQueenUnit) {
                         blueprintUnit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintDireWolfStandardGUID).Prefab;
+                        blueprintUnit.PortraitSafe = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintDireWolfStandardGUID).PortraitSafe;
                         return;
                     }
                 }
@@ -300,9 +314,11 @@ namespace ToyBox.BagOfPatches {
 
                     if (isARetriever || isOtherRetrieverUnit) {
                         blueprintUnit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintBearStandardGUID).Prefab;
+                        blueprintUnit.PortraitSafe = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintBearStandardGUID).PortraitSafe;
                         return;
                     } else if (isAAreshkagelRetriever || isAreshkagelRetrieverUnit) {
                         blueprintUnit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintOwlBearStandardGUID).Prefab;
+                        blueprintUnit.PortraitSafe = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintOwlBearStandardGUID).PortraitSafe;
                         return;
                     }
                 }
@@ -312,6 +328,7 @@ namespace ToyBox.BagOfPatches {
                     var isADemonDerakni = IsDemonDerakniType(type?.AssetGuidThreadSafe);
                     if (isADemonDerakni) {
                         blueprintUnit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintTriceratopsStandarGUID).Prefab;
+                        blueprintUnit.PortraitSafe = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintTriceratopsStandarGUID).PortraitSafe;
                         return;
                     }
                 }
@@ -322,6 +339,7 @@ namespace ToyBox.BagOfPatches {
                     var isADeskari = IsDeskariBlueprintUnit(blueprintUnit.AssetGuidThreadSafe);
                     if (isADeskari) {
                         blueprintUnit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintMastodonStandarGUID).Prefab;
+                        blueprintUnit.PortraitSafe = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintMastodonStandarGUID).PortraitSafe;
                         return;
                     }
                 }

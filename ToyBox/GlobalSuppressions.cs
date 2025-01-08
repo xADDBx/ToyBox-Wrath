@@ -5,3 +5,8 @@
 
 using System.Diagnostics.CodeAnalysis;
 
+[assembly: SuppressMessage(
+    "CodeQuality",
+    "IDE0051:Remove unused private members",
+    Justification = "Members are implicitly called via reflection and such")]
+
