@@ -38,7 +38,6 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
 
 ### Toybox Wrath - Ver 1.7.6 (built for 2.6.0n)
-* (***ADDB***) Make changes to Camera Elevation persist between game restart
 * (***CascadingDragon***) Add Locust Begone
 * (***ADDB***) Fix Icky Stuff Begone not working and potentially breaking quests (o.O) --> Previous versions will be marked as incompatible to encourage updates
 * (***ADDB***) Icky Stuff Begone should now replace portraits too?
