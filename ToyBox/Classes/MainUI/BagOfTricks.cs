@@ -430,6 +430,7 @@ namespace ToyBox {
                                Toggle("Retrievers Begone!".localize(), ref Settings.toggleRetrieversBegone);
                                Toggle("Deraknis Begone!".localize(), ref Settings.toggleDeraknisBegone);
                                Toggle("Deskari Begone!".localize(), ref Settings.toggleDeskariBegone);
+                               Toggle("Locust Begone!".localize(), ref Settings.toggleLocustBegone);
                            }
                        }
                        Label("Some players find spiders and other swarms icky. This replaces them with something more pleasant".localize().Green());

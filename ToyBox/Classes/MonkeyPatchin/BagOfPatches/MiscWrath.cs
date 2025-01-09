@@ -178,6 +178,7 @@ namespace ToyBox.BagOfPatches {
             public static bool retrieversBegone = false;
             public static bool derakniBegone = false;
             public static bool deskariBegone = false;
+            public static bool locustBegone = false;
 
             public static void CheckAndReplace(ref UnitEntityData unitEntityData) {
                 var type = unitEntityData.Blueprint.Type;
@@ -197,6 +198,24 @@ namespace ToyBox.BagOfPatches {
                         unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintCR2RatSwarmGUID).PortraitSafe.Data;
                         return;
                     }
+                }
+
+                // locust checks (yes, I added it here, so sue me)
+                if (locustBegone) {
+                    var isAnApocLocust = IsApocLocustType(type?.AssetGuidThreadSafe);
+                    var isALocustSwarm = IsLocustSwarmType(type?.AssetGuidThreadSafe);
+                    var isAnApocLocustUnit = IsApocLocustBlueprintUnit(unitEntityData.Blueprint.AssetGuidThreadSafe);
+                    var isALocustSwarmUnit = IsLocustBlueprintUnit(unitEntityData.Blueprint.AssetGuidThreadSafe);
+                    if (isAnApocLocust || isAnApocLocustUnit) {
+                        unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintWolfStandardGUID).Prefab.AssetId;
+                        unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintWolfStandardGUID).PortraitSafe.Data;
+                        return;
+                    } else if (isALocustSwarm || isALocustSwarmUnit) {
+                        unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintCR2RatSwarmGUID).Prefab.AssetId;
+                        unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintCR2RatSwarmGUID).PortraitSafe.Data;
+                        return;
+                    }
+
                 }
 
                 // vescavor checks
@@ -281,7 +300,24 @@ namespace ToyBox.BagOfPatches {
                     }
                 }
 
-                // vescavor checks
+                // locust checks
+                if (locustBegone) {
+                    var isAnApocLocust = IsApocLocustType(type?.AssetGuidThreadSafe);
+                    var isALocustSwarm = IsLocustSwarmType(type?.AssetGuidThreadSafe);
+                    var isAnApocLocustUnit = IsApocLocustBlueprintUnit(blueprintUnit.AssetGuidThreadSafe);
+                    var isALocustSwarmUnit = IsLocustBlueprintUnit(blueprintUnit.AssetGuidThreadSafe);
+                    if (isAnApocLocust | isAnApocLocustUnit) {
+                        blueprintUnit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintWolfStandardGUID).Prefab;
+                        blueprintUnit.PortraitSafe = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintWolfStandardGUID).PortraitSafe;
+                        return;
+                    } else if (isALocustSwarm | isALocustSwarmUnit) {
+                        blueprintUnit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintCR2RatSwarmGUID).Prefab;
+                        blueprintUnit.PortraitSafe = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintCR2RatSwarmGUID).PortraitSafe;
+                        return;
+                    }
+                }
+
+                    // vescavor checks
                 if (vescavorsBegone) {
                     var isAVescavorGuard = IsVescavorGuardType(type?.AssetGuidThreadSafe);
                     var isAVescavorQueen = IsVescavorQueenType(type?.AssetGuidThreadSafe);
@@ -370,6 +406,12 @@ namespace ToyBox.BagOfPatches {
             // Deskari check method
             private static bool IsDeskariBlueprintUnit(string blueprintUnitGuid) => blueprintUnitGuid == blueprintDeskariGUID;
 
+            // Locust check method
+            private static bool IsLocustSwarmType(string typeGuid) => typeGuid == locustswarmGUID;
+            private static bool IsApocLocustType(string typeGuid) => typeGuid == apoclocustGUID;
+            private static bool IsLocustBlueprintUnit(string blueprintUnitGuid) => LocustSwarmGuids.Contains(blueprintUnitGuid);
+            private static bool IsApocLocustBlueprintUnit(string blueprintUnitGuid) => ApocLocustGuids.Contains(blueprintUnitGuid);
+
             private const string spiderTypeGUID = "243702bdc53e2574aaa34d1e3eafe6aa";
             private const string spiderSwarmTypeGUID = "0fd1473096fbdda4db770cca8366c5e1";
 
@@ -383,6 +425,9 @@ namespace ToyBox.BagOfPatches {
             private const string demonDerakniTypeGUID = "f57d863656bcfd4449a2fc743c3e895c";
 
             private const string blueprintDeskariGUID = "5a75db49bf7aeaf4c9f0264cac3eed5c";
+
+            private const string locustswarmGUID = "28264cdaf4d92004e9831ebeb3e04fa1";
+            private const string apoclocustGUID = "6506eef6eb086a045a03b058880e28f4";
 
             private const string blueprintCR2RatSwarmGUID = "12a5944fa27307e4e8b6f56431d5cc8c";
             private const string blueprintWolfStandardGUID = "ea610d9e540af4243b1310a3e6833d9f";
@@ -473,6 +518,33 @@ namespace ToyBox.BagOfPatches {
                 "9876513c09509954bb3330dc650fb9ae",
                 "1e4cafbd06b16cb4c9ba27538203a42d"
             };
+
+            private static readonly string[] LocustSwarmGuids = new string[] {
+                // Standard Units
+                "33e065903731480cb4cf03e413f4cf02",
+                "a1d121985d8a4a889fc0933411fc4f35",
+                "8e0885afae9f430dad25ad4f8fa6e3b6",
+                "c9853767b8e6436eb2045965416beea5",
+                "938882d2e117404e9951b4bc0a1126a7",
+                "ac1fa7117065411fbd28daaea230e15d",
+                "feee47100c095054086d3ebf75c3a738",
+                "43f21866042316a4bb539e9984803d30",
+                "d69e6a575b8a444db9607fea588c2c80",
+                "7f3638c6b8844b7a938e3ab979593601",
+                "851ab4d2ab41440c896aabbc5b64f2fa",
+
+                //  Army Units
+                "bdf6c58bdaf74978b51b423993a6c9a0"
+            };
+            private static readonly string[] ApocLocustGuids = new string[] {
+                // Standard Units
+                "5b5b3cc29e23192498191123c7db8b93",
+                "ddefcd41a40b4a6f9dc7b7f6e281f85b",
+                "3804d7d9aa1d4e54a6e979fec1d3bee3",
+                "be303b90b56c48069c5f4a6590cbea00",
+                "9ac2627a724d4477965126352d073646",
+                "1f95154161e941deb54e32fbac5cf847"
+            };
         }
 
         [HarmonyPatch(typeof(UnitEntityData), nameof(UnitEntityData.CreateView))]
@@ -483,6 +555,7 @@ namespace ToyBox.BagOfPatches {
                 ModelReplacers.retrieversBegone = settings.toggleRetrieversBegone;
                 ModelReplacers.derakniBegone = settings.toggleDeraknisBegone;
                 ModelReplacers.deskariBegone = settings.toggleDeskariBegone;
+                ModelReplacers.locustBegone = settings.toggleLocustBegone;
                 ModelReplacers.CheckAndReplace(ref __instance);
             }
         }
@@ -495,7 +568,7 @@ namespace ToyBox.BagOfPatches {
                 ModelReplacers.retrieversBegone = settings.toggleRetrieversBegone;
                 ModelReplacers.derakniBegone = settings.toggleDeraknisBegone;
                 ModelReplacers.deskariBegone = settings.toggleDeskariBegone;
-
+                ModelReplacers.locustBegone = settings.toggleLocustBegone;
                 ModelReplacers.CheckAndReplace(ref __instance);
             }
         }
@@ -509,7 +582,7 @@ namespace ToyBox.BagOfPatches {
                 ModelReplacers.retrieversBegone = settings.toggleRetrieversBegone;
                 ModelReplacers.derakniBegone = settings.toggleDeraknisBegone;
                 ModelReplacers.deskariBegone = settings.toggleDeskariBegone;
-
+                ModelReplacers.locustBegone = settings.toggleLocustBegone;
                 ModelReplacers.CheckAndReplace(ref unit);
             }
         }
@@ -523,7 +596,7 @@ namespace ToyBox.BagOfPatches {
                 ModelReplacers.retrieversBegone = settings.toggleRetrieversBegone;
                 ModelReplacers.derakniBegone = settings.toggleDeraknisBegone;
                 ModelReplacers.deskariBegone = settings.toggleDeskariBegone;
-
+                ModelReplacers.locustBegone = settings.toggleLocustBegone;
                 ModelReplacers.CheckAndReplace(ref unit);
             }
         }
