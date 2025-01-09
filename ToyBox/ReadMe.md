@@ -38,10 +38,12 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
 
 ### Toybox Wrath - Ver 1.7.6 (built for 2.6.0n)
-* (***ADDB***) Fix Icky Stuff Begone not working and potentially breaking quests (o.O).
+* (***CascadingDragon***) Add Locust Begone
+* (***ADDB***) Fix Icky Stuff Begone not working and potentially breaking quests (o.O)
 * (***ADDB***) Icky Stuff Begone should now replace portraits too?
 * (***CascadingDragon***) Add toggle to stop locks from jamming (Bag of Tricks tab, Cheats subsection)
 * (***CascadingDragon***) Add toggle to output a divider line in the combat log at the start of every round (Bag of Tricks tab, Quality of Life subsection)
+* (***ADDB***) Patch Tool: Rewrite UI to be path based --> Allow patching struct types
 
 ### Toybox Wrath - Ver 1.7.5 (built for 2.6.0n)
 * (***ADDB***) Fix somewhat critical error in PatchTool which would DeepCopy Blueprints, messing up cached references (noticeable e.g. when Proficiency Requirements aren't satisfied after patching something until the game is restarted once).
