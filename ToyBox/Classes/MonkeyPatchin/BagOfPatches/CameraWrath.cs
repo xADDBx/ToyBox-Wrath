@@ -193,7 +193,7 @@ namespace ToyBox.BagOfPatches {
                 __instance.m_ScrollOffset = Vector2.zero;
                 return false;
             }
-
+            
             [HarmonyPatch(nameof(CameraRig.TickRotate))]
             [HarmonyPrefix]
             public static bool TickRotate(CameraRig __instance, ref Vector3 ___m_TargetPosition) {
@@ -252,6 +252,12 @@ namespace ToyBox.BagOfPatches {
             private static void PlaceOnGround(ref Vector3 __result) {
                 if (!Settings.toggleCameraElevation) return;
                 __result.y = CameraElevation;
+            }
+            [HarmonyPatch(nameof(CameraRig.PlaceOnGround2)), HarmonyPriority(Priority.HigherThanNormal)]
+            [HarmonyPostfix]
+            private static void PlaceOnGround2(ref Vector3 __result) {
+                if (!Settings.toggleOffsetCameraHeight) return;
+                __result.y += Settings.CameraElevationOffset;
             }
             [HarmonyPatch(nameof(CameraRig.SetMode))]
             [HarmonyPostfix]

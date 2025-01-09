@@ -63,6 +63,13 @@ namespace ToyBox {
                    },
                    () => LogSlider("Field Of View".localize(), ref Settings.fovMultiplier, 0.4f, 5.0f, 1, 2, "", AutoWidth()),
                    () => LogSlider("FoV (Cut Scenes)".localize(), ref Settings.fovMultiplierCutScenes, 0.4f, 5.0f, 1, 2, "", AutoWidth()),
+                   () => Toggle("Add Camera Elevation Offset".localize(), ref Settings.toggleOffsetCameraHeight),
+                   () => {
+                       if (Settings.toggleOffsetCameraHeight) {
+                           Space(50);
+                           Slider(ref Settings.CameraElevationOffset, -10.0f, 100.0f, 0, 1);
+                       }
+                   },
                    () => { }
                 );
         }

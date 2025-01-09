@@ -216,7 +216,6 @@ public class PatchToolTabUI {
         compatibleTypes.Clear();
         allowedTypes.Clear();
     }
-    static int i = 0;
     private void NestedGUI(object o, string path = "", PatchOperation wouldBePatch = null) {
         if (visited.Contains(o)) {
             if ((o?.GetType()?.IsValueType ?? false) && (!o?.GetType()?.IsPrimitive ?? false)) {

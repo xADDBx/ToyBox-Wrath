@@ -180,10 +180,12 @@ namespace ToyBox {
         public bool toggleInvertKeyboardXAxis = false;
         public bool toggleInvertYAxis = false;
         public bool toggleUseAltMouseWheelToAdjustClipPlane = false;
+        public bool toggleOffsetCameraHeight = false;
         public float fovMultiplier = 1;
         public float AdjustedFovMultiplier => Math.Max(fovMultiplier, toggleZoomableLocalMaps ? 1.25f : 0.4f);
         public float fovMultiplierCutScenes = 1;
         public float fovMultiplierMax = 1.25f;
+        public float CameraElevationOffset = 0f;
 
         // Tweaks
         public int kineticistBurnReduction = 0;
