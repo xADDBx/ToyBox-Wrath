@@ -193,7 +193,14 @@ public class PatchToolTabUI {
                 Space(10);
                 Toggle("Show Unity Objects".localize(), ref Main.Settings.showPatchToolUnityObjects);
             }
-
+            
+            Space(15);
+            Label("Other Settings:".localize());
+            using (HorizontalScope()) {
+                Toggle("Show Delete Button".localize(), ref Main.Settings.showPatchToolDeleteButtons);
+            }
+            Space(15);
+            Div();
             Space(15);
             DisclosureToggle("Show Fields Editor".localize(), ref showFieldsEditor);
             if (showFieldsEditor) {
@@ -235,6 +242,7 @@ public class PatchToolTabUI {
         fbo = fieldsByObject[path];
         using (VerticalScope()) {
             foreach (var field in fbo) {
+                var path2 = path + field.Key.Name;
                 using (HorizontalScope()) {
                     if (ShouldDisplayField(field.Key.FieldType)) {
                         bool isEnum = typeof(Enum).IsAssignableFrom(field.Key.FieldType);
@@ -244,12 +252,22 @@ public class PatchToolTabUI {
                             generics = field.Key.FieldType.GetGenericArguments().ToContentString();
                         }
                         Space(IndentPerLevel);
-                        if (toggleStates.TryGetValue(path, out var shouldPaint) && shouldPaint) {
+                        if (Main.Settings.showPatchToolDeleteButtons) {
+                            using (HorizontalScope(Width(100))) {
+                                ActionButton("Delete".localize().Red().Bold(), () => {
+                                    PatchOperation tmpOp = new(PatchOperation.PatchOperationType.NullField, field.Key.Name, field.Key.FieldType, null, type);
+                                    PatchOperation op = wouldBePatch.AddOperation(tmpOp);
+                                    CurrentState.AddOp(op);
+                                    CurrentState.CreateAndRegisterPatch();
+                                }, AutoWidth());
+                            }
+                        }
+                        if (toggleStates.TryGetValue(path2, out var shouldPaint) && shouldPaint) {
                             Label($"{field.Key.Name} ({(isFlagEnum ? "Flag " : "")}{(isEnum ? "Enum: " : "")}{field.Key.FieldType.Name}{generics})".Cyan(), Width(500));
                         } else {
                             Label($"{field.Key.Name} ({(isFlagEnum ? "Flag " : "")}{(isEnum ? "Enum: " : "")}{field.Key.FieldType.Name}{generics})", Width(500));
                         }
-                        FieldGUI(o, wouldBePatch, field.Key.FieldType, field.Value, field.Key, path + field.Key.Name);
+                        FieldGUI(o, wouldBePatch, field.Key.FieldType, field.Value, field.Key, path2);
                     }
                 }
             }

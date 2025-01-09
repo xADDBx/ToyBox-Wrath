@@ -19,7 +19,8 @@ public class PatchOperation {
         ModifyUnityReference,
         ModifyBlueprintReference,
         ModifyComplex,
-        ModifyCollection
+        ModifyCollection,
+        NullField
     }
     public enum CollectionPatchOperationType {
         AddAtIndex,
@@ -58,7 +59,7 @@ public class PatchOperation {
     }
     public object Apply(object instance) {
         var field = GetFieldInfo(PatchedObjectType);
-        if (PatchToolUtils.IsListOrArray(field.FieldType) && (OperationType != PatchOperationType.ModifyCollection)) {
+        if (PatchToolUtils.IsListOrArray(field.FieldType) && (OperationType != PatchOperationType.ModifyCollection) && (OperationType != PatchOperationType.NullField)) {
             // We're in a collection, so the patched field will point to a collection, meaning we will need to work on the instance itself.
             // By returning the changed instance, the ModifyCollection operation will set the returned value itself.
             field = null;
@@ -231,6 +232,14 @@ public class PatchOperation {
                     var bpRef = Activator.CreateInstance(NewValueType) as BlueprintReferenceBase;
                     bpRef.ReadGuidFromJson(NewValue as string);
                     var patched = Convert.ChangeType(bpRef, NewValueType);
+                    if (field != null) {
+                        field.SetValue(instance, patched);
+                    } else {
+                        return patched;
+                    }
+                } break;
+            case PatchOperationType.NullField: {
+                    object patched = NewValueType.IsValueType ? Activator.CreateInstance(NewValueType) : null;
                     if (field != null) {
                         field.SetValue(instance, patched);
                     } else {

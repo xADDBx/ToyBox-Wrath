@@ -593,6 +593,7 @@ namespace ToyBox {
         public bool showPatchToolBlueprintReferences = true;
         public bool showPatchToolCollections = true;
         public bool showPatchToolPrimitiveTypes = true;
+        public bool showPatchToolDeleteButtons = false;
         public bool showPatchToolUnityObjects = false;
 
         // Deprecated
