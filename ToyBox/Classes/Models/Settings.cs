@@ -238,6 +238,7 @@ namespace ToyBox {
         public bool toggleRetrieversBegone = false;
         public bool toggleDeraknisBegone = false;
         public bool toggleDeskariBegone = false;
+        public bool toggleLocustBegone = false;
         public bool togglAutoEquipConsumables = false;
         public bool toggleInstantChangeParty = false;
         public bool toggleExtendHexes = false;
