@@ -36,6 +36,9 @@
   your save before using. Remember that "with great power comes great responsibility"
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
+  
+### Toybox Wrath - Ver 1.7.8 (built for 2.6.0n)
+* (***ADDB***) Patch Tool: Changed DeepCopy behaviour to prevent possible CrashToDesktop when patching certain blueprints. This should not affect existing or future patches in their functionality. If you notice an issue please reach out.
 
 ### Toybox Wrath - Ver 1.7.7 (built for 2.6.0n)
 * (***CascadingDragon***) Add Locust Begone
