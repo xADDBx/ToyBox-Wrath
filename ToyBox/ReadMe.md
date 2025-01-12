@@ -37,9 +37,9 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
 
-### Toybox Wrath - Ver 1.7.6 (built for 2.6.0n)
+### Toybox Wrath - Ver 1.7.7 (built for 2.6.0n)
 * (***CascadingDragon***) Add Locust Begone
-* (***ADDB***) Fix Icky Stuff Begone not working and potentially breaking quests (o.O) --> Previous versions will be marked as incompatible to encourage updates
+* (***ADDB***) Fix Icky Stuff Begone not working and potentially breaking quests (o.O) --> *Previous versions will be marked as incompatible to encourage updates*
 * (***ADDB***) Icky Stuff Begone should now replace portraits too?
 * (***CascadingDragon***) Add toggle to stop locks from jamming (Bag of Tricks tab, Cheats subsection)
 * (***CascadingDragon***) Add toggle to output a divider line in the combat log at the start of every round (Bag of Tricks tab, Quality of Life subsection)
