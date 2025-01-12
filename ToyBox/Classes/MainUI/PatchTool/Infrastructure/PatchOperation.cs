@@ -11,6 +11,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using ModKit;
 
 namespace ToyBox.PatchTool; 
 public class PatchOperation {
@@ -20,7 +22,8 @@ public class PatchOperation {
         ModifyBlueprintReference,
         ModifyComplex,
         ModifyCollection,
-        NullField
+        NullField,
+        InitializeField
     }
     public enum CollectionPatchOperationType {
         AddAtIndex,
@@ -59,7 +62,7 @@ public class PatchOperation {
     }
     public object Apply(object instance) {
         var field = GetFieldInfo(PatchedObjectType);
-        if (PatchToolUtils.IsListOrArray(field.FieldType) && (OperationType != PatchOperationType.ModifyCollection) && (OperationType != PatchOperationType.NullField)) {
+        if (PatchToolUtils.IsListOrArray(field.FieldType) && (OperationType != PatchOperationType.ModifyCollection) && (OperationType != PatchOperationType.NullField) && (OperationType != PatchOperationType.InitializeField)) {
             // We're in a collection, so the patched field will point to a collection, meaning we will need to work on the instance itself.
             // By returning the changed instance, the ModifyCollection operation will set the returned value itself.
             field = null;
@@ -76,7 +79,7 @@ public class PatchOperation {
                     }
                     switch (CollectionOperationType) {
                         case CollectionPatchOperationType.AddAtIndex: {
-                                var newInst = Activator.CreateInstance(NewValueType);
+                                var newInst = PatchToolUtils.CreateObjectOfType(NewValueType);
                                 if (collection.GetType() is Type type && type.IsArray) {
                                     Array array = collection as Array;
                                     if (CollectionIndex == -1) CollectionIndex = array.Length;
@@ -115,7 +118,7 @@ public class PatchOperation {
                                 if (collection.GetType() is Type type && type.IsArray) {
                                     Array array = collection as Array;
                                     var elementType = type.GetElementType();
-                                    var tmpList = Activator.CreateInstance(typeof(List<>).MakeGenericType(elementType)) as IList;
+                                    var tmpList = PatchToolUtils.CreateObjectOfType(typeof(List<>).MakeGenericType(elementType)) as IList;
                                     foreach (var item in array)
                                         tmpList.Add(item);
                                     oldInst = tmpList[CollectionIndex];
@@ -208,6 +211,11 @@ public class PatchOperation {
                         @object = field.GetValue(instance);
                     }
                     var patched = NestedOperation.Apply(@object);
+
+                    if (PatchToolUtils.IsNullableStruct(NestedOperation.PatchedObjectType)) {
+                        Type t = Nullable.GetUnderlyingType(NestedOperation.PatchedObjectType);
+                        patched = Activator.CreateInstance(NestedOperation.PatchedObjectType, patched);
+                    }
                     if (field != null) {
                         field.SetValue(instance, patched);
                     } else {
@@ -229,7 +237,7 @@ public class PatchOperation {
                     }
                 } break;
             case PatchOperationType.ModifyBlueprintReference: {
-                    var bpRef = Activator.CreateInstance(NewValueType) as BlueprintReferenceBase;
+                    var bpRef = PatchToolUtils.CreateObjectOfType(NewValueType) as BlueprintReferenceBase;
                     bpRef.ReadGuidFromJson(NewValue as string);
                     var patched = Convert.ChangeType(bpRef, NewValueType);
                     if (field != null) {
@@ -239,7 +247,24 @@ public class PatchOperation {
                     }
                 } break;
             case PatchOperationType.NullField: {
-                    object patched = NewValueType.IsValueType ? Activator.CreateInstance(NewValueType) : null;
+                    object patched = NewValueType.IsValueType ? PatchToolUtils.CreateObjectOfType(NewValueType) : null;
+                    if (field != null) {
+                        field.SetValue(instance, patched);
+                    } else {
+                        return patched;
+                    }
+                } break;
+            case PatchOperationType.InitializeField: {
+                    object patched;
+                    if (NewValueType.IsArray) {
+                        patched = Array.CreateInstance(NewValueType.GetElementType(), 0);
+                    } else if (PatchToolUtils.IsNullableStruct(NewValueType)) {
+                        Type t = Nullable.GetUnderlyingType(NewValueType);
+                        object @default = PatchToolUtils.CreateObjectOfType(t);
+                        patched = Activator.CreateInstance(NewValueType, @default);
+                    } else {
+                        patched = PatchToolUtils.CreateObjectOfType(NewValueType);
+                    }
                     if (field != null) {
                         field.SetValue(instance, patched);
                     } else {

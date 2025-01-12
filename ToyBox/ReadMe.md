@@ -44,8 +44,11 @@
 * (***CascadingDragon***) Add toggle to stop locks from jamming (Bag of Tricks tab, Cheats subsection)
 * (***CascadingDragon***) Add toggle to output a divider line in the combat log at the start of every round (Bag of Tricks tab, Quality of Life subsection)
 * (***ADDB***) Add Slider to Enhanced Camera to (persistently) offset the Camera Elevation by a specified value
+* (***ADDB***) Patch Tool: Implement being able to create field values (hidden by default)
+* (***ADDB***) Patch Tool: Add toggle to keep fields open after changing a value
 * (***ADDB***) Patch Tool: Rewrite UI to be path based --> Allow patching struct types
 * (***ADDB***) Patch Tool: Implement being able to null/delete field values (hidden by default)
+* (***ADDB***) Patch Tool: Remove NameSpace from generic types, making list types a lot more readable
 
 ### Toybox Wrath - Ver 1.7.5 (built for 2.6.0n)
 * (***ADDB***) Fix somewhat critical error in PatchTool which would DeepCopy Blueprints, messing up cached references (noticeable e.g. when Proficiency Requirements aren't satisfied after patching something until the game is restarted once).
