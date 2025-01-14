@@ -37,6 +37,9 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
+### Toybox Wrath - Ver 1.7.9 (built for 2.6.0n)
+* (***ADDB***) Fix localization removing Add/Remove buttons from Party Editor Browsers.
+
 ### Toybox Wrath - Ver 1.7.8 (built for 2.6.0n)
 * (***ADDB***) Patch Tool: Changed DeepCopy behaviour to prevent possible CrashToDesktop when patching certain blueprints. This should not affect existing or future patches in their functionality. If you notice an issue please reach out.
 
