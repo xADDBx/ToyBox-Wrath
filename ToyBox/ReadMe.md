@@ -39,6 +39,7 @@
   
 ### Toybox Wrath - Ver 1.7.9 (built for 2.6.0n)
 * (***ADDB***) Fix localization removing Add/Remove buttons from Party Editor Browsers.
+* (***CascadingDragon***) Add toggle for disabling equipment slot lock (Bag of Tricks tab, Cheats  subsection)
 
 ### Toybox Wrath - Ver 1.7.8 (built for 2.6.0n)
 * (***ADDB***) Patch Tool: Changed DeepCopy behaviour to prevent possible CrashToDesktop when patching certain blueprints. This should not affect existing or future patches in their functionality. If you notice an issue please reach out.

@@ -881,5 +881,16 @@ namespace ToyBox.BagOfPatches {
                 }
             }
         }
+        [HarmonyPatch(typeof(LockEquipmentSlot))]
+        public static class LockEquipmentSlot_Patch {
+            [HarmonyPrefix]
+            [HarmonyPatch(nameof(LockEquipmentSlot.OnTurnOn))]
+            public static bool OnTurnOn_Patch() {
+                if (Settings.disableEquipmentSlotLock) {
+                    return false;
+                }
+                return true;
+            }
+        }
     }
 }
