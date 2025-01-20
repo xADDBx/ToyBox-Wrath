@@ -2,7 +2,6 @@
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.JsonSystem;
 using ModKit;
-using ModKit.Utility.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

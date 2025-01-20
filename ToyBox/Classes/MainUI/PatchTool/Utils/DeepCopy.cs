@@ -3,9 +3,7 @@ using System.Reflection;
 using System.ArrayExtensions;
 using System.Runtime.CompilerServices;
 using Kingmaker.Blueprints;
-using Kingmaker.ResourceLinks;
 using ToyBox.PatchTool;
-using System.Linq;
 
 namespace System {
     public static class ObjectExtensions {
