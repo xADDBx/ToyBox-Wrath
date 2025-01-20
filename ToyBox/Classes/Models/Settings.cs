@@ -274,7 +274,6 @@ namespace ToyBox {
         public float greaterEnduringSpellsTimeThreshold = 5f;
         public bool allEtudesReadable = false;
         public bool toggleSkipSkippableCutscenes = false;
-        public bool disableEquipmentSlotLock = false;
 
         // Loot 
         public bool toggleColorLootByRarity = false;
