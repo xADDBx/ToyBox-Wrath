@@ -187,6 +187,7 @@ namespace ToyBox.BagOfPatches {
         })]
         public static class BuffCollection_AddBuff_patch {
             public static void Prefix(BlueprintBuff blueprint, UnitEntityData caster, ref TimeSpan? duration, AbilityParams? abilityParams = null) {
+                if (caster == null) return;
                 try {
                     if (!caster.IsPlayersEnemy && isGoodBuff(blueprint)) {
                         if (duration != null) {
@@ -209,6 +210,7 @@ namespace ToyBox.BagOfPatches {
         })]
         public static class BuffCollection_AddBuff2_patch {
             public static void Prefix(BlueprintBuff blueprint, MechanicsContext parentContext, ref TimeSpan? duration) {
+                if (parentContext.MaybeCaster == null) return;
                 try {
                     if (!parentContext.MaybeCaster.IsPlayersEnemy && isGoodBuff(blueprint)) {
                         if (duration != null) {
