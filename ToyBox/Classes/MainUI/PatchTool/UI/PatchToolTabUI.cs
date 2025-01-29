@@ -485,10 +485,8 @@ public class PatchToolTabUI {
             }
             Label(label, Width(500));
             if (state) {
-                Label(@object?.ToString() ?? "Null (value)".Cyan(), Width(500));
                 Label(label.Cyan(), Width(500));
             } else {
-                Label(@object?.ToString() ?? "Null (value)", Width(500));
                 Label(label, Width(500));
             }
             DisclosureToggle("Show fields".localize(), ref state, 200);
