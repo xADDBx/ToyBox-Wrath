@@ -42,6 +42,8 @@
 * (***ADDB***) PatchTool: Show failed patches in the list as actually failed.
 * (***ADDB***) PatchTool: Various Patcher optimizations, which very vastly improved initial load time for patches.
 * (***ADDB***) PatchTool: Make it possible to indirectly modify localization of things by allowing changing of keys under LocalizedString => Shared => LocalizedString
+* (***ADDB***) PatchTool: Prevent broken Blueprint references from crashing the UI.
+* (***ADDB***) PatchTool: Prevent internal ToString exception from crashing the UI.
 
 ### Toybox Wrath - Ver 1.7.9 (built for 2.6.0n)
 * (***ADDB***) Fix localization removing Add/Remove buttons from Party Editor Browsers.
