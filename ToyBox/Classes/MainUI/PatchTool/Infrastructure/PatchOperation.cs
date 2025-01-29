@@ -17,6 +17,7 @@ using ModKit;
 namespace ToyBox.PatchTool; 
 public class PatchOperation {
     public enum PatchOperationType {
+        NoOperation = -1,
         ModifyPrimitive,
         ModifyUnityReference,
         ModifyBlueprintReference,
@@ -26,6 +27,7 @@ public class PatchOperation {
         InitializeField
     }
     public enum CollectionPatchOperationType {
+        NoOperation = -1,
         AddAtIndex,
         RemoveAtIndex,
         ModifyAtIndex
@@ -36,8 +38,8 @@ public class PatchOperation {
     public int CollectionIndex;
     public PatchOperation NestedOperation;
     public Type PatchedObjectType;
-    public PatchOperationType OperationType;
-    public CollectionPatchOperationType CollectionOperationType;
+    public PatchOperationType OperationType = PatchOperationType.NoOperation;
+    public CollectionPatchOperationType CollectionOperationType = CollectionPatchOperationType.NoOperation;
     public PatchOperation() { }
     public PatchOperation(PatchOperationType operationType, string fieldName, Type newValueType, object newValue, Type patchedObjectType, PatchOperation nestedOperation = null) {
         OperationType = operationType;

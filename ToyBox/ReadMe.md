@@ -38,7 +38,10 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
 ### Toybox Wrath - Ver 1.7.10 (built for 2.6.0n)
-* (***ADDB***) Make it possible to indirectly modify localization of things via PatchTool by allowing changing of keys under LocalizedString => Shared => LocalizedString
+* (***ADDB***) PatchTool: Make patch .json files better readable by serializing enums as strings and adding a No-Op when enums are unused.
+* (***ADDB***) PatchTool: Show failed patches in the list as actually failed.
+* (***ADDB***) PatchTool: Various Patcher optimizations, which very vastly improved initial load time for patches.
+* (***ADDB***) PatchTool: Make it possible to indirectly modify localization of things by allowing changing of keys under LocalizedString => Shared => LocalizedString
 
 ### Toybox Wrath - Ver 1.7.9 (built for 2.6.0n)
 * (***ADDB***) Fix localization removing Add/Remove buttons from Party Editor Browsers.
