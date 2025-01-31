@@ -21,11 +21,16 @@ public class PatchToolJsonConverter : JsonConverter {
             var targetType = Type.GetType(typeString);
             if (targetType != null && !((string)jsonObject["NewValue"]).IsNullOrEmpty()) {
                 if (typeof(BlueprintReferenceBase).IsAssignableFrom(targetType)) {
-                    operation.NewValue = jsonObject["NewValue"].ToObject(typeof(string));
+                    operation.NewValue = jsonObject["NewValue"].ToObject<string>(serializer);
+                } else if (typeof(Enum).IsAssignableFrom(targetType)) {
+                    operation.NewValue = Enum.Parse(targetType, jsonObject["NewValue"].ToObject<string>(serializer));
                 } else {
-                    operation.NewValue = jsonObject["NewValue"].ToObject(targetType);
+                    operation.NewValue = jsonObject["NewValue"].ToObject(targetType, serializer);
                 }
             }
+        }
+        if (jsonObject["NestedOperation"] != null && jsonObject["NestedOperation"].Type != Newtonsoft.Json.Linq.JTokenType.Null) {
+            operation.NestedOperation = jsonObject["NestedOperation"].ToObject<PatchOperation>(serializer);
         }
 
         return operation;
