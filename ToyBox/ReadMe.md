@@ -37,6 +37,10 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
+### Toybox Wrath - Ver 1.7.13 (built for 2.6.0n)
+* (***ADDB***) PatchTool: Fix collections filled with null elements breaking ui
+* (***ADDB***) PatchTool: Catch error when target blueprint is missing (e.g. due to mod changes)
+
 ### Toybox Wrath - Ver 1.7.12 (built for 2.6.0n)
 * (***ADDB***) PatchTool: Fix regression which broke enum patches
 * (***ADDB***) PatchTool: Properly deserialize nested operations with the custom converter

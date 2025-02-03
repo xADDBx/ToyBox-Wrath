@@ -66,7 +66,12 @@ public static class Patcher {
         if (patch == null) return false;
         Mod.Log($"Patching Blueprint {patch.BlueprintGuid} with Patch {patch.PatchId}.");
         FailedPatches.Remove(patch);
-        var current = ResourcesLibrary.TryGetBlueprint(BlueprintGuid.Parse(patch.BlueprintGuid));
+        var current = ResourcesLibrary.TryGetBlueprint(BlueprintGuid.Parse(patch.BlueprintGuid)); 
+        if (current == null) {
+            Mod.Warn($"Target blueprint {patch.BlueprintGuid} for patch {patch.PatchId} does not exist!");
+            FailedPatches.Add(patch);
+            return false;
+        }
 
         // Consideration: DeepCopies are only necessary to allow reverting actions; meaning they are only needed if users plan to change patches in the current session
         // By adding a "Dev Mode" setting, it would be possible to completely drop DeepCopies, making this pretty performant.
