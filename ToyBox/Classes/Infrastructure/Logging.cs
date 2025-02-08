@@ -28,6 +28,9 @@ public static class Logging {
             Main.ModEntry.Logger.Warning(str);
         }
     }
+    public static void Critical(string str) {
+        Main.ModEntry.Logger.Critical(str);
+    }
     public static void Error(Exception ex) => Error(ex.ToString(), 2);
     public static void Error(string str, int skip = 1) {
         Main.ModEntry.Logger.Error($"{str}:\n{new System.Diagnostics.StackTrace(skip, true)}");

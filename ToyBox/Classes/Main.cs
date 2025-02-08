@@ -23,6 +23,8 @@ namespace ToyBox {
                 modEntry.OnGUI = OnGUI;
                 modEntry.OnUpdate = OnUpdate;
                 modEntry.OnSaveGUI = OnSaveGUI;
+
+                Infrastructure.Localization.LocalizationManager.Enable();
             } catch (Exception ex) {
                 Error(ex);
                 return false;
@@ -37,17 +39,23 @@ namespace ToyBox {
         private static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) {
             return true;
         }
+        [LocalizedString("Main.NREButton")]
+        private static string label = "Cause a NullReferenceException";
+        [LocalizedString("Main.ResetExceptionButton")]
+        private static string resetLabel = "Reset";
         private static void OnGUI(UnityModManager.ModEntry modEntry) {
             if (_caughtException == null) {
                 try {
-
+                    if (GUILayout.Button(label)) {
+                        ((object)null).ToString();
+                    }
                 } catch (Exception ex) {
                     Error(ex);
                     _caughtException = ex;
                 }
             } else {
                 GUILayout.Label(_caughtException.ToString());
-                if (GUILayout.Button("Reset")) {
+                if (GUILayout.Button(resetLabel)) {
                     _caughtException = null;
                 }
             }

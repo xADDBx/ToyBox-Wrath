@@ -9,4 +9,5 @@ internal class Settings : AbstractSettings {
     protected override string Name => "Settings.json";
 
     public LogLevel LogLevel = LogLevel.Info;
+    public string UILanguage = "en";
 }
