@@ -5,8 +5,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage(
-    "CodeQuality",
-    "IDE0051:Remove unused private members",
-    Justification = "Members are implicitly called via reflection and such")]
+[assembly: SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Unused members are called by the ModLoader or used by Harmony.")]
 
+// [assembly: SuppressMessage("Compiler", "CS8618", Justification = "The field is set in the Load method before use.", Scope = "member", Target = "~F:ToyBox.Main.ModEntry")]

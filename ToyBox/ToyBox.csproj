@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <Import Project="$(SolutionDir)GamePath.props" Condition="Exists('$(SolutionDir)GamePath.props')" />
     <PropertyGroup>
         <TargetFramework>net481</TargetFramework>
@@ -9,9 +9,10 @@
         <Version>1.7.12</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
-        <Nullable>annotations</Nullable>
+        <Nullable>enable</Nullable>
         <RootNamespace>ToyBox</RootNamespace>
         <AnalysisLevel>preview</AnalysisLevel>
+		<ImplicitUsings>enable</ImplicitUsings>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <RestoreAdditionalProjectSources>https://api.nuget.org/v3/index.json</RestoreAdditionalProjectSources>
         <WrathData>$(LocalAppData)Low\Owlcat Games\Pathfinder Wrath Of The Righteous</WrathData>
@@ -29,14 +30,8 @@
         <Reference Include="$(WrathInstallDir)\Wrath_Data\Managed\UnityModManager\0Harmony.dll*" Private="false" />
         <Reference Include="System.IO.Compression" Private="false" />
     </ItemGroup>
+	<!-- File to include -->
     <ItemGroup>
-        <EmbeddedResource Include="Config\bindings.json" />
-        <EmbeddedResource Include="Art\**\*.png" />
-        <None Include="ReadMe.md" />
-        <Content Include="Localization\*.*">
-            <Link>Localization\%(Filename)%(Extension)</Link>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
         <None Include="Info.json" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
     <Target Name="Deploy" AfterTargets="Build">
