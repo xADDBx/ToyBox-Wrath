@@ -7,6 +7,9 @@ public enum LogLevel {
     Trace
 }
 public static class Logging {
+    internal static void LogEarly(string str) {
+        Main.ModEntry.Logger.Log(str);
+    }
     public static void Trace(string str) {
         if (Settings.Instance.LogLevel >= LogLevel.Trace)
             Main.ModEntry.Logger.Log($"[Trace] {str}");

@@ -18,11 +18,11 @@ internal abstract class AbstractSettings {
             try {
                 JsonConvert.PopulateObject(content, this);
             } catch {
-                Error($"Failed to load user settings at {userPath}. Settings will be rebuilt.");
+                LogEarly($"[Error] Failed to load user settings at {userPath}. Settings will be rebuilt.");
                 File.WriteAllText(userPath, JsonConvert.SerializeObject(this, Formatting.Indented));
             }
         } else {
-            Warn($"No Settings file found with path {userPath}, creating new.");
+            LogEarly($"[Warn] No Settings file found with path {userPath}, creating new.");
             File.WriteAllText(userPath, JsonConvert.SerializeObject(this, Formatting.Indented));
         }
     }
