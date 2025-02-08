@@ -7,9 +7,7 @@ namespace ToyBox {
 #endif
     internal static class Main {
         internal static readonly Harmony HarmonyInstance = new("ToyBox");
-#pragma warning disable CS8618 // Field is set by Load method
-        internal static UnityModManager.ModEntry ModEntry;
-#pragma warning restore CS8618
+        internal static UnityModManager.ModEntry ModEntry = null!;
         private static Exception? _caughtException = null;
         private static bool Load(UnityModManager.ModEntry modEntry) {
             try {
