@@ -6,7 +6,6 @@ public static class LocalizationManager {
     private static Language? _localDefault;
     private static Language? _local;
     private static HashSet<string>? _foundLanguageFiles;
-    private static IEnumerable<(FieldInfo, LocalizedStringAttribute)>? _fieldsWithAttribute;
     private static bool _usingDefaultLocale;
     private static bool IsEnabled = false;
     private static string GetPathToLocalizationFile(string LanguageCode) => Path.Combine(Main.ModEntry.Path, "Localization", LanguageCode + ".json");
