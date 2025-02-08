@@ -4,55 +4,63 @@ namespace ToyBox.Infrastructure.Localization;
 public static class LocalizationManager {
     private static Language? _localDefault;
     private static Language? _local;
-    private static bool IsDefault;
+    private static HashSet<string>? _foundLanguageFiles;
+    private static IEnumerable<(FieldInfo, LocalizedStringAttribute)>? _fieldsWithAttribute;
+    private static bool _usingDefaultLocale;
+    private static bool IsEnabled = false;
     private static string GetPathToLocalizationFile(string LanguageCode) => Path.Combine(Main.ModEntry.Path, "Localization", LanguageCode + ".json");
-    internal static bool isEnabled = false;
     public static void Enable() {
-        try {
-            Directory.CreateDirectory(Path.Combine(Main.ModEntry.Path, "Localization"));
-            _local = null;
-            _localDefault = Import("en");
-            var uiLang = Settings.Instance.UILanguage;
-            if (uiLang != "en") {
-                _local = Import(uiLang);
+        if (!IsEnabled) {
+            try {
+                Directory.CreateDirectory(Path.Combine(Main.ModEntry.Path, "Localization"));
+                _local = null;
+                _localDefault = Import("en");
+                var uiLang = Settings.Instance.UILanguage;
+                if (uiLang != "en") {
+                    _local = Import(uiLang);
+                }
+                _usingDefaultLocale = _local == null;
+                ApplyLanguage(_usingDefaultLocale ? _localDefault : _local);
+            } catch (Exception ex) {
+                Error($"Error while trying to import configured ui language {Settings.Instance.UILanguage}\n{ex}");
             }
-            IsDefault = _local == null;
-            ApplyLanguage(IsDefault ? _localDefault : _local);
-        } catch (Exception ex) {
-            Error($"Error while trying to import configured ui language {Settings.Instance.UILanguage}\n{ex}");
+            IsEnabled = true;
         }
     }
     public static void Update() {
+        if (!IsEnabled) {
+            Enable();
+        }
         var uiLang = Settings.Instance.UILanguage;
         if (uiLang == "en") {
-            IsDefault = true;
+            _usingDefaultLocale = true;
             _local = null;
         } else {
             if (!(_local?.LanguageCode == uiLang)) {
                 try {
                     _local = Import(uiLang);
-                IsDefault = _local == null;
+                _usingDefaultLocale = _local == null;
                 } catch (Exception ex) {
                     Error($"Error while trying to import configured ui language {uiLang}\n{ex}");
                 }
             }
         }
-        ApplyLanguage(IsDefault ? _localDefault : _local);
+        ApplyLanguage(_usingDefaultLocale ? _localDefault : _local);
     }
-    private static HashSet<string>? _LanguageCache;
     public static HashSet<string> GetLanguagesWithFile() {
-        if (_LanguageCache != null) return _LanguageCache;
-        _LanguageCache = new();
+        if (_foundLanguageFiles != null) return _foundLanguageFiles;
+        _foundLanguageFiles = new();
         foreach (var file in Directory.GetFiles(Path.Combine(Main.ModEntry.Path, "Localization"))) {
             if (file.EndsWith(".json")) {
-                _LanguageCache.Add(file.Split(Path.DirectorySeparatorChar).Last().Split('.')[0]);
+                
+                _foundLanguageFiles.Add(Path.GetFileNameWithoutExtension(file));
             }
         }
-        if (_LanguageCache.Count == 0) {
+        if (_foundLanguageFiles.Count == 0) {
             CreateDefault();
-            _LanguageCache.Add("en");
+            _foundLanguageFiles.Add("en");
         }
-        return _LanguageCache;
+        return _foundLanguageFiles;
     }
     public static Language? Import(string LanguageCode) {
         var filePath = GetPathToLocalizationFile(LanguageCode);
@@ -67,7 +75,7 @@ public static class LocalizationManager {
     }
     public static bool Export(string LanguageCode) {
         try {
-            _LanguageCache = null;
+            _foundLanguageFiles = null;
             var toSerialize = LanguageCode == "en" ? _localDefault : _local;
             if (toSerialize == null) {
                 toSerialize = CreateDefault(LanguageCode);
@@ -95,15 +103,25 @@ public static class LocalizationManager {
             Error("Tried to apply null language!");
             return;
         }
-        foreach (var pair in Assembly.GetExecutingAssembly().GetTypes().SelectMany(t => t.GetFields(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
-            .Select(f => (f, f.GetCustomAttribute<LocalizedStringAttribute>())).Where(pair => pair.Item2 != null)) {
-            pair.Item1.SetValue(null, lang.Strings[pair.Item2.Key]);
+        if (_fieldsWithAttribute == null) {
+            _fieldsWithAttribute = Assembly.GetExecutingAssembly().GetTypes().SelectMany(t => t.GetFields(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
+            .Select(f => (f, f.GetCustomAttribute<LocalizedStringAttribute>())).Where(pair => pair.Item2 != null);
+        }
+        foreach (var pair in _fieldsWithAttribute) {
+            if (lang.Strings.TryGetValue(pair.Item2.Key, out var str)) {
+                pair.Item1.SetValue(null, str);
+            } else {
+                Warn($"Found no localization value for key {pair.Item2.Key} in locale {lang.LanguageCode}");
+            }
         }
     }
     public static SortedDictionary<string, string> GatherKeys() {
         SortedDictionary<string, string> res = new();
-        foreach (var pair in Assembly.GetExecutingAssembly().GetTypes().SelectMany(t => t.GetFields(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
-            .Select(f => (f, f.GetCustomAttribute<LocalizedStringAttribute>())).Where(pair => pair.Item2 != null)) {
+        if (_fieldsWithAttribute == null) {
+            _fieldsWithAttribute = Assembly.GetExecutingAssembly().GetTypes().SelectMany(t => t.GetFields(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
+            .Select(f => (f, f.GetCustomAttribute<LocalizedStringAttribute>())).Where(pair => pair.Item2 != null);
+        }
+        foreach (var pair in _fieldsWithAttribute) {
             res[pair.Item2.Key] = (pair.Item1.GetValue(null) as string)!;
         }
         return res;
