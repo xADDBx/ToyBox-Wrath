@@ -8,7 +8,7 @@
         <OutputType>Library</OutputType>
         <Version>1.7.12</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <LangVersion>latest</LangVersion>
+        <LangVersion>preview</LangVersion>
         <Nullable>enable</Nullable>
         <RootNamespace>ToyBox</RootNamespace>
         <AnalysisLevel>preview</AnalysisLevel>

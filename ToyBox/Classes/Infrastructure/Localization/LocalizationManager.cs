@@ -1,28 +1,26 @@
-﻿using System.Reflection;
-
-namespace ToyBox.Infrastructure.Localization;
+﻿namespace ToyBox.Infrastructure.Localization;
 public static class LocalizationManager {
     private const string DefaultLanguageCode = "en";
-    private static Language? _localDefault;
-    private static Language? _local;
-    private static HashSet<string>? _foundLanguageFiles;
-    private static bool _usingDefaultLocale;
+    private static Language? m_LocalDefault;
+    private static Language? m_Local;
+    private static HashSet<string>? m_FoundLanguageFiles;
+    private static bool m_UsingDefaultLocale;
     private static bool IsEnabled = false;
     private static string GetPathToLocalizationFile(string LanguageCode) => Path.Combine(Main.ModEntry.Path, "Localization", LanguageCode + ".json");
     public static void Enable() {
         if (!IsEnabled) {
             try {
                 Directory.CreateDirectory(Path.Combine(Main.ModEntry.Path, "Localization"));
-                _local = null;
-                _localDefault = Import(DefaultLanguageCode);
-                var uiLang = Settings.Instance.UILanguage;
+                m_Local = null;
+                m_LocalDefault = Import(DefaultLanguageCode);
+                var uiLang = Settings.UILanguage;
                 if (uiLang != DefaultLanguageCode) {
-                    _local = Import(uiLang);
+                    m_Local = Import(uiLang);
                 }
-                _usingDefaultLocale = _local == null;
-                ApplyLanguage(_usingDefaultLocale ? _localDefault : _local);
+                m_UsingDefaultLocale = m_Local == null;
+                ApplyLanguage(m_UsingDefaultLocale ? m_LocalDefault : m_Local);
             } catch (Exception ex) {
-                Error($"Error while trying to import configured ui language {Settings.Instance.UILanguage}\n{ex}");
+                Error($"Error while trying to import configured ui language {Settings.UILanguage}\n{ex}");
             }
             IsEnabled = true;
         }
@@ -31,72 +29,69 @@ public static class LocalizationManager {
         if (!IsEnabled) {
             Enable();
         }
-        var uiLang = Settings.Instance.UILanguage;
+        var uiLang = Settings.UILanguage;
         if (uiLang == DefaultLanguageCode) {
-            _usingDefaultLocale = true;
-            _local = null;
+            m_UsingDefaultLocale = true;
+            m_Local = null;
         } else {
-            if (!(_local?.LanguageCode == uiLang)) {
+            if (!(m_Local?.LanguageCode == uiLang)) {
                 try {
-                    _local = Import(uiLang);
-                _usingDefaultLocale = _local == null;
+                    m_Local = Import(uiLang);
+                    m_UsingDefaultLocale = m_Local == null;
                 } catch (Exception ex) {
                     Error($"Error while trying to import configured ui language {uiLang}\n{ex}");
                 }
             }
         }
-        ApplyLanguage(_usingDefaultLocale ? _localDefault : _local);
+        ApplyLanguage(m_UsingDefaultLocale ? m_LocalDefault : m_Local);
     }
     public static HashSet<string> GetLanguagesWithFile() {
-        if (_foundLanguageFiles != null) return _foundLanguageFiles;
-        _foundLanguageFiles = new();
+        if (m_FoundLanguageFiles != null) return m_FoundLanguageFiles;
+        m_FoundLanguageFiles = new();
         foreach (var file in Directory.GetFiles(Path.Combine(Main.ModEntry.Path, "Localization"))) {
             if (file.EndsWith(".json")) {
                 
-                _foundLanguageFiles.Add(Path.GetFileNameWithoutExtension(file));
+                m_FoundLanguageFiles.Add(Path.GetFileNameWithoutExtension(file));
             }
         }
-        if (_foundLanguageFiles.Count == 0) {
+        if (m_FoundLanguageFiles.Count == 0) {
             CreateDefault();
-            _foundLanguageFiles.Add(DefaultLanguageCode);
+            m_FoundLanguageFiles.Add(DefaultLanguageCode);
         }
-        return _foundLanguageFiles;
+        return m_FoundLanguageFiles;
     }
     public static Language? Import(string LanguageCode) {
         var filePath = GetPathToLocalizationFile(LanguageCode);
         if (File.Exists(filePath)) {
             return Language.Deserialize(filePath);
-        } else if (LanguageCode == DefaultLanguageCode) {
-            Log($"No default localization file found at {filePath}; Creating new.");
-            Language lang = CreateDefault();
-            return lang;
+        } else {
+            Log($"No localization file found at {filePath} for locale {LanguageCode}; Creating new.");
+            return Export(LanguageCode);
         }
-        return null;
     }
-    public static bool Export(string LanguageCode) {
+    public static Language? Export(string languageCode) {
         try {
-            _foundLanguageFiles = null;
-            var toSerialize = LanguageCode == DefaultLanguageCode ? _localDefault : _local;
+            m_FoundLanguageFiles = null;
+            var toSerialize = languageCode == DefaultLanguageCode ? m_LocalDefault : m_Local;
             if (toSerialize == null) {
-                toSerialize = CreateDefault(LanguageCode);
+                toSerialize = CreateDefault(languageCode);
             } else {
-                if (LanguageCode != DefaultLanguageCode && _localDefault != null) {
-                    foreach (var k in _localDefault.Strings.Keys) {
-                        if (!toSerialize.Strings.ContainsKey(k)) {
-                            toSerialize.Strings.Add(k, _localDefault.Strings[k]);
-                        }
+                var dict = GatherKeys();
+                foreach (var k in dict.Keys) {
+                    if (!toSerialize.Strings.ContainsKey(k)) {
+                        toSerialize.Strings.Add(k, dict[k]);
                     }
                 }
             }
-            toSerialize.LanguageCode = LanguageCode;
+            toSerialize.LanguageCode = languageCode;
             toSerialize.Version = Main.ModEntry.Version.ToString();
             if (string.IsNullOrEmpty(toSerialize.Contributors)) toSerialize.Contributors = "The ToyBox Team";
-            Language.Serialize(toSerialize, GetPathToLocalizationFile(LanguageCode));
-            return true;
+            Language.Serialize(toSerialize, GetPathToLocalizationFile(languageCode));
+            return toSerialize;
         } catch (Exception ex) {
             Error(ex);
         }
-        return false;
+        return null;
     }
     public static void ApplyLanguage(Language? lang) {
         if (lang == null) {
@@ -107,7 +102,11 @@ public static class LocalizationManager {
             if (lang.Strings.TryGetValue(pair.Item2.Key, out var str)) {
                 pair.Item1.SetValue(null, str);
             } else {
-                Warn($"Found no localization value for key {pair.Item2.Key} in locale {lang.LanguageCode}");
+                Warn($"Found no localization value for key {pair.Item2.Key} in locale {lang.LanguageCode}; Recreating keys for locale!");
+                Export(lang.LanguageCode);
+                Import(lang.LanguageCode);
+                ApplyLanguage(m_UsingDefaultLocale ? m_LocalDefault : m_Local);
+                return;
             }
         }
     }
@@ -118,14 +117,14 @@ public static class LocalizationManager {
         }
         return res;
     }
-    public static Language CreateDefault(string LanguageCode = DefaultLanguageCode) {
+    public static Language CreateDefault(string languageCode = DefaultLanguageCode) {
         Language lang = new();
         lang.Strings = GatherKeys();
-        lang.LanguageCode = LanguageCode;
+        lang.LanguageCode = languageCode;
         lang.Version = Main.ModEntry.Version.ToString();
         lang.Contributors = "The ToyBox Team";
-        if (LanguageCode == DefaultLanguageCode) {
-            Language.Serialize(lang, GetPathToLocalizationFile(LanguageCode));
+        if (languageCode == DefaultLanguageCode) {
+            Language.Serialize(lang, GetPathToLocalizationFile(languageCode));
         }
         return lang;
     }

@@ -12,20 +12,20 @@ public static class Logging {
         Main.ModEntry.Logger.Log(str);
     }
     public static void Trace(string str) {
-        if (Settings.Instance.LogLevel >= LogLevel.Trace)
+        if (Settings.LogLevel >= LogLevel.Trace)
             Main.ModEntry.Logger.Log($"[Trace] {str}");
     }
     public static void Debug(string str) {
-        if (Settings.Instance.LogLevel >= LogLevel.Debug)
+        if (Settings.LogLevel >= LogLevel.Debug)
             Main.ModEntry.Logger.Log($"[Debug] {str}");
     }
     public static void Log(string str) {
-        if (Settings.Instance.LogLevel >= LogLevel.Info) {
+        if (Settings.LogLevel >= LogLevel.Info) {
             Main.ModEntry.Logger.Log(str);
         }
     }
     public static void Warn(string str) {
-        if (Settings.Instance.LogLevel >= LogLevel.Warning) {
+        if (Settings.LogLevel >= LogLevel.Warning) {
             Main.ModEntry.Logger.Warning(str);
         }
     }

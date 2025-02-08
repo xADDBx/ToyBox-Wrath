@@ -8,7 +8,8 @@ namespace ToyBox {
     internal static class Main {
         internal static readonly Harmony HarmonyInstance = new("ToyBox");
         internal static UnityModManager.ModEntry ModEntry = null!;
-        private static Exception? _caughtException = null;
+        private static Exception? m_CaughtException = null;
+        private static List<FeatureTab> m_FeatureTabs = new();
         private static bool Load(UnityModManager.ModEntry modEntry) {
             try {
                 ModEntry = modEntry;
@@ -23,6 +24,8 @@ namespace ToyBox {
                 modEntry.OnSaveGUI = OnSaveGUI;
 
                 Infrastructure.Localization.LocalizationManager.Enable();
+
+                m_FeatureTabs.Add(new Features.SettingsFeature.SettingsFeatureTab());
             } catch (Exception ex) {
                 Error(ex);
                 return false;
@@ -42,24 +45,27 @@ namespace ToyBox {
         [LocalizedString("Main.ResetExceptionButton")]
         private static string resetLabel = "Reset";
         private static void OnGUI(UnityModManager.ModEntry modEntry) {
-            if (_caughtException == null) {
+            if (m_CaughtException == null) {
                 try {
                     if (GUILayout.Button(label)) {
                         ((object)null).ToString();
                     }
+                    Settings.SelectedTab = GUILayout.SelectionGrid(Settings.SelectedTab, m_FeatureTabs.Select(t => t.Name).ToArray(), 10);
+                    m_FeatureTabs[Settings.SelectedTab].OnGui();
                 } catch (Exception ex) {
                     Error(ex);
-                    _caughtException = ex;
+                    m_CaughtException = ex;
                 }
             } else {
-                GUILayout.Label(_caughtException.ToString());
+                GUILayout.Label(m_CaughtException.ToString());
                 if (GUILayout.Button(resetLabel)) {
-                    _caughtException = null;
+                    m_CaughtException = null;
                 }
             }
         }
 
         private static void OnSaveGUI(UnityModManager.ModEntry modEntry) {
+            Settings.Save();
         }
         private static void OnShowGUI(UnityModManager.ModEntry modEntry) {
         }
