@@ -1,7 +1,8 @@
 ﻿using System.Reflection;
-namespace ToyBox.Infrastructure.Localization;
 
+namespace ToyBox.Infrastructure.Localization;
 public static class LocalizationManager {
+    private const string DefaultLanguageCode = "en";
     private static Language? _localDefault;
     private static Language? _local;
     private static HashSet<string>? _foundLanguageFiles;
@@ -14,9 +15,9 @@ public static class LocalizationManager {
             try {
                 Directory.CreateDirectory(Path.Combine(Main.ModEntry.Path, "Localization"));
                 _local = null;
-                _localDefault = Import("en");
+                _localDefault = Import(DefaultLanguageCode);
                 var uiLang = Settings.Instance.UILanguage;
-                if (uiLang != "en") {
+                if (uiLang != DefaultLanguageCode) {
                     _local = Import(uiLang);
                 }
                 _usingDefaultLocale = _local == null;
@@ -32,7 +33,7 @@ public static class LocalizationManager {
             Enable();
         }
         var uiLang = Settings.Instance.UILanguage;
-        if (uiLang == "en") {
+        if (uiLang == DefaultLanguageCode) {
             _usingDefaultLocale = true;
             _local = null;
         } else {
@@ -58,7 +59,7 @@ public static class LocalizationManager {
         }
         if (_foundLanguageFiles.Count == 0) {
             CreateDefault();
-            _foundLanguageFiles.Add("en");
+            _foundLanguageFiles.Add(DefaultLanguageCode);
         }
         return _foundLanguageFiles;
     }
@@ -66,7 +67,7 @@ public static class LocalizationManager {
         var filePath = GetPathToLocalizationFile(LanguageCode);
         if (File.Exists(filePath)) {
             return Language.Deserialize(filePath);
-        } else if (LanguageCode == "en") {
+        } else if (LanguageCode == DefaultLanguageCode) {
             Log($"No default localization file found at {filePath}; Creating new.");
             Language lang = CreateDefault();
             return lang;
@@ -76,11 +77,11 @@ public static class LocalizationManager {
     public static bool Export(string LanguageCode) {
         try {
             _foundLanguageFiles = null;
-            var toSerialize = LanguageCode == "en" ? _localDefault : _local;
+            var toSerialize = LanguageCode == DefaultLanguageCode ? _localDefault : _local;
             if (toSerialize == null) {
                 toSerialize = CreateDefault(LanguageCode);
             } else {
-                if (LanguageCode != "en" && _localDefault != null) {
+                if (LanguageCode != DefaultLanguageCode && _localDefault != null) {
                     foreach (var k in _localDefault.Strings.Keys) {
                         if (!toSerialize.Strings.ContainsKey(k)) {
                             toSerialize.Strings.Add(k, _localDefault.Strings[k]);
@@ -103,11 +104,7 @@ public static class LocalizationManager {
             Error("Tried to apply null language!");
             return;
         }
-        if (_fieldsWithAttribute == null) {
-            _fieldsWithAttribute = Assembly.GetExecutingAssembly().GetTypes().SelectMany(t => t.GetFields(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
-            .Select(f => (f, f.GetCustomAttribute<LocalizedStringAttribute>())).Where(pair => pair.Item2 != null);
-        }
-        foreach (var pair in _fieldsWithAttribute) {
+        foreach (var pair in LocalizedStringAttribute.GetFieldsWithAttribute()) {
             if (lang.Strings.TryGetValue(pair.Item2.Key, out var str)) {
                 pair.Item1.SetValue(null, str);
             } else {
@@ -117,22 +114,18 @@ public static class LocalizationManager {
     }
     public static SortedDictionary<string, string> GatherKeys() {
         SortedDictionary<string, string> res = new();
-        if (_fieldsWithAttribute == null) {
-            _fieldsWithAttribute = Assembly.GetExecutingAssembly().GetTypes().SelectMany(t => t.GetFields(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
-            .Select(f => (f, f.GetCustomAttribute<LocalizedStringAttribute>())).Where(pair => pair.Item2 != null);
-        }
-        foreach (var pair in _fieldsWithAttribute) {
+        foreach (var pair in LocalizedStringAttribute.GetFieldsWithAttribute()) {
             res[pair.Item2.Key] = (pair.Item1.GetValue(null) as string)!;
         }
         return res;
     }
-    public static Language CreateDefault(string LanguageCode = "en") {
+    public static Language CreateDefault(string LanguageCode = DefaultLanguageCode) {
         Language lang = new();
         lang.Strings = GatherKeys();
         lang.LanguageCode = LanguageCode;
         lang.Version = Main.ModEntry.Version.ToString();
         lang.Contributors = "The ToyBox Team";
-        if (LanguageCode == "en") {
+        if (LanguageCode == DefaultLanguageCode) {
             Language.Serialize(lang, GetPathToLocalizationFile(LanguageCode));
         }
         return lang;
