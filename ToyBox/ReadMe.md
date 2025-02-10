@@ -38,8 +38,12 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
 ### Toybox Wrath - Ver 1.7.13 (built for 2.6.0n)
+* (***ADDB***) PatchTool: List elements now properly show all their fields instead of only the fields of the list type
+* (***ADDB***) PatchTool: Properly track Element-types created via field Instantiation
 * (***ADDB***) PatchTool: Fix collections filled with null elements breaking ui
 * (***ADDB***) PatchTool: Catch error when target blueprint is missing (e.g. due to mod changes)
+* (***ADDB***) PatchTool: Support sbyte
+* (***ADDB***) Apply performance Transpilers only once. Whoopsie.
 
 ### Toybox Wrath - Ver 1.7.12 (built for 2.6.0n)
 * (***ADDB***) PatchTool: Fix regression which broke enum patches
