@@ -42,8 +42,7 @@ namespace ToyBox.Analyzer {
                     equivalenceKey: "MoveToLocalizedString"),
                 diagnostic);
         }
-        // TODO: Hide info
-        // TODO: Replace literal with reference to newly created symbol
+
         private async Task<Document> MoveToLocalizedStringAsync(Document document, SyntaxNode node, CancellationToken cancellationToken) {
             var root = await document.GetSyntaxRootAsync(cancellationToken);
             if (root == null)
