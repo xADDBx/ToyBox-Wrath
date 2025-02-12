@@ -79,6 +79,15 @@ namespace ToyBox.Analyzer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Localized String key should resolve to a valid identifier..
+        /// </summary>
+        internal static string AnalyzerDescription3 {
+            get {
+                return ResourceManager.GetString("AnalyzerDescription3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Replace String literal with Localized String..
         /// </summary>
         internal static string AnalyzerMessageFormat {
@@ -97,6 +106,15 @@ namespace ToyBox.Analyzer {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Localized String key should resolve to a valid identifier..
+        /// </summary>
+        internal static string AnalyzerMessageFormat3 {
+            get {
+                return ResourceManager.GetString("AnalyzerMessageFormat3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Replace String literal with Localized String..
         /// </summary>
         internal static string AnalyzerTitle {
@@ -111,6 +129,15 @@ namespace ToyBox.Analyzer {
         internal static string AnalyzerTitle2 {
             get {
                 return ResourceManager.GetString("AnalyzerTitle2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key should resolve to valid identifier..
+        /// </summary>
+        internal static string AnalyzerTitle3 {
+            get {
+                return ResourceManager.GetString("AnalyzerTitle3", resourceCulture);
             }
         }
     }

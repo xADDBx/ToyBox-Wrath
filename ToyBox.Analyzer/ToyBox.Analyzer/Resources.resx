@@ -123,16 +123,25 @@
   <data name="AnalyzerDescription2" xml:space="preserve">
     <value>UI String should be localized.</value>
   </data>
+  <data name="AnalyzerDescription3" xml:space="preserve">
+    <value>The Localized String key should resolve to a valid identifier.</value>
+  </data>
   <data name="AnalyzerMessageFormat" xml:space="preserve">
     <value>Replace String literal with Localized String.</value>
   </data>
   <data name="AnalyzerMessageFormat2" xml:space="preserve">
     <value>UI String should be localized.</value>
   </data>
+  <data name="AnalyzerMessageFormat3" xml:space="preserve">
+    <value>The Localized String key should resolve to a valid identifier.</value>
+  </data>
   <data name="AnalyzerTitle" xml:space="preserve">
     <value>Replace String literal with Localized String.</value>
   </data>
   <data name="AnalyzerTitle2" xml:space="preserve">
     <value>UI String should be localized.</value>
+  </data>
+  <data name="AnalyzerTitle3" xml:space="preserve">
+    <value>Key should resolve to valid identifier.</value>
   </data>
 </root>

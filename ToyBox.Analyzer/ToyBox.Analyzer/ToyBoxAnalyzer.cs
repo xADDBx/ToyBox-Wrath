@@ -25,9 +25,14 @@ namespace ToyBox.Analyzer {
         private static readonly LocalizableString MessageFormat2 = new LocalizableResourceString(nameof(Resources.AnalyzerMessageFormat2), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString Description2 = new LocalizableResourceString(nameof(Resources.AnalyzerDescription2), Resources.ResourceManager, typeof(Resources));
         private static readonly DiagnosticDescriptor Rule2 = new DiagnosticDescriptor(DiagnosticId2, Title2, MessageFormat2, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description2);
+        public const string DiagnosticId3 = "LOC003";
+        private static readonly LocalizableString Title3 = new LocalizableResourceString(nameof(Resources.AnalyzerTitle3), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString MessageFormat3 = new LocalizableResourceString(nameof(Resources.AnalyzerMessageFormat3), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString Description3 = new LocalizableResourceString(nameof(Resources.AnalyzerDescription3), Resources.ResourceManager, typeof(Resources));
+        private static readonly DiagnosticDescriptor Rule3 = new DiagnosticDescriptor(DiagnosticId3, Title3, MessageFormat3, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description3);
 
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create([Rule, Rule2]); } }
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create([Rule, Rule2, Rule3]); } }
 
         public override void Initialize(AnalysisContext context) {
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
@@ -41,7 +46,34 @@ namespace ToyBox.Analyzer {
             var literal = (LiteralExpressionSyntax)context.Node;
             var stringValue = literal.Token.ValueText;
 
+            var localizedAttr = literal.AncestorsAndSelf().OfType<AttributeSyntax>().FirstOrDefault(attr => {
+                var nameText = attr.Name.ToString();
+                return nameText == "LocalizedString" || nameText.EndsWith(".LocalizedString");
+            });
+
+            if (localizedAttr != null) {
+                AnalyzeAttributeStringLiteral(context);
+                return;
+            }
+
             context.ReportDiagnostic(Diagnostic.Create(Rule, literal.GetLocation(), stringValue));
+        }
+        private void AnalyzeAttributeStringLiteral(SyntaxNodeAnalysisContext context) {
+            var literal = (LiteralExpressionSyntax)context.Node;
+            if (!(literal.Parent is AttributeArgumentSyntax argument))
+                return;
+
+            if (!(argument.Parent is AttributeArgumentListSyntax argumentList) ||
+                 argumentList.Arguments.First() != argument) {
+                return;
+            }
+
+            var stringValue = literal.Token.ValueText;
+            var candidateIdentifier = stringValue.Replace('.', '_');
+
+            if (!SyntaxFacts.IsValidIdentifier(candidateIdentifier)) {
+                context.ReportDiagnostic(Diagnostic.Create(Rule3, literal.GetLocation(), candidateIdentifier));
+            }
         }
         private void AnalyzeInvocation(OperationAnalysisContext context) {
             var invocation = (IInvocationOperation)context.Operation;

@@ -63,43 +63,52 @@ namespace ToyBox.Analyzer {
                 val = (argument.Expression as LiteralExpressionSyntax).Token.ValueText;
             }
             // Generate a unique field name.
-            var val2 = "m_" + string.Join("", 
+            var val2 = string.Join("", 
                 ((val ?? "") + " Text").Split(' ')
                 .Select(s => s?.Trim())
                 .Where(s => s != null && s != "")
                 .Select(s => string.Concat(s[0].ToString().ToUpper(), new(s.Skip(1).ToArray()))));
-            string identifier = (val2 ?? $"m_Generated{Guid.NewGuid():N}").Substring(0, Math.Min(val2?.Length ?? 16, 16));
-
-            var newField = FieldDeclaration(VariableDeclaration(PredefinedType(Token(SyntaxKind.StringKeyword)))
-                            .WithVariables(SingletonSeparatedList<VariableDeclaratorSyntax>(
-                                VariableDeclarator(
-                                    Identifier(
-                                        identifier))
-                                .WithInitializer(
-                                    EqualsValueClause(
-                                        initializerExpr)))))
-                        .WithAttributeLists(
-                            SingletonList<AttributeListSyntax>(
-                                AttributeList(
-                                    SingletonSeparatedList<AttributeSyntax>(
-                                        Attribute(
-                                            IdentifierName("LocalizedString"))
-                                        .WithArgumentList(
-                                            AttributeArgumentList(
-                                                SingletonSeparatedList<AttributeArgumentSyntax>(
-                                                    AttributeArgument(
-                                                        LiteralExpression(
-                                                            SyntaxKind.StringLiteralExpression,
-                                                            Literal($"{GetNamespaceAndClassName(classDeclaration)}.{identifier}"))))))))))
-                        .WithModifiers(
-                            TokenList(
-                                [
-                                    Token(SyntaxKind.PrivateKeyword),
-                                    Token(SyntaxKind.StaticKeyword)
-                                ]));
+            string identifier = (val2 ?? $"Generated{Guid.NewGuid():N}").Substring(0, Math.Min(val2?.Length ?? 16, 16));
+            var newProperty = PropertyDeclaration(
+                                PredefinedType(
+                                    Token(SyntaxKind.StringKeyword)),
+                                Identifier(identifier))
+                            .WithAttributeLists(
+                                SingletonList<AttributeListSyntax>(
+                                    AttributeList(
+                                        SingletonSeparatedList<AttributeSyntax>(
+                                            Attribute(
+                                                IdentifierName("LocalizedString"))
+                                            .WithArgumentList(
+                                                AttributeArgumentList(
+                                                    SeparatedList<AttributeArgumentSyntax>(
+                                                        new SyntaxNodeOrToken[]{
+                                                            AttributeArgument(
+                                                                LiteralExpression(
+                                                                    SyntaxKind.StringLiteralExpression,
+                                                                    Literal($"{GetNamespaceAndClassName(classDeclaration)}.{identifier}"))),
+                                                            Token(SyntaxKind.CommaToken),
+                                                            AttributeArgument(
+                                                                initializerExpr)})))))))
+                            .WithModifiers(
+                                TokenList(
+                                    new[]{
+                                        Token(SyntaxKind.PrivateKeyword),
+                                        Token(SyntaxKind.StaticKeyword),
+                                        Token(SyntaxKind.PartialKeyword)}))
+                            .WithAccessorList(
+                                AccessorList(
+                                    SingletonList<AccessorDeclarationSyntax>(
+                                        AccessorDeclaration(
+                                            SyntaxKind.GetAccessorDeclaration)
+                                        .WithSemicolonToken(
+                                            Token(SyntaxKind.SemicolonToken)))));
             var fieldReference = IdentifierName(identifier);
             var updatedClassDeclaration = classDeclaration.ReplaceNode(initializerExpr, fieldReference);
-            var newClassDeclaration = updatedClassDeclaration.AddMembers(newField);
+            var newClassDeclaration = updatedClassDeclaration.AddMembers(newProperty);
+            if (!newClassDeclaration.Modifiers.Any(mod => mod.IsKind(SyntaxKind.PartialKeyword))) {
+                newClassDeclaration = newClassDeclaration.AddModifiers(Token(SyntaxKind.PartialKeyword));
+            }
             var newRoot = root.ReplaceNode(classDeclaration, newClassDeclaration);
 
             return document.WithSyntaxRoot(newRoot);

@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <PackageId>ToyBox.Analyzer</PackageId>
-    <PackageVersion>1.0.0.0</PackageVersion>
+    <PackageVersion>1.1.0.0</PackageVersion>
     <Authors>ADDB</Authors>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl></PackageProjectUrl>
