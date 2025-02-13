@@ -13,8 +13,6 @@ public partial class LanguagePickerFeature : Feature {
     private static List<CultureInfo>? m_Cultures;
     [LocalizedString("Features_Settings_LanguagePickerFeature_Current", "Current Culture")]
     private static partial string CurrentText { get; }
-    [LocalizedString("Features_Settings_LanguagePickerFeature_ExportCurrent", "Export current locale to file")]
-    private static partial string ExportCurrentText { get; }
     public override void OnGui() {
         if (m_Cultures == null || m_UiCulture == null) {
             if (Event.current.type != EventType.Repaint) {
@@ -27,10 +25,6 @@ public partial class LanguagePickerFeature : Feature {
                     GUILayout.Label(CurrentText.Cyan(), GUILayout.Width(275));
                     GUILayout.Space(25);
                     GUILayout.Label($"{m_UiCulture.DisplayName}({m_UiCulture.Name})".Orange());
-                    GUILayout.Space(25);
-                    if (GUILayout.Button(ExportCurrentText.Cyan())) {
-                        LocalizationManager.Export(Settings.UILanguage);
-                    }
                     GUILayout.Space(25);
                 }
                 GUILayout.Space(15);

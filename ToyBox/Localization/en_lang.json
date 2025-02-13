@@ -1,0 +1,8 @@
+{
+  "Features_Settings_LanguagePickerFeature_Name": "Language Picker",
+  "Features_Settings_LanguagePickerFeature_Desc": "Pick your current ui locale",
+  "Features_Settings_LanguagePickerFeature_Current": "Current Culture",
+  "Features_Settings_SettingsFeatureTab_Name": "Settings",
+  "Main_NREButton": "Cause a NullReferenceException",
+  "Main_ResetExceptionButton": "Reset"
+}

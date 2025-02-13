@@ -33,12 +33,10 @@
 	<!-- File to include -->
     <ItemGroup>
         <None Include="Info.json" CopyToOutputDirectory="PreserveNewest" />
-		<Content Include="Localization\*.*">
-			<Link>Localization\%(Filename)%(Extension)</Link>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
+		<LocalizationFiles Include="Localization\*.*" />
     </ItemGroup>
     <Target Name="Deploy" AfterTargets="Build">
+		<Copy SourceFiles="@(LocalizationFiles)" DestinationFolder="$(TargetDir)Localization" />
         <ItemGroup>
             <FilesToHash Include="$(TargetDir)$(AssemblyName).dll" />
         </ItemGroup>
@@ -61,6 +59,7 @@
         <PackageReference Include="MicroUtils.HarmonyAnalyzers" IncludeAssets="runtime; build; native; contentfiles; analyzers" Version="*-*" PrivateAssets="all" />
 		<PackageReference Include="ToyBox.Analyzer" IncludeAssets="analyzers" Version="1.2.0" PrivateAssets="all" />
 		<PackageReference Include="ToyBox.Generator" IncludeAssets="analyzers" Version="1.1.0" PrivateAssets="all" />
+		<PackageReference Include="ToyBox.Task" Version="1.1.0" IncludeAssets="build" PrivateAssets="all" />
     </ItemGroup>
     <Target Name="GenerateCustomPropsFile" BeforeTargets="BeforeBuild" Condition="$(WrathInstallDir) == ''">
         <Exec Command="findstr /C:&quot;Mono path[0]&quot; &quot;$(WrathData)\Player.log&quot;" IgnoreExitCode="true" ConsoleToMSBuild="true">
@@ -81,4 +80,7 @@
     <Target Name="DeleteCustomPropsFile" BeforeTargets="Clean">
         <Delete Files="GamePath.props" />
     </Target>
+	<Target Name="UpdateLocalizationFiles" BeforeTargets="Deploy">
+		<UpdateLocalizationTask LocalizationDirectoryPath="$(SolutionDir)ToyBox\Localization" AssemblyPath="$(TargetDir)$(AssemblyName).dll" />
+	</Target>
 </Project>
