@@ -1,12 +1,14 @@
 ﻿using System.Reflection;
 
 namespace ToyBox;
-[AttributeUsage(AttributeTargets.Field)]
+[AttributeUsage(AttributeTargets.Property)]
 public class LocalizedStringAttribute : Attribute {
     private static IEnumerable<(FieldInfo, LocalizedStringAttribute)>? _fieldsWithAttribute;
     public string Key { get; }
-    public LocalizedStringAttribute(string key) {
+    public string DefaultValue { get; }
+    public LocalizedStringAttribute(string key, string defaultValue) {
         Key = key;
+        DefaultValue = defaultValue;
     }
     public static IEnumerable<(FieldInfo, LocalizedStringAttribute)> GetFieldsWithAttribute() {
         _fieldsWithAttribute ??= Assembly.GetExecutingAssembly().GetTypes().SelectMany(t => t.GetFields(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))

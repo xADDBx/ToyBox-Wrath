@@ -1,8 +1,7 @@
 ﻿namespace ToyBox.Features.SettingsFeature;
-public class SettingsFeatureTab : FeatureTab {
-    [LocalizedString("Features.Settings.SettingsFeatureTab.Name")]
-    private static string m_Name = "Settings";
-    public override string Name => m_Name;
+public partial class SettingsFeatureTab : FeatureTab {
+    [LocalizedString("Features_Settings_SettingsFeatureTab_Name", "Settings")]
+    public override partial string Name { get; }
     public SettingsFeatureTab() {
         Features.Add(new LanguagePickerFeature());
     }

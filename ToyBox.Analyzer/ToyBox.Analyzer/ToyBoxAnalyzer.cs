@@ -68,8 +68,7 @@ namespace ToyBox.Analyzer {
                 return;
             }
 
-            var stringValue = literal.Token.ValueText;
-            var candidateIdentifier = stringValue.Replace('.', '_');
+            var candidateIdentifier = literal.Token.ValueText;
 
             if (!SyntaxFacts.IsValidIdentifier(candidateIdentifier)) {
                 context.ReportDiagnostic(Diagnostic.Create(Rule3, literal.GetLocation(), candidateIdentifier));

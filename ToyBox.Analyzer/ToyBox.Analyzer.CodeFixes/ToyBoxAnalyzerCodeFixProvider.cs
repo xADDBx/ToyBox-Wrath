@@ -86,7 +86,7 @@ namespace ToyBox.Analyzer {
                                                             AttributeArgument(
                                                                 LiteralExpression(
                                                                     SyntaxKind.StringLiteralExpression,
-                                                                    Literal($"{GetNamespaceAndClassName(classDeclaration)}.{identifier}"))),
+                                                                    Literal($"{GetNamespaceAndClassName(classDeclaration)}.{identifier}".Replace('.', '_')))),
                                                             Token(SyntaxKind.CommaToken),
                                                             AttributeArgument(
                                                                 initializerExpr)})))))))

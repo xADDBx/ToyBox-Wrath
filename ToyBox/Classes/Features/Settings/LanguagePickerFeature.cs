@@ -4,19 +4,17 @@ using ToyBox.Infrastructure.UI;
 using UnityEngine;
 
 namespace ToyBox.Features.SettingsFeature;
-public class LanguagePickerFeature : Feature {
-    [LocalizedString("Features.Settings.LanguagePickerFeature.Name")]
-    private static string m_Name = "Language Picker";
-    public override string Name => m_Name;
-    [LocalizedString("Features.Settings.LanguagePickerFeature.Desc")]
-    private static string m_Description = "Pick your current ui locale";
-    public override string Description => m_Description;
+public partial class LanguagePickerFeature : Feature {
+    [LocalizedString("Features_Settings_LanguagePickerFeature_Name", "Language Picker")]
+    public override partial string Name { get; }
+    [LocalizedString("Features_Settings_LanguagePickerFeature_Desc", "Pick your current ui locale")]
+    public override partial string Description { get; }
     private static CultureInfo? m_UiCulture;
     private static List<CultureInfo>? m_Cultures;
-    [LocalizedString("Features.Settings.LanguagePickerFeature.Current")]
-    private static string m_CurrentText = "Current Culture";
-    [LocalizedString("Features.Settings.LanguagePickerFeature.ExportCurrent")]
-    private static string m_ExportCurrentText = "Export current locale to file";
+    [LocalizedString("Features_Settings_LanguagePickerFeature_Current", "Current Culture")]
+    private static partial string CurrentText { get; }
+    [LocalizedString("Features_Settings_LanguagePickerFeature_ExportCurrent", "Export current locale to file")]
+    private static partial string ExportCurrentText { get; }
     public override void OnGui() {
         if (m_Cultures == null || m_UiCulture == null) {
             if (Event.current.type != EventType.Repaint) {
@@ -26,11 +24,11 @@ public class LanguagePickerFeature : Feature {
         } else {
             using (VerticalScope()) {
                 using (HorizontalScope()) {
-                    GUILayout.Label(m_CurrentText.Cyan(), GUILayout.Width(275));
+                    GUILayout.Label(CurrentText.Cyan(), GUILayout.Width(275));
                     GUILayout.Space(25);
                     GUILayout.Label($"{m_UiCulture.DisplayName}({m_UiCulture.Name})".Orange());
                     GUILayout.Space(25);
-                    if (GUILayout.Button(m_ExportCurrentText.Cyan())) {
+                    if (GUILayout.Button(ExportCurrentText.Cyan())) {
                         LocalizationManager.Export(Settings.UILanguage);
                     }
                     GUILayout.Space(25);
