@@ -60,7 +60,7 @@
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" IncludeAssets="build; contentfiles" Version="0.4.2" PrivateAssets="all" />
         <PackageReference Include="MicroUtils.HarmonyAnalyzers" IncludeAssets="runtime; build; native; contentfiles; analyzers" Version="*-*" PrivateAssets="all" />
 		<PackageReference Include="ToyBox.Analyzer" IncludeAssets="analyzers" Version="1.2.0" PrivateAssets="all" />
-		<PackageReference Include="ToyBox.Generator" IncludeAssets="analyzers" Version="1.0.0" PrivateAssets="all" />
+		<PackageReference Include="ToyBox.Generator" IncludeAssets="analyzers" Version="1.1.0" PrivateAssets="all" />
     </ItemGroup>
     <Target Name="GenerateCustomPropsFile" BeforeTargets="BeforeBuild" Condition="$(WrathInstallDir) == ''">
         <Exec Command="findstr /C:&quot;Mono path[0]&quot; &quot;$(WrathData)\Player.log&quot;" IgnoreExitCode="true" ConsoleToMSBuild="true">

@@ -45,7 +45,6 @@ namespace ToyBox.Generator {
                     if (attribute.ConstructorArguments.Length == 2) {
                         var keyArg = attribute.ConstructorArguments[0];
                         var defaultArg = attribute.ConstructorArguments[1];
-
                         if (keyArg.Value is string keyValue && defaultArg.Value is string defaultValue) {
                             return new LocalizedProperty {
                                 PropertySymbol = propSymbol,
@@ -53,14 +52,7 @@ namespace ToyBox.Generator {
                                 DefaultValue = defaultValue,
                                 IsStatic = propertyDeclaration.Modifiers.Any(SyntaxKind.StaticKeyword),
                                 ClassSyntax = propertyDeclaration.FirstAncestorOrSelf<ClassDeclarationSyntax>()!,
-                                OverrideMod = propertyDeclaration.Modifiers.Any(SyntaxKind.OverrideKeyword) ? "override "
-                                           : (propertyDeclaration.Modifiers.Any(SyntaxKind.VirtualKeyword) ? "virutal "
-                                           : (propertyDeclaration.Modifiers.Any(SyntaxKind.SealedKeyword) ? "sealed "
-                                           : (propertyDeclaration.Modifiers.Any(SyntaxKind.NewKeyword) ? "new " : ""))),
-                                AccessMod = propertyDeclaration.Modifiers.Any(SyntaxKind.PublicKeyword) ? "public "
-                                           : (propertyDeclaration.Modifiers.Any(SyntaxKind.PrivateKeyword) ? "private "
-                                           : (propertyDeclaration.Modifiers.Any(SyntaxKind.InternalKeyword) ? "internal "
-                                           : (propertyDeclaration.Modifiers.Any(SyntaxKind.ProtectedKeyword) ? "protected " : "")))
+                                PropertyString = propertyDeclaration.WithAccessorList(null).WithInitializer(null).WithAttributeLists([]).ToString()
                             };
                         }
                     }
@@ -118,7 +110,7 @@ namespace ToyBox.Generator {
             foreach (var prop in properties) {
                 var propName = prop.PropertySymbol.Name;
                 var generatedFieldName = prop.LocalizationKey;
-                sb.AppendLine($"    {prop.AccessMod}{(prop.IsStatic ? "static " : "")}{prop.OverrideMod}partial string {propName} => LocalizationManager.CurrentLocalization.{generatedFieldName};");
+                sb.AppendLine($"    {prop.PropertyString} => LocalizationManager.CurrentLocalization.{generatedFieldName};");
             }
             sb.AppendLine("}");
             return sb.ToString();
@@ -130,8 +122,7 @@ namespace ToyBox.Generator {
             public string DefaultValue { get; set; } = "";
             public bool IsStatic { get; set; } = true;
             public ClassDeclarationSyntax ClassSyntax { get; set; } = default!;
-            public string AccessMod { get; set; } = "";
-            public string OverrideMod { get; set; } = "";
+            public string PropertyString { get; set; } = "";
         }
     }
 }
