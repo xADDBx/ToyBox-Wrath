@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35521.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyBox.BuildTools.Package", "ToyBox.BuildTools.Package\ToyBox.BuildTools.Package.csproj", "{1011AA5C-49B0-4067-B760-2A8ACBB6B63A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyBox.Task", "ToyBox.Task\ToyBox.Task.csproj", "{FCEBB930-E2C4-44B9-B634-6D74EFA310AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyBox.Generator", "ToyBox.Generator\ToyBox.Generator.csproj", "{D81652EA-BCB5-4B8D-929B-CB7ED19E9FF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyBox.Analyzer.CodeFixes", "ToyBox.Analyzer.CodeFixes\ToyBox.Analyzer.CodeFixes.csproj", "{2BCF3C69-E683-4140-82E0-754B363729AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyBox.Analyzer", "ToyBox.Analyzer\ToyBox.Analyzer.csproj", "{A3A49AA8-D89C-4E8A-9D8B-D60ED126EC73}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1011AA5C-49B0-4067-B760-2A8ACBB6B63A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1011AA5C-49B0-4067-B760-2A8ACBB6B63A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1011AA5C-49B0-4067-B760-2A8ACBB6B63A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1011AA5C-49B0-4067-B760-2A8ACBB6B63A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCEBB930-E2C4-44B9-B634-6D74EFA310AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCEBB930-E2C4-44B9-B634-6D74EFA310AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCEBB930-E2C4-44B9-B634-6D74EFA310AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCEBB930-E2C4-44B9-B634-6D74EFA310AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D81652EA-BCB5-4B8D-929B-CB7ED19E9FF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D81652EA-BCB5-4B8D-929B-CB7ED19E9FF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D81652EA-BCB5-4B8D-929B-CB7ED19E9FF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D81652EA-BCB5-4B8D-929B-CB7ED19E9FF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BCF3C69-E683-4140-82E0-754B363729AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BCF3C69-E683-4140-82E0-754B363729AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BCF3C69-E683-4140-82E0-754B363729AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BCF3C69-E683-4140-82E0-754B363729AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3A49AA8-D89C-4E8A-9D8B-D60ED126EC73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3A49AA8-D89C-4E8A-9D8B-D60ED126EC73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3A49AA8-D89C-4E8A-9D8B-D60ED126EC73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3A49AA8-D89C-4E8A-9D8B-D60ED126EC73}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

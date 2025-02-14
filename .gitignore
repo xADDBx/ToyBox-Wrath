@@ -5,9 +5,7 @@
 GamePath.props
 # Rider
 .idea/
-UpdateAnalyzer.bat
-UpdateGenerator.bat
-UpdateTask.bat
+UpdateBuildTools.bat
 # User-specific files
 *.rsuser
 *.suo

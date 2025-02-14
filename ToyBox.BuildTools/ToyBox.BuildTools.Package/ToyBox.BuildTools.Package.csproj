@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageId>ToyBox.BuildTools</PackageId>
+		<PackageVersion>1.0.0.0</PackageVersion>
+		<Authors>ADDB</Authors>
+		<PackageLicenseUrl></PackageLicenseUrl>
+		<PackageProjectUrl></PackageProjectUrl>
+		<RepositoryUrl></RepositoryUrl>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<Description>ToyBox.BuildTools</Description>
+		<PackageTags>ToyBox.BuildTools, MSBuildTask, analyzers</PackageTags>
+		<DevelopmentDependency>true</DevelopmentDependency>
+		<NoPackageAnalysis>true</NoPackageAnalysis>
+		<SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+		<BuildOutputTargetFolder>tasks</BuildOutputTargetFolder>
+		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_AddAnalyzersToOutput</TargetsForTfmSpecificContentInPackage>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\ToyBox.Generator\ToyBox.Generator.csproj" />
+		<ProjectReference Include="..\ToyBox.Analyzer.CodeFixes\ToyBox.Analyzer.CodeFixes.csproj" />
+		<ProjectReference Include="..\ToyBox.Analyzer\ToyBox.Analyzer.csproj" />
+		<ProjectReference Include="..\ToyBox.Task\ToyBox.Task.csproj" />
+	</ItemGroup>
+
+	<Target Name="_AddAnalyzersToOutput">
+		<ItemGroup>
+			<TfmSpecificPackageFile Include="$(OutputPath)\ToyBox.Analyzer.dll" PackagePath="analyzers/dotnet/cs" />
+			<TfmSpecificPackageFile Include="$(OutputPath)\ToyBox.Analyzer.CodeFixes.dll" PackagePath="analyzers/dotnet/cs" />
+			<TfmSpecificPackageFile Include="$(OutputPath)\ToyBox.Generator.dll" PackagePath="analyzers/dotnet/cs" />
+		</ItemGroup>
+	</Target>
+	<ItemGroup>
+		<Content Include="..\ToyBox.Task\bin\$(configuration)\netstandard2.0\*" Pack="true" PackagePath="tasks/netstandard2.0/" />
+		<Content Include="ToyBox.BuildTools.targets" Pack="true" PackagePath="build/" />
+	</ItemGroup>
+
+</Project>
