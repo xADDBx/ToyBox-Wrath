@@ -3,7 +3,7 @@
 namespace ToyBox.Infrastructure.Localization;
 public static class LocalizationManager {
     public static Language CurrentLocalization = new();
-    private static HashSet<string> m_FoundLanguageFiles = null!;
+    private static HashSet<string> m_FoundLanguageFiles = new();
     private static JsonSerializerSettings m_Settings = new() {
         Formatting = Formatting.Indented,
         DefaultValueHandling = DefaultValueHandling.Populate,
@@ -27,7 +27,7 @@ public static class LocalizationManager {
             UpdateOrCreate(Settings.UILanguage);
         }
         var filePath = GetPathToLocalizationFile(Settings.UILanguage);
-        Language CurrentLocalization = JsonConvert.DeserializeObject<Language>(File.ReadAllText(filePath), m_Settings);
+        Language CurrentLocalization = JsonConvert.DeserializeObject<Language>(File.ReadAllText(filePath), m_Settings) ?? new();
     }
     public static void DiscoverLocalizations() {
         m_FoundLanguageFiles = new();
