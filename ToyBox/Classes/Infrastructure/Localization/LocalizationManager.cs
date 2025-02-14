@@ -2,7 +2,6 @@
 
 namespace ToyBox.Infrastructure.Localization;
 public static class LocalizationManager {
-    private const string DefaultLanguageCode = "en";
     public static Language CurrentLocalization = new();
     private static HashSet<string> m_FoundLanguageFiles = null!;
     private static JsonSerializerSettings m_Settings = new() {
