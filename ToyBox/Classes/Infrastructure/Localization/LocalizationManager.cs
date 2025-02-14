@@ -3,7 +3,7 @@
 namespace ToyBox.Infrastructure.Localization;
 public static class LocalizationManager {
     public static Language CurrentLocalization = new();
-    private static HashSet<string> m_FoundLanguageFiles = null!;
+    private static HashSet<string> m_FoundLanguageFiles = new();
     private static JsonSerializerSettings m_Settings = new() {
         Formatting = Formatting.Indented,
         DefaultValueHandling = DefaultValueHandling.Populate,
