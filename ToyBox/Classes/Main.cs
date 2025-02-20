@@ -55,10 +55,19 @@ public static partial class Main {
     private static partial string LoadBlueprintsText { get; }
     [LocalizedString("ToyBox_Main_CurrentlyLoadedBPsText", "Currently loaded BPs: {0}")]
     private static partial string CurrentlyLoadedBPsText { get; }
-    private static int loadedBps = 0;
+    private static int m_LoadedBps = 0;
+    private static bool m_WasBPLoadingLastFrame = false;
     private static void OnGUI(UnityModManager.ModEntry modEntry) {
         if (m_CaughtException == null) {
             try {
+                if (BPLoader.IsLoading || m_WasBPLoadingLastFrame) {
+                    GUILayout.Label($"{BPLoader.Progress * 100:0.00}%");
+                    if (Event.current.type == EventType.Layout) {
+                        m_WasBPLoadingLastFrame = true;
+                    } else {
+                        m_WasBPLoadingLastFrame = false;
+                    }
+                }
                 if (GUILayout.Button(label)) {
                     ((object)null).ToString();
                 }
@@ -66,9 +75,9 @@ public static partial class Main {
                     BPLoader.GetBlueprints();
                 }
                 if (Event.current.type == EventType.Layout && BPLoader.HasLoaded) {
-                    loadedBps = BPLoader.GetBlueprints()!.Count;
+                    m_LoadedBps = BPLoader.GetBlueprints()!.Count;
                 }
-                GUILayout.Label(CurrentlyLoadedBPsText.Format(loadedBps));
+                GUILayout.Label(CurrentlyLoadedBPsText.Format(m_LoadedBps));
                 Settings.SelectedTab = GUILayout.SelectionGrid(Settings.SelectedTab, m_FeatureTabs.Select(t => t.Name).ToArray(), 10);
                 m_FeatureTabs[Settings.SelectedTab].OnGui();
             } catch (Exception ex) {

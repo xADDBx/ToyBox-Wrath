@@ -55,6 +55,7 @@ public class BlueprintLoader {
                             m_BlueprintsToRemove.Clear();
                         }
                         m_Blueprints = bps;
+                        if (BlueprintIdCache.NeedsCacheRebuilt) BlueprintIdCache.RebuildCache(m_Blueprints);
                         m_BlueprintsByType.Clear();
                     });
                     return null;
@@ -152,7 +153,7 @@ public class BlueprintLoader {
                 if (m_TotalLoading > 0) {
                     field = (float)m_EstimateLoaded / m_TotalLoading;
                 } else {
-                    field = 1;
+                    field = 0;
                 }
             }
             return field;
