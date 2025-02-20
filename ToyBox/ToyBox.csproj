@@ -33,10 +33,10 @@
 	<!-- File to include -->
     <ItemGroup>
         <None Include="Info.json" CopyToOutputDirectory="PreserveNewest" />
-		<LocalizationFiles Include="Localization\*.*" />
+        <LocalizationFiles Include="Localization\*.*" />
     </ItemGroup>
     <Target Name="Deploy" AfterTargets="Build">
-		<Copy SourceFiles="@(LocalizationFiles)" DestinationFolder="$(TargetDir)Localization" />
+        <Copy SourceFiles="@(LocalizationFiles)" DestinationFolder="$(TargetDir)Localization" />
         <ItemGroup>
             <FilesToHash Include="$(TargetDir)$(AssemblyName).dll" />
         </ItemGroup>
@@ -57,7 +57,7 @@
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" IncludeAssets="build; contentfiles" Version="0.4.2" PrivateAssets="all" />
         <PackageReference Include="MicroUtils.HarmonyAnalyzers" IncludeAssets="runtime; build; native; contentfiles; analyzers" Version="*-*" PrivateAssets="all" />
-		<PackageReference Include="ToyBox.BuildTools" IncludeAssets="analyzers; build" Version="1.0.7" PrivateAssets="all" />
+        <PackageReference Include="ToyBox.BuildTools" IncludeAssets="analyzers; build" Version="1.0.7" PrivateAssets="all" />
     </ItemGroup>
     <Target Name="GenerateCustomPropsFile" BeforeTargets="BeforeBuild" Condition="$(WrathInstallDir) == ''">
         <Exec Command="findstr /C:&quot;Mono path[0]&quot; &quot;$(WrathData)\Player.log&quot;" IgnoreExitCode="true" ConsoleToMSBuild="true">
@@ -78,7 +78,7 @@
     <Target Name="DeleteCustomPropsFile" BeforeTargets="Clean">
         <Delete Files="GamePath.props" />
     </Target>
-	<Target Name="UpdateLocalizationFiles" BeforeTargets="Deploy">
-		<UpdateLocalizationTask LocalizationDirectoryPath="$(SolutionDir)ToyBox\Localization" AssemblyPath="$(TargetDir)$(AssemblyName).dll" />
-	</Target>
+    <Target Name="UpdateLocalizationFiles" BeforeTargets="Deploy">
+        <UpdateLocalizationTask LocalizationDirectoryPath="$(SolutionDir)ToyBox\Localization" AssemblyPath="$(TargetDir)$(AssemblyName).dll" />
+    </Target>
 </Project>
