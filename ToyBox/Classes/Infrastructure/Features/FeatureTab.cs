@@ -1,6 +1,6 @@
 ﻿namespace ToyBox;
 public abstract class FeatureTab {
-    protected List<Feature> Features { get; set; } = new();
+    internal List<Feature> Features { get; set; } = new();
     public abstract string Name { get; }
     public virtual void PatchAll() {
         foreach (var feature in Features.OfType<FeatureWithPatch>()) {

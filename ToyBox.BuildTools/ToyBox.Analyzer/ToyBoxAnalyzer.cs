@@ -160,20 +160,16 @@ namespace ToyBox.Analyzer {
                 return;
             }
 
-            var classDecl = literal.FirstAncestorOrSelf<ClassDeclarationSyntax>();
-            if (classDecl == null) {
-                // Not inside a class: do not report.
-                return;
+            ExpressionSyntax initializerExpr = null;
+            string val = null;
+            if (literal != null) {
+                initializerExpr = (ExpressionSyntax)context.Node;
+                val = literal.Token.ValueText;
+            } else if (context.Node is ArgumentSyntax argument) {
+                initializerExpr = argument.Expression;
+                val = (argument.Expression as LiteralExpressionSyntax).Token.ValueText;
             }
-
-            // If the literal is part of an attribute that is applied directly to the class, do not report.
-            var attrAncestor = literal.FirstAncestorOrSelf<AttributeSyntax>();
-            if (attrAncestor != null) {
-                if (attrAncestor.Parent is AttributeListSyntax attrList &&
-                    attrList.Parent is ClassDeclarationSyntax) {
-                    return;
-                }
-            }
+            if (initializerExpr == null) return;
 
             context.ReportDiagnostic(Diagnostic.Create(Rule, literal.GetLocation(), stringValue));
         }

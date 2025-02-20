@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityModManagerNet;
 
-namespace ToyBox; 
+namespace ToyBox;
 #if DEBUG
 [EnableReloading]
 #endif
@@ -27,12 +27,16 @@ public static partial class Main {
             Infrastructure.Localization.LocalizationManager.Enable();
             _ = BPLoader;
 
-            m_FeatureTabs.Add(new Features.SettingsFeature.SettingsFeatureTab());
+            RegisterFeatureTabs();
+            InitializePatchFeatures();
         } catch (Exception ex) {
             Error(ex);
             return false;
         }
         return true;
+    }
+    private static void RegisterFeatureTabs() {
+        m_FeatureTabs.Add(new Features.SettingsFeature.SettingsFeatureTab());
     }
 #if DEBUG
     private static bool OnUnload(UnityModManager.ModEntry modEntry) {
@@ -43,9 +47,9 @@ public static partial class Main {
     private static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) {
         return true;
     }
-    [LocalizedString("Main_NREButton", "Cause a NullReferenceException")]
+    [LocalizedString("ToyBox_Main_CauseANullReferenceExceptionText", "Cause a NullReferenceException")]
     private static partial string label { get; }
-    [LocalizedString("Main_ResetExceptionButton", "Reset")]
+    [LocalizedString("ToyBox_Main_ResetText", "Reset")]
     private static partial string resetLabel { get; }
     [LocalizedString("ToyBox_Main_LoadBlueprintsText", "Load Blueprints")]
     private static partial string LoadBlueprintsText { get; }
@@ -87,5 +91,14 @@ public static partial class Main {
     private static void OnHideGUI(UnityModManager.ModEntry modEntry) {
     }
     private static void OnUpdate(UnityModManager.ModEntry modEntry, float z) {
+    }
+    private static void InitializePatchFeatures() {
+        foreach (var tab in m_FeatureTabs) {
+            foreach (var feature in tab.Features) {
+                if (feature is FeatureWithPatch patchFeature) {
+                    patchFeature.Patch();
+                }
+            }
+        }
     }
 }

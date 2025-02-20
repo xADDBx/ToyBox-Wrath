@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace ToyBox.Features.SettingsFeature;
 public partial class LanguagePickerFeature : Feature {
-    [LocalizedString("Features_Settings_LanguagePickerFeature_Name", "Language Picker")]
+    [LocalizedString("ToyBox_Features_SettingsFeature_LanguagePickerFeature_LanguagePickerText", "Language Picker")]
     public override partial string Name { get; }
-    [LocalizedString("Features_Settings_LanguagePickerFeature_Desc", "Pick your current ui locale")]
+    [LocalizedString("ToyBox_Features_SettingsFeature_LanguagePickerFeature_PickYourCurrentUiLocaleText", "Pick your current ui locale")]
     public override partial string Description { get; }
     private static CultureInfo? m_UiCulture;
     private static List<CultureInfo>? m_Cultures;
-    [LocalizedString("Features_Settings_LanguagePickerFeature_Current", "Current Culture")]
+    [LocalizedString("ToyBox_Features_SettingsFeature_LanguagePickerFeature_CurrentCultureText", "Current Culture")]
     private static partial string CurrentText { get; }
     public override void OnGui() {
         if (m_Cultures == null || m_UiCulture == null) {

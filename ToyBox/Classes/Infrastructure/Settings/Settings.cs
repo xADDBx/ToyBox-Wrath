@@ -22,4 +22,5 @@ internal class GeneralSettings : AbstractSettings {
     public bool PreloadBlueprints = false;
     public bool UseBPIdCache = true;
     public bool AutomaticallyBuildBPIdCache = true;
+    public bool EnableBlueprintPerformancePatches = true;
 }

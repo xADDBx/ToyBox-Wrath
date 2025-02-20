@@ -106,7 +106,7 @@ namespace ToyBox.Generator {
             if (!string.IsNullOrEmpty(ns)) {
                 sb.AppendLine($"namespace {ns};");
             }
-            sb.AppendLine($"{syntax.WithMembers([]).WithOpenBraceToken(SyntaxFactory.Token(SyntaxKind.None)).WithCloseBraceToken(SyntaxFactory.Token(SyntaxKind.None)).ToString()} {{");
+            sb.AppendLine($"{syntax.WithAttributeLists([]).WithMembers([]).WithOpenBraceToken(SyntaxFactory.Token(SyntaxKind.None)).WithCloseBraceToken(SyntaxFactory.Token(SyntaxKind.None)).ToString()} {{");
             foreach (var prop in properties) {
                 var propName = prop.PropertySymbol.Name;
                 var generatedFieldName = prop.LocalizationKey;

@@ -1,10 +1,12 @@
 {
-  "Features_Settings_LanguagePickerFeature_Name": "Language Picker",
-  "Features_Settings_LanguagePickerFeature_Desc": "Pick your current ui locale",
-  "Features_Settings_LanguagePickerFeature_Current": "Current Culture",
-  "Features_Settings_SettingsFeatureTab_Name": "Settings",
-  "Main_NREButton": "Cause a NullReferenceException",
-  "Main_ResetExceptionButton": "Reset",
+  "ToyBox_Features_SettingsFeature_LanguagePickerFeature_LanguagePickerText": "Language Picker",
+  "ToyBox_Features_SettingsFeature_LanguagePickerFeature_PickYourCurrentUiLocaleText": "Pick your current ui locale",
+  "ToyBox_Features_SettingsFeature_LanguagePickerFeature_CurrentCultureText": "Current Culture",
+  "ToyBox_Features_SettingsFeature_PerformanceEnhancementFeatures_PerformanceEnhancementText": "Performance Enhancement",
+  "ToyBox_Features_SettingsFeature_PerformanceEnhancementFeatures_EnhancesBlueprintLoadingPerforma": "Enhances Blueprint loading performance",
+  "ToyBox_Features_SettingsFeature_SettingsFeatureTab_SettingsText": "Settings",
+  "ToyBox_Main_CauseANullReferenceExceptionText": "Cause a NullReferenceException",
+  "ToyBox_Main_ResetText": "Reset",
   "ToyBox_Main_LoadBlueprintsText": "Load Blueprints",
   "ToyBox_Main_CurrentlyLoadedBPsText": "Currently loaded BPs: {0}"
 }
