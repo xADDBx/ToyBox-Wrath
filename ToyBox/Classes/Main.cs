@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ToyBox.Infrastructure.Utilities;
+using UnityEngine;
 using UnityModManagerNet;
 
 namespace ToyBox; 
@@ -6,7 +7,7 @@ namespace ToyBox;
 [EnableReloading]
 #endif
 public static partial class Main {
-    internal static readonly Harmony HarmonyInstance = new("ToyBox");
+    internal static Harmony HarmonyInstance = new("ToyBox");
     internal static UnityModManager.ModEntry ModEntry = null!;
     private static Exception? m_CaughtException = null;
     private static List<FeatureTab> m_FeatureTabs = new();
@@ -24,6 +25,7 @@ public static partial class Main {
             modEntry.OnSaveGUI = OnSaveGUI;
 
             Infrastructure.Localization.LocalizationManager.Enable();
+            _ = BPLoader;
 
             m_FeatureTabs.Add(new Features.SettingsFeature.SettingsFeatureTab());
         } catch (Exception ex) {
@@ -34,6 +36,7 @@ public static partial class Main {
     }
 #if DEBUG
     private static bool OnUnload(UnityModManager.ModEntry modEntry) {
+        HarmonyInstance.UnpatchAll(ModEntry.Info.Id);
         return true;
     }
 #endif
@@ -44,12 +47,24 @@ public static partial class Main {
     private static partial string label { get; }
     [LocalizedString("Main_ResetExceptionButton", "Reset")]
     private static partial string resetLabel { get; }
+    [LocalizedString("ToyBox_Main_LoadBlueprintsText", "Load Blueprints")]
+    private static partial string LoadBlueprintsText { get; }
+    [LocalizedString("ToyBox_Main_CurrentlyLoadedBPsText", "Currently loaded BPs: {0}")]
+    private static partial string CurrentlyLoadedBPsText { get; }
+    private static int loadedBps = 0;
     private static void OnGUI(UnityModManager.ModEntry modEntry) {
         if (m_CaughtException == null) {
             try {
                 if (GUILayout.Button(label)) {
                     ((object)null).ToString();
                 }
+                if (GUILayout.Button(LoadBlueprintsText)) {
+                    BPLoader.GetBlueprints();
+                }
+                if (Event.current.type == EventType.Layout && BPLoader.HasLoaded) {
+                    loadedBps = BPLoader.GetBlueprints()!.Count;
+                }
+                GUILayout.Label(CurrentlyLoadedBPsText.Format(loadedBps));
                 Settings.SelectedTab = GUILayout.SelectionGrid(Settings.SelectedTab, m_FeatureTabs.Select(t => t.Name).ToArray(), 10);
                 m_FeatureTabs[Settings.SelectedTab].OnGui();
             } catch (Exception ex) {

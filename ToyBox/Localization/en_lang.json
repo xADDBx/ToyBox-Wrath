@@ -4,5 +4,7 @@
   "Features_Settings_LanguagePickerFeature_Current": "Current Culture",
   "Features_Settings_SettingsFeatureTab_Name": "Settings",
   "Main_NREButton": "Cause a NullReferenceException",
-  "Main_ResetExceptionButton": "Reset"
+  "Main_ResetExceptionButton": "Reset",
+  "ToyBox_Main_LoadBlueprintsText": "Load Blueprints",
+  "ToyBox_Main_CurrentlyLoadedBPsText": "Currently loaded BPs: {0}"
 }
