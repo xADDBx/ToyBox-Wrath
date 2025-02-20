@@ -6,7 +6,8 @@
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
-LOC003 | Usage | Warning | ToyBoxAnalyzer
+HAR001 | Usage | Error | ToyBoxAnalyzer
+HAR002 | Usage | Error | ToyBoxAnalyzer
 
 ## Release 1.0
 
@@ -16,3 +17,4 @@ Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
 LOC001 | Usage | Hidden | ToyBoxAnalyzer
 LOC002 | Usage | Warning | ToyBoxAnalyzer
+LOC003 | Usage | Warning | ToyBoxAnalyzer

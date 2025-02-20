@@ -15,24 +15,14 @@ namespace ToyBox.Analyzer {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class ToyBoxAnalyzer : DiagnosticAnalyzer {
         private const string Category = "Usage";
-        public const string DiagnosticId = "LOC001";
-        private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.AnalyzerTitle), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.AnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.AnalyzerDescription), Resources.ResourceManager, typeof(Resources));
-        private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Hidden, isEnabledByDefault: true, description: Description);
-        public const string DiagnosticId2 = "LOC002";
-        private static readonly LocalizableString Title2 = new LocalizableResourceString(nameof(Resources.AnalyzerTitle2), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString MessageFormat2 = new LocalizableResourceString(nameof(Resources.AnalyzerMessageFormat2), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString Description2 = new LocalizableResourceString(nameof(Resources.AnalyzerDescription2), Resources.ResourceManager, typeof(Resources));
-        private static readonly DiagnosticDescriptor Rule2 = new DiagnosticDescriptor(DiagnosticId2, Title2, MessageFormat2, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description2);
-        public const string DiagnosticId3 = "LOC003";
-        private static readonly LocalizableString Title3 = new LocalizableResourceString(nameof(Resources.AnalyzerTitle3), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString MessageFormat3 = new LocalizableResourceString(nameof(Resources.AnalyzerMessageFormat3), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString Description3 = new LocalizableResourceString(nameof(Resources.AnalyzerDescription3), Resources.ResourceManager, typeof(Resources));
-        private static readonly DiagnosticDescriptor Rule3 = new DiagnosticDescriptor(DiagnosticId3, Title3, MessageFormat3, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description3);
+        private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor("LOC001", "Replace String literal with Localized String", "Replace String literal with Localized String", Category, DiagnosticSeverity.Hidden, isEnabledByDefault: true);
+        private static readonly DiagnosticDescriptor Rule2 = new DiagnosticDescriptor("LOC002", "UI String should be localized", "UI String should be localized", Category, DiagnosticSeverity.Warning, isEnabledByDefault: true);
+        private static readonly DiagnosticDescriptor Rule3 = new DiagnosticDescriptor("LOC003", "Key should resolve to valid identifier", "The Localized String key should resolve to a valid identifier", Category, DiagnosticSeverity.Warning, isEnabledByDefault: true);
+        private static readonly DiagnosticDescriptor Rule4 = new DiagnosticDescriptor("HAR001", "Missing Harmony attributes", "Class '{0}' must have [HarmonyPatch] and [HarmonyPatchCategory(\"{0}\")] attributes", Category, DiagnosticSeverity.Error, isEnabledByDefault: true);
+        private static readonly DiagnosticDescriptor Rule5 = new DiagnosticDescriptor("HAR002", "Missing or incorrect HarmonyName property", "Class '{0}' must override HarmonyName to return \"{0}\"", Category, DiagnosticSeverity.Error, isEnabledByDefault: true);
 
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create([Rule, Rule2, Rule3]); } }
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create([Rule, Rule2, Rule3, Rule4, Rule5]); } }
 
         public override void Initialize(AnalysisContext context) {
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
@@ -41,7 +31,121 @@ namespace ToyBox.Analyzer {
             context.RegisterSyntaxNodeAction(AnalyzeStringLiteral, SyntaxKind.StringLiteralExpression);
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Invocation);
+            context.RegisterSymbolAction(AnalyzeNamedType, SymbolKind.NamedType);
         }
+        #region PatchFeatureAnalyzer
+        private void AnalyzeNamedType(SymbolAnalysisContext context) {
+            var namedType = (INamedTypeSymbol)context.Symbol;
+            if (namedType.TypeKind != TypeKind.Class) {
+                return;
+            }            
+            // Check if the class inherits from ToyBox.FeatureWithPatch.
+            if (!InheritsFromFeatureWithPatch(namedType)) {
+                return;
+            }
+            string fullName = namedType.ToDisplayString();
+            bool hasHarmonyPatch = false;
+            bool hasHarmonyPatchCategory = false;
+            foreach (var attribute in namedType.GetAttributes()) {
+                string attrName = attribute.AttributeClass.Name;
+                if (attrName.EndsWith("HarmonyPatchAttribute") || attrName.EndsWith("HarmonyPatch")) {
+                    hasHarmonyPatch = true;
+                } else if (attrName.EndsWith("HarmonyPatchCategoryAttribute") || attrName.EndsWith("HarmonyPatchCategory")) {
+                    hasHarmonyPatchCategory = true;
+                    if (attribute.ConstructorArguments.Length == 1 &&
+                        attribute.ConstructorArguments[0].Value is string categoryName &&
+                        categoryName != fullName) {
+                        // Wrong argument: report diagnostic on the attribute syntax.
+                        if (attribute.ApplicationSyntaxReference != null) {
+                            var attrSyntax = attribute.ApplicationSyntaxReference.GetSyntax(context.CancellationToken);
+                            var diag = Diagnostic.Create(Rule4, attrSyntax.GetLocation(), fullName);
+                            context.ReportDiagnostic(diag);
+                        }
+                    }
+                }
+            }
+            if (!hasHarmonyPatch || !hasHarmonyPatchCategory) {
+                // Report on the class declaration itself.
+                var declRef = namedType.DeclaringSyntaxReferences.FirstOrDefault();
+                if (declRef != null) {
+                    var classDecl = declRef.GetSyntax(context.CancellationToken) as ClassDeclarationSyntax;
+                    if (classDecl != null) {
+                        var diag = Diagnostic.Create(Rule4, classDecl.Identifier.GetLocation(), fullName);
+                        context.ReportDiagnostic(diag);
+                    }
+                }
+            }
+            bool foundHarmonyName = false;
+            foreach (var member in namedType.GetMembers().OfType<IPropertySymbol>()) {
+                if (member.Name != "HarmonyName")
+                    continue;
+
+                foundHarmonyName = true;
+                // Must be an override, protected and of type string.
+                if (!member.IsOverride ||
+                    member.Type.SpecialType != SpecialType.System_String) {
+                    var diag = Diagnostic.Create(Rule5, member.Locations[0], fullName);
+                    context.ReportDiagnostic(diag);
+                    continue;
+                }
+
+                // Get the syntax to inspect the getter.
+                var syntaxRef = member.DeclaringSyntaxReferences.FirstOrDefault();
+                if (syntaxRef == null)
+                    continue;
+
+                var propDecl = syntaxRef.GetSyntax(context.CancellationToken) as PropertyDeclarationSyntax;
+                if (propDecl == null)
+                    continue;
+
+                // Look for an expression-bodied or block-bodied getter returning a literal.
+                bool correctReturn = false;
+                if (propDecl.ExpressionBody != null) {
+                    if (propDecl.ExpressionBody.Expression is LiteralExpressionSyntax literal &&
+                        literal.Token.ValueText == fullName) {
+                        correctReturn = true;
+                    }
+                } else if (propDecl.AccessorList != null) {
+                    var getter = propDecl.AccessorList.Accessors.FirstOrDefault(a => a.Kind() == SyntaxKind.GetAccessorDeclaration);
+                    if (getter != null) {
+                        // Try to find a return statement.
+                        var returnStmt = getter.Body?.Statements.OfType<ReturnStatementSyntax>().FirstOrDefault();
+                        if (returnStmt != null &&
+                            returnStmt.Expression is LiteralExpressionSyntax literal &&
+                            literal.Token.ValueText == fullName) {
+                            correctReturn = true;
+                        }
+                    }
+                }
+
+                if (!correctReturn) {
+                    var diag = Diagnostic.Create(Rule5, propDecl.GetLocation(), fullName);
+                    context.ReportDiagnostic(diag);
+                }
+            }
+            if (!foundHarmonyName) {
+                var declRef = namedType.DeclaringSyntaxReferences.FirstOrDefault();
+                if (declRef != null) {
+                    var classDecl = declRef.GetSyntax(context.CancellationToken) as ClassDeclarationSyntax;
+                    if (classDecl != null) {
+                        var diag = Diagnostic.Create(Rule5, classDecl.Identifier.GetLocation(), fullName);
+                        context.ReportDiagnostic(diag);
+                    }
+                }
+            }
+        }
+        private bool InheritsFromFeatureWithPatch(INamedTypeSymbol type) {
+            var baseType = type.BaseType;
+            while (baseType != null) {
+                if (baseType.ToString() == "ToyBox.FeatureWithPatch") {
+                    return true;
+                }
+                baseType = baseType.BaseType;
+            }
+            return false;
+        }
+        #endregion
+        #region LocalizationAnalyzer
         private void AnalyzeStringLiteral(SyntaxNodeAnalysisContext context) {
             var literal = (LiteralExpressionSyntax)context.Node;
             var stringValue = literal.Token.ValueText;
@@ -54,6 +158,21 @@ namespace ToyBox.Analyzer {
             if (localizedAttr != null) {
                 AnalyzeAttributeStringLiteral(context);
                 return;
+            }
+
+            var classDecl = literal.FirstAncestorOrSelf<ClassDeclarationSyntax>();
+            if (classDecl == null) {
+                // Not inside a class: do not report.
+                return;
+            }
+
+            // If the literal is part of an attribute that is applied directly to the class, do not report.
+            var attrAncestor = literal.FirstAncestorOrSelf<AttributeSyntax>();
+            if (attrAncestor != null) {
+                if (attrAncestor.Parent is AttributeListSyntax attrList &&
+                    attrList.Parent is ClassDeclarationSyntax) {
+                    return;
+                }
             }
 
             context.ReportDiagnostic(Diagnostic.Create(Rule, literal.GetLocation(), stringValue));
@@ -87,5 +206,6 @@ namespace ToyBox.Analyzer {
                 }
             }
         }
+        #endregion
     }
 }

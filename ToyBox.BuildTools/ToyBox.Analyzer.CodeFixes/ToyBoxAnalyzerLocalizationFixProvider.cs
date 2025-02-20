@@ -3,24 +3,19 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Rename;
-using Microsoft.CodeAnalysis.Text;
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace ToyBox.Analyzer {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ToyBoxAnalyzerCodeFixProvider)), Shared]
-    public class ToyBoxAnalyzerCodeFixProvider : CodeFixProvider {
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ToyBoxAnalyzerLocalizationFixProvider)), Shared]
+    public class ToyBoxAnalyzerLocalizationFixProvider : CodeFixProvider {
         public sealed override ImmutableArray<string> FixableDiagnosticIds {
-            get { return ImmutableArray.Create([ToyBoxAnalyzer.DiagnosticId, ToyBoxAnalyzer.DiagnosticId2]); }
+            get { return ImmutableArray.Create(["LOC001", "LOC002"]); }
         }
 
         public sealed override FixAllProvider GetFixAllProvider() {
