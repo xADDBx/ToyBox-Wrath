@@ -2,14 +2,14 @@
 public abstract class FeatureTab {
     internal List<Feature> Features { get; set; } = new();
     public abstract string Name { get; }
-    public virtual void PatchAll() {
-        foreach (var feature in Features.OfType<FeatureWithPatch>()) {
-            feature.Patch();
+    public virtual void InitializeAll() {
+        foreach (var feature in Features) {
+            feature.Initialize();
         }
     }
-    public virtual void UnpatchAll() {
-        foreach (var feature in Features.OfType<FeatureWithPatch>()) {
-            feature.Unpatch();
+    public virtual void DestroyAll() {
+        foreach (var feature in Features) {
+            feature.Destroy();
         }
     }
     public virtual void OnGui() {

@@ -1,16 +1,23 @@
 ﻿namespace ToyBox;
 public abstract class FeatureWithPatch : Feature {
     protected Harmony HarmonyInstance = null!;
+    public abstract bool IsEnabled { get; }
     protected virtual string HarmonyName => $"ToyBox.Feature.{Name}";
     public FeatureWithPatch() {
         HarmonyInstance = new(HarmonyName);
     }
-    public virtual void Patch() {
+    public void Patch() {
         if (IsEnabled) {
             HarmonyInstance.PatchCategory(HarmonyName);
         }
     }
-    public virtual void Unpatch() {
+    public void Unpatch() {
         HarmonyInstance.UnpatchAll(HarmonyName);
+    }
+    public override void Initialize() {
+        Patch();
+    }
+    public override void Destroy() {
+        Unpatch();
     }
 }

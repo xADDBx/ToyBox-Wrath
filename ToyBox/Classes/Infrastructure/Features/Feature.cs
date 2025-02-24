@@ -2,8 +2,9 @@
 public abstract class Feature {
     public abstract string Name { get; }
     public abstract string Description { get; }
-    public virtual bool IsEnabled { get; } = false;
     public abstract void OnGui();
+    public virtual void Initialize() { }
+    public virtual void Destroy() { }
     public virtual string[] SortKeys {
         get {
             return [Name];

@@ -1,4 +1,5 @@
 ﻿using ToyBox.Infrastructure.Utilities;
+using ToyBox.UpdateAndIntegrity;
 using UnityEngine;
 using UnityModManagerNet;
 
@@ -23,12 +24,25 @@ public static partial class Main {
             modEntry.OnGUI = OnGUI;
             modEntry.OnUpdate = OnUpdate;
             modEntry.OnSaveGUI = OnSaveGUI;
+            /*
+            if (!IntegrityChecker.CheckFilesHealthy()) {
+                Log("Failed Integrity Check");
+            }
+            if (!VersionChecker.IsGameVersionSupported()) {
+                Log("Game Version not supported");
+            }
+            if (Updater.Update(false, true)) {
+                Log("Updated");
+            }
+            */
 
             Infrastructure.Localization.LocalizationManager.Enable();
             _ = BPLoader;
 
             RegisterFeatureTabs();
-            InitializePatchFeatures();
+            foreach (var tab in m_FeatureTabs) {
+                tab.InitializeAll();
+            }
         } catch (Exception ex) {
             Error(ex);
             return false;
@@ -40,6 +54,9 @@ public static partial class Main {
     }
 #if DEBUG
     private static bool OnUnload(UnityModManager.ModEntry modEntry) {
+        foreach (var tab in m_FeatureTabs) {
+                tab.DestroyAll();
+        }
         HarmonyInstance.UnpatchAll(ModEntry.Info.Id);
         return true;
     }
@@ -100,14 +117,5 @@ public static partial class Main {
     private static void OnHideGUI(UnityModManager.ModEntry modEntry) {
     }
     private static void OnUpdate(UnityModManager.ModEntry modEntry, float z) {
-    }
-    private static void InitializePatchFeatures() {
-        foreach (var tab in m_FeatureTabs) {
-            foreach (var feature in tab.Features) {
-                if (feature is FeatureWithPatch patchFeature) {
-                    patchFeature.Patch();
-                }
-            }
-        }
     }
 }
