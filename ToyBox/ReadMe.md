@@ -43,6 +43,7 @@
 * (***ADDB***) PatchTool: Now restrict new list elements to the type of the actual list object, not the field type. This could previously cause issues where the patch failed.
 * (***ADDB***) PatchTool: Introduced Dangerous Patches
 * (***ADDB***) PatchTool: Fixed some bugs related to Unity Objects
+* (***ADDB***) PatchTool: Apply Patches later so that it runs after most content mods.
 
 ### Toybox Wrath - Ver 1.7.13 (built for 2.6.0n)
 * (***ADDB***) PatchTool: List elements now properly show all their fields instead of only the fields of the list type
