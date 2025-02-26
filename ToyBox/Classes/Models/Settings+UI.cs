@@ -53,6 +53,7 @@ namespace ToyBox {
                 () => Toggle("Strip HTML (colors) from log".localize(), ref Mod.ModKitSettings.stripHtmlTagsFromLog, AutoWidth()),
                 () => Toggle("Enable Search as you type for Browsers (needs restart)".localize(), ref Mod.ModKitSettings.searchAsYouType, AutoWidth()),
                 () => Toggle("Display guids in most tooltips, use shift + left click on items/abilities to copy guid to clipboard".localize(), ref Main.Settings.toggleGuidsClipboard, AutoWidth()),
+                () => Toggle("Allow dangerous PatchTool patches".localize(), ref Main.Settings.toggleEnableDangerousPatchToolPatches, AutoWidth()),
                 () => Toggle("Check for Glyph Support".localize(), ref Mod.ModKitSettings.CheckForGlyphSupport, AutoWidth()),
                 () => {
                     if (!Mod.ModKitSettings.CheckForGlyphSupport) Toggle("Use default Glyphs".localize(), ref Mod.ModKitSettings.UseDefaultGlyphs, AutoWidth());

@@ -571,6 +571,7 @@ namespace ToyBox {
         public bool toggleAlwaysUpdate = false;
         public bool toggleUberLoggerForwardPrefix = false;
         public bool toggleGuidsClipboard = true;
+        public bool toggleEnableDangerousPatchToolPatches = false;
         public bool onlyShowLanguagesWithFiles = true;
         public bool togglemoddedbptag = false;
         public int BlueprintsLoaderNumThreads = 4;

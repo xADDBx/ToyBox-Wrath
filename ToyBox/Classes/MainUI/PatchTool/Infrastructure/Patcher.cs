@@ -44,8 +44,14 @@ public static class Patcher {
         int applied = 0;
         foreach (var patch in KnownPatches.Values) {
             if (!Main.Settings.disabledPatches.Contains(patch.PatchId)) {
-                if (patch.ApplyPatch()) {
-                    applied++;
+                if (patch.DangerousOperationsEnabled) {
+                    if (Main.Settings.toggleEnableDangerousPatchToolPatches) {
+                        if (patch.ApplyPatch()) {
+                            applied++;
+                        }
+                    } else {
+                        Mod.Warn($"Tried to apply patch {patch.PatchId}, but dangerous patches are disabled!");
+                    }
                 }
             }
         }
@@ -55,8 +61,13 @@ public static class Patcher {
     private static SimpleBlueprint ApplyPatch(this SimpleBlueprint blueprint, Patch patch) {
         CurrentlyPatching = blueprint;
         foreach (var operation in patch.Operations) {
-            operation.Apply(blueprint); 
-            blueprint.OnEnable();
+            try {
+                operation.Apply(blueprint);
+                blueprint.OnEnable();
+            } catch (Exception ex) {
+                Mod.Warn($"Error trying to patch blueprint {patch.BlueprintGuid} with patch {patch.PatchId}:\n{ex.ToString()}, Operation {patch.Operations.IndexOf(operation) + 1}/{patch.Operations.Count}");
+                throw;
+            }
         }
         CurrentlyPatching = null;
         AppliedPatches[blueprint.AssetGuid.ToString()] = patch;
@@ -64,7 +75,7 @@ public static class Patcher {
     }
     public static bool ApplyPatch(this Patch patch) {
         if (patch == null) return false;
-        Mod.Log($"Patching Blueprint {patch.BlueprintGuid} with Patch {patch.PatchId}.");
+        Mod.Log($"Patching Blueprint {patch.BlueprintGuid} with Patch {(patch.DangerousOperationsEnabled ? "!Dangerous Patch! " : "")}{patch.PatchId}.");
         FailedPatches.Remove(patch);
         var current = ResourcesLibrary.TryGetBlueprint(BlueprintGuid.Parse(patch.BlueprintGuid)); 
         if (current == null) {
@@ -82,10 +93,9 @@ public static class Patcher {
         }
         try {
             current.ApplyPatch(patch);
-        } catch (Exception ex) {
+        } catch (Exception) {
             RestoreOriginal(patch.BlueprintGuid);
             FailedPatches.Add(patch);
-            Mod.Log($"Error trying to patch blueprint {patch.BlueprintGuid} with patch {patch.PatchId}:\n{ex.ToString()}");
             return false;
         }
         return true;
