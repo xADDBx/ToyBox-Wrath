@@ -44,14 +44,8 @@ public static class Patcher {
         int applied = 0;
         foreach (var patch in KnownPatches.Values) {
             if (!Main.Settings.disabledPatches.Contains(patch.PatchId)) {
-                if (patch.DangerousOperationsEnabled) {
-                    if (Main.Settings.toggleEnableDangerousPatchToolPatches) {
-                        if (patch.ApplyPatch()) {
-                            applied++;
-                        }
-                    } else {
-                        Mod.Warn($"Tried to apply patch {patch.PatchId}, but dangerous patches are disabled!");
-                    }
+                if (patch.ApplyPatch()) {
+                    applied++;
                 }
             }
         }
@@ -75,6 +69,10 @@ public static class Patcher {
     }
     public static bool ApplyPatch(this Patch patch) {
         if (patch == null) return false;
+        if (patch.DangerousOperationsEnabled && !Main.Settings.toggleEnableDangerousPatchToolPatches) {
+            Mod.Warn($"Tried to apply patch {patch.PatchId} to Blueprint {patch.BlueprintGuid}, but dangerous patches are disabled!");
+            return false;
+        }
         Mod.Log($"Patching Blueprint {patch.BlueprintGuid} with Patch {(patch.DangerousOperationsEnabled ? "!Dangerous Patch! " : "")}{patch.PatchId}.");
         FailedPatches.Remove(patch);
         var current = ResourcesLibrary.TryGetBlueprint(BlueprintGuid.Parse(patch.BlueprintGuid)); 
