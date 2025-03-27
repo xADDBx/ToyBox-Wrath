@@ -1,4 +1,6 @@
-﻿namespace ToyBox;
+﻿using ToyBox.Infrastructure.UI;
+
+namespace ToyBox;
 public abstract class FeatureTab {
     internal List<Feature> Features { get; set; } = new();
     public abstract string Name { get; }
@@ -13,8 +15,10 @@ public abstract class FeatureTab {
         }
     }
     public virtual void OnGui() {
+        Div.DrawDiv();
         foreach (var feature in Features) {
             feature.OnGui();
+            Div.DrawDiv();
         }
     }
 }

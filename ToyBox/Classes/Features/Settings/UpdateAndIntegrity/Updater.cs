@@ -2,9 +2,34 @@
 using System.IO.Compression;
 using System.Net;
 using System.Reflection;
+using UnityEngine;
+using UnityModManagerNet;
 
-namespace ToyBox.UpdateAndIntegrity; 
-public static class Updater {
+namespace ToyBox.Features.UpdateAndIntegrity; 
+public static partial class Updater {
+    private static bool isDoingUpdate = false;
+    public static void UpdaterGUI(UnityModManager.ModEntry modEntry) {
+        using (VerticalScope()) {
+            using (HorizontalScope()) {
+                bool pressed1 = GUILayout.Button(TryUpdatingToNewestVersionText.Cyan(), GUILayout.ExpandWidth(false));
+                if (pressed1) {
+                    if (!isDoingUpdate) {
+                        isDoingUpdate = true;
+                        Updater.Update(false, false);
+                    }
+                }
+            }
+            using (HorizontalScope()) {
+                bool pressed2 = GUILayout.Button(TryReinstallCurrentVersionText.Cyan(), GUILayout.ExpandWidth(false));
+                if (pressed2) {
+                    if (!isDoingUpdate) {
+                        isDoingUpdate = true;
+                        Updater.Update(true, false);
+                    }
+                }
+            }
+        }
+    }
     private static string GetReleaseName(string version) => $"ToyBox-{version}.zip";
     private static string GetDownloadLink(string repoLink, string version) => $"{repoLink}/releases/download/v{version}/{GetReleaseName(version)}";
     public static string GetLatestVersion() {
@@ -97,6 +122,17 @@ public static class Updater {
                 tmpDir.Delete(true);
             }
         }
+        if (updated) {
+            Main.ModEntry.Info.DisplayName = "ToyBox ".Yellow().SizePercent(20) + RestartToFinishUpdateText.Green().Bold().SizePercent(40);
+        }
         return updated;
     }
+
+    [LocalizedString("ToyBox_Features_UpdateAndIntegrity_Updater_RestartToFinishUpdateText", "Restart to finish update")]
+    private static partial string RestartToFinishUpdateText { get; }
+    [LocalizedString("ToyBox_Features_UpdateAndIntegrity_Updater_TryReinstallCurrentVersionText", "Try reinstall current version")]
+    private static partial string TryReinstallCurrentVersionText { get; }
+    [LocalizedString("ToyBox_Features_UpdateAndIntegrity_Updater_TryUpdatingToNewestVersionText", "Try updating to newest version")]
+    private static partial string TryUpdatingToNewestVersionText { get; }
+
 }

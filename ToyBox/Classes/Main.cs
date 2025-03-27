@@ -1,5 +1,6 @@
-﻿using ToyBox.Infrastructure.Utilities;
-using ToyBox.UpdateAndIntegrity;
+﻿using System.Diagnostics;
+using ToyBox.Features.UpdateAndIntegrity;
+using ToyBox.Infrastructure.Utilities;
 using UnityEngine;
 using UnityModManagerNet;
 
@@ -15,22 +16,30 @@ public static partial class Main {
     private static bool Load(UnityModManager.ModEntry modEntry) {
         try {
             ModEntry = modEntry;
-#if DEBUG
             modEntry.OnUnload = OnUnload;
-#endif
             modEntry.OnToggle = OnToggle;
             modEntry.OnShowGUI = OnShowGUI;
             modEntry.OnHideGUI = OnHideGUI;
             modEntry.OnGUI = OnGUI;
             modEntry.OnUpdate = OnUpdate;
             modEntry.OnSaveGUI = OnSaveGUI;
+
+            if (Settings.EnableFileIntegrityCheck && !IntegrityChecker.CheckFilesHealthy()) {
+                Critical("Failed Integrity Check. Files have issues!");
+                // Allow option to automatically redownload/reinstall?
+                return false;
+            }
+
+            if (Settings.EnableVersionCompatibilityCheck) {
+                Task.Run(() => {
+                    var versionTimer = Stopwatch.StartNew();
+                    VersionChecker.IsGameVersionSupported();
+                    Debug($"Finished ToyBox Version Compatibility Check in: {versionTimer.ElapsedMilliseconds}ms (Threaded)");
+                });
+            }
+
+
             /*
-            if (!IntegrityChecker.CheckFilesHealthy()) {
-                Log("Failed Integrity Check");
-            }
-            if (!VersionChecker.IsGameVersionSupported()) {
-                Log("Game Version not supported");
-            }
             if (Updater.Update(false, true)) {
                 Log("Updated");
             }
@@ -52,7 +61,6 @@ public static partial class Main {
     private static void RegisterFeatureTabs() {
         m_FeatureTabs.Add(new Features.SettingsFeature.SettingsFeatureTab());
     }
-#if DEBUG
     private static bool OnUnload(UnityModManager.ModEntry modEntry) {
         foreach (var tab in m_FeatureTabs) {
                 tab.DestroyAll();
@@ -60,7 +68,6 @@ public static partial class Main {
         HarmonyInstance.UnpatchAll(ModEntry.Info.Id);
         return true;
     }
-#endif
     private static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) {
         return true;
     }

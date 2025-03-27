@@ -11,11 +11,14 @@ internal class GeneralSettings : AbstractSettings {
 
     public int SelectedTab = 0;
 
+    // Settings Tab
+
+    // - Stuff
     public bool SearchDescriptions = true;
     public LogLevel LogLevel = LogLevel.Info;
     public string UILanguage = "en";
 
-    // BPLoader Settings
+    // - BPLoader Settings
     public int BlueprintsLoaderNumShards = 32;
     public int BlueprintsLoaderChunkSize = 200;
     public int BlueprintsLoaderNumThreads = 4;
@@ -23,4 +26,8 @@ internal class GeneralSettings : AbstractSettings {
     public bool UseBPIdCache = true;
     public bool AutomaticallyBuildBPIdCache = true;
     public bool EnableBlueprintPerformancePatches = true;
+
+    // - UpdateAndIntegrity
+    public bool EnableVersionCompatibilityCheck = true;
+    public bool EnableFileIntegrityCheck = true;
 }

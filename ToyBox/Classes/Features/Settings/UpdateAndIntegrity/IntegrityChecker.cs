@@ -1,9 +1,12 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using System.Security.Cryptography;
-namespace ToyBox.UpdateAndIntegrity; 
+namespace ToyBox.Features.UpdateAndIntegrity; 
 public static class IntegrityChecker {
     private const string ChecksumFileName = "checksum";
     public static bool CheckFilesHealthy(string? specificLocation = null) {
+        var timer = Stopwatch.StartNew();
+        bool isValid = true;
         try {
             string curFile;
             if (specificLocation != null) {
@@ -17,14 +20,14 @@ public static class IntegrityChecker {
             var providedChecksum = File.ReadAllLines(file)[0];
             using var sha256 = SHA256.Create();
             var calculatedChecksum = BitConverter.ToString(sha256.ComputeHash(File.ReadAllBytes(curFile))).Replace("-", "");
-            bool isValid = providedChecksum.Equals(calculatedChecksum, StringComparison.OrdinalIgnoreCase);
+            isValid = providedChecksum.Equals(calculatedChecksum, StringComparison.OrdinalIgnoreCase);
             if (!isValid) {
                 Log($"Checksum mismatch! expected: {providedChecksum}, calculated: {calculatedChecksum}");
             }
-            return isValid;
         } catch (Exception ex) {
-            Warn($"Encountered exception while trying to verify checksum: {ex.ToString()}");
-            return true;
+            Warn($"Encountered exception while trying to verify checksum: {ex}");
         }
+        Debug($"Finished ToyBox File Integrity Check in: {timer.ElapsedMilliseconds}ms");
+        return isValid;
     }
 }
