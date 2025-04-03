@@ -2,6 +2,8 @@
 
 namespace ToyBox.Infrastructure.UI;
 public static class LayoutHelper {
+    public static bool ImguiCanChangeStateAtBeginning() => Event.current.type == EventType.Layout;
+    public static bool ImguiCanChangeStateAtEnd() => Event.current.type == EventType.Repaint;
     public static GUILayout.HorizontalScope HorizontalScope(params GUILayoutOption[] options) => new(options);
     public static GUILayout.HorizontalScope HorizontalScope(float width) => new(GUILayout.Width(width));
     public static GUILayout.HorizontalScope HorizontalScope(GUIStyle style, params GUILayoutOption[] options) => new(style, options);

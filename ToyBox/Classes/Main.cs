@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using ToyBox.Features.UpdateAndIntegrity;
+using ToyBox.Infrastructure.UI;
 using ToyBox.Infrastructure.Utilities;
 using UnityEngine;
 using UnityModManagerNet;
@@ -16,18 +17,20 @@ public static partial class Main {
     private static bool Load(UnityModManager.ModEntry modEntry) {
         try {
             ModEntry = modEntry;
-            modEntry.OnUnload = OnUnload;
-            modEntry.OnToggle = OnToggle;
-            modEntry.OnShowGUI = OnShowGUI;
-            modEntry.OnHideGUI = OnHideGUI;
-            modEntry.OnGUI = OnGUI;
-            modEntry.OnUpdate = OnUpdate;
-            modEntry.OnSaveGUI = OnSaveGUI;
+            ModEntry.OnUnload = OnUnload;
+            ModEntry.OnToggle = OnToggle;
+            ModEntry.OnShowGUI = OnShowGUI;
+            ModEntry.OnHideGUI = OnHideGUI;
+            ModEntry.OnGUI = OnGUI;
+            ModEntry.OnUpdate = OnUpdate;
+            ModEntry.OnSaveGUI = OnSaveGUI;
 
             if (Settings.EnableFileIntegrityCheck && !IntegrityChecker.CheckFilesHealthy()) {
-                Critical("Failed Integrity Check. Files have issues!");
-                // Allow option to automatically redownload/reinstall?
-                return false;
+                Critical("Failed Integrity Check. Files have issues!"); 
+                ModEntry.Info.DisplayName = "ToyBox ".Orange().SizePercent(40) + ModFilesAreCorrupted_Text.Red().Bold().SizePercent(60);
+                // ModEntry.mErrorOnLoading = true;
+                ModEntry.OnGUI = Updater.UpdaterGUI;
+                return true;
             }
 
             if (Settings.EnableVersionCompatibilityCheck) {
@@ -37,13 +40,6 @@ public static partial class Main {
                     Debug($"Finished ToyBox Version Compatibility Check in: {versionTimer.ElapsedMilliseconds}ms (Threaded)");
                 });
             }
-
-
-            /*
-            if (Updater.Update(false, true)) {
-                Log("Updated");
-            }
-            */
 
             Infrastructure.Localization.LocalizationManager.Enable();
             _ = BPLoader;
@@ -59,7 +55,7 @@ public static partial class Main {
         return true;
     }
     private static void RegisterFeatureTabs() {
-        m_FeatureTabs.Add(new Features.SettingsFeature.SettingsFeatureTab());
+        m_FeatureTabs.Add(new Features.SettingsFeatures.SettingsFeaturesTab());
     }
     private static bool OnUnload(UnityModManager.ModEntry modEntry) {
         foreach (var tab in m_FeatureTabs) {
@@ -71,12 +67,8 @@ public static partial class Main {
     private static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) {
         return true;
     }
-    [LocalizedString("ToyBox_Main_CauseANullReferenceExceptionText", "Cause a NullReferenceException")]
-    private static partial string label { get; }
     [LocalizedString("ToyBox_Main_ResetText", "Reset")]
     private static partial string resetLabel { get; }
-    [LocalizedString("ToyBox_Main_LoadBlueprintsText", "Load Blueprints")]
-    private static partial string LoadBlueprintsText { get; }
     [LocalizedString("ToyBox_Main_CurrentlyLoadedBPsText", "Currently loaded BPs: {0}")]
     private static partial string CurrentlyLoadedBPsText { get; }
     private static int m_LoadedBps = 0;
@@ -92,17 +84,14 @@ public static partial class Main {
                         m_WasBPLoadingLastFrame = false;
                     }
                 }
-                if (GUILayout.Button(label)) {
-                    ((object)null).ToString();
-                }
-                if (GUILayout.Button(LoadBlueprintsText)) {
-                    BPLoader.GetBlueprints();
-                }
-                if (Event.current.type == EventType.Layout && BPLoader.HasLoaded) {
+                if (ImguiCanChangeStateAtBeginning() && BPLoader.HasLoaded) {
                     m_LoadedBps = BPLoader.GetBlueprints()!.Count;
                 }
                 GUILayout.Label(CurrentlyLoadedBPsText.Format(m_LoadedBps));
                 Settings.SelectedTab = GUILayout.SelectionGrid(Settings.SelectedTab, m_FeatureTabs.Select(t => t.Name).ToArray(), 10);
+                GUILayout.Space(10);
+                Div.DrawDiv();
+                GUILayout.Space(10);
                 m_FeatureTabs[Settings.SelectedTab].OnGui();
             } catch (Exception ex) {
                 Error(ex);
@@ -125,4 +114,7 @@ public static partial class Main {
     }
     private static void OnUpdate(UnityModManager.ModEntry modEntry, float z) {
     }
+
+    [LocalizedString("ToyBox_Main_ModFilesAreCorrupted_Text", "Mod files are corrupted!")]
+    private static partial string ModFilesAreCorrupted_Text { get; }
 }

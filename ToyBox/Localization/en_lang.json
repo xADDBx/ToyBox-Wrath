@@ -1,10 +1,10 @@
 {
-  "ToyBox_Features_SettingsFeature_LanguagePickerFeature_LanguagePickerText": "Language Picker",
-  "ToyBox_Features_SettingsFeature_LanguagePickerFeature_PickYourCurrentUiLocaleText": "Pick your current ui locale",
-  "ToyBox_Features_SettingsFeature_LanguagePickerFeature_CurrentCultureText": "Current Culture",
-  "ToyBox_Features_SettingsFeature_PerformanceEnhancementFeatures_PerformanceEnhancementText": "Performance Enhancement",
-  "ToyBox_Features_SettingsFeature_PerformanceEnhancementFeatures_EnhancesBlueprintLoadingPerforma": "Enhances Blueprint loading performance",
-  "ToyBox_Features_SettingsFeature_SettingsFeatureTab_SettingsText": "Settings",
+  "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_LanguagePickerText": "Language Picker",
+  "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_PickYourCurrentUiLocaleText": "Pick your current ui locale",
+  "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_CurrentCultureText": "Current Culture",
+  "ToyBox_Features_SettingsFeatures_PerformanceEnhancementFeatures_PerformanceEnhancementText": "Performance Enhancement",
+  "ToyBox_Features_SettingsFeatures_PerformanceEnhancementFeatures_EnhancesBlueprintLoadingPerforma": "Enhances Blueprint loading performance",
+  "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_SettingsText": "Settings",
   "ToyBox_Features_UpdateAndIntegrity_UpdateAndIntegrityFeature_Name": "Update, Integrity and Version Checker",
   "ToyBox_Features_UpdateAndIntegrity_UpdateAndIntegrityFeature_Description": "Check for updates, file integrity and version compatibility.",
   "ToyBox_Features_UpdateAndIntegrity_UpdateAndIntegrityFeature_ModVersionIsNotCompatibleWithThi": "Mod Version is not compatible with this game version!",
@@ -15,8 +15,8 @@
   "ToyBox_Features_UpdateAndIntegrity_Updater_RestartToFinishUpdateText": "Restart to finish update",
   "ToyBox_Features_UpdateAndIntegrity_Updater_TryReinstallCurrentVersionText": "Try reinstall current version",
   "ToyBox_Features_UpdateAndIntegrity_Updater_TryUpdatingToNewestVersionText": "Try updating to newest version",
-  "ToyBox_Main_CauseANullReferenceExceptionText": "Cause a NullReferenceException",
+  "ToyBox_Features_UpdateAndIntegrity_Updater_DownloadProgress_Text": "Download Progress:",
   "ToyBox_Main_ResetText": "Reset",
-  "ToyBox_Main_LoadBlueprintsText": "Load Blueprints",
-  "ToyBox_Main_CurrentlyLoadedBPsText": "Currently loaded BPs: {0}"
+  "ToyBox_Main_CurrentlyLoadedBPsText": "Currently loaded BPs: {0}",
+  "ToyBox_Main_ModFilesAreCorrupted_Text": "Mod files are corrupted!"
 }

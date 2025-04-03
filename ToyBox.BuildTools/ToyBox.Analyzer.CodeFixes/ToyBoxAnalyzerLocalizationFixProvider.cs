@@ -38,6 +38,12 @@ namespace ToyBox.Analyzer {
                 diagnostic);
         }
 
+        private string ReplaceBadChar(string s) {
+            return s.Replace('.', '_').Replace(':', '_').Replace('?', '_').Replace(';', '_').Replace('!', '_').Replace('"', '_').Replace('\'', '_')
+                    .Replace('-', '_').Replace(',', '_').Replace('§', '_').Replace('%', '_').Replace('&', '_').Replace('/', '_').Replace('(', '_')
+                    .Replace(')', '_').Replace('=', '_').Replace('{', '_').Replace('[', '_').Replace(']', '_').Replace('}', '_').Replace('#', '_')
+                    .Replace('+', '_').Replace('*', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace('~', '_');
+        }
         private async Task<Document> MoveToLocalizedStringAsync(Document document, SyntaxNode node, CancellationToken cancellationToken) {
             try {
                 var root = await document.GetSyntaxRootAsync(cancellationToken);
@@ -82,7 +88,7 @@ namespace ToyBox.Analyzer {
                                                             AttributeArgument(
                                                                 LiteralExpression(
                                                                     SyntaxKind.StringLiteralExpression,
-                                                                    Literal($"{GetNamespaceAndClassName(classDeclaration)}.{identifier}".Replace('.', '_')))),
+                                                                    Literal(ReplaceBadChar($"{GetNamespaceAndClassName(classDeclaration)}.{identifier}")))),
                                                             Token(SyntaxKind.CommaToken),
                                                             AttributeArgument(
                                                                 initializerExpr)})))))))

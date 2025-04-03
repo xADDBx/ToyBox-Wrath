@@ -5,6 +5,7 @@ public abstract class FeatureTab {
     internal List<Feature> Features { get; set; } = new();
     public abstract string Name { get; }
     public virtual void InitializeAll() {
+#warning TODO: Patches (if not important) in thread
         foreach (var feature in Features) {
             feature.Initialize();
         }

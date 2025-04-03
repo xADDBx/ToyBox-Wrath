@@ -6,15 +6,15 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using UnityEngine;
 
-namespace ToyBox.Features.SettingsFeature;
+namespace ToyBox.Features.SettingsFeatures;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.SettingsFeature.PerformanceEnhancementFeatures")]
+[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.SettingsFeatures.PerformanceEnhancementFeatures")]
 public partial class PerformanceEnhancementFeatures : FeatureWithPatch {
-    [LocalizedString("ToyBox_Features_SettingsFeature_PerformanceEnhancementFeatures_PerformanceEnhancementText", "Performance Enhancement")]
+    [LocalizedString("ToyBox_Features_SettingsFeatures_PerformanceEnhancementFeatures_PerformanceEnhancementText", "Performance Enhancement")]
     public override partial string Name { get; }
-    [LocalizedString("ToyBox_Features_SettingsFeature_PerformanceEnhancementFeatures_EnhancesBlueprintLoadingPerforma", "Enhances Blueprint loading performance")]
+    [LocalizedString("ToyBox_Features_SettingsFeatures_PerformanceEnhancementFeatures_EnhancesBlueprintLoadingPerforma", "Enhances Blueprint loading performance")]
     public override partial string Description { get; }
-    protected override string HarmonyName => "ToyBox.Features.SettingsFeature.PerformanceEnhancementFeatures";
+    protected override string HarmonyName => "ToyBox.Features.SettingsFeatures.PerformanceEnhancementFeatures";
     public override bool IsEnabled => Settings.EnableBlueprintPerformancePatches;
     public override void OnGui() {
         using (HorizontalScope()) {

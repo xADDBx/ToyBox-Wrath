@@ -7,26 +7,64 @@ using UnityModManagerNet;
 
 namespace ToyBox.Features.UpdateAndIntegrity; 
 public static partial class Updater {
-    private static bool isDoingUpdate = false;
+    private static bool m_StartDownloadNextFrame1 = false;
+    private static bool m_StartDownloadNextFrame2 = false;
+    private static bool m_IsUpdateFinished = false;
+    public static bool IsDoingUpdate = false;
+    private static double m_DownloadProgress = 0f;
+    private static GUIStyle? m_CachedBarStyle = null;
+    public static void DownloadProgressGUI() {
+        GUILayout.Label(DownloadProgress_Text + $" {m_DownloadProgress * 100:F2}%");
+        Rect progressRect = GUILayoutUtility.GetRect(200, 20);
+        GUI.Box(progressRect, "");
+
+        float fillWidth = (float)(m_DownloadProgress * progressRect.width);
+        Rect fillRect = new Rect(progressRect.x, progressRect.y, fillWidth, progressRect.height);
+
+        if (m_CachedBarStyle == null) {
+            m_CachedBarStyle = new GUIStyle(GUI.skin.box);
+            Texture2D greenTexture = new Texture2D(1, 1);
+            greenTexture.SetPixel(0, 0, Color.green);
+            greenTexture.Apply();
+            m_CachedBarStyle.normal.background = greenTexture;
+        }
+        GUI.Box(fillRect, GUIContent.none, m_CachedBarStyle);
+    }
     public static void UpdaterGUI(UnityModManager.ModEntry modEntry) {
         using (VerticalScope()) {
+            if (IsDoingUpdate) {
+                DownloadProgressGUI();
+            }
             using (HorizontalScope()) {
                 bool pressed1 = GUILayout.Button(TryUpdatingToNewestVersionText.Cyan(), GUILayout.ExpandWidth(false));
                 if (pressed1) {
-                    if (!isDoingUpdate) {
-                        isDoingUpdate = true;
-                        Updater.Update(false, false);
+                    if (!IsDoingUpdate) {
+                        m_StartDownloadNextFrame1 = true;
                     }
                 }
             }
             using (HorizontalScope()) {
                 bool pressed2 = GUILayout.Button(TryReinstallCurrentVersionText.Cyan(), GUILayout.ExpandWidth(false));
                 if (pressed2) {
-                    if (!isDoingUpdate) {
-                        isDoingUpdate = true;
-                        Updater.Update(true, false);
+                    if (!IsDoingUpdate) {
+                        m_StartDownloadNextFrame2 = true;
                     }
                 }
+            }
+            if (ImguiCanChangeStateAtEnd()) {
+                if (m_IsUpdateFinished) {
+                    IsDoingUpdate = false;
+                    m_IsUpdateFinished = false;
+                    m_DownloadProgress = 0;
+                } else if (m_StartDownloadNextFrame1) {
+                    IsDoingUpdate = true;
+                    Task.Run(() => Updater.Update(false, false));
+                } else if (m_StartDownloadNextFrame2) {
+                    IsDoingUpdate = true;
+                    Task.Run(() => Updater.Update(true, false));
+                }
+                m_StartDownloadNextFrame1 = false;
+                m_StartDownloadNextFrame2 = false;
             }
         }
     }
@@ -48,6 +86,7 @@ public static partial class Updater {
         return result.Releases[0].Version;
     }
     public static bool Update(bool reinstallCurrentVersion = false, bool onlyUpdateIfRemoteIsNewer = true) {
+        m_DownloadProgress = 0;
         FileInfo? file = null;
         DirectoryInfo? tmpDir = null;
         bool updated = false;
@@ -73,7 +112,10 @@ public static partial class Updater {
                 string downloadUrl = GetDownloadLink(Main.ModEntry.Info.HomePage, version);
                 Log($"Downloading: {downloadUrl}");
                 using var web = new WebClient();
-                web.DownloadFile(downloadUrl, file.FullName);
+                web.DownloadProgressChanged += (sender, e) => {
+                    m_DownloadProgress = e.ProgressPercentage / 100.0;
+                };
+                web.DownloadFileTaskAsync(downloadUrl, file.FullName).GetAwaiter().GetResult();
                 using var zipFile = ZipFile.OpenRead(file.FullName);
 
                 // Dry run
@@ -113,7 +155,7 @@ public static partial class Updater {
                 Log($"Already up-to-data! Remote ({remoteVersion}) <= Local ({Main.ModEntry.Info.Version})");
             }
         } catch (Exception ex) {
-            Warn($"Error trying to update mod: \n{ex.ToString()}");
+            Warn($"Error trying to update mod: \n{ex}");
         } finally {
             if (file?.Exists ?? false) {
                 file.Delete();
@@ -125,6 +167,7 @@ public static partial class Updater {
         if (updated) {
             Main.ModEntry.Info.DisplayName = "ToyBox ".Yellow().SizePercent(20) + RestartToFinishUpdateText.Green().Bold().SizePercent(40);
         }
+        m_IsUpdateFinished = true;
         return updated;
     }
 
@@ -134,5 +177,6 @@ public static partial class Updater {
     private static partial string TryReinstallCurrentVersionText { get; }
     [LocalizedString("ToyBox_Features_UpdateAndIntegrity_Updater_TryUpdatingToNewestVersionText", "Try updating to newest version")]
     private static partial string TryUpdatingToNewestVersionText { get; }
-
+    [LocalizedString("ToyBox_Features_UpdateAndIntegrity_Updater_DownloadProgress_Text", "Download Progress:")]
+    private static partial string DownloadProgress_Text { get; }
 }
