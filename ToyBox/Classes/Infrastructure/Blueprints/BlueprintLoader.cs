@@ -147,9 +147,9 @@ public class BlueprintLoader {
         Task.Run(() => Run(toLoad));
     }
     public float Progress {
-        // This will probably throw if multiple it's called more than once per event
+        // This will probably throw if it's called more than once per event
         get {
-            if (Event.current.type == EventType.Layout) {
+            if (ImguiCanChangeStateAtBeginning()) {
                 if (m_TotalLoading > 0) {
                     field = (float)m_EstimateLoaded / m_TotalLoading;
                 } else {

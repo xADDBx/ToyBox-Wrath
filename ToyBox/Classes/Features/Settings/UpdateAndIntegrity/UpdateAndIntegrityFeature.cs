@@ -1,11 +1,10 @@
 ﻿using Kingmaker;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace ToyBox.Features.UpdateAndIntegrity;
 
 [HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.UpdateAndIntegrity.UpdateAndIntegrityFeature")]
-public partial class UpdateAndIntegrityFeature : FeatureWithPatch {
+public partial class UpdateAndIntegrityFeature : FeatureWithPatch, INeedEarlyInitFeature {
     [LocalizedString("ToyBox_Features_UpdateAndIntegrity_UpdateAndIntegrityFeature_Name", "Update, Integrity and Version Checker")]
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Features_UpdateAndIntegrity_UpdateAndIntegrityFeature_Description", "Check for updates, file integrity and version compatibility.")]

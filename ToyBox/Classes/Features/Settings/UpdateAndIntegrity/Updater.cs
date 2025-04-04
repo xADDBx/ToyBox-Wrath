@@ -157,11 +157,12 @@ public static partial class Updater {
         } catch (Exception ex) {
             Warn($"Error trying to update mod: \n{ex}");
         } finally {
-            if (file?.Exists ?? false) {
-                file.Delete();
+            // Using FileInfo.Delete/DirectoryInfo.Delete here won't work
+            if (file != null && File.Exists(file.FullName)) {
+                File.Delete(file.FullName);
             }
-            if (tmpDir?.Exists ?? false) {
-                tmpDir.Delete(true);
+            if (tmpDir != null && Directory.Exists(tmpDir.FullName)) {
+                Directory.Delete(tmpDir.FullName, true);
             }
         }
         if (updated) {

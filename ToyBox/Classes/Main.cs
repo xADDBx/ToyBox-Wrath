@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using ToyBox.Features.UpdateAndIntegrity;
+using ToyBox.Infrastructure;
 using ToyBox.Infrastructure.UI;
 using ToyBox.Infrastructure.Utilities;
 using UnityEngine;
@@ -10,11 +11,15 @@ namespace ToyBox;
 [EnableReloading]
 #endif
 public static partial class Main {
+    [LocalizedString("ToyBox_Main_ModFilesAreCorrupted_Text", "Mod files are corrupted!")]
+    private static partial string ModFilesAreCorrupted_Text { get; }
     internal static Harmony HarmonyInstance = new("ToyBox");
     internal static UnityModManager.ModEntry ModEntry = null!;
+    internal static List<Task> LateInitTasks = new List<Task>();
     private static Exception? m_CaughtException = null;
     private static List<FeatureTab> m_FeatureTabs = new();
     private static bool Load(UnityModManager.ModEntry modEntry) {
+        Stopwatch sw = Stopwatch.StartNew();
         try {
             ModEntry = modEntry;
             ModEntry.OnUnload = OnUnload;
@@ -28,7 +33,6 @@ public static partial class Main {
             if (Settings.EnableFileIntegrityCheck && !IntegrityChecker.CheckFilesHealthy()) {
                 Critical("Failed Integrity Check. Files have issues!"); 
                 ModEntry.Info.DisplayName = "ToyBox ".Orange().SizePercent(40) + ModFilesAreCorrupted_Text.Red().Bold().SizePercent(60);
-                // ModEntry.mErrorOnLoading = true;
                 ModEntry.OnGUI = Updater.UpdaterGUI;
                 return true;
             }
@@ -37,21 +41,34 @@ public static partial class Main {
                 Task.Run(() => {
                     var versionTimer = Stopwatch.StartNew();
                     VersionChecker.IsGameVersionSupported();
-                    Debug($"Finished ToyBox Version Compatibility Check in: {versionTimer.ElapsedMilliseconds}ms (Threaded)");
+                    Debug($"Finished Version Compatibility Check in: {versionTimer.ElapsedMilliseconds}ms (Threaded)");
                 });
             }
 
+            Stopwatch sw2 = Stopwatch.StartNew();
             Infrastructure.Localization.LocalizationManager.Enable();
+            Debug($"Localization init took {sw2.ElapsedMilliseconds}ms");
+            
+            sw2.Start();
             _ = BPLoader;
+            Debug($"BPLoader init took {sw2.ElapsedMilliseconds}ms");
 
+            sw2.Start();
             RegisterFeatureTabs();
+            Debug($"Early init took {sw2.ElapsedMilliseconds}ms");
+
             foreach (var tab in m_FeatureTabs) {
-                tab.InitializeAll();
+                LateInitTasks.Add(Task.Run(tab.InitializeAll));
             }
+            LazyInit.Stopwatch.Start();
+
+            LazyInit.EnsureFinish();
+
         } catch (Exception ex) {
             Error(ex);
             return false;
         }
+        Debug($"Complete init took {sw.ElapsedMilliseconds}ms");
         return true;
     }
     private static void RegisterFeatureTabs() {
@@ -115,7 +132,4 @@ public static partial class Main {
     }
     private static void OnUpdate(UnityModManager.ModEntry modEntry, float z) {
     }
-
-    [LocalizedString("ToyBox_Main_ModFilesAreCorrupted_Text", "Mod files are corrupted!")]
-    private static partial string ModFilesAreCorrupted_Text { get; }
 }

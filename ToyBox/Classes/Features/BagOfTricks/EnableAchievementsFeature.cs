@@ -32,7 +32,7 @@ public partial class EnableAchievementsFeature : FeatureWithPatch {
         }
     }
     [HarmonyPatch(typeof(AchievementEntity), nameof(AchievementEntity.IsDisabled), MethodType.Getter), HarmonyTranspiler, HarmonyDebug]
-    private static IEnumerable<CodeInstruction> AchievementEntity_IsDisabled_Patch(IEnumerable<CodeInstruction> instructions) {
+    private static IEnumerable<CodeInstruction> AchievementEntity_IsDisabled_Transpiler(IEnumerable<CodeInstruction> instructions) {
         foreach (var instruction in instructions) {
             if (instruction.Calls(AccessTools.PropertyGetter(typeof(Player), nameof(Player.ModsUser)))) {
                 yield return new(OpCodes.Pop);
@@ -46,7 +46,7 @@ public partial class EnableAchievementsFeature : FeatureWithPatch {
         }
     }
     [HarmonyPatch(typeof(Player), nameof(Player.ModsUser), MethodType.Setter), HarmonyPrefix]
-    public static void Player_ModsUser_Patch(ref bool value) {
+    public static void Player_ModsUser_Prefix(ref bool value) {
         value = false;
     }
 }
