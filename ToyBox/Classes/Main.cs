@@ -55,6 +55,7 @@ public static partial class Main {
         return true;
     }
     private static void RegisterFeatureTabs() {
+        m_FeatureTabs.Add(new Features.BagOfTricks.BagOfTricksFeatureTab());
         m_FeatureTabs.Add(new Features.SettingsFeatures.SettingsFeaturesTab());
     }
     private static bool OnUnload(UnityModManager.ModEntry modEntry) {

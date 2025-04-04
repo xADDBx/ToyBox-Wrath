@@ -30,4 +30,8 @@ internal class GeneralSettings : AbstractSettings {
     // - UpdateAndIntegrity
     public bool EnableVersionCompatibilityCheck = true;
     public bool EnableFileIntegrityCheck = true;
+
+    // Bag of Tricks
+
+    public bool EnableModdedAchievements = true;
 }
