@@ -31,7 +31,7 @@ public partial class EnableAchievementsFeature : FeatureWithPatch {
             GUILayout.Label(Description.Green(), GUILayout.ExpandWidth(false));
         }
     }
-    [HarmonyPatch(typeof(AchievementEntity), nameof(AchievementEntity.IsDisabled), MethodType.Getter), HarmonyTranspiler, HarmonyDebug]
+    [HarmonyPatch(typeof(AchievementEntity), nameof(AchievementEntity.IsDisabled), MethodType.Getter), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> AchievementEntity_IsDisabled_Transpiler(IEnumerable<CodeInstruction> instructions) {
         foreach (var instruction in instructions) {
             if (instruction.Calls(AccessTools.PropertyGetter(typeof(Player), nameof(Player.ModsUser)))) {
