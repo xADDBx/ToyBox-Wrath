@@ -1,4 +1,30 @@
-﻿Bag of Tricks tab
+﻿=======================Tabs====================
+- Bag of Tricks (started)
+- Enhanced UI
+- Level Up
+- Party
+- Loot
+- Enchantment
+- Search 'n Pick
+- Crusde
+- Armies
+- Events/Decrees
+- Etudes
+- Quests
+- Dialog & NPCs
+- Saves
+- Achievements
+- Patch Tool
+- Settings (started)
+================================================
+
+
+
+
+
+
+
+Bag of Tricks tab
 --------
 Rest All button
 Rest Selected button

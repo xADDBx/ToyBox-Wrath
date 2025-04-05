@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using Kingmaker.UnitLogic.Abilities.Blueprints;
+﻿using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic;
 using UnityEngine;
 using Kingmaker.Blueprints.Items.Components;
@@ -31,7 +30,7 @@ public partial class SpontaneousCasterCopyScrollFeature : FeatureWithPatch {
         }
     }
     [HarmonyPatch(typeof(CopyScroll), nameof(CopyScroll.CanCopySpell), [typeof(BlueprintAbility), typeof(Spellbook)]), HarmonyPostfix]
-    public static void CopyScrolls_Postfix([NotNull] BlueprintAbility spell, [NotNull] Spellbook spellbook, ref bool __result){
+    public static void CopyScrolls_Postfix(BlueprintAbility spell, Spellbook spellbook, ref bool __result){
         if (spellbook.IsKnown(spell)) {
             __result = false;
             return;
