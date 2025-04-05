@@ -18,9 +18,9 @@ public partial class RestoreItemsAfterCombatFeature : FeatureWithPatch {
             if (newValue != Settings.RestoreItemsAfterCombat) {
                 Settings.RestoreItemsAfterCombat = newValue;
                 if (newValue) {
-                    Patch();
+                    Initialize();
                 } else {
-                    Unpatch();
+                    Destroy();
                 }
             }
             GUILayout.Space(10);

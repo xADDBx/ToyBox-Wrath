@@ -129,6 +129,7 @@ public static partial class Main {
     private static void OnShowGUI(UnityModManager.ModEntry modEntry) {
     }
     private static void OnHideGUI(UnityModManager.ModEntry modEntry) {
+        Settings.Save();
     }
     private static void OnUpdate(UnityModManager.ModEntry modEntry, float z) {
     }

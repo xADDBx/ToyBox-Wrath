@@ -1,4 +1,5 @@
 ﻿using Kingmaker.View.MapObjects.InteractionRestrictions;
+using System.Reflection.Emit;
 using UnityEngine;
 
 namespace ToyBox.Classes.Features.BagOfTricks;
@@ -11,8 +12,7 @@ public partial class ToggleLockJamFeature : FeatureWithPatch {
     [LocalizedString("ToyBox_Classes_Features_BagOfTricks_ToggleLockJamFeature_ToggleLockJamText", "Toggle Lock Jam")]
     public override partial string Name { get; }
 
-    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_ToggleLockJamFeature_PreventsLocksFromJammingText", "Prevents Locks from jamming"
-    )]
+    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_ToggleLockJamFeature_PreventsLocksFromJammingText", "Prevents Locks from jamming")]
     public override partial string Description { get; }
     public override void OnGui() {
         using (HorizontalScope()) {
@@ -20,17 +20,29 @@ public partial class ToggleLockJamFeature : FeatureWithPatch {
             if (newValue != Settings.ToggleLockJam) {
                 Settings.ToggleLockJam = newValue;
                 if (newValue) {
-                    Patch();
+                    Initialize();
                 } else {
-                    Unpatch();
+                    Destroy();
                 }
             }
             GUILayout.Space(10);
             GUILayout.Label(Description.Green(), GUILayout.ExpandWidth(false));
         }
     }
-    [HarmonyPatch(typeof(DisableDeviceRestrictionPart), nameof(DisableDeviceRestrictionPart.CheckRestriction)), HarmonyPostfix]
-    public static void CheckRestriction_Patch(DisableDeviceRestrictionPart __instance) {
-        __instance.Jammed = false; // still not doing a transpiler
+    [HarmonyPatch(typeof(DisableDeviceRestrictionPart), nameof(DisableDeviceRestrictionPart.CheckRestriction)), HarmonyTranspiler]
+    public static IEnumerable<CodeInstruction> CheckRestriction_Patch(IEnumerable<CodeInstruction> instructions) {
+        var jammedField = AccessTools.Field(typeof(DisableDeviceRestrictionPart), nameof(DisableDeviceRestrictionPart.Jammed));
+        foreach (var instruction in instructions) {
+            if (instruction.LoadsField(jammedField)) {
+                yield return new(OpCodes.Pop);
+                yield return new(OpCodes.Ldc_I4_0);
+            } else if (instruction.StoresField(jammedField)) {
+                yield return new(OpCodes.Pop);
+                yield return new(OpCodes.Ldc_I4_0);
+                yield return instruction;
+            } else {
+                yield return instruction;
+            }
+        }
     }
 }

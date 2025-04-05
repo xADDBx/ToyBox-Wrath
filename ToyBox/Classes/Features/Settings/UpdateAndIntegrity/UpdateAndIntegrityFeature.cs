@@ -18,10 +18,10 @@ public partial class UpdateAndIntegrityFeature : FeatureWithPatch, INeedEarlyIni
             using (HorizontalScope()) {
                 bool newValue = GUILayout.Toggle(Settings.EnableVersionCompatibilityCheck, EnableVersionCompatibilityCheckT.Cyan(), GUILayout.ExpandWidth(false));
                 if (newValue != Settings.EnableVersionCompatibilityCheck) {
-                    if (Settings.EnableVersionCompatibilityCheck) {
-                        Unpatch();
+                    if (newValue) {
+                        Initialize();
                     } else {
-                        Patch();
+                        Destroy();
                     }
                     Settings.EnableVersionCompatibilityCheck = newValue;
                 }

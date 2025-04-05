@@ -19,9 +19,9 @@ public partial class RestAfterCombatFeature : FeatureWithPatch {
             if (newValue != Settings.RestAfterCombat) {
                 Settings.RestAfterCombat = newValue;
                 if (newValue) {
-                    Patch();
+                    Initialize();
                 } else {
-                    Unpatch();
+                    Destroy();
                 }
             }
             GUILayout.Space(10);

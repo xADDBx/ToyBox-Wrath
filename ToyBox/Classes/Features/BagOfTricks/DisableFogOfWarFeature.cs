@@ -19,9 +19,9 @@ public partial class DisableFogOfWarFeature : FeatureWithPatch {
             if (newValue != Settings.DisableFoW) {
                 Settings.DisableFoW = newValue;
                 if (newValue) {
-                    Patch();
+                    Initialize();
                 } else {
-                    Unpatch();
+                    Destroy();
                 }
             }
             GUILayout.Space(10);

@@ -6,33 +6,31 @@ using Kingmaker.Blueprints.Items.Components;
 
 namespace ToyBox.Classes.Features.BagOfTricks;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Classes.Features.BagOfTricks.CopyScrollFeature")]
-public partial class CopyScrollFeature : FeatureWithPatch {
-    protected override string HarmonyName => "ToyBox.Classes.Features.BagOfTricks.CopyScrollFeature";
-    public override bool IsEnabled => Settings.CanCopyScrolls;
+[HarmonyPatch, HarmonyPatchCategory("ToyBox.Classes.Features.BagOfTricks.SpontaneousCasterCopyScrollFeature")]
+public partial class SpontaneousCasterCopyScrollFeature : FeatureWithPatch {
+    protected override string HarmonyName => "ToyBox.Classes.Features.BagOfTricks.SpontaneousCasterCopyScrollFeature";
+    public override bool IsEnabled => Settings.SpontaneousCasterCanCopyScrolls;
 
-    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_CopyScrollFeature_CanCopyScrollsText", "Can Copy Scrolls")]
+    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_SpontaneousCasterCopyScrollFeature_CanCopyScrollsText", "Spontaneous Caster Scroll Copy")]
     public override partial string Name { get; }
-    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_CopyScrollFeature_AllowSpontaneousCastersToCopyScr", "Allow spontaneous casters to copy scrolls into their spell books")]
+    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_SpontaneousCasterCopyScrollFeature_AllowSpontaneousCastersToCopyScr", "Allow spontaneous casters to copy scrolls into their spell books")]
     public override partial string Description { get; }
     public override void OnGui() {
         using (HorizontalScope()) {
-            var newValue = GUILayout.Toggle(Settings.CanCopyScrolls, Name.Cyan(), GUILayout.ExpandWidth(false));
-            if (newValue != Settings.CanCopyScrolls) {
-                Settings.CanCopyScrolls = newValue;
+            var newValue = GUILayout.Toggle(Settings.SpontaneousCasterCanCopyScrolls, Name.Cyan(), GUILayout.ExpandWidth(false));
+            if (newValue != Settings.SpontaneousCasterCanCopyScrolls) {
+                Settings.SpontaneousCasterCanCopyScrolls = newValue;
                 if (newValue) {
-                    Patch();
+                    Initialize();
                 } else {
-                    Unpatch();
+                    Destroy();
                 }
             }
             GUILayout.Space(10);
             GUILayout.Label(Description.Green(), GUILayout.ExpandWidth(false));
         }
     }
-    [HarmonyPatch(typeof(CopyScroll), nameof(CopyScroll.CanCopySpell))]
-    [HarmonyPatch(new Type[] { typeof(BlueprintAbility), typeof(Spellbook) })]
-    [HarmonyPostfix]
+    [HarmonyPatch(typeof(CopyScroll), nameof(CopyScroll.CanCopySpell), [typeof(BlueprintAbility), typeof(Spellbook)]), HarmonyPostfix]
     public static void CopyScrolls_Postfix([NotNull] BlueprintAbility spell, [NotNull] Spellbook spellbook, ref bool __result){
         if (spellbook.IsKnown(spell)) {
             __result = false;

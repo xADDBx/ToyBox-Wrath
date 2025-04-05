@@ -22,9 +22,9 @@ public partial class EnableAchievementsFeature : FeatureWithPatch {
             if (newValue != Settings.EnableModdedAchievements) {
                 Settings.EnableModdedAchievements = newValue;
                 if (newValue) {
-                    Patch();
+                    Initialize();
                 } else {
-                    Unpatch();
+                    Destroy();
                 }
             }
             GUILayout.Space(10);

@@ -18,9 +18,9 @@ public partial class RestoreSpellsAfterCombatFeature : FeatureWithPatch {
             if (newValue != Settings.RestoreSpellsAfterCombat) {
                 Settings.RestoreSpellsAfterCombat = newValue;
                 if (newValue) {
-                    Patch();
+                    Initialize();
                 } else {
-                    Unpatch();
+                    Destroy();
                 }
             }
             GUILayout.Space(10);

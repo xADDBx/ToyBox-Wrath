@@ -35,7 +35,7 @@ internal class GeneralSettings : AbstractSettings {
 
     public bool EnableModdedAchievements = true;
     public bool ToggleLockJam = false;
-    public bool CanCopyScrolls = false;
+    public bool SpontaneousCasterCanCopyScrolls = false;
     public bool DisableFoW = false;
     public bool RestoreAbilitiesAfterCombat = false;
     public bool RestoreSpellsAfterCombat = false;

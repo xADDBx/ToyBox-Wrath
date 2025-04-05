@@ -18,9 +18,9 @@ public partial class RestoreAbilitiesAfterCombatFeature : FeatureWithPatch {
             if (newValue != Settings.RestoreAbilitiesAfterCombat) {
                 Settings.RestoreAbilitiesAfterCombat = newValue;
                 if (newValue) {
-                    Patch();
+                    Initialize();
                 } else {
-                    Unpatch();
+                    Destroy();
                 }
             }
             GUILayout.Space(10);

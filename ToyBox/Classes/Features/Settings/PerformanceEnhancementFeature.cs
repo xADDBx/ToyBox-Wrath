@@ -22,9 +22,9 @@ public partial class PerformanceEnhancementFeatures : FeatureWithPatch {
             if (newValue != Settings.EnableBlueprintPerformancePatches) {
                 Settings.EnableBlueprintPerformancePatches = newValue;
                 if (newValue) {
-                    Patch();
+                    Initialize();
                 } else {
-                    Unpatch();
+                    Destroy();
                 }
             }
             GUILayout.Space(10);
