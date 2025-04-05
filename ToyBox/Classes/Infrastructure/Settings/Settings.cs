@@ -37,4 +37,8 @@ internal class GeneralSettings : AbstractSettings {
     public bool ToggleLockJam = false;
     public bool CanCopyScrolls = false;
     public bool DisableFoW = false;
+    public bool RestoreAbilitiesAfterCombat = false;
+    public bool RestoreSpellsAfterCombat = false;
+    public bool RestoreItemsAfterCombat = false;
+    public bool RestAfterCombat = false;
 }

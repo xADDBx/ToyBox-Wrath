@@ -16,7 +16,6 @@ public partial class CopyScrollFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Classes.Features.BagOfTricks.CopyScrollFeature";
     public override bool IsEnabled => Settings.CanCopyScrolls;
 
-
     [LocalizedString("ToyBox_Classes_Features_BagOfTricks_CopyScrollFeature_CanCopyScrollsText", "Can Copy Scrolls")]
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Classes_Features_BagOfTricks_CopyScrollFeature_AllowSpontaneousCastersToCopyScr", "Allow spontaneous casters to copy scrolls into their spell books")]
