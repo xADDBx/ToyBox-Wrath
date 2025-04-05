@@ -1,9 +1,4 @@
 ﻿using Owlcat.Runtime.Visual.RenderPipeline.RendererFeatures.FogOfWar;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ToyBox.Classes.Features.BagOfTricks;
@@ -18,7 +13,6 @@ public partial class DisableFogOfWarFeature : FeatureWithPatch {
 
     [LocalizedString("ToyBox_Classes_Features_BagOfTricks_DisableFogOfWarFeature_DisableTheFogOfWarOnTheMapText", "Disable the fog of war on the map")]
     public override partial string Description { get; }
-
     public override void OnGui() {
         using (HorizontalScope()) {
             var newValue = GUILayout.Toggle(Settings.DisableFoW, Name.Cyan(), GUILayout.ExpandWidth(false));

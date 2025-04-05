@@ -1,11 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Kingmaker.Blueprints.Items.Components;
 
