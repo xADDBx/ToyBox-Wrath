@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace ToyBox.Features.BagOfTricks;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Classes.Features.BagOfTricks.RestoreItemsAfterCombatFeature")]
+[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.RestoreItemsAfterCombatFeature")]
 public partial class RestoreItemsAfterCombatFeature : FeatureWithPatch {
-    protected override string HarmonyName => "ToyBox.Classes.Features.BagOfTricks.RestoreItemsAfterCombatFeature";
+    protected override string HarmonyName => "ToyBox.Features.BagOfTricks.RestoreItemsAfterCombatFeature";
     public override bool IsEnabled => Settings.RestoreItemsAfterCombat;
 
-    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_RestoreItemsAfterCombatFeature_RestoreItemsAfterCombatText", "Restore Items After Combat")]
+    [LocalizedString("ToyBox_Features_BagOfTricks_RestoreItemsAfterCombatFeature_RestoreItemsAfterCombatText", "Restore Items After Combat")]
     public override partial string Name { get; }
-    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_RestoreItemsAfterCombatFeature_RestoreItemChargesAfterCombatTex", "Restore item charges after combat")]
+    [LocalizedString("ToyBox_Features_BagOfTricks_RestoreItemsAfterCombatFeature_RestoreItemChargesAfterCombatTex", "Restore item charges after combat")]
     public override partial string Description { get; }
     public override void OnGui() {
         using (HorizontalScope()) {

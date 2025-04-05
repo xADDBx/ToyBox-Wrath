@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace ToyBox.Features.BagOfTricks;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Classes.Features.BagOfTricks.RestoreSpellsAfterCombatFeature")]
+[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.RestoreSpellsAfterCombatFeature")]
 public partial class RestoreSpellsAfterCombatFeature : FeatureWithPatch {
-    protected override string HarmonyName => "ToyBox.Classes.Features.BagOfTricks.RestoreSpellsAfterCombatFeature";
+    protected override string HarmonyName => "ToyBox.Features.BagOfTricks.RestoreSpellsAfterCombatFeature";
     public override bool IsEnabled => Settings.RestoreSpellsAfterCombat;
 
-    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_RestoreSpellsAfterCombatFeature_RestoreSpellsAfterCombatText", "Restore Spells After Combat")]
+    [LocalizedString("ToyBox_Features_BagOfTricks_RestoreSpellsAfterCombatFeature_RestoreSpellsAfterCombatText", "Restore Spells After Combat")]
     public override partial string Name { get; }
-    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_RestoreSpellsAfterCombatFeature_RestoreSpellChargesAfterCombatTe", "Restore spell charges after combat")]
+    [LocalizedString("ToyBox_Features_BagOfTricks_RestoreSpellsAfterCombatFeature_RestoreSpellChargesAfterCombatTe", "Restore spell charges after combat")]
     public override partial string Description { get; }
     public override void OnGui() {
         using (HorizontalScope()) {

@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace ToyBox.Features.BagOfTricks;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Classes.Features.BagOfTricks.RestoreAbilitiesAfterCombatFeature")]
+[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.RestoreAbilitiesAfterCombatFeature")]
 public partial class RestoreAbilitiesAfterCombatFeature : FeatureWithPatch {
-    protected override string HarmonyName => "ToyBox.Classes.Features.BagOfTricks.RestoreAbilitiesAfterCombatFeature";
+    protected override string HarmonyName => "ToyBox.Features.BagOfTricks.RestoreAbilitiesAfterCombatFeature";
     public override bool IsEnabled => Settings.RestoreAbilitiesAfterCombat;
 
-    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_RestoreAbilitiesAfterCombatFeature_RestoreAbilitiesAfterCombatText", "Restore Abilities After Combat")]
+    [LocalizedString("ToyBox_Features_BagOfTricks_RestoreAbilitiesAfterCombatFeature_RestoreAbilitiesAfterCombatText", "Restore Abilities After Combat")]
     public override partial string Name { get; }
-    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_RestoreAbilitiesAfterCombatFeature_RestoresAllChargesOnAbilitiesAft", "Restores all charges on abilities after combat")]
+    [LocalizedString("ToyBox_Features_BagOfTricks_RestoreAbilitiesAfterCombatFeature_RestoresAllChargesOnAbilitiesAft", "Restores all charges on abilities after combat")]
     public override partial string Description { get; }
     public override void OnGui() {
         using (HorizontalScope()) {

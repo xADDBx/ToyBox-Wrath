@@ -6,14 +6,14 @@ using Kingmaker.Blueprints.Items.Components;
 
 namespace ToyBox.Features.BagOfTricks;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Classes.Features.BagOfTricks.SpontaneousCasterCopyScrollFeature")]
+[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.SpontaneousCasterCopyScrollFeature")]
 public partial class SpontaneousCasterCopyScrollFeature : FeatureWithPatch {
-    protected override string HarmonyName => "ToyBox.Classes.Features.BagOfTricks.SpontaneousCasterCopyScrollFeature";
+    protected override string HarmonyName => "ToyBox.Features.BagOfTricks.SpontaneousCasterCopyScrollFeature";
     public override bool IsEnabled => Settings.SpontaneousCasterCanCopyScrolls;
 
-    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_SpontaneousCasterCopyScrollFeature_CanCopyScrollsText", "Spontaneous Caster Scroll Copy")]
+    [LocalizedString("ToyBox_Features_BagOfTricks_SpontaneousCasterCopyScrollFeature_CanCopyScrollsText", "Spontaneous Caster Scroll Copy")]
     public override partial string Name { get; }
-    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_SpontaneousCasterCopyScrollFeature_AllowSpontaneousCastersToCopyScr", "Allow spontaneous casters to copy scrolls into their spell books")]
+    [LocalizedString("ToyBox_Features_BagOfTricks_SpontaneousCasterCopyScrollFeature_AllowSpontaneousCastersToCopyScr", "Allow spontaneous casters to copy scrolls into their spell books")]
     public override partial string Description { get; }
     public override void OnGui() {
         using (HorizontalScope()) {

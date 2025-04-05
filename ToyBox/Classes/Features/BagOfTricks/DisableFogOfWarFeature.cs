@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace ToyBox.Features.BagOfTricks;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Classes.Features.BagOfTricks.DisableFogOfWarFeature")]
+[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.DisableFogOfWarFeature")]
 public partial class DisableFogOfWarFeature : FeatureWithPatch {
-    protected override string HarmonyName => "ToyBox.Classes.Features.BagOfTricks.DisableFogOfWarFeature";
+    protected override string HarmonyName => "ToyBox.Features.BagOfTricks.DisableFogOfWarFeature";
     public override bool IsEnabled => Settings.DisableFoW;
 
-    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_DisableFogOfWarFeature_DisableFogOfWarText", "Disable Fog of War")]
+    [LocalizedString("ToyBox_Features_BagOfTricks_DisableFogOfWarFeature_DisableFogOfWarText", "Disable Fog of War")]
     public override partial string Name { get; }
 
-    [LocalizedString("ToyBox_Classes_Features_BagOfTricks_DisableFogOfWarFeature_DisableTheFogOfWarOnTheMapText", "Disable the fog of war on the map")]
+    [LocalizedString("ToyBox_Features_BagOfTricks_DisableFogOfWarFeature_DisableTheFogOfWarOnTheMapText", "Disable the fog of war on the map")]
     public override partial string Description { get; }
     public override void OnGui() {
         using (HorizontalScope()) {
