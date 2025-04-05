@@ -1,7 +1,7 @@
 ﻿using Kingmaker;
 using UnityEngine;
 
-namespace ToyBox.Classes.Features.BagOfTricks;
+namespace ToyBox.Features.BagOfTricks;
 
 [HarmonyPatch, HarmonyPatchCategory("ToyBox.Classes.Features.BagOfTricks.RestoreAbilitiesAfterCombatFeature")]
 public partial class RestoreAbilitiesAfterCombatFeature : FeatureWithPatch {

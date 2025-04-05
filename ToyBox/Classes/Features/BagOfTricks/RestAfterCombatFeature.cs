@@ -2,7 +2,7 @@
 using Kingmaker.Cheats;
 using UnityEngine;
 
-namespace ToyBox.Classes.Features.BagOfTricks;
+namespace ToyBox.Features.BagOfTricks;
 
 [HarmonyPatch, HarmonyPatchCategory("ToyBox.Classes.Features.BagOfTricks.RestAfterCombatFeature")]
 public partial class RestAfterCombatFeature : FeatureWithPatch {

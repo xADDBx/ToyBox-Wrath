@@ -1,7 +1,7 @@
 ﻿using Owlcat.Runtime.Visual.RenderPipeline.RendererFeatures.FogOfWar;
 using UnityEngine;
 
-namespace ToyBox.Classes.Features.BagOfTricks;
+namespace ToyBox.Features.BagOfTricks;
 
 [HarmonyPatch, HarmonyPatchCategory("ToyBox.Classes.Features.BagOfTricks.DisableFogOfWarFeature")]
 public partial class DisableFogOfWarFeature : FeatureWithPatch {

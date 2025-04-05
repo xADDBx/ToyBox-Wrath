@@ -2,7 +2,7 @@
 using System.Reflection.Emit;
 using UnityEngine;
 
-namespace ToyBox.Classes.Features.BagOfTricks;
+namespace ToyBox.Features.BagOfTricks;
 
 [HarmonyPatch, HarmonyPatchCategory("ToyBox.Classes.Features.BagOfTricks.ToggleLockJamFeature")]
 public partial class ToggleLockJamFeature : FeatureWithPatch {

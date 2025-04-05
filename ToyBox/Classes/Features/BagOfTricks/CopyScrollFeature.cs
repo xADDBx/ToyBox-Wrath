@@ -4,7 +4,7 @@ using Kingmaker.UnitLogic;
 using UnityEngine;
 using Kingmaker.Blueprints.Items.Components;
 
-namespace ToyBox.Classes.Features.BagOfTricks;
+namespace ToyBox.Features.BagOfTricks;
 
 [HarmonyPatch, HarmonyPatchCategory("ToyBox.Classes.Features.BagOfTricks.SpontaneousCasterCopyScrollFeature")]
 public partial class SpontaneousCasterCopyScrollFeature : FeatureWithPatch {
