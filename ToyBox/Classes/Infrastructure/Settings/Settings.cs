@@ -34,4 +34,5 @@ internal class GeneralSettings : AbstractSettings {
     // Bag of Tricks
 
     public bool EnableModdedAchievements = true;
+    public bool ToggleLockJam = false;
 }
