@@ -9,28 +9,10 @@ public partial class UpdaterFeature : Feature {
     private static bool m_EnqueuedStart = false;
     public static bool IsDoingUpdate = false;
     private static double m_DownloadProgress = 0f;
-    private static GUIStyle? m_CachedBarStyle = null;
-    public static void DownloadProgressGUI() {
-        GUILayout.Label(DownloadProgress_Text + $" {m_DownloadProgress * 100:F2}%");
-        Rect progressRect = GUILayoutUtility.GetRect(200, 20);
-        GUI.Box(progressRect, "");
-
-        float fillWidth = (float)(m_DownloadProgress * progressRect.width);
-        Rect fillRect = new Rect(progressRect.x, progressRect.y, fillWidth, progressRect.height);
-
-        if (m_CachedBarStyle == null) {
-            m_CachedBarStyle = new GUIStyle(GUI.skin.box);
-            Texture2D greenTexture = new Texture2D(1, 1);
-            greenTexture.SetPixel(0, 0, Color.green);
-            greenTexture.Apply();
-            m_CachedBarStyle.normal.background = greenTexture;
-        }
-        GUI.Box(fillRect, GUIContent.none, m_CachedBarStyle);
-    }
     public static void UpdaterGUI() {
         using (VerticalScope()) {
             if (IsDoingUpdate) {
-                DownloadProgressGUI();
+                UI.ProgressBar(m_DownloadProgress, DownloadProgress_Text);
             }
             using (HorizontalScope()) {
                 bool pressed1 = GUILayout.Button(TryUpdatingToNewestVersionText.Cyan(), GUILayout.ExpandWidth(false));

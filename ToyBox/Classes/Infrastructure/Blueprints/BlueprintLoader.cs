@@ -195,7 +195,9 @@ public class BlueprintLoader {
         toLoad = null;
         lock (this) {
             m_OnFinishLoading(m_BlueprintBeingLoaded!);
-            IsLoading = false;
+            new Action(() => {
+                IsLoading = false;
+            }).ScheduleForMainThread();
         }
     }
     // External mods could register their own actions here

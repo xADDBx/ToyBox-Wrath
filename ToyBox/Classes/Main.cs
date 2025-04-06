@@ -28,7 +28,7 @@ public static partial class Main {
             ModEntry.OnShowGUI = OnShowGUI;
             ModEntry.OnHideGUI = OnHideGUI;
             ModEntry.OnGUI = OnGUI;
-            ModEntry.OnUpdate = OnUpdate;
+            ModEntry.OnFixedUpdate = OnFixedUpdate;
             ModEntry.OnSaveGUI = OnSaveGUI;
 
             if (Settings.EnableFileIntegrityCheck && !IntegrityCheckerFeature.CheckFilesHealthy()) {
@@ -91,17 +91,11 @@ public static partial class Main {
     [LocalizedString("ToyBox_Main_CurrentlyLoadedBPsText", "Currently loaded BPs: {0}")]
     private static partial string CurrentlyLoadedBPsText { get; }
     private static int m_LoadedBps = 0;
-    private static bool m_WasBPLoadingLastFrame = false;
     private static void OnGUI(UnityModManager.ModEntry modEntry) {
         if (m_CaughtException == null) {
             try {
-                if (BPLoader.IsLoading || m_WasBPLoadingLastFrame) {
-                    GUILayout.Label($"{BPLoader.Progress * 100:0.00}%");
-                    if (Event.current.type == EventType.Layout) {
-                        m_WasBPLoadingLastFrame = true;
-                    } else {
-                        m_WasBPLoadingLastFrame = false;
-                    }
+                if (BPLoader.IsLoading) {
+                    UI.ProgressBar(BPLoader.Progress, "");
                 }
                 if (ImguiCanChangeStateAtBeginning() && BPLoader.HasLoaded) {
                     m_LoadedBps = BPLoader.GetBlueprints()!.Count;
@@ -131,7 +125,7 @@ public static partial class Main {
     private static void OnHideGUI(UnityModManager.ModEntry modEntry) {
         Settings.Save();
     }
-    private static void OnUpdate(UnityModManager.ModEntry modEntry, float z) {
+    private static void OnFixedUpdate(UnityModManager.ModEntry modEntry, float z) {
         while (m_MainThreadTaskQueue.TryDequeue(out var task)) {
             task();
         }
