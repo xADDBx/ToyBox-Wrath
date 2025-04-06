@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using UnityEngine;
 
 namespace ToyBox;
 public abstract class FeatureTab {
@@ -41,9 +42,18 @@ public abstract class FeatureTab {
         }
     }
     public virtual void OnGui() {
-        Div.DrawDiv();
-        foreach (var feature in GetFeatures()) {
-            feature.OnGui();
+        foreach (var (groupName, features) in GetGroups()) {
+            using (VerticalScope()) {
+                GUILayout.Label(groupName, GUILayout.ExpandWidth(false));
+                using (HorizontalScope()) {
+                    GUILayout.Space(25);
+                    using (VerticalScope()) {
+                        foreach (var feature in features) {
+                            feature.OnGui();
+                        }
+                    }
+                }
+            }
             Div.DrawDiv();
         }
     }

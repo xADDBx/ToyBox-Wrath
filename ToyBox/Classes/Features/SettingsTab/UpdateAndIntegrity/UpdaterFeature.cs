@@ -3,13 +3,10 @@ using System.IO.Compression;
 using System.Net;
 using System.Reflection;
 using UnityEngine;
-using UnityModManagerNet;
 
 namespace ToyBox.Features.SettingsFeatures.UpdateAndIntegrity; 
-public static partial class Updater {
-    private static bool m_StartDownloadNextFrame1 = false;
-    private static bool m_StartDownloadNextFrame2 = false;
-    private static bool m_IsUpdateFinished = false;
+public partial class UpdaterFeature : Feature {
+    private static bool m_EnqueuedStart = false;
     public static bool IsDoingUpdate = false;
     private static double m_DownloadProgress = 0f;
     private static GUIStyle? m_CachedBarStyle = null;
@@ -30,7 +27,7 @@ public static partial class Updater {
         }
         GUI.Box(fillRect, GUIContent.none, m_CachedBarStyle);
     }
-    public static void UpdaterGUI(UnityModManager.ModEntry modEntry) {
+    public static void UpdaterGUI() {
         using (VerticalScope()) {
             if (IsDoingUpdate) {
                 DownloadProgressGUI();
@@ -38,33 +35,26 @@ public static partial class Updater {
             using (HorizontalScope()) {
                 bool pressed1 = GUILayout.Button(TryUpdatingToNewestVersionText.Cyan(), GUILayout.ExpandWidth(false));
                 if (pressed1) {
-                    if (!IsDoingUpdate) {
-                        m_StartDownloadNextFrame1 = true;
+                    if (!IsDoingUpdate && !m_EnqueuedStart) {
+                        m_EnqueuedStart = true;
+                        new Action(() => {
+                            IsDoingUpdate = true;
+                            Task.Run(() => Update(false, false));
+                        }).ScheduleForMainThread();
                     }
                 }
             }
             using (HorizontalScope()) {
                 bool pressed2 = GUILayout.Button(TryReinstallCurrentVersionText.Cyan(), GUILayout.ExpandWidth(false));
                 if (pressed2) {
-                    if (!IsDoingUpdate) {
-                        m_StartDownloadNextFrame2 = true;
+                    if (!IsDoingUpdate && !m_EnqueuedStart) {
+                        m_EnqueuedStart = true;
+                        new Action(() => {
+                            IsDoingUpdate = true;
+                            Task.Run(() => Update(true, false));
+                        }).ScheduleForMainThread();
                     }
                 }
-            }
-            if (ImguiCanChangeStateAtEnd()) {
-                if (m_IsUpdateFinished) {
-                    IsDoingUpdate = false;
-                    m_IsUpdateFinished = false;
-                    m_DownloadProgress = 0;
-                } else if (m_StartDownloadNextFrame1) {
-                    IsDoingUpdate = true;
-                    Task.Run(() => Updater.Update(false, false));
-                } else if (m_StartDownloadNextFrame2) {
-                    IsDoingUpdate = true;
-                    Task.Run(() => Updater.Update(true, false));
-                }
-                m_StartDownloadNextFrame1 = false;
-                m_StartDownloadNextFrame2 = false;
             }
         }
     }
@@ -168,16 +158,25 @@ public static partial class Updater {
         if (updated) {
             Main.ModEntry.Info.DisplayName = "ToyBox ".Yellow().SizePercent(20) + RestartToFinishUpdateText.Green().Bold().SizePercent(40);
         }
-        m_IsUpdateFinished = true;
+        new Action(() => {
+            IsDoingUpdate = false;
+            m_DownloadProgress = 0;
+        }).ScheduleForMainThread();
         return updated;
     }
 
-    [LocalizedString("ToyBox_Features_UpdateAndIntegrity_Updater_RestartToFinishUpdateText", "Restart to finish update")]
+    public override void OnGui() => UpdaterGUI();
+
+    [LocalizedString("ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_RestartToFinishUpdateText", "Restart to finish update")]
     private static partial string RestartToFinishUpdateText { get; }
-    [LocalizedString("ToyBox_Features_UpdateAndIntegrity_Updater_TryReinstallCurrentVersionText", "Try reinstall current version")]
+    [LocalizedString("ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_TryReinstallCurrentVersionText", "Try reinstall current version")]
     private static partial string TryReinstallCurrentVersionText { get; }
-    [LocalizedString("ToyBox_Features_UpdateAndIntegrity_Updater_TryUpdatingToNewestVersionText", "Try updating to newest version")]
+    [LocalizedString("ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_TryUpdatingToNewestVersionText", "Try updating to newest version")]
     private static partial string TryUpdatingToNewestVersionText { get; }
-    [LocalizedString("ToyBox_Features_UpdateAndIntegrity_Updater_DownloadProgress_Text", "Download Progress:")]
+    [LocalizedString("ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_DownloadProgress_Text", "Download Progress:")]
     private static partial string DownloadProgress_Text { get; }
+    [LocalizedString("ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_UpdaterFeature_UpdateModText", "Update Mod")]
+    public override partial string Name { get; }
+    [LocalizedString("ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_UpdaterFeature_ReinstallTheCurrentModVersionOrU", "Reinstall the current mod version or update to the latest available version")]
+    public override partial string Description { get; }
 }

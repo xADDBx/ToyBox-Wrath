@@ -34,7 +34,7 @@ public static partial class Main {
             if (Settings.EnableFileIntegrityCheck && !IntegrityCheckerFeature.CheckFilesHealthy()) {
                 Critical("Failed Integrity Check. Files have issues!"); 
                 ModEntry.Info.DisplayName = "ToyBox ".Orange().SizePercent(40) + ModFilesAreCorrupted_Text.Red().Bold().SizePercent(60);
-                ModEntry.OnGUI = Updater.UpdaterGUI;
+                ModEntry.OnGUI = _ => UpdaterFeature.UpdaterGUI();
                 return true;
             }
 
