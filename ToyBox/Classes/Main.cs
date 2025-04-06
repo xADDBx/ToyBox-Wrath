@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
-using ToyBox.Features.UpdateAndIntegrity;
+﻿using System.Collections.Concurrent;
+using System.Diagnostics;
+using ToyBox.Features.SettingsFeatures.UpdateAndIntegrity;
 using ToyBox.Infrastructure;
-using ToyBox.Infrastructure.UI;
 using ToyBox.Infrastructure.Utilities;
 using UnityEngine;
 using UnityModManagerNet;
@@ -18,6 +18,7 @@ public static partial class Main {
     internal static List<Task> LateInitTasks = new List<Task>();
     private static Exception? m_CaughtException = null;
     private static List<FeatureTab> m_FeatureTabs = new();
+    private static readonly ConcurrentQueue<Action> m_MainThreadTaskQueue = new();
     private static bool Load(UnityModManager.ModEntry modEntry) {
         Stopwatch sw = Stopwatch.StartNew();
         try {
@@ -30,7 +31,7 @@ public static partial class Main {
             ModEntry.OnUpdate = OnUpdate;
             ModEntry.OnSaveGUI = OnSaveGUI;
 
-            if (Settings.EnableFileIntegrityCheck && !IntegrityChecker.CheckFilesHealthy()) {
+            if (Settings.EnableFileIntegrityCheck && !IntegrityCheckerFeature.CheckFilesHealthy()) {
                 Critical("Failed Integrity Check. Files have issues!"); 
                 ModEntry.Info.DisplayName = "ToyBox ".Orange().SizePercent(40) + ModFilesAreCorrupted_Text.Red().Bold().SizePercent(60);
                 ModEntry.OnGUI = Updater.UpdaterGUI;
@@ -122,7 +123,6 @@ public static partial class Main {
             }
         }
     }
-
     private static void OnSaveGUI(UnityModManager.ModEntry modEntry) {
         Settings.Save();
     }
@@ -132,5 +132,11 @@ public static partial class Main {
         Settings.Save();
     }
     private static void OnUpdate(UnityModManager.ModEntry modEntry, float z) {
+        while (m_MainThreadTaskQueue.TryDequeue(out var task)) {
+            task();
+        }
+    }
+    public static void ScheduleForMainThread(this Action action) {
+        m_MainThreadTaskQueue.Enqueue(action);
     }
 }

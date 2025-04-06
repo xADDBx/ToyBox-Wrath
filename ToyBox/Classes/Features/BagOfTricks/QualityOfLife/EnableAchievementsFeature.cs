@@ -1,6 +1,5 @@
 ﻿using Kingmaker.Achievements;
 using Kingmaker;
-using UnityEngine;
 using System.Reflection.Emit;
 using Kingmaker.Modding;
 
@@ -9,28 +8,13 @@ namespace ToyBox.Features.BagOfTricks;
 [HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.EnableAchievementsFeature")]
 public partial class EnableAchievementsFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.EnableAchievementsFeature";
-    public override bool IsEnabled => Settings.EnableModdedAchievements;
+    public override ref bool IsEnabled => ref Settings.EnableModdedAchievements;
 
     [LocalizedString("ToyBox_Features_BagOfTricks_EnableAchievementsFeature_AllowAchievementsWhileUsingModsT", "Allow Achievements While Using Mods")]
     public override partial string Name { get; }
 
     [LocalizedString("ToyBox_Features_BagOfTricks_EnableAchievementsFeature_ThisIsIntendedForYouToBeAbleToEn", "This is intended for you to be able to enjoy the game while using mods that enhance your quality of life.")]
     public override partial string Description { get; }
-    public override void OnGui() {
-        using (HorizontalScope()) {
-            var newValue = GUILayout.Toggle(Settings.EnableModdedAchievements, Name.Cyan(), GUILayout.ExpandWidth(false));
-            if (newValue != Settings.EnableModdedAchievements) {
-                Settings.EnableModdedAchievements = newValue;
-                if (newValue) {
-                    Initialize();
-                } else {
-                    Destroy();
-                }
-            }
-            GUILayout.Space(10);
-            GUILayout.Label(Description.Green(), GUILayout.ExpandWidth(false));
-        }
-    }
     [HarmonyPatch(typeof(AchievementEntity), nameof(AchievementEntity.IsDisabled), MethodType.Getter), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> AchievementEntity_IsDisabled_Transpiler(IEnumerable<CodeInstruction> instructions) {
         foreach (var instruction in instructions) {

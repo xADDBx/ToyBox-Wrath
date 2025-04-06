@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System.Net;
 using ToyBox.Infrastructure;
 
-namespace ToyBox.Features.UpdateAndIntegrity; 
+namespace ToyBox.Features.SettingsFeatures.UpdateAndIntegrity; 
 public static class VersionChecker {
     public static bool? ResultOfCheck = null;
     // Find first entry where Mod Version of entry >= current mod version

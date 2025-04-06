@@ -4,33 +4,17 @@ using System.Linq.Expressions;
 using System.Reflection.Emit;
 using System.Reflection;
 using System.Runtime.Serialization;
-using UnityEngine;
 
-namespace ToyBox.Features.SettingsFeatures;
+namespace ToyBox.Features.SettingsFeatures.BlueprintLoaderSettings;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.SettingsFeatures.PerformanceEnhancementFeatures")]
+[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.SettingsFeatures.BlueprintLoaderSettings.PerformanceEnhancementFeatures")]
 public partial class PerformanceEnhancementFeatures : FeatureWithPatch {
-    [LocalizedString("ToyBox_Features_SettingsFeatures_PerformanceEnhancementFeatures_PerformanceEnhancementText", "Performance Enhancement")]
+    [LocalizedString("ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_PerformanceEnhancementText", "Performance Enhancement")]
     public override partial string Name { get; }
-    [LocalizedString("ToyBox_Features_SettingsFeatures_PerformanceEnhancementFeatures_EnhancesBlueprintLoadingPerforma", "Enhances Blueprint loading performance")]
+    [LocalizedString("ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_EnhancesBlueprintLoadingPerforma", "Enhances Blueprint loading performance")]
     public override partial string Description { get; }
-    protected override string HarmonyName => "ToyBox.Features.SettingsFeatures.PerformanceEnhancementFeatures";
-    public override bool IsEnabled => Settings.EnableBlueprintPerformancePatches;
-    public override void OnGui() {
-        using (HorizontalScope()) {
-            var newValue = GUILayout.Toggle(Settings.EnableBlueprintPerformancePatches, Name.Cyan(), GUILayout.ExpandWidth(false));
-            if (newValue != Settings.EnableBlueprintPerformancePatches) {
-                Settings.EnableBlueprintPerformancePatches = newValue;
-                if (newValue) {
-                    Initialize();
-                } else {
-                    Destroy();
-                }
-            }
-            GUILayout.Space(10);
-            GUILayout.Label(Description.Green(), GUILayout.ExpandWidth(false));
-        }
-    }
+    protected override string HarmonyName => "ToyBox.Features.SettingsFeatures.BlueprintLoaderSettings.PerformanceEnhancementFeatures";
+    public override ref bool IsEnabled => ref Settings.EnableBlueprintPerformancePatches;
 
     private static Dictionary<(Type, Type), bool> HasAttributeCache = new();
     private static Dictionary<(Type, Type), bool> IsListOfCache = new();

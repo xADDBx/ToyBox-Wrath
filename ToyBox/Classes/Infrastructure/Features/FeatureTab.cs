@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using ToyBox.Infrastructure.UI;
 
 namespace ToyBox;
 public abstract class FeatureTab {

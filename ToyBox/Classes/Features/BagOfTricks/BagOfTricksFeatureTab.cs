@@ -1,5 +1,4 @@
-﻿using ToyBox.Infrastructure.UI;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ToyBox.Features.BagOfTricks;
 public partial class BagOfTricksFeatureTab : FeatureTab {

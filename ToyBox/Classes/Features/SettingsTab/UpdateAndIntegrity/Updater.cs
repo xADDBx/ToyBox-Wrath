@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityModManagerNet;
 
-namespace ToyBox.Features.UpdateAndIntegrity; 
+namespace ToyBox.Features.SettingsFeatures.UpdateAndIntegrity; 
 public static partial class Updater {
     private static bool m_StartDownloadNextFrame1 = false;
     private static bool m_StartDownloadNextFrame2 = false;
@@ -130,7 +130,7 @@ public static partial class Updater {
                     }
                 }
 
-                var filesHealthy = IntegrityChecker.CheckFilesHealthy(tmpDir.FullName);
+                var filesHealthy = IntegrityCheckerFeature.CheckFilesHealthy(tmpDir.FullName);
                 if (filesHealthy) {
                     // Extract successfully? => Then do it again for real
                     // Note: At this point in time I only remember that I added the dry run to counter Exceptions while unpacking. I don't know why I didn't just copy the files from the dry run if it was successful.

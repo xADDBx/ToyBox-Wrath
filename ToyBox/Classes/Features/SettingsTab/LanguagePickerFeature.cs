@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using ToyBox.Infrastructure.Localization;
-using ToyBox.Infrastructure.UI;
 using UnityEngine;
 
 namespace ToyBox.Features.SettingsFeatures;

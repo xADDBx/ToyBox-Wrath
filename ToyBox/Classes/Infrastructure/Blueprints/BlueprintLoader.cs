@@ -6,7 +6,6 @@ using Kingmaker.Blueprints.JsonSystem.BinaryFormat;
 using Kingmaker.Blueprints.JsonSystem.Converters;
 using Kingmaker.Modding;
 using System.Collections.Concurrent;
-using UnityEngine;
 using System.Diagnostics;
 using ToyBox.Infrastructure.Utilities;
 

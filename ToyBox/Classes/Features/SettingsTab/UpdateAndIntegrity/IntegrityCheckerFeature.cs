@@ -1,9 +1,18 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using System.Security.Cryptography;
-namespace ToyBox.Features.UpdateAndIntegrity; 
-public static class IntegrityChecker {
+
+namespace ToyBox.Features.SettingsFeatures.UpdateAndIntegrity; 
+public partial class IntegrityCheckerFeature : ToggledFeature {
     private const string ChecksumFileName = "checksum";
+    public override ref bool IsEnabled => ref Settings.EnableFileIntegrityCheck;
+
+    [LocalizedString("ToyBox_Features_UpdateAndIntegrity_UpdateCompatabilityFeature_EnableIntegrityCheckText", "Enable Integrity Check")]
+    public override partial string Name { get; }
+
+    [LocalizedString("ToyBox_Features_UpdateAndIntegrity_UpdateCompatabilityFeature_CheckTheIntegrityOfToyBoxFilesTe", "Check the integrity of ToyBox files")]
+    public override partial string Description { get; }
+
     public static bool CheckFilesHealthy(string? specificLocation = null) {
         var timer = Stopwatch.StartNew();
         bool isValid = true;
