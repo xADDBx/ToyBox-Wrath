@@ -126,7 +126,7 @@ public static partial class Main {
         Settings.Save();
     }
     private static void OnFixedUpdate(UnityModManager.ModEntry modEntry, float z) {
-        while (m_MainThreadTaskQueue.TryDequeue(out var task)) {
+        if (m_MainThreadTaskQueue.TryDequeue(out var task)) {
             task();
         }
     }
