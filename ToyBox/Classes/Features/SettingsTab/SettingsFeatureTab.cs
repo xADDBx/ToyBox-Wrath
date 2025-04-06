@@ -10,6 +10,7 @@ public partial class SettingsFeaturesTab : FeatureTab {
         AddFeature(new IntegrityCheckerFeature(), "Version and File Integrity");
         AddFeature(new VersionCompatabilityFeature(), "Version and File Integrity");
         AddFeature(new PerformanceEnhancementFeatures(), "Blueprints");
+        AddFeature(new PreloadBlueprintsFeature(), "Blueprints");
         AddFeature(new LanguagePickerFeature(), "Locale");
     }
 }
