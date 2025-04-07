@@ -1,18 +1,18 @@
 ﻿using Kingmaker;
+using Kingmaker.PubSubSystem;
 
 namespace ToyBox.Features.BagOfTricks;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.RestoreAbilitiesAfterCombatFeature")]
-public partial class RestoreAbilitiesAfterCombatFeature : FeatureWithPatch {
-    protected override string HarmonyName => "ToyBox.Features.BagOfTricks.RestoreAbilitiesAfterCombatFeature";
+public partial class RestoreAbilitiesAfterCombatFeature : ToggledFeature, IPartyCombatHandler {
     public override ref bool IsEnabled => ref Settings.RestoreAbilitiesAfterCombat;
 
     [LocalizedString("ToyBox_Features_BagOfTricks_RestoreAbilitiesAfterCombatFeature_RestoreAbilitiesAfterCombatText", "Restore Abilities After Combat")]
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Features_BagOfTricks_RestoreAbilitiesAfterCombatFeature_RestoresAllChargesOnAbilitiesAft", "Restores all charges on abilities after combat")]
     public override partial string Description { get; }
-    [HarmonyPatch(typeof(GameHistoryLog), nameof(GameHistoryLog.HandlePartyCombatStateChanged)), HarmonyPostfix]
-    public static void CombatStateChanged_Postfix(ref bool inCombat) {
+    public override void Initialize() => new Action(() => EventBus.Subscribe(this)).ScheduleForMainThread();
+    public override void Destroy() => new Action(() => EventBus.Unsubscribe(this)).ScheduleForMainThread();
+    public void HandlePartyCombatStateChanged(bool inCombat) {
         if (!inCombat) {
             foreach (var unit in Game.Instance.Player.Party) {
                 foreach (var resource in unit.Descriptor.Resources) {
