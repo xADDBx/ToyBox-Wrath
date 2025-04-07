@@ -101,7 +101,19 @@ namespace ToyBox.Generator {
         private static string GeneratePartialProperties(INamedTypeSymbol containingType, ClassDeclarationSyntax syntax, IEnumerable<LocalizedProperty> properties) {
             var sb = new StringBuilder();
             var ns = containingType.ContainingNamespace.ToDisplayString();
-            sb.AppendLine($"using ToyBox.Infrastructure.Localization;");
+
+            HashSet<string> usings = new();
+            var compilationUnit = syntax.SyntaxTree.GetCompilationUnitRoot();
+            string curUsing;
+            foreach (var usingDirective in compilationUnit.Usings) {
+                curUsing = usingDirective.ToFullString().Trim();
+                usings.Add(curUsing);
+                sb.AppendLine(curUsing);
+            }
+            curUsing = "using ToyBox.Infrastructure.Localization;";
+            if (!usings.Contains(curUsing)) {
+                sb.AppendLine(curUsing);
+            }
             sb.AppendLine($"");
             if (!string.IsNullOrEmpty(ns)) {
                 sb.AppendLine($"namespace {ns};");
