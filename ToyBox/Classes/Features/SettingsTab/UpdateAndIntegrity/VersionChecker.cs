@@ -29,22 +29,22 @@ public static class VersionChecker {
         var comps = version.Split('.');
         var newComps = new List<string>();
         foreach (var comp in comps) {
-            uint num = 0;
+            ulong num = 0;
             foreach (var c in comp) {
-                uint newNum = num;
+                ulong newNum = num;
                 try {
                     checked {
-                        if (uint.TryParse(c.ToString(), out var n)) {
+                        if (ulong.TryParse(c.ToString(), out var n)) {
                             newNum = newNum * 10u + n;
                         } else {
-                            int signedCharNumber = char.ToUpper(c) - ' ';
-                            uint unsignedCharNumber = (uint)Math.Max(0, Math.Min(signedCharNumber, 99));
+                            long signedCharNumber = char.ToUpper(c) - ' ';
+                            ulong unsignedCharNumber = (ulong)Math.Max(0, Math.Min(signedCharNumber, 99));
                             newNum = newNum * 100u + unsignedCharNumber;
                         }
                         num = newNum;
                     }
                 } catch (OverflowException) {
-                    Warn($"Encountered uint overflow while parsing version component {comp}, continuing with {num}");
+                    Warn($"Encountered ulong overflow while parsing version component {comp}, continuing with {num}");
                     break;
                 }
             }
