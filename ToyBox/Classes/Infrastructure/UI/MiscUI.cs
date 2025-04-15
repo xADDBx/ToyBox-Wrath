@@ -4,7 +4,7 @@ namespace ToyBox.Infrastructure.UI;
 public static partial class UI {
     private static GUIStyle? m_CachedProgressBarStyle = null;
     public static void ProgressBar(double progress, string label) {
-        GUILayout.Label(label + $" {progress * 100:F2}%");
+        Label(label + $" {progress * 100:F2}%");
         Rect progressRect = GUILayoutUtility.GetRect(200, 20);
         GUI.Box(progressRect, "");
 

@@ -12,4 +12,7 @@ public static class LayoutHelper {
     public static GUILayout.VerticalScope VerticalScope(float width) => new(GUILayout.Width(width));
     public static GUILayout.VerticalScope VerticalScope(GUIStyle style, params GUILayoutOption[] options) => new(style, options);
     public static GUILayout.VerticalScope VerticalScope(GUIStyle style, float width) => new(style, GUILayout.Width(width));
+    public static GUILayoutOption Width(float width) => GUILayout.Width(width);
+    public static GUILayoutOption Height(float height) => GUILayout.Height(height);
+    public static void Space(float pixels) => GUILayout.Space(pixels);
 }

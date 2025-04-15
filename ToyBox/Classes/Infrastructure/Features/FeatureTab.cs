@@ -44,9 +44,9 @@ public abstract class FeatureTab {
     public virtual void OnGui() {
         foreach (var (groupName, features) in GetGroups()) {
             using (VerticalScope()) {
-                GUILayout.Label(groupName, GUILayout.ExpandWidth(false));
+                UI.Label(groupName);
                 using (HorizontalScope()) {
-                    GUILayout.Space(25);
+                    Space(25);
                     using (VerticalScope()) {
                         foreach (var feature in features) {
                             feature.OnGui();

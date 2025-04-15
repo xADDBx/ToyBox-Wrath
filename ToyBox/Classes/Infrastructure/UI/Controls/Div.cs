@@ -22,8 +22,8 @@ public static class Div {
             m_DivStyle.fixedWidth = width;
         else
             m_DivStyle.fixedWidth = 0;
-        GUILayout.Space((2f * height) / 3f);
+        Space(height / 2f);
         GUILayout.Box(GUIContent.none, m_DivStyle);
-        GUILayout.Space(height / 3f);
+        Space(height / 2f);
     }
 }

@@ -37,6 +37,7 @@
   "ToyBox_Features_UpdateAndIntegrity_VersionCompatabilityFeature_Name": "Enable Version Compatibility Check",
   "ToyBox_Features_UpdateAndIntegrity_VersionCompatabilityFeature_Description": "Check whether the current mod version is compatible with the current game version",
   "ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_VersionCompatabilityFeature_ModVersionIsNotCompatibleWithThi": "Mod Version is not compatible with this game version!",
+  "ToyBox_Infrastructure_UI_VerticalList_PageText": "Page",
   "ToyBox_Main_ModFilesAreCorrupted_Text": "Mod files are corrupted!",
   "ToyBox_Main_ResetText": "Reset",
   "ToyBox_Main_CurrentlyLoadedBPsText": "Currently loaded BPs: {0}"

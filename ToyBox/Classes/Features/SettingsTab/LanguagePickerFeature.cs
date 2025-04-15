@@ -21,12 +21,12 @@ public partial class LanguagePickerFeature : Feature {
         } else {
             using (VerticalScope()) {
                 using (HorizontalScope()) {
-                    GUILayout.Label(CurrentText.Cyan(), GUILayout.Width(275));
-                    GUILayout.Space(25);
-                    GUILayout.Label($"{m_UiCulture.DisplayName}({m_UiCulture.Name})".Orange());
-                    GUILayout.Space(25);
+                    UI.Label(CurrentText.Cyan(), Width(275));
+                    Space(25);
+                    UI.Label($"{m_UiCulture.DisplayName}({m_UiCulture.Name})".Orange());
+                    Space(25);
                 }
-                GUILayout.Space(15);
+                Space(15);
                 Div.DrawDiv(0, 25);
                 var tmp = m_Cultures.IndexOf(m_UiCulture);
                 var tmp2 = GUILayout.SelectionGrid(tmp, m_Cultures.Select(c => $"{c.Name.Cyan().Bold()} {c.DisplayName.Orange()}").ToArray(), 6);

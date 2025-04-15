@@ -100,19 +100,19 @@ public static partial class Main {
                 if (ImguiCanChangeStateAtBeginning() && BPLoader.HasLoaded) {
                     m_LoadedBps = BPLoader.GetBlueprints()!.Count;
                 }
-                GUILayout.Label(CurrentlyLoadedBPsText.Format(m_LoadedBps));
+                UI.Label(CurrentlyLoadedBPsText.Format(m_LoadedBps));
                 Settings.SelectedTab = GUILayout.SelectionGrid(Settings.SelectedTab, m_FeatureTabs.Select(t => t.Name).ToArray(), 10);
-                GUILayout.Space(10);
+                Space(10);
                 Div.DrawDiv();
-                GUILayout.Space(10);
+                Space(10);
                 m_FeatureTabs[Settings.SelectedTab].OnGui();
             } catch (Exception ex) {
                 Error(ex);
                 m_CaughtException = ex;
             }
         } else {
-            GUILayout.Label(m_CaughtException.ToString());
-            if (GUILayout.Button(resetLabel)) {
+            UI.Label(m_CaughtException.ToString());
+            if (UI.Button(resetLabel)) {
                 m_CaughtException = null;
             }
         }
