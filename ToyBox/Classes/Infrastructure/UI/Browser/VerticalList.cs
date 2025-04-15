@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace ToyBox.Infrastructure.UI;
+﻿namespace ToyBox.Infrastructure.UI;
 
 public partial class VerticalList<T> where T : notnull {
 #warning TODO: put into setting
@@ -22,7 +20,7 @@ public partial class VerticalList<T> where T : notnull {
             PageLimit = overridePageLimit.Value;
         }
         if (initialItems != null) {
-            UpdateItems(initialItems);
+            UpdateDisplayedItems(initialItems);
         }
         ShowDivBetweenItems = showDivBetweenItems;
     }
@@ -40,7 +38,7 @@ public partial class VerticalList<T> where T : notnull {
         }
         return changed;
     }
-    public virtual void UpdateItems(IEnumerable<T> newItems, int? forcePage = null) {
+    public virtual void UpdateDisplayedItems(IEnumerable<T> newItems, int? forcePage = null) {
         Main.ScheduleForMainThread(new(() => {
             if (forcePage != null) {
                 CurrentPage = 1;
@@ -62,7 +60,7 @@ public partial class VerticalList<T> where T : notnull {
         PagedItemsCount = Math.Min(PageLimit, ItemCount - offset);
         PagedItems = Items.Skip(offset).Take(PagedItemsCount);
     }
-    public virtual void OnHeaderGUI() {
+    protected void PageGUI() {
         using (HorizontalScope()) {
             if (TotalPages > 1) {
                 UI.Label($"{PageText.Orange()}: {CurrentPage.ToString().Cyan()} / {TotalPages.ToString().Cyan()}");
@@ -86,9 +84,10 @@ public partial class VerticalList<T> where T : notnull {
             }
         }
     }
+    public virtual void HeaderGUI() => PageGUI();
     public virtual void OnGUI(Action<T> onItemGUI) {
         using (VerticalScope(PageWidth)) {
-            OnHeaderGUI();
+            HeaderGUI();
             foreach (var item in PagedItems) {
                 if (ShowDivBetweenItems) {
                     Div.DrawDiv();
@@ -97,7 +96,7 @@ public partial class VerticalList<T> where T : notnull {
             }
         }
     }
-    public bool OnDetailGUI(object key, Action<T> onDetailGUI) {
+    public bool DetailGUI(object key, Action<T> onDetailGUI) {
         ToggledDetailGUIs.TryGetValue(key, out var target);
         if (target != null) {
             onDetailGUI(target);

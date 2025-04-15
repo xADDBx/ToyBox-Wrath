@@ -2,6 +2,14 @@
 
 namespace ToyBox.Infrastructure.UI;
 public static class LayoutHelper {
+    public static bool PressedEnterInControl(string controlName) {
+        Event e = Event.current;
+        if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Return && GUI.GetNameOfFocusedControl() == controlName) {
+            e.Use();
+            return true;
+        }
+        return false;
+    }
     public static bool ImguiCanChangeStateAtBeginning() => Event.current.type == EventType.Layout;
     public static bool ImguiCanChangeStateAtEnd() => Event.current.type == EventType.Repaint;
     public static GUILayout.HorizontalScope HorizontalScope(params GUILayoutOption[] options) => new(options);
@@ -14,5 +22,7 @@ public static class LayoutHelper {
     public static GUILayout.VerticalScope VerticalScope(GUIStyle style, float width) => new(style, GUILayout.Width(width));
     public static GUILayoutOption Width(float width) => GUILayout.Width(width);
     public static GUILayoutOption Height(float height) => GUILayout.Height(height);
+    public static GUILayoutOption AutoWidth() => GUILayout.ExpandWidth(false);
+    public static GUILayoutOption AutoHeight() => GUILayout.ExpandHeight(false);
     public static void Space(float pixels) => GUILayout.Space(pixels);
 }

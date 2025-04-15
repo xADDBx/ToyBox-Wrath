@@ -79,7 +79,7 @@ public static class MiscExtensions {
         EXR,
         TGA
     }
-    public static void SaveTextureToFile(this Texture source, string filePath, int width, int height, SaveTextureFileFormat fileFormat = SaveTextureFileFormat.PNG, int jpgQuality = 95, bool asynchronous = true, System.Action<bool> done = null) {
+    public static void SaveTextureToFile(this Texture source, string filePath, int width, int height, SaveTextureFileFormat fileFormat = SaveTextureFileFormat.PNG, int jpgQuality = 95, bool asynchronous = true, Action<bool>? done = null) {
         // check that the input we're getting is something we can handle:
         if (!(source is Texture2D || source is RenderTexture)) {
             done?.Invoke(false);

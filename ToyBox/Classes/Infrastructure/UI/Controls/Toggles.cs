@@ -7,7 +7,7 @@ public static partial class UI {
     private static string DefaultDisclosureOff = "▶";
     private static GUIStyle? m_CachedDisclosureToggleStyle;
     public static void Toggle(string name, string description, ref bool setting, Action onEnable, Action onDisable, params GUILayoutOption[] options) {
-        options = options.Length == 0 ? [GUILayout.ExpandWidth(false)] : options;
+        options = options.Length == 0 ? [AutoWidth()] : options;
         using (HorizontalScope()) {
             var newValue = GUILayout.Toggle(setting, name.Cyan(), options);
             if (newValue != setting) {
@@ -23,7 +23,7 @@ public static partial class UI {
         }
     }
     public static bool DisclosureToggle(ref bool state, string? name = null, params GUILayoutOption[] options) {
-        options = options.Length == 0 ? [GUILayout.ExpandWidth(false)] : options;
+        options = options.Length == 0 ? [AutoWidth()] : options;
         if (m_CachedDisclosureToggleStyle == null) {
             m_CachedDisclosureToggleStyle = new GUIStyle(GUI.skin.toggle) { imagePosition = ImagePosition.TextOnly };
             m_CachedDisclosureToggleStyle.onNormal.background = null;

@@ -37,7 +37,7 @@ public class BlueprintLoader {
         var patch2 = AccessTools.Method(typeof(BlueprintLoader), nameof(BlueprintsCache_LoadPostfix));
         Main.HarmonyInstance.Patch(toPatch, prefix: new(patch), postfix: new(patch2));
     }
-    public List<SimpleBlueprint>? GetBlueprints() {
+    public List<SimpleBlueprint>? GetBlueprints(Action<IEnumerable<SimpleBlueprint>>? blueprintsAreLoadedCallback = null) {
         if (m_Blueprints == null) {
             lock (this) {
                 if (IsLoading) {
@@ -56,6 +56,7 @@ public class BlueprintLoader {
                         m_Blueprints = bps;
                         if (BlueprintIdCache.NeedsCacheRebuilt) BlueprintIdCache.RebuildCache(m_Blueprints);
                         m_BlueprintsByType.Clear();
+                        blueprintsAreLoadedCallback?.Invoke(m_Blueprints);
                     });
                     return null;
                 }
@@ -73,13 +74,14 @@ public class BlueprintLoader {
                     m_BlueprintsToRemove.Clear();
                 }
             }
+            blueprintsAreLoadedCallback?.Invoke(m_Blueprints);
             return m_Blueprints;
         }
     }
-    public static IEnumerable<SimpleBlueprint>? BlueprintsOfType(Type type) {
-        return (IEnumerable<SimpleBlueprint>)AccessTools.Method(typeof(BlueprintLoader), nameof(GetBlueprintsOfType)).MakeGenericMethod(type).Invoke(BPLoader, null);
+    public static IEnumerable<SimpleBlueprint>? BlueprintsOfType(Type type, Action<IEnumerable<SimpleBlueprint>>? onFinishLoadingCallback = null) {
+        return (IEnumerable<SimpleBlueprint>)AccessTools.Method(typeof(BlueprintLoader), nameof(GetBlueprintsOfType)).MakeGenericMethod(type).Invoke(BPLoader, [onFinishLoadingCallback]);
     }
-    public IEnumerable<BPType>? GetBlueprintsOfType<BPType>() where BPType : SimpleBlueprint {
+    public IEnumerable<BPType>? GetBlueprintsOfType<BPType>(Action<IEnumerable<BPType>>? onFinishLoadingCallback = null) where BPType : SimpleBlueprint {
         if (m_Blueprints == null) {
             if (Settings.UseBPIdCache && !BlueprintIdCache.NeedsCacheRebuilt) {
                 if (m_BlueprintsByType.TryGetValue(typeof(BPType), out var bps)) {
@@ -105,13 +107,23 @@ public class BlueprintLoader {
                             }
                         }
                         m_BlueprintsByType[typeof(BPType)] = bps;
+                        onFinishLoadingCallback?.Invoke(bps.Cast<BPType>());
                     }, ids);
                     return null;
                 }
             }
-            return GetBlueprints()?.OfType<BPType>();
+            return GetBlueprints((onFinishLoadingCallback == null) ? null : (IEnumerable<SimpleBlueprint> bps2) => onFinishLoadingCallback(bps2.OfType<BPType>()))
+                ?.OfType<BPType>();
         } else {
-            return m_Blueprints.OfType<BPType>();
+            IEnumerable<BPType>? bps = null;
+            if (Settings.UseBPIdCache && !BlueprintIdCache.NeedsCacheRebuilt) {
+                if (m_BlueprintsByType.TryGetValue(typeof(BPType), out var bps2)) {
+                    bps = bps2.Cast<BPType>();
+                }
+            }
+            bps ??= m_Blueprints.OfType<BPType>();
+
+            return bps;
         }
     }
     public IEnumerable<BPType> GetBlueprintsByGuids<BPType>(IEnumerable<string> guids) where BPType : SimpleBlueprint {
