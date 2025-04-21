@@ -1,10 +1,10 @@
-﻿using System.Collections;
+﻿using Kingmaker.Utility;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using UniRx;
 using UnityEngine;
 
 namespace ToyBox.Infrastructure.UI;
-public delegate void OutEnumerableAction<T>(out IEnumerable<T> result) where T : notnull;
 public partial class Browser<T> : VerticalList<T> where T: notnull {
 #warning TODO: Put in Settings
     protected bool SearchAsYouType = true;
@@ -13,29 +13,39 @@ public partial class Browser<T> : VerticalList<T> where T: notnull {
     protected string CurrentSearchString = "";
     public string LastSearchedFor = "";
     private string? m_SearchBarControlName;
-    protected OutEnumerableAction<T>? ShowAllFunc = null;
+    protected Action<Action<IEnumerable<T>>>? ShowAllFunc = null;
     private bool m_ShowAllFuncCalled = false;
     protected bool ShowAll = false;
     protected IEnumerable<T>? UnsearchedShowAllItems = null;
     protected IEnumerable<T> UnsearchedItems = new List<T>();
     protected Func<T, string> GetSearchKey;
     protected Func<T, string> GetSortKey;
-    public Browser(Func<T, string> sortKey, Func<T, string> searchKey, IEnumerable<T>? initialItems = null, OutEnumerableAction<T>? showAllFunc = null, bool showDivBetweenItems = true, int? overridePageWidth = null, int? overridePageLimit = null) 
+    protected ThreadedListSearcher<T> Searcher;
+    public Browser(Func<T, string> sortKey, Func<T, string> searchKey, IEnumerable<T>? initialItems = null, Action<Action<IEnumerable<T>>>? showAllFunc = null, bool showDivBetweenItems = true, int? overridePageWidth = null, int? overridePageLimit = null) 
         : base(initialItems, showDivBetweenItems, overridePageWidth, overridePageLimit) {
+        ShowAllFunc = showAllFunc;
         GetSearchKey = searchKey;
         GetSortKey = sortKey;
+        Searcher = new(this);
+    }
+    public void RedoSearch() => StartNewSearch(CurrentSearchString, true);
+    public void RegisterShowAllItems(IEnumerable<T> items) {
+        Main.ScheduleForMainThread(() => {
+            UnsearchedShowAllItems = items;
+            StartNewSearch(CurrentSearchString, true);
+        });
     }
     public void StartNewSearch(string query, bool force = false) {
         if (!force && LastSearchedFor == query) return;
+        bool canOptimizeSearch = !query.IsNullOrEmpty() && query.StartsWith(LastSearchedFor);
         LastSearchedFor = query;
         LastSearchedAt = Time.time;
-#warning TODO: Start search
-        /*
-        if (Searcher.IsSearching) {
-            Searcher.CancellationThingy
+        CurrentPage = 1;
+        if (canOptimizeSearch) {
+            Searcher.StartSearch(Items, query, GetSearchKey, GetSortKey);
+        } else {
+            Searcher.StartSearch((ShowAll && UnsearchedShowAllItems != null) ? UnsearchedShowAllItems : UnsearchedItems, query, GetSearchKey, GetSortKey);
         }
-        Searcher.StartNewSearchThingy(query, ShowAll ? UnsearchedShowAllItems : UnsearchedItems);
-        */
     }
     protected void SearchBarGUI() {
         IEnumerator DebouncedSearch() {
@@ -62,11 +72,12 @@ public partial class Browser<T> : VerticalList<T> where T: notnull {
                 if (ShowAllFunc != null) {
                     var newValue = GUILayout.Toggle(ShowAll, ShowAllText.Cyan(), AutoWidth());
                     if (newValue != ShowAll) {
+                        ShowAll = newValue;
                         if (UnsearchedShowAllItems == null && newValue && !m_ShowAllFuncCalled) {
                             m_ShowAllFuncCalled = true;
-                            ShowAllFunc(out UnsearchedShowAllItems);
+                            ShowAllFunc(RegisterShowAllItems);
                         } else {
-                            StartNewSearch(CurrentSearchString, true);
+                            RedoSearch();
                         }
                     }
                 }

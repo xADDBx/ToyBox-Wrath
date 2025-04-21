@@ -2,7 +2,7 @@
 
 public partial class VerticalList<T> where T : notnull {
 #warning TODO: put into setting
-    protected int PageLimit = 25;
+    public int PageLimit = 25;
     protected int PageWidth = 600;
     protected int CurrentPage = 1;
     protected int PagedItemsCount = 0;
@@ -20,7 +20,7 @@ public partial class VerticalList<T> where T : notnull {
             PageLimit = overridePageLimit.Value;
         }
         if (initialItems != null) {
-            UpdateDisplayedItems(initialItems);
+            QueueUpdateItems(initialItems);
         }
         ShowDivBetweenItems = showDivBetweenItems;
     }
@@ -38,22 +38,25 @@ public partial class VerticalList<T> where T : notnull {
         }
         return changed;
     }
-    public virtual void UpdateDisplayedItems(IEnumerable<T> newItems, int? forcePage = null) {
+    public virtual void QueueUpdateItems(IEnumerable<T> newItems, int? forcePage = null) {
         Main.ScheduleForMainThread(new(() => {
-            if (forcePage != null) {
-                CurrentPage = 1;
-            }
-            Items = newItems;
-            ItemCount = Items.Count();
-            if (PageLimit > 0) {
-                TotalPages = (int)Math.Ceiling((double)ItemCount / PageLimit);
-                CurrentPage = Math.Max(Math.Min(CurrentPage, TotalPages), 1);
-            } else {
-                CurrentPage = 1;
-                TotalPages = 1;
-            }
-            UpdatePagedItems();
+            UpdateItems(newItems, forcePage);
         }));
+    }
+    internal virtual void UpdateItems(IEnumerable<T> newItems, int? forcePage = null) {
+        if (forcePage != null) {
+            CurrentPage = 1;
+        }
+        Items = newItems;
+        ItemCount = Items.Count();
+        if (PageLimit > 0) {
+            TotalPages = (int)Math.Ceiling((double)ItemCount / PageLimit);
+            CurrentPage = Math.Max(Math.Min(CurrentPage, TotalPages), 1);
+        } else {
+            CurrentPage = 1;
+            TotalPages = 1;
+        }
+        UpdatePagedItems();
     }
     public virtual void UpdatePagedItems() {
         var offset = Math.Min(ItemCount, (CurrentPage - 1) * PageLimit);

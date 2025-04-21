@@ -40,6 +40,9 @@ public class BlueprintLoader {
     public List<SimpleBlueprint>? GetBlueprints(Action<IEnumerable<SimpleBlueprint>>? blueprintsAreLoadedCallback = null) {
         if (m_Blueprints == null) {
             lock (this) {
+                if (blueprintsAreLoadedCallback != null) {
+                    OnFinishLoadingCallback.Add(blueprintsAreLoadedCallback);
+                }
                 if (IsLoading) {
                     return null;
                 } else {
@@ -136,6 +139,7 @@ public class BlueprintLoader {
     }
     private int m_TotalLoading;
     private int m_EstimateLoaded;
+    private HashSet<Action<IEnumerable<SimpleBlueprint>>> OnFinishLoadingCallback = new();
     private Action<List<SimpleBlueprint>> m_OnFinishLoading = null!;
     private List<ConcurrentDictionary<BlueprintGuid, object>> m_StartedLoadingShards = new();
     private List<Task> m_WorkerTasks = new();
@@ -207,6 +211,10 @@ public class BlueprintLoader {
         toLoad = null;
         lock (this) {
             m_OnFinishLoading(m_BlueprintBeingLoaded!);
+            foreach (var callback in OnFinishLoadingCallback) {
+                callback(m_BlueprintBeingLoaded!);
+            }
+            OnFinishLoadingCallback.Clear();
             new Action(() => {
                 IsLoading = false;
             }).ScheduleForMainThread();

@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using Kingmaker.Blueprints;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using ToyBox.Features.SettingsFeatures.UpdateAndIntegrity;
 using ToyBox.Infrastructure;
@@ -91,6 +92,9 @@ public static partial class Main {
     [LocalizedString("ToyBox_Main_CurrentlyLoadedBPsText", "Currently loaded BPs: {0}")]
     private static partial string CurrentlyLoadedBPsText { get; }
     private static int m_LoadedBps = 0;
+    private static Browser<SimpleBlueprint> m_Browser = new(BPHelper.GetSortKey, BPHelper.GetSearchKey, [], (Action<IEnumerable<SimpleBlueprint>> func) => {
+        BPLoader.GetBlueprints(func);
+    });
     private static void OnGUI(UnityModManager.ModEntry modEntry) {
         if (m_CaughtException == null) {
             try {
@@ -100,6 +104,15 @@ public static partial class Main {
                 if (ImguiCanChangeStateAtBeginning() && BPLoader.HasLoaded) {
                     m_LoadedBps = BPLoader.GetBlueprints()!.Count;
                 }
+                Space(10);
+                Div.DrawDiv();
+                Space(10);
+
+                m_Browser.OnGUI(item => {
+                    UI.Label(BPHelper.GetTitle(item).Green());
+                });
+
+
                 UI.Label(CurrentlyLoadedBPsText.Format(m_LoadedBps));
                 Settings.SelectedTab = GUILayout.SelectionGrid(Settings.SelectedTab, m_FeatureTabs.Select(t => t.Name).ToArray(), 10);
                 Space(10);
@@ -126,8 +139,12 @@ public static partial class Main {
         Settings.Save();
     }
     private static void OnFixedUpdate(UnityModManager.ModEntry modEntry, float z) {
-        if (m_MainThreadTaskQueue.TryDequeue(out var task)) {
-            task();
+        try {
+            if (m_MainThreadTaskQueue.TryDequeue(out var task)) {
+                task();
+            }
+        } catch (Exception ex) {
+            Error(ex);
         }
     }
     public static void ScheduleForMainThread(this Action action) {
