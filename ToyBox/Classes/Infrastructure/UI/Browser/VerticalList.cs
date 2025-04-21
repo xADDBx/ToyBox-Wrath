@@ -65,8 +65,8 @@ public partial class VerticalList<T> where T : notnull {
     }
     protected void PageGUI() {
         using (HorizontalScope()) {
+            UI.Label($"{PageText.Orange()}: {CurrentPage.ToString().Cyan()} / {Math.Max(1, TotalPages).ToString().Cyan()}");
             if (TotalPages > 1) {
-                UI.Label($"{PageText.Orange()}: {CurrentPage.ToString().Cyan()} / {TotalPages.ToString().Cyan()}");
                 Space(25);
                 if (UI.Button("-")) {
                     if (CurrentPage <= 1) {
