@@ -92,9 +92,7 @@ public static partial class Main {
     [LocalizedString("ToyBox_Main_CurrentlyLoadedBPsText", "Currently loaded BPs: {0}")]
     private static partial string CurrentlyLoadedBPsText { get; }
     private static int m_LoadedBps = 0;
-    private static Browser<SimpleBlueprint> m_Browser = new(BPHelper.GetSortKey, BPHelper.GetSearchKey, [], (Action<IEnumerable<SimpleBlueprint>> func) => {
-        BPLoader.GetBlueprints(func);
-    });
+    private static Browser<SimpleBlueprint> m_Browser = new(BPHelper.GetSortKey, BPHelper.GetSearchKey, [], (Action<IEnumerable<SimpleBlueprint>> func) => BPLoader.GetBlueprints(func));
     private static void OnGUI(UnityModManager.ModEntry modEntry) {
         if (m_CaughtException == null) {
             try {
