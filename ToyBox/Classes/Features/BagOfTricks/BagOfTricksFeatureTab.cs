@@ -17,5 +17,8 @@ public partial class BagOfTricksFeatureTab : FeatureTab {
         AddFeature(new RestoreSpellsAfterCombatFeature(), CheatsText);
         AddFeature(new RestoreItemsAfterCombatFeature(), CheatsText);
         AddFeature(new ToggleLockJamFeature(), CheatsText);
+        AddFeature(new DisableRequireMaterialComponent(), CheatsText);
+        AddFeature(new DisableNegativePartyLevels(), CheatsText);
+        AddFeature(new DisablePartyAbilityDamage(), CheatsText);
     }
 }

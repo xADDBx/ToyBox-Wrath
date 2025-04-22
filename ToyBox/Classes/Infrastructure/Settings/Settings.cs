@@ -33,10 +33,16 @@ internal class GeneralSettings : AbstractSettings {
 
     // Bag of Tricks
 
+    // - QoL
     public bool EnableModdedAchievements = true;
+
+    // - Cheats
     public bool ToggleLockJam = false;
     public bool SpontaneousCasterCanCopyScrolls = false;
     public bool DisableFoW = false;
+    public bool DisablePartyAbilityDamage = false;
+    public bool DisableNegativePartyLevels = false;
+    public bool DisableRequireMaterialComponent = false;
     public bool RestoreAbilitiesAfterCombat = false;
     public bool RestoreSpellsAfterCombat = false;
     public bool RestoreItemsAfterCombat = false;
