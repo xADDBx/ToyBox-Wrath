@@ -37,7 +37,7 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
-### Toybox Wrath - Ver 1.7.14 (built for 2.6.?)
+### Toybox Wrath - Ver 1.7.14 (built for 2.7.0w)
 * (***ADDB***) Fix issue with "Expand Answers For Conditional Responses" where if the answer itself was a condition for the following Cue it would make the Cue impossible to trigger (fix == disable the feature for those specific answers).
 * (***ADDB***) PatchTool: Fix rare UI crash
 * (***ADDB***) PatchTool: Auto-Generate Components and Elements. ***Those need (unique) names or it could cause problems*** (e.g. in rare cases it can prevent saving). I still suggest creating your own name! This is merely a fix to stop some accidental issues
