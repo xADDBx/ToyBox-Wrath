@@ -12,7 +12,7 @@
         <Nullable>enable</Nullable>
         <RootNamespace>ToyBox</RootNamespace>
         <AnalysisLevel>preview</AnalysisLevel>
-		<ImplicitUsings>enable</ImplicitUsings>
+        <ImplicitUsings>enable</ImplicitUsings>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <RestoreAdditionalProjectSources>https://api.nuget.org/v3/index.json</RestoreAdditionalProjectSources>
     </PropertyGroup>
@@ -29,7 +29,7 @@
         <Reference Include="$(WrathInstallDir)\Wrath_Data\Managed\UnityModManager\0Harmony.dll*" Private="false" />
         <Reference Include="System.IO.Compression" Private="false" />
     </ItemGroup>
-	<!-- File to include -->
+    <!-- File to include -->
     <ItemGroup>
         <None Include="Info.json" CopyToOutputDirectory="PreserveNewest" />
         <LocalizationFiles Include="Localization\*.*" />
@@ -46,7 +46,7 @@
         <Message Text="DLL Hash (SHA256): $(DllHash)" Importance="High" />
         
         <ItemGroup>
-			<Files Include="$(TargetDir)\**\*.*" />
+            <Files Include="$(TargetDir)\**\*.*" />
         </ItemGroup>
 
         <Copy SourceFiles="@(Files)" DestinationFiles="@(Files->'$(WrathInstallDir)\Mods\$(AssemblyName)\%(RecursiveDir)%(Filename)%(Extension)')" />
@@ -56,7 +56,7 @@
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" IncludeAssets="build; contentfiles" Version="0.4.2" PrivateAssets="all" />
         <PackageReference Include="MicroUtils.HarmonyAnalyzers" IncludeAssets="runtime; build; native; contentfiles; analyzers" Version="*-*" PrivateAssets="all" />
-		<PackageReference Include="ToyBox.BuildTools" IncludeAssets="analyzers; build; compile" Version="1.1.1" PrivateAssets="all" />
+        <PackageReference Include="ToyBox.BuildTools" IncludeAssets="analyzers; build; compile" Version="1.1.1" PrivateAssets="all" />
     </ItemGroup>
     <Target Name="UpdateLocalizationFiles" BeforeTargets="Deploy">
         <UpdateLocalizationTask LocalizationDirectoryPath="$(SolutionDir)ToyBox\Localization" AssemblyPath="$(TargetDir)$(AssemblyName).dll" />
