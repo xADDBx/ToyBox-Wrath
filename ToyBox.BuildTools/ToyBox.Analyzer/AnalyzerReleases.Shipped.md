@@ -1,5 +1,13 @@
 ﻿; Shipped analyzer releases
 ; https://github.com/dotnet/roslyn-analyzers/blob/main/src/Microsoft.CodeAnalysis.Analyzers/ReleaseTrackingAnalyzers.Help.md
+## Release 1.2
+
+### New Rules
+
+Rule ID | Category | Severity | Notes
+--------|----------|----------|-------
+LOC004 | Usage | Warning | ToyBoxAnalyzer
+
 ## Release 1.1
 
 ### New Rules

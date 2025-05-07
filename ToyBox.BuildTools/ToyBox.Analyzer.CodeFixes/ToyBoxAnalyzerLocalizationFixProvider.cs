@@ -30,6 +30,9 @@ namespace ToyBox.Analyzer {
             var node = root.FindNode(diagnostic.Location.SourceSpan);
             if (node == null) return;
 
+            if (context.Document is null || context.Document is SourceGeneratedDocument)
+                return;
+
             context.RegisterCodeFix(
                 CodeAction.Create(
                     title: "Move to LocalizedString field",
@@ -71,13 +74,7 @@ namespace ToyBox.Analyzer {
                     .Where(s => s != null && s != "")
                     .Select(s => string.Concat(s[0].ToString().ToUpper(), new(s.Skip(1).ToArray())))) ?? $"Generated{Guid.NewGuid():N}";
                 string identifier = val2.Substring(0, Math.Min(val2?.Length ?? 32, 32));
-                var newProperty = PropertyDeclaration(
-                                    PredefinedType(
-                                        Token(SyntaxKind.StringKeyword)),
-                                    Identifier(identifier))
-                                .WithAttributeLists(
-                                    SingletonList<AttributeListSyntax>(
-                                        AttributeList(
+                var attribute = AttributeList(
                                             SingletonSeparatedList<AttributeSyntax>(
                                                 Attribute(
                                                     IdentifierName("LocalizedString"))
@@ -91,7 +88,13 @@ namespace ToyBox.Analyzer {
                                                                     Literal(ReplaceBadChar($"{GetNamespaceAndClassName(classDeclaration)}.{identifier}")))),
                                                             Token(SyntaxKind.CommaToken),
                                                             AttributeArgument(
-                                                                initializerExpr)})))))))
+                                                                initializerExpr)})))))
+                                .WithTrailingTrivia(TriviaList(LineFeed));
+                var newProperty = PropertyDeclaration(
+                                    PredefinedType(
+                                        Token(SyntaxKind.StringKeyword)),
+                                    Identifier(identifier))
+                                .WithAttributeLists(SingletonList(attribute))
                                 .WithModifiers(
                                     TokenList(
                                         new[]{
@@ -100,11 +103,12 @@ namespace ToyBox.Analyzer {
                                         Token(SyntaxKind.PartialKeyword)}))
                                 .WithAccessorList(
                                     AccessorList(
-                                        SingletonList<AccessorDeclarationSyntax>(
+                                        SingletonList(
                                             AccessorDeclaration(
                                                 SyntaxKind.GetAccessorDeclaration)
                                             .WithSemicolonToken(
-                                                Token(SyntaxKind.SemicolonToken)))));
+                                                Token(SyntaxKind.SemicolonToken)))))
+                                .WithTrailingTrivia(TriviaList(LineFeed));
                 var fieldReference = IdentifierName(identifier);
                 var updatedClassDeclaration = classDeclaration.ReplaceNode(initializerExpr, fieldReference);
                 var newClassDeclaration = updatedClassDeclaration.AddMembers(newProperty);

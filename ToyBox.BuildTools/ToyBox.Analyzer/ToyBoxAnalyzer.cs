@@ -18,20 +18,21 @@ namespace ToyBox.Analyzer {
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor("LOC001", "Replace String literal with Localized String", "Replace String literal with Localized String", Category, DiagnosticSeverity.Hidden, isEnabledByDefault: true);
         private static readonly DiagnosticDescriptor Rule2 = new DiagnosticDescriptor("LOC002", "UI String should be localized", "UI String should be localized", Category, DiagnosticSeverity.Warning, isEnabledByDefault: true);
         private static readonly DiagnosticDescriptor Rule3 = new DiagnosticDescriptor("LOC003", "Key should resolve to valid identifier", "The Localized String key should resolve to a valid identifier", Category, DiagnosticSeverity.Warning, isEnabledByDefault: true);
+        private static readonly DiagnosticDescriptor Rule6 = new DiagnosticDescriptor("LOC004", "Name and Description should be localized", "A Feature should have a localized name and description", Category, DiagnosticSeverity.Warning, isEnabledByDefault: true);
         private static readonly DiagnosticDescriptor Rule4 = new DiagnosticDescriptor("HAR001", "Missing Harmony attributes", "Class '{0}' must have [HarmonyPatch] and [HarmonyPatchCategory(\"{0}\")] attributes", Category, DiagnosticSeverity.Error, isEnabledByDefault: true);
         private static readonly DiagnosticDescriptor Rule5 = new DiagnosticDescriptor("HAR002", "Missing or incorrect HarmonyName property", "Class '{0}' must override HarmonyName to return \"{0}\"", Category, DiagnosticSeverity.Error, isEnabledByDefault: true);
 
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create([Rule, Rule2, Rule3, Rule4, Rule5]); } }
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create([Rule, Rule2, Rule3, Rule4, Rule5, Rule6]); } }
 
         public override void Initialize(AnalysisContext context) {
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
 
             context.RegisterSyntaxNodeAction(AnalyzeStringLiteral, SyntaxKind.StringLiteralExpression);
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Invocation);
             context.RegisterSymbolAction(AnalyzeNamedType, SymbolKind.NamedType);
+            context.RegisterSymbolAction(AnalyzeNamedTypeLoc, SymbolKind.NamedType);
         }
         #region PatchFeatureAnalyzer
         private void AnalyzeNamedType(SymbolAnalysisContext context) {
@@ -146,6 +147,51 @@ namespace ToyBox.Analyzer {
         }
         #endregion
         #region LocalizationAnalyzer
+        private void AnalyzeNamedTypeLoc(SymbolAnalysisContext context) {
+            var namedType = (INamedTypeSymbol)context.Symbol;
+            if (namedType.TypeKind != TypeKind.Class) {
+                return;
+            }
+            if (!InheritsFromFeature(namedType)) {
+                return;
+            }
+            bool hasLocalizedName = false;
+            bool hasLocalizedDesc = false;
+            foreach (var member in namedType.GetMembers().OfType<IPropertySymbol>()) {
+                if (member.Name == "Name") {
+                    hasLocalizedName |= member.GetAttributes().Any(attr =>
+                        (attr.AttributeClass?.Name.Contains("ToyBox.LocalizedStringAttribute") ?? false) ||
+                        (attr.AttributeClass?.ToDisplayString().Contains("ToyBox.LocalizedStringAttribute") ?? false)
+                    );
+                }
+                if (member.Name == "Description") {
+                    hasLocalizedDesc |= member.GetAttributes().Any(attr =>
+                        (attr.AttributeClass?.Name.Contains("ToyBox.LocalizedStringAttribute") ?? false) ||
+                        (attr.AttributeClass?.ToDisplayString().Contains("ToyBox.LocalizedStringAttribute") ?? false)
+                    );
+                }
+            }
+            if (!hasLocalizedDesc || !hasLocalizedName) {
+                var declRef = namedType.DeclaringSyntaxReferences.FirstOrDefault();
+                if (declRef != null) {
+                    var classDecl = declRef.GetSyntax(context.CancellationToken) as ClassDeclarationSyntax;
+                    if (classDecl != null) {
+                        var diag = Diagnostic.Create(Rule6, classDecl.GetLocation(), namedType.ToDisplayString());
+                        context.ReportDiagnostic(diag);
+                    }
+                }
+            }
+        }
+        private bool InheritsFromFeature(INamedTypeSymbol type) {
+            var baseType = type.BaseType;
+            while (baseType != null) {
+                if (baseType.ToString() == "ToyBox.Feature") {
+                    return true;
+                }
+                baseType = baseType.BaseType;
+            }
+            return false;
+        }
         private void AnalyzeStringLiteral(SyntaxNodeAnalysisContext context) {
             var literal = (LiteralExpressionSyntax)context.Node;
             var stringValue = literal.Token.ValueText;

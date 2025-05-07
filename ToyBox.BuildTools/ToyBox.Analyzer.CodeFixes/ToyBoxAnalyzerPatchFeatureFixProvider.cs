@@ -23,6 +23,9 @@ namespace ToyBox.Analyzer {
         }
 
         public sealed override Task RegisterCodeFixesAsync(CodeFixContext context) {
+            if (context.Document is null || context.Document is SourceGeneratedDocument)
+                return Task.CompletedTask;
+
             var diagnostic = context.Diagnostics.First();
             string title = diagnostic.Id == "HAR001"
                 ? "Add missing Harmony attributes"

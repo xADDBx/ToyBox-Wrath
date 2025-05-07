@@ -3,17 +3,17 @@ using Kingmaker;
 using System.Reflection.Emit;
 using Kingmaker.Modding;
 
-namespace ToyBox.Features.BagOfTricks;
+namespace ToyBox.Features.BagOfTricks.QoL;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.EnableAchievementsFeature")]
+[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.QoL.EnableAchievementsFeature")]
 public partial class EnableAchievementsFeature : FeatureWithPatch {
-    protected override string HarmonyName => "ToyBox.Features.BagOfTricks.EnableAchievementsFeature";
+    protected override string HarmonyName => "ToyBox.Features.BagOfTricks.QoL.EnableAchievementsFeature";
     public override ref bool IsEnabled => ref Settings.EnableModdedAchievements;
 
-    [LocalizedString("ToyBox_Features_BagOfTricks_EnableAchievementsFeature_AllowAchievementsWhileUsingModsT", "Allow Achievements While Using Mods")]
+    [LocalizedString("ToyBox_Features_BagOfTricks_QoL_EnableAchievementsFeature_AllowAchievementsWhileUsingModsT", "Allow Achievements While Using Mods")]
     public override partial string Name { get; }
 
-    [LocalizedString("ToyBox_Features_BagOfTricks_EnableAchievementsFeature_ThisIsIntendedForYouToBeAbleToEn", "This is intended for you to be able to enjoy the game while using mods that enhance your quality of life.")]
+    [LocalizedString("ToyBox_Features_BagOfTricks_QoL_EnableAchievementsFeature_ThisIsIntendedForYouToBeAbleToEn", "This is intended for you to be able to enjoy the game while using mods that enhance your quality of life.")]
     public override partial string Description { get; }
     [HarmonyPatch(typeof(AchievementEntity), nameof(AchievementEntity.IsDisabled), MethodType.Getter), HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> AchievementEntity_IsDisabled_Transpiler(IEnumerable<CodeInstruction> instructions) {
