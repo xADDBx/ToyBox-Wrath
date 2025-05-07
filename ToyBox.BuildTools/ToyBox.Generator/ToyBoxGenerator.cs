@@ -92,7 +92,7 @@ namespace ToyBox.Generator {
             sb.AppendLine("namespace ToyBox.Infrastructure.Localization;");
             sb.AppendLine("public partial class Language {");
             foreach (var entry in localizationEntries) {
-                sb.AppendLine($"    public string {entry.Key} = @\"{entry.Value}\";");
+                sb.AppendLine($"    public (string Original, string Translated) {entry.Key} = (@\"{entry.Value}\", @\"{entry.Value}\");");
             }
             sb.AppendLine("}");
             return sb.ToString();
@@ -118,11 +118,11 @@ namespace ToyBox.Generator {
             if (!string.IsNullOrEmpty(ns)) {
                 sb.AppendLine($"namespace {ns};");
             }
-            sb.AppendLine($"{syntax.WithAttributeLists([]).WithMembers([]).WithOpenBraceToken(SyntaxFactory.Token(SyntaxKind.None)).WithCloseBraceToken(SyntaxFactory.Token(SyntaxKind.None)).ToString()} {{");
+            sb.AppendLine($"{syntax.WithAttributeLists([]).WithMembers([]).WithOpenBraceToken(SyntaxFactory.Token(SyntaxKind.None)).WithCloseBraceToken(SyntaxFactory.Token(SyntaxKind.None))} {{");
             foreach (var prop in properties) {
                 var propName = prop.PropertySymbol.Name;
                 var generatedFieldName = prop.LocalizationKey;
-                sb.AppendLine($"    {prop.PropertyString} => LocalizationManager.CurrentLocalization.{generatedFieldName};");
+                sb.AppendLine($"    {prop.PropertyString} => LocalizationManager.CurrentLocalization.{generatedFieldName}.Translated;");
             }
             sb.AppendLine("}");
             return sb.ToString();

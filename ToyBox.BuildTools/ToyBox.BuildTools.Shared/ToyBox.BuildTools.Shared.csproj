@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="$(SolutionDir)..\GamePathFinder.props" Condition="Exists('$(SolutionDir)..\GamePathFinder.props')" />
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<AssemblyName>ToyBox.BuildTools.Shared</AssemblyName>
+		<RootNamespace>ToyBox.BuildTools.Shared</RootNamespace>
+		<LangVersion>preview</LangVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<Reference Include="$(WrathInstallDir)\Wrath_Data\Managed\Newtonsoft.Json.dll" Private="false" />
+	</ItemGroup>
+</Project>

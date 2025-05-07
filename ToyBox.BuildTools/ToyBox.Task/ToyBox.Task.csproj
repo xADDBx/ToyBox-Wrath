@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="$(SolutionDir)..\GamePathFinder.props" Condition="Exists('$(SolutionDir)..\GamePathFinder.props')" />
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
@@ -10,6 +11,6 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Build.Framework" Version="17.5.0" PrivateAssets="all" IncludeAssets="Compile" />
 		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.5.0" PrivateAssets="all" IncludeAssets="Compile" />
-		<PackageReference Include="System.Text.Json" Version="9.0.2" PrivateAssets="all" />
+		<Reference Include="$(WrathInstallDir)\Wrath_Data\Managed\Newtonsoft.Json.dll" />
 	</ItemGroup>
 </Project>

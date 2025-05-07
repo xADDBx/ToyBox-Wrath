@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System.Reflection;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace ToyBox.Infrastructure.Localization;
 public static class LocalizationManager {
@@ -8,6 +10,7 @@ public static class LocalizationManager {
         Formatting = Formatting.Indented,
         DefaultValueHandling = DefaultValueHandling.Populate,
         MissingMemberHandling = MissingMemberHandling.Ignore,
+        Converters = [new FancyNameConverter()]
     };
     private static bool IsEnabled = false;
     private static string GetPathToLocalizationFile(string LanguageCode) => Path.Combine(Main.ModEntry.Path, "Localization", LanguageCode + "_lang.json");
@@ -27,7 +30,7 @@ public static class LocalizationManager {
             UpdateOrCreate(Settings.UILanguage);
         }
         var filePath = GetPathToLocalizationFile(Settings.UILanguage);
-        Language CurrentLocalization = JsonConvert.DeserializeObject<Language>(File.ReadAllText(filePath), m_Settings) ?? new();
+        CurrentLocalization = JsonConvert.DeserializeObject<Language>(File.ReadAllText(filePath), m_Settings) ?? new();
     }
     public static void DiscoverLocalizations() {
         m_FoundLanguageFiles = new();
@@ -37,13 +40,26 @@ public static class LocalizationManager {
             }
         }
     }
+    private static FieldInfo[]? m_LanguageTypeFields;
     public static void UpdateOrCreate(string languageCode) {
         try {
             var filePath = GetPathToLocalizationFile(languageCode);
-            Language lang = new();
+            Language? lang = null;
             if (File.Exists(filePath)) {
+                m_LanguageTypeFields ??= typeof(Language).GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                var enData = new Language();
                 lang = JsonConvert.DeserializeObject<Language>(File.ReadAllText(filePath), m_Settings);
-            } else {
+                foreach (var field in m_LanguageTypeFields) {
+                    if (field.FieldType == typeof((string, string))) {
+                        var en = ((string, string))field.GetValue(enData);
+                        var other = ((string, string))field.GetValue(lang);
+                        other.Item1 = en.Item1;
+                        field.SetValue(lang, other);
+                    }
+                }
+            }
+            lang ??= new();
+            if (!m_FoundLanguageFiles.Contains(Settings.UILanguage)) {
                 m_FoundLanguageFiles.Add(languageCode);
             }
             File.WriteAllText(filePath, JsonConvert.SerializeObject(lang, m_Settings));

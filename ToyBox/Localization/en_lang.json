@@ -1,51 +1,198 @@
 {
-  "ToyBox_Features_BagOfTricks_BagOfTricksFeatureTab_BagOfTricksText": "Bag of Tricks",
-  "ToyBox_Features_BagOfTricks_BagOfTricksFeatureTab_QualityOfLifeText": "Quality of Life",
-  "ToyBox_Features_BagOfTricks_BagOfTricksFeatureTab_CheatsText": "Cheats",
-  "ToyBox_Features_BagOfTricks_DisableFogOfWarFeature_DisableFogOfWarText": "Disable Fog of War",
-  "ToyBox_Features_BagOfTricks_DisableFogOfWarFeature_DisableTheFogOfWarOnTheMapText": "Disable the fog of war on the map",
-  "ToyBox_Features_BagOfTricks_DisableNegativePartyLevels_DisablePartyNegativeLevelsText": "Disable Party Negative Levels",
-  "ToyBox_Features_BagOfTricks_DisableNegativePartyLevels_PreventPartyMembersFromBeingAffe": "Prevent Party members from being affected by energy drain",
-  "ToyBox_Features_BagOfTricks_DisablePartyAbilityDamage_DisablePartyAbilityDamageText": "Disable Party Ability Damage",
-  "ToyBox_Features_BagOfTricks_DisablePartyAbilityDamage_PreventPartyMembersFromBeingAffe": "Prevent Party members from being affected by stat reducing attacks",
-  "ToyBox_Features_BagOfTricks_DisableRequireMaterialComponent_NoMaterialComponentsText": "No Material Components",
-  "ToyBox_Features_BagOfTricks_DisableRequireMaterialComponent_AbilitiesNoLongerNeedAnyMaterial": "Abilities no longer need any material components which they would otherwise consume",
-  "ToyBox_Features_BagOfTricks_RestAfterCombatFeature_RestPartyInstantlyAfterCombatTex": "Rest Party Instantly After Combat",
-  "ToyBox_Features_BagOfTricks_RestAfterCombatFeature_RestAllPartyMembersInstantlyAfte": "Rest all party members instantly after combat",
-  "ToyBox_Features_BagOfTricks_RestoreAbilitiesAfterCombatFeature_RestoreAbilitiesAfterCombatText": "Restore Abilities After Combat",
-  "ToyBox_Features_BagOfTricks_RestoreAbilitiesAfterCombatFeature_RestoresAllChargesOnAbilitiesAft": "Restores all charges on abilities after combat",
-  "ToyBox_Features_BagOfTricks_RestoreItemsAfterCombatFeature_RestoreItemsAfterCombatText": "Restore Items After Combat",
-  "ToyBox_Features_BagOfTricks_RestoreItemsAfterCombatFeature_RestoreItemChargesAfterCombatTex": "Restore item charges after combat",
-  "ToyBox_Features_BagOfTricks_RestoreSpellsAfterCombatFeature_RestoreSpellsAfterCombatText": "Restore Spells After Combat",
-  "ToyBox_Features_BagOfTricks_RestoreSpellsAfterCombatFeature_RestoreSpellChargesAfterCombatTe": "Restore spell charges after combat",
-  "ToyBox_Features_BagOfTricks_SpontaneousCasterCopyScrollFeature_CanCopyScrollsText": "Spontaneous Caster Scroll Copy",
-  "ToyBox_Features_BagOfTricks_SpontaneousCasterCopyScrollFeature_AllowSpontaneousCastersToCopyScr": "Allow spontaneous casters to copy scrolls into their spell books",
-  "ToyBox_Features_BagOfTricks_ToggleLockJamFeature_ToggleLockJamText": "Toggle Lock Jam",
-  "ToyBox_Features_BagOfTricks_ToggleLockJamFeature_PreventsLocksFromJammingText": "Prevents Locks from jamming",
-  "ToyBox_Features_BagOfTricks_EnableAchievementsFeature_AllowAchievementsWhileUsingModsT": "Allow Achievements While Using Mods",
-  "ToyBox_Features_BagOfTricks_EnableAchievementsFeature_ThisIsIntendedForYouToBeAbleToEn": "This is intended for you to be able to enjoy the game while using mods that enhance your quality of life.",
-  "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_PerformanceEnhancementText": "Performance Enhancement",
-  "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_EnhancesBlueprintLoadingPerforma": "Enhances Blueprint loading performance",
-  "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PreloadBlueprintsFeature_PreloadBlueprintsText": "Preload Blueprints",
-  "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PreloadBlueprintsFeature_AlwaysLoadAllBlueprintsOnGameSta": "Always load all Blueprints on game Start. This increases initial load times and RAM usage, but can decrease game loading times once finished.",
-  "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_LanguagePickerText": "Language Picker",
-  "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_PickYourCurrentUiLocaleText": "Pick your current ui locale",
-  "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_CurrentCultureText": "Current Culture",
-  "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_SettingsText": "Settings",
-  "ToyBox_Features_UpdateAndIntegrity_UpdateCompatabilityFeature_EnableIntegrityCheckText": "Enable Integrity Check",
-  "ToyBox_Features_UpdateAndIntegrity_UpdateCompatabilityFeature_CheckTheIntegrityOfToyBoxFilesTe": "Check the integrity of ToyBox files",
-  "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_RestartToFinishUpdateText": "Restart to finish update",
-  "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_TryReinstallCurrentVersionText": "Try reinstall current version",
-  "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_TryUpdatingToNewestVersionText": "Try updating to newest version",
-  "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_DownloadProgress_Text": "Download Progress:",
-  "ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_UpdaterFeature_UpdateModText": "Update Mod",
-  "ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_UpdaterFeature_ReinstallTheCurrentModVersionOrU": "Reinstall the current mod version or update to the latest available version",
-  "ToyBox_Features_UpdateAndIntegrity_VersionCompatabilityFeature_Name": "Enable Version Compatibility Check",
-  "ToyBox_Features_UpdateAndIntegrity_VersionCompatabilityFeature_Description": "Check whether the current mod version is compatible with the current game version",
-  "ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_VersionCompatabilityFeature_ModVersionIsNotCompatibleWithThi": "Mod Version is not compatible with this game version!",
-  "ToyBox_Infrastructure_UI_Browser_ShowAllText": "Show All",
-  "ToyBox_Infrastructure_UI_VerticalList_PageText": "Page",
-  "ToyBox_Main_ModFilesAreCorrupted_Text": "Mod files are corrupted!",
-  "ToyBox_Main_ResetText": "Reset",
-  "ToyBox_Main_CurrentlyLoadedBPsText": "Currently loaded BPs: {0}"
+  "ToyBox_Features_BagOfTricks_BagOfTricksFeatureTab_BagOfTricksText": {
+    "Original": "Bag of Tricks",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_BagOfTricksFeatureTab_QualityOfLifeText": {
+    "Original": "Quality of Life",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_BagOfTricksFeatureTab_CheatsText": {
+    "Original": "Cheats",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_DisableFogOfWarFeature_DisableFogOfWarText": {
+    "Original": "Disable Fog of War",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_DisableFogOfWarFeature_DisableTheFogOfWarOnTheMapText": {
+    "Original": "Disable the fog of war on the map",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_DisableNegativePartyLevels_DisablePartyNegativeLevelsText": {
+    "Original": "Disable Party Negative Levels",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_DisableNegativePartyLevels_PreventPartyMembersFromBeingAffe": {
+    "Original": "Prevent Party members from being affected by energy drain",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_DisablePartyAbilityDamage_DisablePartyAbilityDamageText": {
+    "Original": "Disable Party Ability Damage",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_DisablePartyAbilityDamage_PreventPartyMembersFromBeingAffe": {
+    "Original": "Prevent Party members from being affected by stat reducing attacks",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_DisableRequireMaterialComponent_NoMaterialComponentsText": {
+    "Original": "No Material Components",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_DisableRequireMaterialComponent_AbilitiesNoLongerNeedAnyMaterial": {
+    "Original": "Abilities no longer need any material components which they would otherwise consume",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_RestAfterCombatFeature_RestPartyInstantlyAfterCombatTex": {
+    "Original": "Rest Party Instantly After Combat",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_RestAfterCombatFeature_RestAllPartyMembersInstantlyAfte": {
+    "Original": "Rest all party members instantly after combat",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_RestoreAbilitiesAfterCombatFeature_RestoreAbilitiesAfterCombatText": {
+    "Original": "Restore Abilities After Combat",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_RestoreAbilitiesAfterCombatFeature_RestoresAllChargesOnAbilitiesAft": {
+    "Original": "Restores all charges on abilities after combat",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_RestoreItemsAfterCombatFeature_RestoreItemsAfterCombatText": {
+    "Original": "Restore Items After Combat",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_RestoreItemsAfterCombatFeature_RestoreItemChargesAfterCombatTex": {
+    "Original": "Restore item charges after combat",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_RestoreSpellsAfterCombatFeature_RestoreSpellsAfterCombatText": {
+    "Original": "Restore Spells After Combat",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_RestoreSpellsAfterCombatFeature_RestoreSpellChargesAfterCombatTe": {
+    "Original": "Restore spell charges after combat",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_SpontaneousCasterCopyScrollFeature_CanCopyScrollsText": {
+    "Original": "Spontaneous Caster Scroll Copy",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_SpontaneousCasterCopyScrollFeature_AllowSpontaneousCastersToCopyScr": {
+    "Original": "Allow spontaneous casters to copy scrolls into their spell books",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_ToggleLockJamFeature_ToggleLockJamText": {
+    "Original": "Toggle Lock Jam",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_ToggleLockJamFeature_PreventsLocksFromJammingText": {
+    "Original": "Prevents Locks from jamming",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_EnableAchievementsFeature_AllowAchievementsWhileUsingModsT": {
+    "Original": "Allow Achievements While Using Mods",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_EnableAchievementsFeature_ThisIsIntendedForYouToBeAbleToEn": {
+    "Original": "This is intended for you to be able to enjoy the game while using mods that enhance your quality of life.",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_PerformanceEnhancementText": {
+    "Original": "Performance Enhancement",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_EnhancesBlueprintLoadingPerforma": {
+    "Original": "Enhances Blueprint loading performance",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PreloadBlueprintsFeature_PreloadBlueprintsText": {
+    "Original": "Preload Blueprints",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PreloadBlueprintsFeature_AlwaysLoadAllBlueprintsOnGameSta": {
+    "Original": "Always load all Blueprints on game Start. This increases initial load times and RAM usage, but can decrease game loading times once finished.",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_LanguagePickerText": {
+    "Original": "Language Picker",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_PickYourCurrentUiLocaleText": {
+    "Original": "Pick your current ui locale",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_CurrentCultureText": {
+    "Original": "Current Culture",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_SettingsText": {
+    "Original": "Settings",
+    "Translated": null
+  },
+  "ToyBox_Features_UpdateAndIntegrity_UpdateCompatabilityFeature_EnableIntegrityCheckText": {
+    "Original": "Enable Integrity Check",
+    "Translated": null
+  },
+  "ToyBox_Features_UpdateAndIntegrity_UpdateCompatabilityFeature_CheckTheIntegrityOfToyBoxFilesTe": {
+    "Original": "Check the integrity of ToyBox files",
+    "Translated": null
+  },
+  "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_RestartToFinishUpdateText": {
+    "Original": "Restart to finish update",
+    "Translated": null
+  },
+  "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_TryReinstallCurrentVersionText": {
+    "Original": "Try reinstall current version",
+    "Translated": null
+  },
+  "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_TryUpdatingToNewestVersionText": {
+    "Original": "Try updating to newest version",
+    "Translated": null
+  },
+  "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_DownloadProgress_Text": {
+    "Original": "Download Progress:",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_UpdaterFeature_UpdateModText": {
+    "Original": "Update Mod",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_UpdaterFeature_ReinstallTheCurrentModVersionOrU": {
+    "Original": "Reinstall the current mod version or update to the latest available version",
+    "Translated": null
+  },
+  "ToyBox_Features_UpdateAndIntegrity_VersionCompatabilityFeature_Name": {
+    "Original": "Enable Version Compatibility Check",
+    "Translated": null
+  },
+  "ToyBox_Features_UpdateAndIntegrity_VersionCompatabilityFeature_Description": {
+    "Original": "Check whether the current mod version is compatible with the current game version",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_VersionCompatabilityFeature_ModVersionIsNotCompatibleWithThi": {
+    "Original": "Mod Version is not compatible with this game version!",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_UI_Browser_ShowAllText": {
+    "Original": "Show All",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_UI_VerticalList_PageText": {
+    "Original": "Page",
+    "Translated": null
+  },
+  "ToyBox_Main_ModFilesAreCorrupted_Text": {
+    "Original": "Mod files are corrupted!",
+    "Translated": null
+  },
+  "ToyBox_Main_ResetText": {
+    "Original": "Reset",
+    "Translated": null
+  },
+  "ToyBox_Main_CurrentlyLoadedBPsText": {
+    "Original": "Currently loaded BPs: {0}",
+    "Translated": null
+  }
 }
