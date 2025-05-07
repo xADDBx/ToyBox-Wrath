@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.Reflection;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace ToyBox.Infrastructure.Localization;
 public static class LocalizationManager {
