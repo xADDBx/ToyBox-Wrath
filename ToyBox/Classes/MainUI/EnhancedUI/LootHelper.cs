@@ -24,6 +24,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using Kingmaker.UI.MVVM._PCView.Loot;
 using Kingmaker.UI.MVVM._VM.Loot;
+using Kingmaker.Blueprints.Root.Strings;
+using Kingmaker.Blueprints;
 
 namespace ToyBox {
     public static class LootHelper {
@@ -137,24 +139,30 @@ namespace ToyBox {
 
             //EventBus.RaiseEvent((Action<ILootInterractionHandler>)(e => e.HandleZoneLootInterraction(null)));
         }
+        private static DroppedLoot m_FakePlayerChest;
         public static void OpenPlayerChest() {
-            // Access to LootContextVM
-            var contextVM = RootUIContext.Instance
-                                         .InGameVM?
-                                         .StaticPartVM?.LootContextVM;
+            var contextVM = RootUIContext.Instance.InGameVM?.StaticPartVM?.LootContextVM;
             if (contextVM == null) return;
-            // Add new loot...
-            var objects = new EntityViewBase[] { };
-            var lootVM = new LootVM(LootContextVM.LootWindowMode.PlayerChest, objects, () => contextVM.DisposeAndRemove(contextVM.LootVM));
-            var sharedStash = Game.Instance.Player.SharedStash;
-            var lootObjectVM = new LootObjectVM("Player Chest".localize(),
-                                                "",
-                                                sharedStash,
-                                                LootContextVM.LootWindowMode.PlayerChest,
-                                                1);
-            lootVM.ContextLoot.Add(lootObjectVM);
-            lootVM.AddDisposable(lootObjectVM);
-            // Open window add lootVM int contextVM
+            if (m_FakePlayerChest == null) {
+                var wow = new GameObject("._.");
+                // Need to disable the GO to prevent DroppedLoot.OnEnable from running since that causes an NRE that can't be caught properly
+                wow.SetActive(false);
+                UnityEngine.Object.DontDestroyOnLoad(wow);
+                var a = wow.EnsureComponent<DroppedLoot>();
+                var il = wow.EnsureComponent<InteractionLoot>();
+                il.Settings = new() { LootContainerType = LootContainerType.PlayerChest, 
+                    PutItemTrigger = new() { Action = new() { deserializedGuid = BlueprintGuid.Empty } }, 
+                    CloseTrigger = new() { Action = new() { deserializedGuid = BlueprintGuid.Empty } }, 
+                    TakeItemTrigger = new() { Action = new() { deserializedGuid = BlueprintGuid.Empty } } };
+                (a as EntityViewBase).Data = new MapObjectEntityData(a);
+                var ilp = a.Data.Parts.Ensure<InteractionLootPart>();
+                ilp.SetSettings(il.Settings);
+                wow.SetActive(true);
+                m_FakePlayerChest = a;
+            }
+            m_FakePlayerChest.Data.Get<InteractionLootPart>().Loot = Game.Instance.Player.SharedStash;
+            var lootVM = new LootVM(LootContextVM.LootWindowMode.PlayerChest, [m_FakePlayerChest], () => contextVM.DisposeAndRemove(contextVM.LootVM));
+
             contextVM.LootVM.Value = lootVM;
         }
     }

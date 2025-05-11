@@ -25,6 +25,7 @@ using Kingmaker.UI.Common;
 using Newtonsoft.Json;
 using ToyBox.Multiclass;
 using System.Net;
+using Kingmaker.UI.Models.Log;
 
 namespace ToyBox {
 #if DEBUG
@@ -158,8 +159,10 @@ namespace ToyBox {
                     var message = new CombatLogMessage("ToyBox".Blue() + " - " + text, Color.black, PrefixIcon.RightArrow);
                     var messageLog = LogThreadService.Instance.m_Logs[LogChannelType.Common].FirstOrDefault(x => x is MessageLogThread);
                     var tacticalCombatLog = LogThreadService.Instance.m_Logs[LogChannelType.TacticalCombat].FirstOrDefault(x => x is MessageLogThread);
-                    messageLog?.AddMessage(message);
-                    tacticalCombatLog?.AddMessage(message);
+                    using (GameLogContext.Scope) {
+                        messageLog?.AddMessage(message);
+                        tacticalCombatLog?.AddMessage(message);
+                    }
                 };
             } catch (Exception e) {
                 Mod.Error(e);

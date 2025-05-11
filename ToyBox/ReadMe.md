@@ -37,6 +37,10 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
+### Toybox Wrath - Ver 1.7.15 (built for 2.7.0w)
+* (***ADDB***) Fix "Open Player Chest" feature. How come nobody reported the issues with that until now?
+* (***ADDB***) Clean up some log spam caused by this mod
+
 ### Toybox Wrath - Ver 1.7.14 (built for 2.7.0w)
 * (***ADDB***) Fix issue with "Expand Answers For Conditional Responses" where if the answer itself was a condition for the following Cue it would make the Cue impossible to trigger (fix == disable the feature for those specific answers).
 * (***ADDB***) PatchTool: Fix rare UI crash
