@@ -149,7 +149,7 @@ namespace ToyBox.Analyzer {
         #region LocalizationAnalyzer
         private void AnalyzeNamedTypeLoc(SymbolAnalysisContext context) {
             var namedType = (INamedTypeSymbol)context.Symbol;
-            if (namedType.TypeKind != TypeKind.Class) {
+            if (namedType.TypeKind != TypeKind.Class || namedType.IsAbstract) {
                 return;
             }
             if (!InheritsFromFeature(namedType)) {
