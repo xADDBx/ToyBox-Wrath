@@ -1,6 +1,6 @@
 This project wouldn't be possible without the dedication and hard work of many. 
 
-# Original Maintainer/Feature Authors
+# Original Maintainers/Feature Authors
 
 - Hsinyu
 - Narria
