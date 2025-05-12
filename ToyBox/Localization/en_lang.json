@@ -11,91 +11,123 @@
     "Original": "Cheats",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_DisableFogOfWarFeature_DisableFogOfWarText": {
+  "ToyBox_Features_BagOfTricks_Cheats_DisableFogOfWarFeature_DisableFogOfWarText": {
     "Original": "Disable Fog of War",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_DisableFogOfWarFeature_DisableTheFogOfWarOnTheMapText": {
+  "ToyBox_Features_BagOfTricks_Cheats_DisableFogOfWarFeature_DisableTheFogOfWarOnTheMapText": {
     "Original": "Disable the fog of war on the map",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_DisableNegativePartyLevels_DisablePartyNegativeLevelsText": {
+  "ToyBox_Features_BagOfTricks_Cheats_DisableNegativePartyLevels_DisablePartyNegativeLevelsText": {
     "Original": "Disable Party Negative Levels",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_DisableNegativePartyLevels_PreventPartyMembersFromBeingAffe": {
+  "ToyBox_Features_BagOfTricks_Cheats_DisableNegativePartyLevels_PreventPartyMembersFromBeingAffe": {
     "Original": "Prevent Party members from being affected by energy drain",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_DisablePartyAbilityDamage_DisablePartyAbilityDamageText": {
+  "ToyBox_Features_BagOfTricks_Cheats_DisablePartyAbilityDamage_DisablePartyAbilityDamageText": {
     "Original": "Disable Party Ability Damage",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_DisablePartyAbilityDamage_PreventPartyMembersFromBeingAffe": {
+  "ToyBox_Features_BagOfTricks_Cheats_DisablePartyAbilityDamage_PreventPartyMembersFromBeingAffe": {
     "Original": "Prevent Party members from being affected by stat reducing attacks",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_DisableRequireMaterialComponent_NoMaterialComponentsText": {
+  "ToyBox_Features_BagOfTricks_Cheats_DisableRequireMaterialComponent_NoMaterialComponentsText": {
     "Original": "No Material Components",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_DisableRequireMaterialComponent_AbilitiesNoLongerNeedAnyMaterial": {
+  "ToyBox_Features_BagOfTricks_Cheats_DisableRequireMaterialComponent_AbilitiesNoLongerNeedAnyMaterial": {
     "Original": "Abilities no longer need any material components which they would otherwise consume",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_RestAfterCombatFeature_RestPartyInstantlyAfterCombatTex": {
+  "ToyBox_Features_BagOfTricks_Cheats_HighlightHiddenObjectsFeature_Name": {
+    "Original": "Highlight Hidden Objects",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_HighlightHiddenObjectsFeature_Description": {
+    "Original": "Highlights objects even if they would normally be hidden by a perception Check or otherwise. Optionally also highlight objects in Fog Of War and hidden traps.",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_HighlightHiddenObjectsFeature_AlsoHighlightHiddenTrapsText": {
+    "Original": "Also Highlight Hidden Traps",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_HighlightHiddenObjectsFeature_AlsoHighlightInFogOfWarText": {
+    "Original": "Also Highlight in Fog of War",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_PreventTrapsFromTriggeringFeature_Name": {
+    "Original": "Prevent Traps from triggering",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_PreventTrapsFromTriggeringFeature_Description": {
+    "Original": "Enterint a Trap Zone while having Traps disabled will prevent that Trap from triggering even if you deactivate this option in the future",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_RestAfterCombatFeature_RestPartyInstantlyAfterCombatTex": {
     "Original": "Rest Party Instantly After Combat",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_RestAfterCombatFeature_RestAllPartyMembersInstantlyAfte": {
+  "ToyBox_Features_BagOfTricks_Cheats_RestAfterCombatFeature_RestAllPartyMembersInstantlyAfte": {
     "Original": "Rest all party members instantly after combat",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_RestoreAbilitiesAfterCombatFeature_RestoreAbilitiesAfterCombatText": {
+  "ToyBox_Features_BagOfTricks_Cheats_RestoreAbilitiesAfterCombatFeature_RestoreAbilitiesAfterCombatText": {
     "Original": "Restore Abilities After Combat",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_RestoreAbilitiesAfterCombatFeature_RestoresAllChargesOnAbilitiesAft": {
+  "ToyBox_Features_BagOfTricks_Cheats_RestoreAbilitiesAfterCombatFeature_RestoresAllChargesOnAbilitiesAft": {
     "Original": "Restores all charges on abilities after combat",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_RestoreItemsAfterCombatFeature_RestoreItemsAfterCombatText": {
+  "ToyBox_Features_BagOfTricks_Cheats_RestoreItemsAfterCombatFeature_RestoreItemsAfterCombatText": {
     "Original": "Restore Items After Combat",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_RestoreItemsAfterCombatFeature_RestoreItemChargesAfterCombatTex": {
+  "ToyBox_Features_BagOfTricks_Cheats_RestoreItemsAfterCombatFeature_RestoreItemChargesAfterCombatTex": {
     "Original": "Restore item charges after combat",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_RestoreSpellsAfterCombatFeature_RestoreSpellsAfterCombatText": {
+  "ToyBox_Features_BagOfTricks_Cheats_RestoreSpellsAfterCombatFeature_RestoreSpellsAfterCombatText": {
     "Original": "Restore Spells After Combat",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_RestoreSpellsAfterCombatFeature_RestoreSpellChargesAfterCombatTe": {
+  "ToyBox_Features_BagOfTricks_Cheats_RestoreSpellsAfterCombatFeature_RestoreSpellChargesAfterCombatTe": {
     "Original": "Restore spell charges after combat",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_SpontaneousCasterCopyScrollFeature_CanCopyScrollsText": {
+  "ToyBox_Features_BagOfTricks_Cheats_SpontaneousCasterCopyScrollFeature_CanCopyScrollsText": {
     "Original": "Spontaneous Caster Scroll Copy",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_SpontaneousCasterCopyScrollFeature_AllowSpontaneousCastersToCopyScr": {
+  "ToyBox_Features_BagOfTricks_Cheats_SpontaneousCasterCopyScrollFeature_AllowSpontaneousCastersToCopyScr": {
     "Original": "Allow spontaneous casters to copy scrolls into their spell books",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_ToggleLockJamFeature_ToggleLockJamText": {
+  "ToyBox_Features_BagOfTricks_Cheats_ToggleLockJamFeature_ToggleLockJamText": {
     "Original": "Toggle Lock Jam",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_ToggleLockJamFeature_PreventsLocksFromJammingText": {
+  "ToyBox_Features_BagOfTricks_Cheats_ToggleLockJamFeature_PreventsLocksFromJammingText": {
     "Original": "Prevents Locks from jamming",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_EnableAchievementsFeature_AllowAchievementsWhileUsingModsT": {
+  "ToyBox_Features_BagOfTricks_Cheats_UnlimitedModifierStackingFeature_Name": {
+    "Original": "Unlimited Stacking of Modifiers",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_UnlimitedModifierStackingFeature_Description": {
+    "Original": "Forces any kind of (Stat/AC/Hit/Etc) bonus to stack, even if they would normally override each other",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_QoL_EnableAchievementsFeature_AllowAchievementsWhileUsingModsT": {
     "Original": "Allow Achievements While Using Mods",
     "Translated": null
   },
-  "ToyBox_Features_BagOfTricks_EnableAchievementsFeature_ThisIsIntendedForYouToBeAbleToEn": {
+  "ToyBox_Features_BagOfTricks_QoL_EnableAchievementsFeature_ThisIsIntendedForYouToBeAbleToEn": {
     "Original": "This is intended for you to be able to enjoy the game while using mods that enhance your quality of life.",
     "Translated": null
   },

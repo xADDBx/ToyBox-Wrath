@@ -40,6 +40,9 @@ internal class GeneralSettings : AbstractSettings {
     public bool DisableTraps = false;
     public bool ToggleLockJam = false;
     public bool ToggleUnlimitedModifierStacking = false;
+    public bool HighlightHiddenObjects = false;
+    public bool HighlightInFogOfWar = false;
+    public bool HighlightHiddenTraps = false;
     public bool SpontaneousCasterCanCopyScrolls = false;
     public bool DisableFoW = false;
     public bool DisablePartyAbilityDamage = false;
