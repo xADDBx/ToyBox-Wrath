@@ -9,7 +9,7 @@ This project wouldn't be possible without the dedication and hard work of many.
 
 # Ongoing Community Support
 
-A special thanks to the many GitHub contributors whose feedback, bug reports, and pull requests have driven continuous improvement:
+A special thanks to the many GitHub contributors for their various bug reports and pull requests.
 
 # Acknowledgments
 
