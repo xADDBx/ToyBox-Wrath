@@ -39,6 +39,8 @@ public static partial class Main {
                 return true;
             }
 
+            FeatureWithPatch.CreateHarmonyCategoryCache();
+
             if (Settings.EnableVersionCompatibilityCheck) {
                 Task.Run(() => {
                     var versionTimer = Stopwatch.StartNew();
