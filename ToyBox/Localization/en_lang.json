@@ -64,8 +64,8 @@
     "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_PreventTrapsFromTriggeringFeature_Description": {
-    "Original": "Enterint a Trap Zone while having Traps disabled will prevent that Trap from triggering even if you deactivate this option in the future",
-    "Translated": null
+    "Original": "Entering a Trap Zone while having Traps disabled will prevent that Trap from triggering even if you deactivate this option in the future",
+    "Translated": "Enterint a Trap Zone while having Traps disabled will prevent that Trap from triggering even if you deactivate this option in the future"
   },
   "ToyBox_Features_BagOfTricks_Cheats_RestAfterCombatFeature_RestPartyInstantlyAfterCombatTex": {
     "Original": "Rest Party Instantly After Combat",
