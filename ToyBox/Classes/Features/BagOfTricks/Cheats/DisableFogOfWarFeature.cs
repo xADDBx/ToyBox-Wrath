@@ -12,9 +12,7 @@ public partial class DisableFogOfWarFeature : FeatureWithPatch {
 
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_DisableFogOfWarFeature_DisableTheFogOfWarOnTheMapText", "Disable the fog of war on the map")]
     public override partial string Description { get; }
-    [HarmonyPatch(typeof(FogOfWarArea), nameof(FogOfWarArea.RevealOnStart), MethodType.Getter), HarmonyPrefix]
-    public static bool FogOfWarReveal_Prefix(ref bool __result) {
-        __result = true; 
-        return false;
+    [HarmonyPatch(typeof(FogOfWarArea), nameof(FogOfWarArea.RevealOnStart), MethodType.Getter), HarmonyPostfix]
+    public static void FogOfWarArea_RevealOnStart_Prefix(ref bool __result) {        __result = true;
     }
 }
