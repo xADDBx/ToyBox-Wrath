@@ -47,6 +47,8 @@ public static partial class Main {
                 });
             }
 
+            FeatureWithPatch.CreateHarmonyCategoryCache();
+
             Stopwatch sw2 = Stopwatch.StartNew();
             Infrastructure.Localization.LocalizationManager.Enable();
             Debug($"Localization init took {sw2.ElapsedMilliseconds}ms");
