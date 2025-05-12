@@ -1,4 +1,4 @@
-This project wouldn't be possible without the dedication and hard work of many incredible individuals. 
+This project wouldn't be possible without the dedication and hard work of many. 
 
 # Original Maintainer/Feature Authors
 
