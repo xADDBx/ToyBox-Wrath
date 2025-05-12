@@ -16,9 +16,7 @@ A special thanks to the many GitHub contributors for their various bug reports a
 - The broader modding community for inspiration and collaboration.
 - Users who provided bug reports, ideas, and testing support.
 
-# Special 2.0 Sections
-
-People who helped with the major ToyBox 2.0 Rewrite:
+# Special ToyBox 2.0 Rewrite Section
 
 - ADDB (Infrastructure Coding; UI; Feature Porting)
 - CascadingDragon (UI; Feature Porting)
