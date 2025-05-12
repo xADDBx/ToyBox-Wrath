@@ -16,18 +16,12 @@ public partial class HighlightHiddenObjectsFeature : FeatureWithPatch {
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_HighlightHiddenObjectsFeature_AlsoHighlightHiddenTrapsText", "Also Highlight Hidden Traps")]
     private static partial string AlsoHighlightHiddenTrapsText { get; }
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_HighlightHiddenObjectsFeature_AlsoHighlightInFogOfWarText", "Also Highlight in Fog of War")]
-    private static partial string AlsoHighlightInFogOfWarText { get; }
+    private static partial string AlsoHighlightInFogOfWarText { get; }    public void EnqueueUpdate() {        Main.ScheduleForMainThread(() => {            if (Game.Instance?.State != null) {                foreach (var mapObjectEntityData in Game.Instance.State.MapObjects) {                    mapObjectEntityData.View.UpdateHighlight();                }            }        });    }
     public override void Initialize() {
-        base.Initialize();
-        foreach (var mapObjectEntityData in Game.Instance.State.MapObjects) {
-            mapObjectEntityData.View.UpdateHighlight();
-        }
+        base.Initialize();        EnqueueUpdate();
     }
     public override void Destroy() {
-        base.Destroy();
-        foreach (var mapObjectEntityData in Game.Instance.State.MapObjects) {
-            mapObjectEntityData.View.UpdateHighlight();
-        }
+        base.Destroy();        EnqueueUpdate();
     }
     public override void OnGui() {
         using (VerticalScope()) {
