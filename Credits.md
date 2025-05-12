@@ -13,9 +13,8 @@ A special thanks to the many GitHub contributors for their various bug reports a
 
 # Acknowledgments
 
-The broader modding community for inspiration and collaboration.
-
-Users who provided bug reports, ideas, and testing support.
+- The broader modding community for inspiration and collaboration.
+- Users who provided bug reports, ideas, and testing support.
 
 # Special 2.0 Sections
 
