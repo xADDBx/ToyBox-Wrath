@@ -9,7 +9,7 @@
 
 	<PropertyGroup>
 		<PackageId>ToyBox.BuildTools</PackageId>
-		<PackageVersion>1.1.3.0</PackageVersion>
+		<PackageVersion>1.1.4.0</PackageVersion>
 		<Authors>ADDB</Authors>
 		<PackageLicenseUrl></PackageLicenseUrl>
 		<PackageProjectUrl></PackageProjectUrl>

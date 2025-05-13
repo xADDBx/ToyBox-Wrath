@@ -51,7 +51,7 @@ public static class LocalizationManager {
                 foreach (var field in m_LanguageTypeFields) {
                     if (field.FieldType == typeof((string, string))) {
                         var en = ((string, string))field.GetValue(enData);
-                        var other = ((string, string))field.GetValue(lang);
+                        var other = ((string, string))field.GetValue(lang);                        if (other.Item1 == other.Item2) {                            other.Item2 = en.Item2;                        }
                         other.Item1 = en.Item1;
                         field.SetValue(lang, other);
                     }

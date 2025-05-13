@@ -47,7 +47,7 @@ public class UpdateLocalizationTask : Task {
                         foreach (var field in fields) {
                             if (field.FieldType == typeof((string, string))) {
                                 var en = ((string, string))field.GetValue(enData);
-                                var other = ((string, string))field.GetValue(data);
+                                var other = ((string, string))field.GetValue(data);                                if (other.Item1 == other.Item2) {                                    other.Item2 = en.Item2;                                }
                                 other.Item1 = en.Item1;
                                 field.SetValue(data, other);
                             }

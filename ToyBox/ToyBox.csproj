@@ -56,7 +56,10 @@
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" IncludeAssets="build; contentfiles" Version="0.4.2" PrivateAssets="all" />
         <PackageReference Include="MicroUtils.HarmonyAnalyzers" IncludeAssets="runtime; build; native; contentfiles; analyzers" Version="*-*" PrivateAssets="all" />
-        <PackageReference Include="ToyBox.BuildTools" IncludeAssets="analyzers; build; compile" Version="1.1.3" PrivateAssets="all" />
+        <PackageReference Include="ToyBox.BuildTools" IncludeAssets="analyzers; build; compile" Version="1.1.4" PrivateAssets="all" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Localization\" />
     </ItemGroup>
     <Target Name="UpdateLocalizationFiles" BeforeTargets="Deploy">
         <UpdateLocalizationTask LocalizationDirectoryPath="$(SolutionDir)ToyBox\Localization" AssemblyPath="$(TargetDir)$(AssemblyName).dll" />

@@ -20,20 +20,20 @@
     "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_DisableNegativePartyLevels_DisablePartyNegativeLevelsText": {
-    "Original": "Disable Party Negative Levels",
+    "Original": "Prevent party member Levels from being reduced",
     "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_DisableNegativePartyLevels_PreventPartyMembersFromBeingAffe": {
     "Original": "Prevent Party members from losing levels due to energy drain",
-    "Translated": "Prevent Party members from being affected by energy drain"
+    "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_DisablePartyAbilityDamage_DisablePartyAbilityDamageText": {
     "Original": "Prevent Party abilities from being reduced",
-    "Translated": "Disable Party Ability Damage"
+    "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_DisablePartyAbilityDamage_PreventPartyMembersFromBeingAffe": {
     "Original": "Prevents Party members from being affected by stat reducing attacks",
-    "Translated": "Prevent Party members from being affected by stat reducing attacks"
+    "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_DisableRequireMaterialComponent_NoMaterialComponentsText": {
     "Original": "No Material Components",
@@ -65,7 +65,7 @@
   },
   "ToyBox_Features_BagOfTricks_Cheats_PreventTrapsFromTriggeringFeature_Description": {
     "Original": "Entering a Trap Zone while having Traps disabled will prevent that Trap from triggering even if you deactivate this option in the future",
-    "Translated": "Enterint a Trap Zone while having Traps disabled will prevent that Trap from triggering even if you deactivate this option in the future"
+    "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_RestAfterCombatFeature_RestPartyInstantlyAfterCombatTex": {
     "Original": "Rest Party Instantly After Combat",
@@ -157,7 +157,7 @@
   },
   "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_CurrentCultureText": {
     "Original": "Current Language",
-    "Translated": "Current Culture"
+    "Translated": null
   },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_SettingsText": {
     "Original": "Settings",

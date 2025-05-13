@@ -7,7 +7,7 @@ namespace ToyBox.Features.BagOfTricks.Cheats;
 public partial class DisableNegativePartyLevels : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.DisableNegativePartyLevels";
     public override ref bool IsEnabled => ref Settings.DisableNegativePartyLevels;
-    [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_DisableNegativePartyLevels_DisablePartyNegativeLevelsText", "Disable Party Negative Levels")]
+    [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_DisableNegativePartyLevels_DisablePartyNegativeLevelsText", "Prevent party member Levels from being reduced")]
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_DisableNegativePartyLevels_PreventPartyMembersFromBeingAffe", "Prevent Party members from losing levels due to energy drain")]
     public override partial string Description { get; }
