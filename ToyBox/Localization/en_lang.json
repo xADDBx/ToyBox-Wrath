@@ -28,12 +28,12 @@
     "Translated": "Prevent Party members from being affected by energy drain"
   },
   "ToyBox_Features_BagOfTricks_Cheats_DisablePartyAbilityDamage_DisablePartyAbilityDamageText": {
-    "Original": "Disable Party Ability Damage",
-    "Translated": null
+    "Original": "Prevent Party abilities from being reduced",
+    "Translated": "Disable Party Ability Damage"
   },
   "ToyBox_Features_BagOfTricks_Cheats_DisablePartyAbilityDamage_PreventPartyMembersFromBeingAffe": {
-    "Original": "Prevent Party members from being affected by stat reducing attacks",
-    "Translated": null
+    "Original": "Prevents Party members from being affected by stat reducing attacks",
+    "Translated": "Prevent Party members from being affected by stat reducing attacks"
   },
   "ToyBox_Features_BagOfTricks_Cheats_DisableRequireMaterialComponent_NoMaterialComponentsText": {
     "Original": "No Material Components",
