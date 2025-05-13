@@ -159,10 +159,6 @@
     "Original": "Current Language",
     "Translated": null
   },
-  "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_SettingsText": {
-    "Original": "Settings",
-    "Translated": null
-  },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_UpdateText": {
     "Original": "Update",
     "Translated": null
@@ -177,6 +173,10 @@
   },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_LanguageCategory": {
     "Original": "Language",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_SettingsText": {
+    "Original": "Settings",
     "Translated": null
   },
   "ToyBox_Features_UpdateAndIntegrity_UpdateCompatabilityFeature_EnableIntegrityCheckText": {

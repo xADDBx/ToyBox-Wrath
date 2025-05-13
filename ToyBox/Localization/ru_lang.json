@@ -137,7 +137,7 @@
   },
   "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_EnhancesBlueprintLoadingPerforma": {
     "Original": "Enhances Blueprint loading performance",
-    "Translated": "Улучшает скорость загрузки Блюпринтов."
+    "Translated": "Увеличивает скорость загрузки Блюпринтов."
   },
   "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PreloadBlueprintsFeature_PreloadBlueprintsText": {
     "Original": "Preload Blueprints",
@@ -165,19 +165,19 @@
   },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_UpdateText": {
     "Original": "Update",
-    "Translated": null
+    "Translated": "Обновления"
   },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_VersionAndFileIntegrityCategory": {
     "Original": "Version and File Integrity",
-    "Translated": null
+    "Translated": "Версия и целостность файлов"
   },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_BlueprintsCategory": {
     "Original": "Blueprints",
-    "Translated": null
+    "Translated": "Блюпринты"
   },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_LanguageCategory": {
     "Original": "Language",
-    "Translated": null
+    "Translated": "Язык"
   },
   "ToyBox_Features_UpdateAndIntegrity_UpdateCompatabilityFeature_EnableIntegrityCheckText": {
     "Original": "Enable Integrity Check",
@@ -193,11 +193,11 @@
   },
   "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_TryReinstallCurrentVersionText": {
     "Original": "Try reinstall current version",
-    "Translated": "Попробуйте переустановить текущую версию"
+    "Translated": "Попытаться переустановить текущую версию"
   },
   "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_TryUpdatingToNewestVersionText": {
     "Original": "Try updating to newest version",
-    "Translated": "Попробуйте обновить до самой новой версии"
+    "Translated": "Попытаться обновить до самой новой версии"
   },
   "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_DownloadProgress_Text": {
     "Original": "Download Progress:",
