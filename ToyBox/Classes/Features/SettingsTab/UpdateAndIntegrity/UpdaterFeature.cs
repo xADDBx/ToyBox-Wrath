@@ -2,7 +2,6 @@
 using System.IO.Compression;
 using System.Net;
 using System.Reflection;
-using UnityEngine;
 
 namespace ToyBox.Features.SettingsFeatures.UpdateAndIntegrity; 
 public partial class UpdaterFeature : Feature {
