@@ -93,7 +93,7 @@ public static partial class Main {
     }
     [LocalizedString("ToyBox_Main_ResetText", "Reset")]
     private static partial string resetLabel { get; }
-    [LocalizedString("ToyBox_Main_CurrentlyLoadedBPsText", "Currently loaded BPs: {0}")]
+    [LocalizedString("ToyBox_Main_CurrentlyLoadedBPsText", "Currently loaded blueprints: {0}")]
     private static partial string CurrentlyLoadedBPsText { get; }
     private static int m_LoadedBps = 0;
     private static Browser<SimpleBlueprint> m_Browser = new(BPHelper.GetSortKey, BPHelper.GetSearchKey, [], (Action<IEnumerable<SimpleBlueprint>> func) => BPLoader.GetBlueprints(func));

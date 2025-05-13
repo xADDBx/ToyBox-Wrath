@@ -224,7 +224,7 @@
     "Translated": null
   },
   "ToyBox_Main_CurrentlyLoadedBPsText": {
-    "Original": "Currently loaded BPs: {0}",
+    "Original": "Currently loaded blueprints: {0}",
     "Translated": null
   }
 }
