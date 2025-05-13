@@ -1,4 +1,5 @@
 ﻿using Kingmaker;
+using UnityModManagerNet;
 
 namespace ToyBox.Features.SettingsFeatures.UpdateAndIntegrity;
 
@@ -17,8 +18,13 @@ public partial class VersionCompatabilityFeature : FeatureWithPatch, INeedEarlyI
         if (VersionChecker.ResultOfCheck.HasValue && !VersionChecker.ResultOfCheck.Value) {
             Main.ModEntry.Info.DisplayName = "ToyBox ".Yellow().SizePercent(20) + ModVersionIsNotCompatibleWithThi.Red().Bold().SizePercent(40);
             Main.ModEntry.mErrorOnLoading = true;
-            Main.ModEntry.OnUnload(Main.ModEntry);
             Main.ModEntry.OnGUI = _ => UpdaterFeature.UpdaterGUI();
+        }
+    }
+    [HarmonyPatch(typeof(UnityModManager.UI), MethodType.Constructor), HarmonyPostfix]
+    private static void UnityModManager_UI_Postfix(UnityModManager.UI __instance) {
+        if (VersionChecker.ResultOfCheck.HasValue && !VersionChecker.ResultOfCheck.Value && m_First) {            __instance.ShowModSettings = UnityModManager.modEntries.FindIndex(mod => mod == Main.ModEntry);
+            Main.ModEntry.OnUnload(Main.ModEntry);
         }
     }
     [LocalizedString("ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_VersionCompatabilityFeature_ModVersionIsNotCompatibleWithThi", "Mod Version is not compatible with this game version!")]
