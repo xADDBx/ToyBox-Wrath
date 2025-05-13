@@ -163,6 +163,22 @@
     "Original": "Settings",
     "Translated": null
   },
+  "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_UpdateText": {
+    "Original": "Update",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_VersionAndFileIntegrityCategory": {
+    "Original": "Version and File Integrity",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_BlueprintsCategory": {
+    "Original": "Blueprints",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_LanguageCategory": {
+    "Original": "Language",
+    "Translated": null
+  },
   "ToyBox_Features_UpdateAndIntegrity_UpdateCompatabilityFeature_EnableIntegrityCheckText": {
     "Original": "Enable Integrity Check",
     "Translated": null

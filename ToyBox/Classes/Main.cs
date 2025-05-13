@@ -109,13 +109,13 @@ public static partial class Main {
                 Space(10);
                 Div.DrawDiv();
                 Space(10);
-
+                /*
                 using (HorizontalScope()) {
                     Space(20);
                     m_Browser.OnGUI(item => {
                         UI.Label(BPHelper.GetTitle(item).Green());
                     });
-                }
+                }                */
 
 
                 UI.Label(CurrentlyLoadedBPsText.Format(m_LoadedBps));

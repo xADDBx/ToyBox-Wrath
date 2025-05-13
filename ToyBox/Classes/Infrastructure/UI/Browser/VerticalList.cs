@@ -134,14 +134,7 @@ public partial class VerticalList<T> where T : notnull {
     /// </summary>
     /// <param name="onItemGUI">A delegate that renders an individual item of type <typeparamref name="T"/>.</param>
     public virtual void OnGUI(Action<T> onItemGUI) {
-        using (VerticalScope(PageWidth)) {
-            HeaderGUI();
-            foreach (var item in PagedItems) {
-                if (ShowDivBetweenItems) {
-                    Div.DrawDiv();
-                }
-                onItemGUI(item);
-            }
+        using (HorizontalScope(PageWidth)) {            using (VerticalScope()) {                HeaderGUI();                foreach (var item in PagedItems) {                    if (ShowDivBetweenItems) {                        Div.DrawDiv();                    }                    onItemGUI(item);                }            }
         }
     }
     /// <summary>

@@ -25,6 +25,7 @@ public partial class Browser<T> : VerticalList<T> where T: notnull {
     protected IEnumerable<T> UnsearchedItems = new List<T>();
     protected Func<T, string> GetSearchKey;
     protected Func<T, string> GetSortKey;
+    protected bool ShowSearchBar = true;
     protected ThreadedListSearcher<T> Searcher;
     /// <summary>
     /// Initializes a new instance of the <see cref="Browser{T}"/> class.
@@ -70,11 +71,11 @@ public partial class Browser<T> : VerticalList<T> where T: notnull {
     /// Optional override for the number of items per page.
     /// If null, uses the default from <see cref="VerticalList{T}"/>.
     /// </param>
-    public Browser(Func<T, string> sortKey, Func<T, string> searchKey, IEnumerable<T>? initialItems = null, Action<Action<IEnumerable<T>>>? showAllFunc = null, bool showDivBetweenItems = true, int? overridePageWidth = null, int? overridePageLimit = null) 
+    public Browser(Func<T, string> sortKey, Func<T, string> searchKey, IEnumerable<T>? initialItems = null, Action<Action<IEnumerable<T>>>? showAllFunc = null, bool showDivBetweenItems = true, int? overridePageWidth = null, int? overridePageLimit = null, bool showSearchBar = true) 
         : base(initialItems, showDivBetweenItems, overridePageWidth, overridePageLimit) {
         ShowAllFunc = showAllFunc;
         GetSearchKey = searchKey;
-        GetSortKey = sortKey;
+        GetSortKey = sortKey;        ShowSearchBar = showSearchBar;
         Searcher = new(this);
     }
     public void RedoSearch() => StartNewSearch(CurrentSearchString, true);
@@ -108,7 +109,7 @@ public partial class Browser<T> : VerticalList<T> where T: notnull {
             Searcher.StartSearch((ShowAll && UnsearchedShowAllItems != null) ? UnsearchedShowAllItems : UnsearchedItems, query, GetSearchKey, GetSortKey);
         }
     }
-    protected void SearchBarGUI() {
+    protected void SearchBarGUI() {        if (!ShowSearchBar) return;
         IEnumerator DebouncedSearch() {
             yield return new WaitForSeconds(1.5f * SearchDelay);
             if (!CurrentSearchString.Equals(LastSearchedFor)) {

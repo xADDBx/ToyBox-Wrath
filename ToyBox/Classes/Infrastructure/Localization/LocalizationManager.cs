@@ -31,13 +31,13 @@ public static class LocalizationManager {
         var filePath = GetPathToLocalizationFile(Settings.UILanguage);
         CurrentLocalization = JsonConvert.DeserializeObject<Language>(File.ReadAllText(filePath), m_Settings) ?? new();
     }
-    public static void DiscoverLocalizations() {
+    public static HashSet<string> DiscoverLocalizations() {
         m_FoundLanguageFiles = new();
         foreach (var file in Directory.GetFiles(Path.Combine(Main.ModEntry.Path, "Localization"))) {
             if (file.EndsWith(".json")) {
                 m_FoundLanguageFiles.Add(Path.GetFileNameWithoutExtension(file).Replace("_lang", ""));
             }
-        }
+        }        return m_FoundLanguageFiles;
     }
     private static FieldInfo[]? m_LanguageTypeFields;
     public static void UpdateOrCreate(string languageCode) {
