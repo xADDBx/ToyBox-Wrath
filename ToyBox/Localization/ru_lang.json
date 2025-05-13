@@ -1,0 +1,60 @@
+`ToyBox_Features_BagOfTricks_Cheats_DisableNegativePartyLevels_PreventPartyMembersFromBeingAffe`
+Предотвратить потерю уровней участниками партии от эффектов отрицательных уровней
+
+`ToyBox_Features_BagOfTricks_Cheats_DisablePartyAbilityDamage_DisablePartyAbilityDamageText`
+Предотвратить получение партией урона характеристик
+
+`ToyBox_Features_BagOfTricks_Cheats_DisablePartyAbilityDamage_PreventPartyMembersFromBeingAffe`
+Prevents Party members from being affected by ability score reducing attacks
+Предотвращает влияние атак наносящих урон характеристики по членам партии.
+
+`ToyBox_Features_BagOfTricks_Cheats_HighlightHiddenObjectsFeature_AlsoHighlightInFogOfWarText`
+Также выделять в тумане войны
+
+`ToyBox_Features_BagOfTricks_Cheats_PreventTrapsFromTriggeringFeature_Description`
+Вход в зону ловушки при включенной опции деактивации ловушек предотвратит её срабатывание, даже если вы позже выключите эту опцию.
+
+`ToyBox_Features_BagOfTricks_Cheats_RestAfterCombatFeature_RestPartyInstantlyAfterCombatTex`
+Мгновенный отдых партии после сражения
+
+`ToyBox_Features_BagOfTricks_Cheats_RestAfterCombatFeature_RestAllPartyMembersInstantlyAfte`
+Мгновенно отдохнуть всеми членам группы после каждого боя.
+
+`ToyBox_Features_BagOfTricks_Cheats_RestoreAbilitiesAfterCombatFeature_RestoresAllChargesOnAbilitiesAft`
+Восстанавливает все заряды способностей после боя
+
+`ToyBox_Features_BagOfTricks_Cheats_RestoreItemsAfterCombatFeature_RestoreItemsAfterCombatText`
+Восполнить предметы после боя
+
+`ToyBox_Features_BagOfTricks_Cheats_RestoreItemsAfterCombatFeature_RestoreItemChargesAfterCombatTex`
+Восстановить заряды предметов после боя
+
+`ToyBox_Features_BagOfTricks_Cheats_RestoreSpellsAfterCombatFeature_RestoreSpellsAfterCombatText`
+Восполнить заклинания после боя
+
+`ToyBox_Features_BagOfTricks_Cheats_SpontaneousCasterCopyScrollFeature_CanCopyScrollsText`
+Переписывание свитков спонтанными магами
+
+`ToyBox_Features_BagOfTricks_Cheats_ToggleLockJamFeature_ToggleLockJamText`
+Включить/Отключить заклинивание замков
+
+`ToyBox_Features_BagOfTricks_Cheats_UnlimitedModifierStackingFeature_Description`
+Принудительно складывает любые виды бонусов ({Статов/Защиты/Атаки/И т.д.}), даже если они обычно перекрывают друг друга.
+
+`ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_EnhancesBlueprintLoadingPerforma`
+Улучшает скорость загрузки Блюпринтов.
+
+`ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PreloadBlueprintsFeature_PreloadBlueprintsText`
+Предварительная загрузка Блюпринтов
+
+`ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PreloadBlueprintsFeature_AlwaysLoadAllBlueprintsOnGameSta`
+Всегда загружать все Блюпринты при запуске игры. Это увеличивает время первоначальной загрузки игры и использование оперативной памяти, но может уменьшить длительность загрузочных экранов во время игры.
+
+`ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_TryReinstallCurrentVersionText`
+Попробуйте переустановить текущую версию.
+
+`ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_UpdaterFeature_UpdateModText`
+Обновление Мод
+
+`ToyBox_Main_CurrentlyLoadedBPsText`
+Текущее количество загруженных Блюпринтов: {0}
