@@ -1,60 +1,230 @@
-`ToyBox_Features_BagOfTricks_Cheats_DisableNegativePartyLevels_PreventPartyMembersFromBeingAffe`
-Предотвратить потерю уровней участниками партии от эффектов отрицательных уровней
-
-`ToyBox_Features_BagOfTricks_Cheats_DisablePartyAbilityDamage_DisablePartyAbilityDamageText`
-Предотвратить получение партией урона характеристик
-
-`ToyBox_Features_BagOfTricks_Cheats_DisablePartyAbilityDamage_PreventPartyMembersFromBeingAffe`
-Prevents Party members from being affected by ability score reducing attacks
-Предотвращает влияние атак наносящих урон характеристики по членам партии.
-
-`ToyBox_Features_BagOfTricks_Cheats_HighlightHiddenObjectsFeature_AlsoHighlightInFogOfWarText`
-Также выделять в тумане войны
-
-`ToyBox_Features_BagOfTricks_Cheats_PreventTrapsFromTriggeringFeature_Description`
-Вход в зону ловушки при включенной опции деактивации ловушек предотвратит её срабатывание, даже если вы позже выключите эту опцию.
-
-`ToyBox_Features_BagOfTricks_Cheats_RestAfterCombatFeature_RestPartyInstantlyAfterCombatTex`
-Мгновенный отдых партии после сражения
-
-`ToyBox_Features_BagOfTricks_Cheats_RestAfterCombatFeature_RestAllPartyMembersInstantlyAfte`
-Мгновенно отдохнуть всеми членам группы после каждого боя.
-
-`ToyBox_Features_BagOfTricks_Cheats_RestoreAbilitiesAfterCombatFeature_RestoresAllChargesOnAbilitiesAft`
-Восстанавливает все заряды способностей после боя
-
-`ToyBox_Features_BagOfTricks_Cheats_RestoreItemsAfterCombatFeature_RestoreItemsAfterCombatText`
-Восполнить предметы после боя
-
-`ToyBox_Features_BagOfTricks_Cheats_RestoreItemsAfterCombatFeature_RestoreItemChargesAfterCombatTex`
-Восстановить заряды предметов после боя
-
-`ToyBox_Features_BagOfTricks_Cheats_RestoreSpellsAfterCombatFeature_RestoreSpellsAfterCombatText`
-Восполнить заклинания после боя
-
-`ToyBox_Features_BagOfTricks_Cheats_SpontaneousCasterCopyScrollFeature_CanCopyScrollsText`
-Переписывание свитков спонтанными магами
-
-`ToyBox_Features_BagOfTricks_Cheats_ToggleLockJamFeature_ToggleLockJamText`
-Включить/Отключить заклинивание замков
-
-`ToyBox_Features_BagOfTricks_Cheats_UnlimitedModifierStackingFeature_Description`
-Принудительно складывает любые виды бонусов ({Статов/Защиты/Атаки/И т.д.}), даже если они обычно перекрывают друг друга.
-
-`ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_EnhancesBlueprintLoadingPerforma`
-Улучшает скорость загрузки Блюпринтов.
-
-`ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PreloadBlueprintsFeature_PreloadBlueprintsText`
-Предварительная загрузка Блюпринтов
-
-`ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PreloadBlueprintsFeature_AlwaysLoadAllBlueprintsOnGameSta`
-Всегда загружать все Блюпринты при запуске игры. Это увеличивает время первоначальной загрузки игры и использование оперативной памяти, но может уменьшить длительность загрузочных экранов во время игры.
-
-`ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_TryReinstallCurrentVersionText`
-Попробуйте переустановить текущую версию.
-
-`ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_UpdaterFeature_UpdateModText`
-Обновление Мод
-
-`ToyBox_Main_CurrentlyLoadedBPsText`
-Текущее количество загруженных Блюпринтов: {0}
+{
+    "ToyBox_Features_BagOfTricks_BagOfTricksFeatureTab_BagOfTricksText": {
+        "Original": "Bag of Tricks",
+        "Translated": "котомка уловок"
+    },
+    "ToyBox_Features_BagOfTricks_BagOfTricksFeatureTab_QualityOfLifeText": {
+        "Original": "Quality of Life",
+        "Translated": "Качество жизни"
+    },
+    "ToyBox_Features_BagOfTricks_BagOfTricksFeatureTab_CheatsText": {
+        "Original": "Cheats",
+        "Translated": "Читы"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_DisableFogOfWarFeature_DisableFogOfWarText": {
+        "Original": "Disable Fog of War",
+        "Translated": "Отключить туман войны"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_DisableFogOfWarFeature_DisableTheFogOfWarOnTheMapText": {
+        "Original": "Disable the fog of war on the map",
+        "Translated": "Отключить туман войны на карте"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_DisableNegativePartyLevels_DisablePartyNegativeLevelsText": {
+        "Original": "Prevent party member Levels from being reduced",
+        "Translated": "Предотвратить снижение уровней участников группы"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_DisableNegativePartyLevels_PreventPartyMembersFromBeingAffe": {
+        "Original": "Prevent Party members from losing levels due to energy drain",
+        "Translated": "Предотвратить потерю уровней участниками партии от эффектов отрицательных уровней"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_DisablePartyAbilityDamage_DisablePartyAbilityDamageText": {
+        "Original": "Prevent Party abilities from being reduced",
+        "Translated": "Предотвратить получение партией урона характеристик"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_DisablePartyAbilityDamage_PreventPartyMembersFromBeingAffe": {
+        "Original": "Prevents Party members from being affected by stat reducing attacks",
+        "Translated": "Предотвращает влияние атак наносящих урон характеристики по членам партии"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_DisableRequireMaterialComponent_NoMaterialComponentsText": {
+        "Original": "No Material Components",
+        "Translated": "Без материальных компонентов"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_DisableRequireMaterialComponent_AbilitiesNoLongerNeedAnyMaterial": {
+        "Original": "Abilities no longer need any material components which they would otherwise consume",
+        "Translated": "Способности больше не требуют никаких материальных компонентов, которые они раньше использовали."
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_HighlightHiddenObjectsFeature_Name": {
+        "Original": "Highlight Hidden Objects",
+        "Translated": "Выделить скрытые объекты"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_HighlightHiddenObjectsFeature_Description": {
+        "Original": "Highlights objects even if they would normally be hidden by a perception Check or otherwise. Optionally also highlight objects in Fog Of War and hidden traps.",
+        "Translated": "Подсвечивает объекты даже если они обычно скрыты проверкой восприятия или иными способами. Также может подсвечивать объекты в тумане войны и скрытые ловушки."
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_HighlightHiddenObjectsFeature_AlsoHighlightHiddenTrapsText": {
+        "Original": "Also Highlight Hidden Traps",
+        "Translated": "Также выделять скрытые ловушки"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_HighlightHiddenObjectsFeature_AlsoHighlightInFogOfWarText": {
+        "Original": "Also Highlight in Fog of War",
+        "Translated": "Также выделять в тумане войны"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_PreventTrapsFromTriggeringFeature_Name": {
+        "Original": "Prevent Traps from triggering",
+        "Translated": "Предотвратить активацию ловушек"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_PreventTrapsFromTriggeringFeature_Description": {
+        "Original": "Entering a Trap Zone while having Traps disabled will prevent that Trap from triggering even if you deactivate this option in the future",
+        "Translated": "Вход в зону ловушки при включенной опции деактивации ловушек предотвратит её срабатывание, даже если вы позже выключите эту опцию."
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_RestAfterCombatFeature_RestPartyInstantlyAfterCombatTex": {
+        "Original": "Rest Party Instantly After Combat",
+        "Translated": "Мгновенный отдых партии после сражения"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_RestAfterCombatFeature_RestAllPartyMembersInstantlyAfte": {
+        "Original": "Rest all party members instantly after combat",
+        "Translated": "Мгновенно отдохнуть всеми членам группы после каждого боя."
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_RestoreAbilitiesAfterCombatFeature_RestoreAbilitiesAfterCombatText": {
+        "Original": "Restore Abilities After Combat",
+        "Translated": "Регенерация способностей после боя"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_RestoreAbilitiesAfterCombatFeature_RestoresAllChargesOnAbilitiesAft": {
+        "Original": "Restores all charges on abilities after combat",
+        "Translated": "Восстанавливает все заряды способностей после боя"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_RestoreItemsAfterCombatFeature_RestoreItemsAfterCombatText": {
+        "Original": "Restore Items After Combat",
+        "Translated": "Восполнить предметы после боя"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_RestoreItemsAfterCombatFeature_RestoreItemChargesAfterCombatTex": {
+        "Original": "Restore item charges after combat",
+        "Translated": "Восстановить заряды предметов после боя"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_RestoreSpellsAfterCombatFeature_RestoreSpellsAfterCombatText": {
+        "Original": "Restore Spells After Combat",
+        "Translated": "Восполнить заклинания после боя"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_RestoreSpellsAfterCombatFeature_RestoreSpellChargesAfterCombatTe": {
+        "Original": "Restore spell charges after combat",
+        "Translated": "Восстановить слоты заклинаний после боя"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_SpontaneousCasterCopyScrollFeature_CanCopyScrollsText": {
+        "Original": "Spontaneous Caster Scroll Copy",
+        "Translated": "Переписывание свитков спонтанными магами"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_SpontaneousCasterCopyScrollFeature_AllowSpontaneousCastersToCopyScr": {
+        "Original": "Allow spontaneous casters to copy scrolls into their spell books",
+        "Translated": "Разрешить кастёрам-импровизаторам копировать свитки в свои книги заклинаний"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_ToggleLockJamFeature_ToggleLockJamText": {
+        "Original": "Toggle Lock Jam",
+        "Translated": "Включить/Отключить заклинивание замков"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_ToggleLockJamFeature_PreventsLocksFromJammingText": {
+        "Original": "Prevents Locks from jamming",
+        "Translated": "Предотвращает заклинивание замков"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_UnlimitedModifierStackingFeature_Name": {
+        "Original": "Unlimited Stacking of Modifiers",
+        "Translated": "Бесконечное накопление модификаторов"
+    },
+    "ToyBox_Features_BagOfTricks_Cheats_UnlimitedModifierStackingFeature_Description": {
+        "Original": "Forces any kind of (Stat/AC/Hit/Etc) bonus to stack, even if they would normally override each other",
+        "Translated": "Принудительно складывает любые виды бонусов ({Статов/Защиты/Атаки/И т.д.}), даже если они обычно перекрывают друг друга."
+    },
+    "ToyBox_Features_BagOfTricks_QoL_EnableAchievementsFeature_AllowAchievementsWhileUsingModsT": {
+        "Original": "Allow Achievements While Using Mods",
+        "Translated": "Включить достижения при использовании модов"
+    },
+    "ToyBox_Features_BagOfTricks_QoL_EnableAchievementsFeature_ThisIsIntendedForYouToBeAbleToEn": {
+        "Original": "This is intended for you to be able to enjoy the game while using mods that enhance your quality of life.",
+        "Translated": "Это задумано для того, чтобы вы могли наслаждаться игрой, используя моды, улучшающие удобство игры."
+    },
+    "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_PerformanceEnhancementText": {
+        "Original": "Performance Enhancement",
+        "Translated": "Оптимизация производительности"
+    },
+    "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_EnhancesBlueprintLoadingPerforma": {
+        "Original": "Enhances Blueprint loading performance",
+        "Translated": "Улучшает скорость загрузки Блюпринтов."
+    },
+    "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PreloadBlueprintsFeature_PreloadBlueprintsText": {
+        "Original": "Preload Blueprints",
+        "Translated": "Предварительная загрузка Блюпринтов"
+    },
+    "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PreloadBlueprintsFeature_AlwaysLoadAllBlueprintsOnGameSta": {
+        "Original": "Always load all Blueprints on game Start. This increases initial load times and RAM usage, but can decrease game loading times once finished.",
+        "Translated": "Всегда загружать все Блюпринты при запуске игры. Это увеличивает время первоначальной загрузки игры и использование оперативной памяти, но может уменьшить длительность загрузочных экранов во время игры."
+    },
+    "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_LanguagePickerText": {
+        "Original": "Language Picker",
+        "Translated": "Выбор языка"
+    },
+    "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_PickYourCurrentUiLocaleText": {
+        "Original": "Pick your current ui locale",
+        "Translated": "Выберите текущий язык пользовательского интерфейса"
+    },
+    "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_CurrentCultureText": {
+        "Original": "Current Language",
+        "Translated": "Язык интерфейса"
+    },
+    "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_SettingsText": {
+        "Original": "Settings",
+        "Translated": "Настройки"
+    },
+    "ToyBox_Features_UpdateAndIntegrity_UpdateCompatabilityFeature_EnableIntegrityCheckText": {
+        "Original": "Enable Integrity Check",
+        "Translated": "Включить проверку целостности"
+    },
+    "ToyBox_Features_UpdateAndIntegrity_UpdateCompatabilityFeature_CheckTheIntegrityOfToyBoxFilesTe": {
+        "Original": "Check the integrity of ToyBox files",
+        "Translated": "Проверить целостность файлов ToyBox"
+    },
+    "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_RestartToFinishUpdateText": {
+        "Original": "Restart to finish update",
+        "Translated": "Перезагрузка необходима для завершения обновления"
+    },
+    "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_TryReinstallCurrentVersionText": {
+        "Original": "Try reinstall current version",
+        "Translated": "Попробуйте переустановить текущую версию"
+    },
+    "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_TryUpdatingToNewestVersionText": {
+        "Original": "Try updating to newest version",
+        "Translated": "Попробуйте обновить до самой новой версии"
+    },
+    "ToyBox_Features_UpdateAndIntegrity_UpdaterFeature_DownloadProgress_Text": {
+        "Original": "Download Progress:",
+        "Translated": "Прогресс загрузки:"
+    },
+    "ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_UpdaterFeature_UpdateModText": {
+        "Original": "Update Mod",
+        "Translated": "Обновление Мод"
+    },
+    "ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_UpdaterFeature_ReinstallTheCurrentModVersionOrU": {
+        "Original": "Reinstall the current mod version or update to the latest available version",
+        "Translated": "Переустановите текущую версию мода или обновитесь до последней доступной версии"
+    },
+    "ToyBox_Features_UpdateAndIntegrity_VersionCompatabilityFeature_Name": {
+        "Original": "Enable Version Compatibility Check",
+        "Translated": "Разрешить проверку совместимости версий"
+    },
+    "ToyBox_Features_UpdateAndIntegrity_VersionCompatabilityFeature_Description": {
+        "Original": "Check whether the current mod version is compatible with the current game version",
+        "Translated": "Проверить совместимость текущей версии мода с текущей версией игры"
+    },
+    "ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_VersionCompatabilityFeature_ModVersionIsNotCompatibleWithThi": {
+        "Original": "Mod Version is not compatible with this game version!",
+        "Translated": "Версия мода не совместима с этой версией игры!"
+    },
+    "ToyBox_Infrastructure_UI_Browser_ShowAllText": {
+        "Original": "Show All",
+        "Translated": "Показать всё"
+    },
+    "ToyBox_Infrastructure_UI_VerticalList_PageText": {
+        "Original": "Page",
+        "Translated": "страница"
+    },
+    "ToyBox_Main_ModFilesAreCorrupted_Text": {
+        "Original": "Mod files are corrupted!",
+        "Translated": "Мод поврежден!"
+    },
+    "ToyBox_Main_ResetText": {
+        "Original": "Reset",
+        "Translated": "Перезагрузить"
+    },
+    "ToyBox_Main_CurrentlyLoadedBPsText": {
+        "Original": "Currently loaded BPs: {0}",
+        "Translated": "Текущее количество загруженных Блюпринтов: {0}"
+    }
+}
