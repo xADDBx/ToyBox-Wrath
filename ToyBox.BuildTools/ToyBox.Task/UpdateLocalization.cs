@@ -56,7 +56,7 @@ public class UpdateLocalizationTask : Task {
                         File.WriteAllText(file, JsonConvert.SerializeObject(data, languageType, options));
                         Log.LogMessage(MessageImportance.High, $"Processed and updated file: {file}");
                     } catch (Exception ex) {
-                        Log.LogMessage(MessageImportance.High, $"Error processing file {file}: {ex.Message}");
+                        Log.LogMessage(MessageImportance.High, $"Error processing file {file}: {ex}");
                     }
                 }
             }
