@@ -24,8 +24,8 @@
     "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_DisableNegativePartyLevels_PreventPartyMembersFromBeingAffe": {
-    "Original": "Prevent Party members from being affected by energy drain",
-    "Translated": null
+    "Original": "Prevent Party members from losing levels due to energy drain",
+    "Translated": "Prevent Party members from being affected by energy drain"
   },
   "ToyBox_Features_BagOfTricks_Cheats_DisablePartyAbilityDamage_DisablePartyAbilityDamageText": {
     "Original": "Disable Party Ability Damage",
@@ -156,8 +156,8 @@
     "Translated": null
   },
   "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_CurrentCultureText": {
-    "Original": "Current Culture",
-    "Translated": null
+    "Original": "Current Language",
+    "Translated": "Current Culture"
   },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_SettingsText": {
     "Original": "Settings",

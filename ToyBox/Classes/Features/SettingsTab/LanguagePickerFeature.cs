@@ -10,7 +10,7 @@ public partial class LanguagePickerFeature : Feature {
     public override partial string Description { get; }
     private static CultureInfo? m_UiCulture;
     private static List<CultureInfo>? m_Cultures;
-    [LocalizedString("ToyBox_Features_SettingsFeatures_LanguagePickerFeature_CurrentCultureText", "Current Culture")]
+    [LocalizedString("ToyBox_Features_SettingsFeatures_LanguagePickerFeature_CurrentCultureText", "Current Language")]
     private static partial string CurrentText { get; }
     public override void OnGui() {
         if (m_Cultures == null || m_UiCulture == null) {
