@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Globalization;
 using System.Reflection;
 
 namespace ToyBox.Infrastructure.Localization;
@@ -34,8 +35,7 @@ public static class LocalizationManager {
     public static HashSet<string> DiscoverLocalizations() {
         m_FoundLanguageFiles = new();
         foreach (var file in Directory.GetFiles(Path.Combine(Main.ModEntry.Path, "Localization"))) {
-            if (file.EndsWith(".json")) {
-                m_FoundLanguageFiles.Add(Path.GetFileNameWithoutExtension(file).Replace("_lang", ""));
+            if (file.EndsWith(".json")) {                var localeName = Path.GetFileNameWithoutExtension(file).Replace("_lang", "");                try {                    if (CultureInfo.GetCultureInfo(localeName) != null) {                        m_FoundLanguageFiles.Add(localeName);                    }                } catch (Exception ex) {                    Debug($"Encountered unknown locale file {file} with locale {localeName}; exception:\n{ex}");                }
             }
         }        return m_FoundLanguageFiles;
     }
