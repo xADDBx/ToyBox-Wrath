@@ -59,6 +59,14 @@
     "Original": "Also Highlight in Fog of War",
     "Translated": "Также выделять в тумане войны"
   },
+  "ToyBox_Features_BagOfTricks_Cheats_InfiniteAbilitiesFeature_Name": {
+    "Original": "Infinite Abilities",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_InfiniteAbilitiesFeature_Description": {
+    "Original": "Turnings this on will prevent ability resources/usages from being spent",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_PreventTrapsFromTriggeringFeature_Name": {
     "Original": "Prevent Traps from triggering",
     "Translated": "Предотвратить активацию ловушек"

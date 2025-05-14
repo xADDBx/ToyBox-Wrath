@@ -16,6 +16,7 @@ public partial class BagOfTricksFeatureTab : FeatureTab {
         AddFeature(new ToggleLockJamFeature(), CheatsText);
         AddFeature(new UnlimitedModifierStackingFeature(), CheatsText);
         AddFeature(new HighlightHiddenObjectsFeature(), CheatsText);
+        AddFeature(new InfiniteAbilitiesFeature(), CheatsText);
 
         AddFeature(new DisableRequireMaterialComponent(), CheatsText);
         AddFeature(new DisableNegativePartyLevels(), CheatsText);

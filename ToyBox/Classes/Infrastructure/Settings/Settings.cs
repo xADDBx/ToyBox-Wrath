@@ -40,7 +40,7 @@ internal class GeneralSettings : AbstractSettings {
     public bool DisableTraps = false;
     public bool ToggleLockJam = false;
     public bool ToggleUnlimitedModifierStacking = false;
-    public bool HighlightHiddenObjects = false;
+    public bool HighlightHiddenObjects = false;    public bool ToggleInfiniteAbilities = false;
     public bool HighlightInFogOfWar = false;
     public bool HighlightHiddenTraps = false;
     public bool SpontaneousCasterCanCopyScrolls = false;
