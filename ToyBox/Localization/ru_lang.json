@@ -64,7 +64,15 @@
     "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_InfiniteAbilitiesFeature_Description": {
-    "Original": "Turnings this on will prevent ability resources/usages from being spent",
+    "Original": "Prevents ability resources/usages from being spent",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_InfiniteSpellCasts_Name": {
+    "Original": "Infinite Spell Casts",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_InfiniteSpellCasts_Description": {
+    "Original": "Turns spell slot cost of spells to 0",
     "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_PreventTrapsFromTriggeringFeature_Name": {
