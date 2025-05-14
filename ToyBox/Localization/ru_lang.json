@@ -159,10 +159,6 @@
     "Original": "Current Language",
     "Translated": "Язык интерфейса"
   },
-  "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_SettingsText": {
-    "Original": "Settings",
-    "Translated": "Настройки"
-  },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_UpdateText": {
     "Original": "Update",
     "Translated": "Обновления"
@@ -178,6 +174,10 @@
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_LanguageCategory": {
     "Original": "Language",
     "Translated": "Язык"
+  },
+  "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_SettingsText": {
+    "Original": "Settings",
+    "Translated": "Настройки"
   },
   "ToyBox_Features_UpdateAndIntegrity_UpdateCompatabilityFeature_EnableIntegrityCheckText": {
     "Original": "Enable Integrity Check",
