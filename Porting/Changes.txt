@@ -1,0 +1,18 @@
+Reworked Localization:
+- Old System was very bad (changing a typo in english would break that string for other languages; etc.)
+- New System has better performance needs basically no maintainance outside of actually translation.
+
+Reworked Patching:
+- Patches are now very granular, which means that
+  1. With just ToyBox installed and no feature enabled, the game would be nearly vanilla (i.e. nearly no changes)
+  2. Improved general performance. Impact might be minor; but it does exist
+  3. Improved compatbility with game updates: One feature breaking wouldn't break the whole mod
+  4. Controller compatibility: previously few specific features would break with controllers. Since they no longer automatically apply their patches, ToyBox should work with controllers as long as those features aren't enabled.
+  5. Less stuff that can cause different behaviour even though no relevant feature is activated (Did you know: ToyBox added an extra renderer/highlighter for every object by default. Why it did that, none of the remaining devs no (or even knew about that at all))
+
+Reworked Browsers. Again:
+- Improved search performance by performing consecutive searches on the already found subset; also removed some synchronization
+- Abstracted things in such a way that it would be possible to support an alternate fuzzy search mode
+
+Rewrote some features:
+- They might work better now. Or worse.
