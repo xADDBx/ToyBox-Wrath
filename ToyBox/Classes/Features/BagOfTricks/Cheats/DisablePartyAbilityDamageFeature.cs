@@ -3,9 +3,9 @@ using ToyBox.Infrastructure;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisablePartyAbilityDamage")]
-public partial class DisablePartyAbilityDamage : FeatureWithPatch {
-    protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.DisablePartyAbilityDamage";
+[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisablePartyAbilityDamageFeature")]
+public partial class DisablePartyAbilityDamageFeature : FeatureWithPatch {
+    protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.DisablePartyAbilityDamageFeature";
     public override ref bool IsEnabled => ref Settings.DisablePartyAbilityDamage;
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_DisablePartyAbilityDamage_DisablePartyAbilityDamageText", "Prevent Party abilities from being reduced")]
     public override partial string Name { get; }

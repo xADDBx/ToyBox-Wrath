@@ -2,9 +2,9 @@
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisableRequireMaterialComponent")]
-public partial class DisableRequireMaterialComponent : FeatureWithPatch {
-    protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.DisableRequireMaterialComponent";
+[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisableRequireMaterialComponentFeature")]
+public partial class DisableRequireMaterialComponentFeature : FeatureWithPatch {
+    protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.DisableRequireMaterialComponentFeature";
     public override ref bool IsEnabled => ref Settings.DisableRequireMaterialComponent;
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_DisableRequireMaterialComponent_NoMaterialComponentsText", "No Material Components")]
     public override partial string Name { get; }

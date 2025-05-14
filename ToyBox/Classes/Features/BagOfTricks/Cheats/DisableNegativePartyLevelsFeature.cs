@@ -3,9 +3,9 @@ using ToyBox.Infrastructure;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisableNegativePartyLevels")]
-public partial class DisableNegativePartyLevels : FeatureWithPatch {
-    protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.DisableNegativePartyLevels";
+[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisableNegativePartyLevelsFeature")]
+public partial class DisableNegativePartyLevelsFeature : FeatureWithPatch {
+    protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.DisableNegativePartyLevelsFeature";
     public override ref bool IsEnabled => ref Settings.DisableNegativePartyLevels;
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_DisableNegativePartyLevels_DisablePartyNegativeLevelsText", "Stop party levels from being reduced")]
     public override partial string Name { get; }
