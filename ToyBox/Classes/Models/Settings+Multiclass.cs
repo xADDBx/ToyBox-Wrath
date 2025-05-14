@@ -29,7 +29,8 @@ namespace ToyBox {
         public static MulticlassOptions Get(UnitDescriptor ch) {
             //Main.Log($"stack: {System.Environment.StackTrace}");
             MulticlassOptions options;
-            if (ch == null || ch.CharacterName == "Knight Commander" || ch.CharacterName == "Player Character") {
+            var key = ch?.Blueprint?.LocalizedName?.String?.GetActualKey();
+            if (ch == null || (key != null && charGenLocIds.Contains(key))) {
                 options = Main.Settings.multiclassSettings.GetValueOrDefault(CharGenKey, new MulticlassOptions());
                 //Mod.Debug($"MulticlassOptions.Get - chargen - options: {options}");
             } else {
@@ -39,6 +40,7 @@ namespace ToyBox {
             }
             return options;
         }
+        private static HashSet<string> charGenLocIds = ["e78a0887-3265-4a46-a365-34b7ba9d1731", "846699aa-bef1-4dd3-9ac8-bce3ea6b3d18", "a06c4ef0-b4a5-4343-a116-bdf68c6cb24e", "1daf8fd5-fb15-4b22-ab80-6245c714c249"];
         public static bool CanSelectClassAsMulticlass(UnitDescriptor ch, BlueprintCharacterClass cl) {
             if (!Main.IsInGame) return true;
             if (ch == null) return true;
@@ -66,7 +68,8 @@ namespace ToyBox {
         }
         public static void Set(UnitDescriptor ch, MulticlassOptions options) {
             //modLogger.Log($"stack: {System.Environment.StackTrace}");
-            if (ch == null || ch.CharacterName == "Knight Commander" || ch.CharacterName == "Player Character")
+            var key = ch?.Blueprint?.LocalizedName?.String?.GetActualKey();
+            if (ch == null || (key != null && charGenLocIds.Contains(key)))
                 Main.Settings.multiclassSettings[CharGenKey] = options;
             else {
                 if (ch.HashKey() == null) return;

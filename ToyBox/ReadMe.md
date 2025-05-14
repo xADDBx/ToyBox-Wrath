@@ -37,6 +37,9 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
   
+### Toybox Wrath - Ver 1.7.16 (built for 2.7.0w)
+* (***ADDB***) Fix Gestalt issue where, when using game languages other than english, Gestalt might not work proprely (at chargen) (might be because of PC locale?).
+
 ### Toybox Wrath - Ver 1.7.15 (built for 2.7.0w)
 * (***ADDB***) Fix "Open Player Chest" feature. How come nobody reported the issues with that until now?
 * (***ADDB***) Clean up some log spam caused by this mod
