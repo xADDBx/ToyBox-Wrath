@@ -23,4 +23,7 @@ A special thanks to the many GitHub contributors for their various bug reports a
 
 - Microsoftenator (Infrastructure Ideas)
 
+- Kuru (Debugging Help)
+
 - Tomek (Testing)
+- ztanz (Providing saves)
