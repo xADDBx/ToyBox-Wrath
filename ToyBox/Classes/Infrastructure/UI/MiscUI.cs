@@ -31,7 +31,7 @@ public static partial class UI {
             content = newText;
             onContentChanged?.Invoke(content);
             hasChanged = true;
-            
+
         }
         if (name != null && onEnterPressed != null && PressedEnterInControl(name)) {
             onEnterPressed(content);

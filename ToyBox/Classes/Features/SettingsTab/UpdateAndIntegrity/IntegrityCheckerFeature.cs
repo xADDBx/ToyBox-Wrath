@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Security.Cryptography;
 
-namespace ToyBox.Features.SettingsFeatures.UpdateAndIntegrity; 
+namespace ToyBox.Features.SettingsFeatures.UpdateAndIntegrity;
 public partial class IntegrityCheckerFeature : ToggledFeature {
     private const string ChecksumFileName = "checksum";
     public override ref bool IsEnabled => ref Settings.EnableFileIntegrityCheck;

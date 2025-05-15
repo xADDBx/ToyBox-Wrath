@@ -3,7 +3,7 @@ using System.Diagnostics;
 using UnityEngine;
 
 namespace ToyBox.Infrastructure.UI;
-public class ThreadedListSearcher<T> where T: notnull {
+public class ThreadedListSearcher<T> where T : notnull {
     private float m_LastSharedResults = 0f;
     private const float m_ShareResultsDelay = 0.05f;
     private const int m_MaxNumForPartialUpdate = 200;

@@ -3,7 +3,7 @@ using System.IO.Compression;
 using System.Net;
 using System.Reflection;
 
-namespace ToyBox.Features.SettingsFeatures.UpdateAndIntegrity; 
+namespace ToyBox.Features.SettingsFeatures.UpdateAndIntegrity;
 public partial class UpdaterFeature : Feature {
     private static bool m_EnqueuedStart = false;
     public static bool IsDoingUpdate = false;

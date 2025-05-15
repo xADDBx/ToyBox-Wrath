@@ -10,7 +10,7 @@ namespace ToyBox.Infrastructure.UI;
 /// Extends <see cref="VerticalList{T}"/> with live, threaded searching and optional "show all" support.
 /// </summary>
 /// <typeparam name="T">The non-nullable type of each item in the browser.</typeparam>
-public partial class Browser<T> : VerticalList<T> where T: notnull {
+public partial class Browser<T> : VerticalList<T> where T : notnull {
 #warning TODO: Put in Settings
     protected bool SearchAsYouType = true;
     protected const float SearchDelay = 0.3f;
@@ -71,7 +71,7 @@ public partial class Browser<T> : VerticalList<T> where T: notnull {
     /// Optional override for the number of items per page.
     /// If null, uses the default from <see cref="VerticalList{T}"/>.
     /// </param>
-    public Browser(Func<T, string> sortKey, Func<T, string> searchKey, IEnumerable<T>? initialItems = null, Action<Action<IEnumerable<T>>>? showAllFunc = null, bool showDivBetweenItems = true, int? overridePageWidth = null, int? overridePageLimit = null, bool showSearchBar = true) 
+    public Browser(Func<T, string> sortKey, Func<T, string> searchKey, IEnumerable<T>? initialItems = null, Action<Action<IEnumerable<T>>>? showAllFunc = null, bool showDivBetweenItems = true, int? overridePageWidth = null, int? overridePageLimit = null, bool showSearchBar = true)
         : base(initialItems, showDivBetweenItems, overridePageWidth, overridePageLimit) {
         ShowAllFunc = showAllFunc;
         GetSearchKey = searchKey;
@@ -123,7 +123,7 @@ public partial class Browser<T> : VerticalList<T> where T: notnull {
             } else {
                 MainThreadDispatcher.StartUpdateMicroCoroutine(DebouncedSearch());
             }
-        }) : null; 
+        }) : null;
         UI.ActionTextField(ref CurrentSearchString, m_SearchBarControlName, contentChangedAction, (string query) => StartNewSearch(query));
     }
     protected override void HeaderGUI() {

@@ -14,7 +14,7 @@ public partial class SpontaneousCasterCopyScrollFeature : FeatureWithPatch {
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_SpontaneousCasterCopyScrollFeature_AllowSpontaneousCastersToCopyScr", "Allow spontaneous casters to copy scrolls into their spell books")]
     public override partial string Description { get; }
     [HarmonyPatch(typeof(CopyScroll), nameof(CopyScroll.CanCopySpell), [typeof(BlueprintAbility), typeof(Spellbook)]), HarmonyPostfix]
-    public static void CopyScrolls_Postfix(BlueprintAbility spell, Spellbook spellbook, ref bool __result){
+    public static void CopyScrolls_Postfix(BlueprintAbility spell, Spellbook spellbook, ref bool __result) {
         if (spellbook.IsKnown(spell)) {
             __result = false;
             return;

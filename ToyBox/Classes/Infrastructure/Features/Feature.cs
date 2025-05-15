@@ -14,7 +14,7 @@ public abstract class Feature {
     public virtual string SearchKey {
         get {
             return $"{Name} {Description}";
-        } 
+        }
         set { }
     }
 }

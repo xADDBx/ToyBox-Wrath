@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 using UnityEngine;
 
 namespace ToyBox.Infrastructure.Utilities;
-public static class MiscExtensions {        
+public static class MiscExtensions {
     // Credits to https://github.com/microsoftenator2022
     /// <summary>
     /// Divides input sequence into chunks of at most <paramref name="chunkSize"/>

@@ -33,7 +33,7 @@ public static partial class Main {
             ModEntry.OnSaveGUI = OnSaveGUI;
 
             if (Settings.EnableFileIntegrityCheck && !IntegrityCheckerFeature.CheckFilesHealthy()) {
-                Critical("Failed Integrity Check. Files have issues!"); 
+                Critical("Failed Integrity Check. Files have issues!");
                 ModEntry.Info.DisplayName = "ToyBox ".Orange().SizePercent(40) + ModFilesAreCorrupted_Text.Red().Bold().SizePercent(60);
                 ModEntry.OnGUI = _ => UpdaterFeature.UpdaterGUI();
                 return true;
@@ -54,7 +54,7 @@ public static partial class Main {
             Stopwatch sw2 = Stopwatch.StartNew();
             Infrastructure.Localization.LocalizationManager.Enable();
             Debug($"Localization init took {sw2.ElapsedMilliseconds}ms");
-            
+
             sw2.Start();
             _ = BPLoader;
             Debug($"BPLoader init took {sw2.ElapsedMilliseconds}ms");
@@ -83,7 +83,7 @@ public static partial class Main {
     }
     private static bool OnUnload(UnityModManager.ModEntry modEntry) {
         foreach (var tab in m_FeatureTabs) {
-                tab.DestroyAll();
+            tab.DestroyAll();
         }
         HarmonyInstance.UnpatchAll(ModEntry.Info.Id);
         return true;
