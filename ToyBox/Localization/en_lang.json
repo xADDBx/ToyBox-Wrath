@@ -67,6 +67,14 @@
     "Original": "Prevents ability resources/usages from being spent",
     "Translated": null
   },
+  "ToyBox_Features_BagOfTricks_Cheats_InfiniteActionsFeature_Name": {
+    "Original": "Unlimited Actions During Turn",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_InfiniteActionsFeature_Description": {
+    "Original": "Allows you to do any kind of action infinitely during Turn Based combat",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_InfiniteSpellCastsFeature_Name": {
     "Original": "Infinite Spell Casts",
     "Translated": null

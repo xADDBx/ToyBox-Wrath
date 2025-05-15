@@ -44,10 +44,10 @@ internal class GeneralSettings : AbstractSettings {
     public bool HighlightInFogOfWar = false;
     public bool HighlightHiddenTraps = false;
     public bool SpontaneousCasterCanCopyScrolls = false;
-    public bool DisableFoW = false;
-    public bool DisablePartyAbilityDamage = false;
-    public bool DisableNegativePartyLevels = false;
     public bool DisableRequireMaterialComponent = false;
+    public bool DisableNegativePartyLevels = false;
+    public bool DisablePartyAbilityDamage = false;    public bool ToggleInfiniteActionsPerTurn = false;
+    public bool DisableFoW = false;
     public bool RestoreAbilitiesAfterCombat = false;
     public bool RestoreSpellsAfterCombat = false;
     public bool RestoreItemsAfterCombat = false;
