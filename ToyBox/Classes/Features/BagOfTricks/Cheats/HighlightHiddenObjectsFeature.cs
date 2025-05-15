@@ -52,21 +52,21 @@ public partial class HighlightHiddenObjectsFeature : FeatureWithPatch {
             }
         });
     }
+    public void Reinitialize() {
+        Destroy();
+        Initialize();
+    }
     public override void OnGui() {
         using (VerticalScope()) {
             UI.Toggle(Name, Description, ref Settings.HighlightHiddenObjects, Initialize, Destroy);
             if (Settings.HighlightHiddenObjects) {
-                bool changed = false;
                 using (HorizontalScope()) {
                     Space(50);
-                    changed |= UI.Toggle(AlsoHighlightHiddenTrapsText, "", ref Settings.HighlightHiddenTraps, Initialize, Destroy);
+                    UI.Toggle(AlsoHighlightHiddenTrapsText, "", ref Settings.HighlightHiddenTraps, Initialize, Reinitialize);
                 }
                 using (HorizontalScope()) {
                     Space(50);
-                    changed |= UI.Toggle(AlsoHighlightInFogOfWarText, "", ref Settings.HighlightInFogOfWar, Initialize, Destroy);
-                }
-                if (changed) {
-                    Initialize();
+                    UI.Toggle(AlsoHighlightInFogOfWarText, "", ref Settings.HighlightInFogOfWar, Initialize, Reinitialize);
                 }
             }
         }
