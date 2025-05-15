@@ -75,7 +75,8 @@ public partial class Browser<T> : VerticalList<T> where T : notnull {
         : base(initialItems, showDivBetweenItems, overridePageWidth, overridePageLimit) {
         ShowAllFunc = showAllFunc;
         GetSearchKey = searchKey;
-        GetSortKey = sortKey;        ShowSearchBar = showSearchBar;
+        GetSortKey = sortKey;
+        ShowSearchBar = showSearchBar;
         Searcher = new(this);
     }
     public void RedoSearch() => StartNewSearch(CurrentSearchString, true);
@@ -109,7 +110,8 @@ public partial class Browser<T> : VerticalList<T> where T : notnull {
             Searcher.StartSearch((ShowAll && UnsearchedShowAllItems != null) ? UnsearchedShowAllItems : UnsearchedItems, query, GetSearchKey, GetSortKey);
         }
     }
-    protected void SearchBarGUI() {        if (!ShowSearchBar) return;
+    protected void SearchBarGUI() {
+        if (!ShowSearchBar) return;
         IEnumerator DebouncedSearch() {
             yield return new WaitForSeconds(1.5f * SearchDelay);
             if (!CurrentSearchString.Equals(LastSearchedFor)) {

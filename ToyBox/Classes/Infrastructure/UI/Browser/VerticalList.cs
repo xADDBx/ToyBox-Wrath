@@ -133,7 +133,15 @@ public partial class VerticalList<T> where T : notnull {
     /// Renders the paged list using the provided item GUI rendering callback.
     /// </summary>
     /// <param name="onItemGUI">A delegate that renders an individual item of type <typeparamref name="T"/>.</param>
-    public virtual void OnGUI(Action<T> onItemGUI) {        using (VerticalScope(PageWidth)) {            HeaderGUI();            foreach (var item in PagedItems) {                if (ShowDivBetweenItems) {                    Div.DrawDiv();                }                onItemGUI(item);            }
+    public virtual void OnGUI(Action<T> onItemGUI) {
+        using (VerticalScope(PageWidth)) {
+            HeaderGUI();
+            foreach (var item in PagedItems) {
+                if (ShowDivBetweenItems) {
+                    Div.DrawDiv();
+                }
+                onItemGUI(item);
+            }
         }
     }
     /// <summary>

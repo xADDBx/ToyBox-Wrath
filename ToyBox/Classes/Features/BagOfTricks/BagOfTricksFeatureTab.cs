@@ -20,7 +20,8 @@ public partial class BagOfTricksFeatureTab : FeatureTab {
         AddFeature(new InfiniteSpellCastsFeature(), CheatsText);
         AddFeature(new DisableRequireMaterialComponentFeature(), CheatsText);
         AddFeature(new DisableNegativePartyLevelsFeature(), CheatsText);
-        AddFeature(new DisablePartyAbilityDamageFeature(), CheatsText);        AddFeature(new InfiniteActionsFeature(), CheatsText);
+        AddFeature(new DisablePartyAbilityDamageFeature(), CheatsText);
+        AddFeature(new InfiniteActionsFeature(), CheatsText);
 
         AddFeature(new SpontaneousCasterCopyScrollFeature(), CheatsText);
 

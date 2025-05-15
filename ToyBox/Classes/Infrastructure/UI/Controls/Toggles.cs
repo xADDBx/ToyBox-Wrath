@@ -7,10 +7,12 @@ public static partial class UI {
     private static string DefaultDisclosureOff = "▶";
     private static GUIStyle? m_CachedDisclosureToggleStyle;
     public static bool Toggle(string name, string description, ref bool setting, Action onEnable, Action onDisable, params GUILayoutOption[] options) {
-        options = options.Length == 0 ? [AutoWidth()] : options;        bool changed = false;
+        options = options.Length == 0 ? [AutoWidth()] : options;
+        bool changed = false;
         using (HorizontalScope()) {
             var newValue = GUILayout.Toggle(setting, name.Cyan(), options);
-            if (newValue != setting) {                changed = true;
+            if (newValue != setting) {
+                changed = true;
                 setting = newValue;
                 if (newValue) {
                     onEnable();
@@ -20,7 +22,8 @@ public static partial class UI {
             }
             Space(10);
             Label(description.Green());
-        }        return changed;
+        }
+        return changed;
     }
     public static bool DisclosureToggle(ref bool state, string? name = null, params GUILayoutOption[] options) {
         options = options.Length == 0 ? [AutoWidth()] : options;

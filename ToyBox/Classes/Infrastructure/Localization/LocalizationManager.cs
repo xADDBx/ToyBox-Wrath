@@ -35,9 +35,18 @@ public static class LocalizationManager {
     public static HashSet<string> DiscoverLocalizations() {
         m_FoundLanguageFiles = new();
         foreach (var file in Directory.GetFiles(Path.Combine(Main.ModEntry.Path, "Localization"))) {
-            if (file.EndsWith(".json")) {                var localeName = Path.GetFileNameWithoutExtension(file).Replace("_lang", "");                try {                    if (CultureInfo.GetCultureInfo(localeName) != null) {                        m_FoundLanguageFiles.Add(localeName);                    }                } catch (Exception ex) {                    Debug($"Encountered unknown locale file {file} with locale {localeName}; exception:\n{ex}");                }
+            if (file.EndsWith(".json")) {
+                var localeName = Path.GetFileNameWithoutExtension(file).Replace("_lang", "");
+                try {
+                    if (CultureInfo.GetCultureInfo(localeName) != null) {
+                        m_FoundLanguageFiles.Add(localeName);
+                    }
+                } catch (Exception ex) {
+                    Debug($"Encountered unknown locale file {file} with locale {localeName}; exception:\n{ex}");
+                }
             }
-        }        return m_FoundLanguageFiles;
+        }
+        return m_FoundLanguageFiles;
     }
     private static FieldInfo[]? m_LanguageTypeFields;
     public static void UpdateOrCreate(string languageCode) {
@@ -51,7 +60,10 @@ public static class LocalizationManager {
                 foreach (var field in m_LanguageTypeFields) {
                     if (field.FieldType == typeof((string, string))) {
                         var en = ((string, string))field.GetValue(enData);
-                        var other = ((string, string))field.GetValue(lang);                        if (other.Item1 == other.Item2) {                            other.Item2 = en.Item2;                        }
+                        var other = ((string, string))field.GetValue(lang);
+                        if (other.Item1 == other.Item2) {
+                            other.Item2 = en.Item2;
+                        }
                         other.Item1 = en.Item1;
                         field.SetValue(lang, other);
                     }
