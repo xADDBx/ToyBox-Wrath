@@ -18,7 +18,7 @@ public class BlueprintLoader {
     private HashSet<BlueprintGuid> m_BlueprintsToRemove = new();
     public bool CanStart = false;
     public static BlueprintLoader BPLoader { get; } = new();
-    public readonly HashSet<string> BadBlueprints = ["ce0842546b73aa34b8fcf40a970ede68", "2e3280bf21ec832418f51bee5136ec7a", "b60252a8ae028ba498340199f48ead67", "fb379e61500421143b52c739823b4082", "5d2b9742ce82457a9ae7209dce770071"];
+    // public readonly HashSet<string> BadBlueprints = ["ce0842546b73aa34b8fcf40a970ede68", "2e3280bf21ec832418f51bee5136ec7a", "b60252a8ae028ba498340199f48ead67", "fb379e61500421143b52c739823b4082", "5d2b9742ce82457a9ae7209dce770071"];
     public BlueprintLoader() {
         var toPatch = AccessTools.Method(typeof(StartGameLoader), nameof(StartGameLoader.LoadPackTOC));
         var patch = AccessTools.Method(typeof(BlueprintLoader), nameof(InitPatch));
@@ -253,7 +253,7 @@ public class BlueprintLoader {
                             } else {
                                 continue;
                             }
-                            if (BadBlueprints.Contains(guid.ToString()) || entry.Offset == 0U) continue;
+                            if (/* BadBlueprints.Contains(guid.ToString()) || */entry.Offset == 0U) continue;
                             OnBeforeBPLoad(guid);
                             stream.Seek(entry.Offset, SeekOrigin.Begin);
                             SimpleBlueprint? simpleBlueprint = null;
