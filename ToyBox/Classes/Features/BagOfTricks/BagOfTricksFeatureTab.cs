@@ -23,6 +23,7 @@ public partial class BagOfTricksFeatureTab : FeatureTab {
         AddFeature(new DisablePartyAbilityDamageFeature(), CheatsText);
         AddFeature(new InfiniteActionsFeature(), CheatsText);
         AddFeature(new InfiniteItemChargesFeature(), CheatsText);
+        AddFeature(new InstantGlobalCrusadeSpellsFeature(), CheatsText);
 
         AddFeature(new SpontaneousCasterCopyScrollFeature(), CheatsText);
 

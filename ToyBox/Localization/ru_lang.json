@@ -75,12 +75,28 @@
     "Original": "Allows you to do any kind of action infinitely during Turn Based combat",
     "Translated": null
   },
+  "ToyBox_Features_BagOfTricks_Cheats_InfiniteItemChargesFeature_Name": {
+    "Original": "Infinite Charges On Items",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_InfiniteItemChargesFeature_Description": {
+    "Original": "Using an item no longer spends any charge",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_InfiniteSpellCastsFeature_Name": {
     "Original": "Infinite Spell Casts",
     "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_InfiniteSpellCastsFeature_Description": {
     "Original": "Turns spell slot cost of spells to 0",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_InstantGlobalCrusadeSpellsFeature_Name": {
+    "Original": "Instant Global Crusade Spells Cooldown",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_InstantGlobalCrusadeSpellsFeature_Description": {
+    "Original": "Restores crusade spells immediately after using them",
     "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_PreventTrapsFromTriggeringFeature_Name": {

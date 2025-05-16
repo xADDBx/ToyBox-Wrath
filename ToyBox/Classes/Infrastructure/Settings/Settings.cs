@@ -51,6 +51,7 @@ internal class GeneralSettings : AbstractSettings {
     public bool DisablePartyAbilityDamage = false;
     public bool ToggleInfiniteActionsPerTurn = false;
     public bool ToggleInfiniteItemCharges = false;
+    public bool ToggleInstantGlobalCrusadeSpells = false;
     public bool DisableFoW = false;
     public bool RestoreAbilitiesAfterCombat = false;
     public bool RestoreSpellsAfterCombat = false;

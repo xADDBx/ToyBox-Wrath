@@ -14,7 +14,7 @@ public partial class InfiniteItemChargesFeature : FeatureWithPatch {
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_InfiniteItemChargesFeature_Description", "Using an item no longer spends any charge")]
     public override partial string Description { get; }
     [HarmonyPatch(typeof(ItemEntity), nameof(ItemEntity.SpendCharges), [typeof(UnitDescriptor)]), HarmonyPrefix]
-    private static bool AbilityData_SpellSlotCost_Patch(ref bool __result, ItemEntity __instance, UnitDescriptor user) {
+    private static bool ItemEntity_SpendCharges_Patch(ref bool __result, ItemEntity __instance, UnitDescriptor user) {
         if (ToyBoxUnitHelper.IsPartyOrPet(user)) {
             if (__instance.Blueprint is BlueprintItemEquipment equip) {
                 __result = equip.GainAbility;
