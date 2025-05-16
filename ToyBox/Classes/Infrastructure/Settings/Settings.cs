@@ -57,6 +57,7 @@ internal class GeneralSettings : AbstractSettings {
     public bool ToggleDisableArmourSpeedReduction = false;
     public bool ToggleDisableArcaneSpellFailure = false;
     public bool ToggleDisableSpellFailure = false;
+    public bool ToggleIgnoreArmourChecksPenalty = false;
 
     public bool DisableFoW = false;
     public bool RestoreAbilitiesAfterCombat = false;

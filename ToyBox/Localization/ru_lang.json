@@ -91,6 +91,14 @@
     "Original": "Also Highlight in Fog of War",
     "Translated": "Также выделять в тумане войны"
   },
+  "ToyBox_Features_BagOfTricks_Cheats_IgnoreArmourChecksPenaltyFeature_Name": {
+    "Original": "Disable Armor Checks Penalty",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_IgnoreArmourChecksPenaltyFeature_Description": {
+    "Original": "Some armour has a penalty for Mobility, Athletics, Stealth and Thievery skill checks. This feature sets to penalty to 0.",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_IgnoreEquipmentRestrictionsFeature_Name": {
     "Original": "Ignore Equipment Restrictions",
     "Translated": null
