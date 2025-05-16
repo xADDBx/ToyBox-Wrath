@@ -19,6 +19,14 @@
     "Original": "Some armours have a limit to their dexterity bonus. This feature disables said limit for every armour.",
     "Translated": null
   },
+  "ToyBox_Features_BagOfTricks_Cheats_DisableArmourSpeedReductionFeature_Name": {
+    "Original": "Disable Armor Speed Reduction",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_DisableArmourSpeedReductionFeature_Description": {
+    "Original": "Some armours and shields apply a modifier to speed. This feature removes said modifiers.",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_DisableFogOfWarFeature_DisableFogOfWarText": {
     "Original": "Disable Fog of War",
     "Translated": null
