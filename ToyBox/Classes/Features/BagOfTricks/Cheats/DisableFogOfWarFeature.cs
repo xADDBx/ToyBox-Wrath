@@ -2,7 +2,7 @@
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisableFogOfWarFeature")]
+[HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisableFogOfWarFeature")]
 public partial class DisableFogOfWarFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.DisableFogOfWarFeature";
     public override ref bool IsEnabled => ref Settings.DisableFoW;

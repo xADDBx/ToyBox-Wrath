@@ -5,7 +5,7 @@ using Kingmaker.Modding;
 
 namespace ToyBox.Features.BagOfTricks.QoL;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.QoL.EnableAchievementsFeature")]
+[HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.QoL.EnableAchievementsFeature")]
 public partial class EnableAchievementsFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.QoL.EnableAchievementsFeature";
     public override ref bool IsEnabled => ref Settings.EnableModdedAchievements;

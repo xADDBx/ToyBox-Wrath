@@ -59,9 +59,9 @@ namespace ToyBox.Analyzer {
                 // Create attributes:
                 // [HarmonyPatch]
                 var harmonyPatchAttr = SyntaxFactory.Attribute(SyntaxFactory.IdentifierName("HarmonyPatch"));
-                // [HarmonyPatchCategory("FullName")]
-                var harmonyPatchCategoryAttr = SyntaxFactory.Attribute(
-                    SyntaxFactory.IdentifierName("HarmonyPatchCategory"),
+                // [ToyBoxPatchCategory("FullName")]
+                var toyboxPatchCategoryAttr = SyntaxFactory.Attribute(
+                    SyntaxFactory.IdentifierName("ToyBoxPatchCategory"),
                     SyntaxFactory.AttributeArgumentList(
                         SyntaxFactory.SingletonSeparatedList(
                             SyntaxFactory.AttributeArgument(
@@ -71,18 +71,18 @@ namespace ToyBox.Analyzer {
 
                 // Create a single attribute list containing both attributes.
                 var newAttrList = SyntaxFactory.AttributeList(
-                    SyntaxFactory.SeparatedList(new[] { harmonyPatchAttr, harmonyPatchCategoryAttr }));
+                    SyntaxFactory.SeparatedList(new[] { harmonyPatchAttr, toyboxPatchCategoryAttr }));
 
                 // Create a new list for the attribute lists.
                 var oldAttrLists = classDecl.AttributeLists;
                 var newAttrLists = SyntaxFactory.List<AttributeListSyntax>();
 
-                // Remove any existing HarmonyPatch or HarmonyPatchCategory attributes.
+                // Remove any existing HarmonyPatch or ToyBoxPatchCategory attributes.
                 foreach (var list in oldAttrLists) {
-                    // Filter out attributes that end with "HarmonyPatch" or "HarmonyPatchCategory".
+                    // Filter out attributes that end with "HarmonyPatch" or "ToyBoxPatchCategory".
                     var remainingAttributes = list.Attributes
                         .Where(attr => !(attr.Name.ToString().EndsWith("HarmonyPatch") ||
-                                         attr.Name.ToString().EndsWith("HarmonyPatchCategory")))
+                                         attr.Name.ToString().EndsWith("ToyBoxPatchCategory")))
                         .ToList();
 
                     if (remainingAttributes.Any()) {

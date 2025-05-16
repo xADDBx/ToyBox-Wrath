@@ -26,7 +26,7 @@
         <Reference Include="$(WrathInstallDir)\Wrath_Data\Managed\UniRx.dll*" Private="false" />
         <Reference Include="$(WrathInstallDir)\Wrath_Data\Managed\Newtonsoft.Json.dll*" Private="false" />
         <Reference Include="$(WrathInstallDir)\Wrath_Data\Managed\UnityModManager\UnityModManager.dll*" Publicize="true" Private="false" />
-        <Reference Include="$(WrathInstallDir)\Wrath_Data\Managed\UnityModManager\0Harmony.dll*" Private="false" />
+        <Reference Include="$(WrathInstallDir)\Wrath_Data\Managed\0Harmony.dll*" Private="false" />
         <Reference Include="System.IO.Compression" Private="false" />
     </ItemGroup>
     <!-- File to include -->
@@ -56,7 +56,7 @@
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" IncludeAssets="build; contentfiles" Version="0.4.2" PrivateAssets="all" />
         <PackageReference Include="MicroUtils.HarmonyAnalyzers" IncludeAssets="runtime; build; native; contentfiles; analyzers" Version="*-*" PrivateAssets="all" />
-        <PackageReference Include="ToyBox.BuildTools" IncludeAssets="analyzers; build; compile" Version="1.1.4" PrivateAssets="all" />
+        <PackageReference Include="ToyBox.BuildTools" IncludeAssets="analyzers; build; compile" Version="1.1.5" PrivateAssets="all" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Localization\" />

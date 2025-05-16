@@ -7,8 +7,11 @@ public static class ToyBoxUnitHelper {
     private static bool m_IsInitialized = false;
     internal static void Initialize() {
         if (m_IsInitialized) return;
-        Main.HarmonyInstance.Patch(AccessTools.Method(typeof(Player), nameof(Player.InvalidateCharacterLists)), new(() => m_PartyOrPetCache.Clear()));
+        Main.HarmonyInstance.Patch(AccessTools.Method(typeof(Player), nameof(Player.InvalidateCharacterLists)), new(AccessTools.Method(typeof(ToyBoxUnitHelper), nameof(ToyBoxUnitHelper.ClearCache))));
         m_IsInitialized = true;
+    }
+    private static void ClearCache() {
+        m_PartyOrPetCache.Clear();
     }
     public static bool IsPartyOrPet(UnitEntityData? unit) {
         if (unit == null) return false;

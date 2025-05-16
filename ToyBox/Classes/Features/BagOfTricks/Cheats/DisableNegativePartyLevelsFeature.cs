@@ -3,7 +3,7 @@ using ToyBox.Infrastructure;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisableNegativePartyLevelsFeature")]
+[HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisableNegativePartyLevelsFeature")]
 public partial class DisableNegativePartyLevelsFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.DisableNegativePartyLevelsFeature";
     public override ref bool IsEnabled => ref Settings.DisableNegativePartyLevels;

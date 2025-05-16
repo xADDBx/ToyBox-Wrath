@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.HighlightHiddenObjectsFeature")]
+[HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.HighlightHiddenObjectsFeature")]
 public partial class HighlightHiddenObjectsFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.HighlightHiddenObjectsFeature";
     public override ref bool IsEnabled => ref Settings.HighlightHiddenObjects;
@@ -136,14 +136,14 @@ public partial class HighlightHiddenObjectsFeature : FeatureWithPatch {
         }
     }
     private static void HighlightDestroy(MapObjectView view) {
-        var obj = view.transform.Find(ObjName);
+        var obj = view.transform.Find(ObjName)?.gameObject;
         if (obj != null) {
             UnityEngine.Object.Destroy(obj);
         } else {
             return;
         }
 
-        var decal = view.transform.Find(DecalName);
+        var decal = view.transform.Find(DecalName)?.gameObject;
         if (decal != null) {
             UnityEngine.Object.Destroy(decal);
         }
@@ -203,7 +203,7 @@ public partial class HighlightHiddenObjectsFeature : FeatureWithPatch {
             renderer.forceRenderingOff = true;
         }
     }
-    [HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.HighlightHiddenObjectsFeature")]
+    [HarmonyPatch]
     private static class HighlightHiddenTraps_Patch {
         [HarmonyPrepare]
         private static bool ShouldRun() => Settings.HighlightHiddenTraps;

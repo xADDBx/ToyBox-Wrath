@@ -1,6 +1,4 @@
-﻿using static UnityModManagerNet.UnityModManager.TextureReplacer;
-
-namespace ToyBox.Infrastructure;
+﻿namespace ToyBox.Infrastructure;
 
 public enum LogLevel {
     Error,

@@ -2,7 +2,7 @@
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisableRequireMaterialComponentFeature")]
+[HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisableRequireMaterialComponentFeature")]
 public partial class DisableRequireMaterialComponentFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.DisableRequireMaterialComponentFeature";
     public override ref bool IsEnabled => ref Settings.DisableRequireMaterialComponent;

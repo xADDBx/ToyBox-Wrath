@@ -14,5 +14,6 @@ public static class LazyInit {
         Stopwatch sw = Stopwatch.StartNew();
         Task.WaitAll(Main.LateInitTasks.ToArray());
         Debug($"Waited {sw.ElapsedMilliseconds}ms for lazy init finish");
+        BlueprintLoader.BPLoader.GetBlueprints();
     }
 }

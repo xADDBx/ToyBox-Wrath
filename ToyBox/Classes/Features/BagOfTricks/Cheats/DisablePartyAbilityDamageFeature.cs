@@ -3,7 +3,7 @@ using ToyBox.Infrastructure;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisablePartyAbilityDamageFeature")]
+[HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisablePartyAbilityDamageFeature")]
 public partial class DisablePartyAbilityDamageFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.DisablePartyAbilityDamageFeature";
     public override ref bool IsEnabled => ref Settings.DisablePartyAbilityDamage;

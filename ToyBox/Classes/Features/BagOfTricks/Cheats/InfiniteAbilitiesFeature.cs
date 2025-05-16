@@ -6,7 +6,7 @@ using Kingmaker.EntitySystem.Entities;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.InfiniteAbilitiesFeature")]
+[HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.InfiniteAbilitiesFeature")]
 public partial class InfiniteAbilitiesFeature : FeatureWithPatch {
     public override ref bool IsEnabled => ref Settings.ToggleInfiniteAbilities;
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.InfiniteAbilitiesFeature";

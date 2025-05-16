@@ -4,7 +4,7 @@ using TurnBased.Controllers;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.InfiniteActionsFeature")]
+[HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.InfiniteActionsFeature")]
 public partial class InfiniteActionsFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.InfiniteActionsFeature";
     public override ref bool IsEnabled => ref Settings.ToggleInfiniteActionsPerTurn;

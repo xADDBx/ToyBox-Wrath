@@ -39,8 +39,6 @@ public static partial class Main {
                 return true;
             }
 
-            FeatureWithPatch.CreateHarmonyCategoryCache();
-
             if (Settings.EnableVersionCompatibilityCheck) {
                 Task.Run(() => {
                     var versionTimer = Stopwatch.StartNew();
@@ -48,8 +46,6 @@ public static partial class Main {
                     Debug($"Finished Version Compatibility Check in: {versionTimer.ElapsedMilliseconds}ms (Threaded)");
                 });
             }
-
-            FeatureWithPatch.CreateHarmonyCategoryCache();
 
             Stopwatch sw2 = Stopwatch.StartNew();
             Infrastructure.Localization.LocalizationManager.Enable();

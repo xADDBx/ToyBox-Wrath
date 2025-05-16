@@ -3,7 +3,7 @@ using ToyBox.Infrastructure;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.InfiniteSpellCastsFeature")]
+[HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.InfiniteSpellCastsFeature")]
 public partial class InfiniteSpellCastsFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.InfiniteSpellCastsFeature";
     public override ref bool IsEnabled => ref Settings.ToggleInfiniteSpellCasts;

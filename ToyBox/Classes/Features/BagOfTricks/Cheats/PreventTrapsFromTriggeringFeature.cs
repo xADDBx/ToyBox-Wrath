@@ -2,7 +2,7 @@
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.PreventTrapsFromTriggeringFeature")]
+[HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.PreventTrapsFromTriggeringFeature")]
 public partial class PreventTrapsFromTriggeringFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.PreventTrapsFromTriggeringFeature";
     public override ref bool IsEnabled => ref Settings.DisableTraps;

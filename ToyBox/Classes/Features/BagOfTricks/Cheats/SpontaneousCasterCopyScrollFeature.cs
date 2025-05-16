@@ -4,7 +4,7 @@ using Kingmaker.Blueprints.Items.Components;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
-[HarmonyPatch, HarmonyPatchCategory("ToyBox.Features.BagOfTricks.Cheats.SpontaneousCasterCopyScrollFeature")]
+[HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.SpontaneousCasterCopyScrollFeature")]
 public partial class SpontaneousCasterCopyScrollFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.SpontaneousCasterCopyScrollFeature";
     public override ref bool IsEnabled => ref Settings.SpontaneousCasterCanCopyScrolls;

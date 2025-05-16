@@ -19,7 +19,7 @@ namespace ToyBox.Analyzer {
         private static readonly DiagnosticDescriptor Rule2 = new DiagnosticDescriptor("LOC002", "UI String should be localized", "UI String should be localized", Category, DiagnosticSeverity.Warning, isEnabledByDefault: true);
         private static readonly DiagnosticDescriptor Rule3 = new DiagnosticDescriptor("LOC003", "Key should resolve to valid identifier", "The Localized String key should resolve to a valid identifier", Category, DiagnosticSeverity.Warning, isEnabledByDefault: true);
         private static readonly DiagnosticDescriptor Rule6 = new DiagnosticDescriptor("LOC004", "Name and Description should be localized", "A Feature should have a localized name and description", Category, DiagnosticSeverity.Warning, isEnabledByDefault: true);
-        private static readonly DiagnosticDescriptor Rule4 = new DiagnosticDescriptor("HAR001", "Missing Harmony attributes", "Class '{0}' must have [HarmonyPatch] and [HarmonyPatchCategory(\"{0}\")] attributes", Category, DiagnosticSeverity.Error, isEnabledByDefault: true);
+        private static readonly DiagnosticDescriptor Rule4 = new DiagnosticDescriptor("HAR001", "Missing Harmony attributes", "Class '{0}' must have [HarmonyPatch] and [ToyBoxPatchCategory(\"{0}\")] attributes", Category, DiagnosticSeverity.Error, isEnabledByDefault: true);
         private static readonly DiagnosticDescriptor Rule5 = new DiagnosticDescriptor("HAR002", "Missing or incorrect HarmonyName property", "Class '{0}' must override HarmonyName to return \"{0}\"", Category, DiagnosticSeverity.Error, isEnabledByDefault: true);
 
 
@@ -46,13 +46,13 @@ namespace ToyBox.Analyzer {
             }
             string fullName = namedType.ToDisplayString();
             bool hasHarmonyPatch = false;
-            bool hasHarmonyPatchCategory = false;
+            bool hasToyBoxPatchCategory = false;
             foreach (var attribute in namedType.GetAttributes()) {
                 string attrName = attribute.AttributeClass.Name;
                 if (attrName.EndsWith("HarmonyPatchAttribute") || attrName.EndsWith("HarmonyPatch")) {
                     hasHarmonyPatch = true;
-                } else if (attrName.EndsWith("HarmonyPatchCategoryAttribute") || attrName.EndsWith("HarmonyPatchCategory")) {
-                    hasHarmonyPatchCategory = true;
+                } else if (attrName.EndsWith("ToyBoxPatchCategoryAttribute") || attrName.EndsWith("ToyBoxPatchCategory")) {
+                    hasToyBoxPatchCategory = true;
                     if (attribute.ConstructorArguments.Length == 1 &&
                         attribute.ConstructorArguments[0].Value is string categoryName &&
                         categoryName != fullName) {
@@ -65,7 +65,7 @@ namespace ToyBox.Analyzer {
                     }
                 }
             }
-            if (!hasHarmonyPatch || !hasHarmonyPatchCategory) {
+            if (!hasHarmonyPatch || !hasToyBoxPatchCategory) {
                 // Report on the class declaration itself.
                 var declRef = namedType.DeclaringSyntaxReferences.FirstOrDefault();
                 if (declRef != null) {
