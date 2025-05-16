@@ -28,6 +28,8 @@ public partial class BagOfTricksFeatureTab : FeatureTab {
         AddFeature(new IgnoreEquipmentRestrictionsFeature(), CheatsText);
         AddFeature(new DisableArmourMaxDexterityFeature(), CheatsText);
         AddFeature(new DisableArmourSpeedReductionFeature(), CheatsText);
+        AddFeature(new DisableArcaneSpellFailureFeature(), CheatsText);
+        AddFeature(new DisableSpellFailureFeature(), CheatsText);
 
         AddFeature(new DisableFogOfWarFeature(), CheatsText);
         AddFeature(new RestoreAbilitiesAfterCombatFeature(), CheatsText);

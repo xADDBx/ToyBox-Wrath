@@ -11,6 +11,14 @@
     "Original": "Cheats",
     "Translated": null
   },
+  "ToyBox_Features_BagOfTricks_Cheats_DisableArcaneSpellFailureFeature_Name": {
+    "Original": "Disable Arcane Spell Failure",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_DisableArcaneSpellFailureFeature_Description": {
+    "Original": "Sets the arcane spell failure chance on spells to 0",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_DisableArmourMaxDexterityFeature_Name": {
     "Original": "Disable Armor Max Dexterity",
     "Translated": null
@@ -57,6 +65,14 @@
   },
   "ToyBox_Features_BagOfTricks_Cheats_DisableRequireMaterialComponent_AbilitiesNoLongerNeedAnyMaterial": {
     "Original": "Abilities no longer need any material components which they would otherwise consume",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_DisableSpellFailureFeature_Name": {
+    "Original": "Disable Spell Failure",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_DisableSpellFailureFeature_Description": {
+    "Original": "Sets the spell failure chance on spells to 0",
     "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_HighlightHiddenObjectsFeature_Name": {
