@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace ToyBox;
+﻿namespace ToyBox;
 public abstract class FeatureWithPatch : ToggledFeature {
     protected Harmony HarmonyInstance = null!;
     protected virtual string HarmonyName => $"ToyBox.Feature.{Name}";
