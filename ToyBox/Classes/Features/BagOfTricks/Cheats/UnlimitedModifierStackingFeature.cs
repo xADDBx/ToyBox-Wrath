@@ -11,7 +11,7 @@ public partial class UnlimitedModifierStackingFeature : FeatureWithPatch {
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_UnlimitedModifierStackingFeature_Description", "Forces any kind of (Stat/AC/Hit/Etc) bonus to stack, even if they would normally override each other")]
     public override partial string Description { get; }
     [HarmonyPatch(typeof(ModifiableValue.Modifier), nameof(ModifiableValue.Modifier.Stacks), MethodType.Getter), HarmonyPrefix]
-    public static void ModifiableValue_UpdateValue_Patch(ref ModifiableValue.Modifier __instance) {
+    private static void ModifiableValue_UpdateValue_Patch(ref ModifiableValue.Modifier __instance) {
         __instance.StackMode = ModifiableValue.StackMode.ForceStack;
     }
 }

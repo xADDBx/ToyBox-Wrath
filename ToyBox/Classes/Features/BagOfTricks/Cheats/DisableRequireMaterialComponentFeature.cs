@@ -11,7 +11,7 @@ public partial class DisableRequireMaterialComponentFeature : FeatureWithPatch {
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_DisableRequireMaterialComponent_AbilitiesNoLongerNeedAnyMaterial", "Abilities no longer need any material components which they would otherwise consume")]
     public override partial string Description { get; }
     [HarmonyPatch(typeof(AbilityData), nameof(AbilityData.RequireMaterialComponent), MethodType.Getter), HarmonyPostfix]
-    public static void AbilityData_RequireMaterialComponent_Postfix(ref bool __result) {
+    private static void AbilityData_RequireMaterialComponent_Postfix(ref bool __result) {
         __result = false;
     }
 }

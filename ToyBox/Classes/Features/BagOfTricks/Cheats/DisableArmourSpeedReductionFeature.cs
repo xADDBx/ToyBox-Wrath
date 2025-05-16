@@ -13,7 +13,7 @@ public partial class DisableArmourSpeedReductionFeature : FeatureWithPatch {
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_DisableArmourSpeedReductionFeature_Description", "Some armours and shields apply a modifier to speed. This feature removes said modifiers.")]
     public override partial string Description { get; }
     [HarmonyPatch(typeof(ItemEntityArmor), nameof(ItemEntityArmor.RecalculateStats)), HarmonyPostfix]
-    public static void ItemEntityArmor_RecalculateStats_Patch(ItemEntityArmor __instance) {
+    private static void ItemEntityArmor_RecalculateStats_Patch(ItemEntityArmor __instance) {
         if (__instance.m_Modifiers != null) {
             __instance.m_Modifiers.ForEach(delegate (ModifiableValue.Modifier m) {
                 var desc = m.ModDescriptor;

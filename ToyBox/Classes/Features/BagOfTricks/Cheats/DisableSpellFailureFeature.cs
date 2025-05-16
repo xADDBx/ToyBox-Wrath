@@ -11,7 +11,7 @@ public partial class DisableSpellFailureFeature : FeatureWithPatch {
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_DisableSpellFailureFeature_Description", "Sets the spell failure chance on spells to 0")]
     public override partial string Description { get; }
     [HarmonyPatch(typeof(RuleCastSpell), nameof(RuleCastSpell.SpellFailureChance), MethodType.Getter), HarmonyPostfix]
-    public static void RuleCastSpell_SpellFailureChance_Patch(ref int __result) {
+    private static void RuleCastSpell_SpellFailureChance_Patch(ref int __result) {
         __result = 0;
     }
 }

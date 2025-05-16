@@ -11,7 +11,7 @@ public partial class DisableArmourMaxDexterityFeature : FeatureWithPatch {
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_DisableArmourMaxDexterityFeature_Description", "Some armours have a limit to their dexterity bonus. This feature disables said limit for every armour.")]
     public override partial string Description { get; }
     [HarmonyPatch(typeof(BlueprintArmorType), nameof(BlueprintArmorType.HasDexterityBonusLimit), MethodType.Getter), HarmonyPostfix]
-    public static void BlueprintArmorType_HasDexterityBonusLimit_Patch(ref bool __result) {
+    private static void BlueprintArmorType_HasDexterityBonusLimit_Patch(ref bool __result) {
         __result = false;
     }
 }

@@ -11,7 +11,7 @@ public partial class IgnoreArmourChecksPenaltyFeature : FeatureWithPatch {
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_IgnoreArmourChecksPenaltyFeature_Description", "Some armour has a penalty for Mobility, Athletics, Stealth and Thievery skill checks. This feature sets to penalty to 0.")]
     public override partial string Description { get; }
     [HarmonyPatch(typeof(BlueprintArmorType), nameof(BlueprintArmorType.ArmorChecksPenalty), MethodType.Getter), HarmonyPostfix]
-    public static void BlueprintArmorType_ArmorChecksPenalty_Patch(ref int __result) {
+    private static void BlueprintArmorType_ArmorChecksPenalty_Patch(ref int __result) {
         __result = 0;
     }
 }
