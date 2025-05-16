@@ -53,6 +53,7 @@ internal class GeneralSettings : AbstractSettings {
     public bool ToggleInstantGlobalCrusadeSpells = false;
     public bool SpontaneousCasterCanCopyScrolls = false;
     public bool ToggleIgnoreEquipmentRestrictions = false;
+    public bool ToggleDisableArmourMaxDexterity = false;
 
     public bool DisableFoW = false;
     public bool RestoreAbilitiesAfterCombat = false;

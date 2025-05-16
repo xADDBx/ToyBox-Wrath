@@ -26,6 +26,7 @@ public partial class BagOfTricksFeatureTab : FeatureTab {
         AddFeature(new InstantGlobalCrusadeSpellsFeature(), CheatsText);
         AddFeature(new SpontaneousCasterCopyScrollFeature(), CheatsText);
         AddFeature(new IgnoreEquipmentRestrictionsFeature(), CheatsText);
+        AddFeature(new DisableArmourMaxDexterityFeature(), CheatsText);
 
         AddFeature(new DisableFogOfWarFeature(), CheatsText);
         AddFeature(new RestoreAbilitiesAfterCombatFeature(), CheatsText);

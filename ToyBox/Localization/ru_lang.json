@@ -11,6 +11,14 @@
     "Original": "Cheats",
     "Translated": "Читы"
   },
+  "ToyBox_Features_BagOfTricks_Cheats_DisableArmourMaxDexterityFeature_Name": {
+    "Original": "Disable Armor Max Dexterity",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_DisableArmourMaxDexterityFeature_Description": {
+    "Original": "Some armours have a limit to their dexterity bonus. This feature disables said limit for every armour.",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_DisableFogOfWarFeature_DisableFogOfWarText": {
     "Original": "Disable Fog of War",
     "Translated": "Отключить туман войны"
