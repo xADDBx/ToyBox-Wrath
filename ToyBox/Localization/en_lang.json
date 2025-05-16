@@ -147,6 +147,14 @@
     "Original": "Restores crusade spells immediately after using them",
     "Translated": null
   },
+  "ToyBox_Features_BagOfTricks_Cheats_NoFriendlyFireAoEFeature_Name": {
+    "Original": "No Friendly Fire On AoEs",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_NoFriendlyFireAoEFeature_Description": {
+    "Original": "Tries to remove teammates as targets in harmful AoEs. Also sets damage to zero and lets Statchecks, Skillchecks and Saving throws succeeds if both attacker and attackee are friendly.",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_PreventTrapsFromTriggeringFeature_Name": {
     "Original": "Prevent Traps from triggering",
     "Translated": null
