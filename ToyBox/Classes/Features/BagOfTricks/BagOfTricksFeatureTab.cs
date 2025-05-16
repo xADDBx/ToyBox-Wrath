@@ -24,8 +24,8 @@ public partial class BagOfTricksFeatureTab : FeatureTab {
         AddFeature(new InfiniteActionsFeature(), CheatsText);
         AddFeature(new InfiniteItemChargesFeature(), CheatsText);
         AddFeature(new InstantGlobalCrusadeSpellsFeature(), CheatsText);
-
         AddFeature(new SpontaneousCasterCopyScrollFeature(), CheatsText);
+        AddFeature(new IgnoreEquipmentRestrictionsFeature(), CheatsText);
 
         AddFeature(new DisableFogOfWarFeature(), CheatsText);
         AddFeature(new RestoreAbilitiesAfterCombatFeature(), CheatsText);
