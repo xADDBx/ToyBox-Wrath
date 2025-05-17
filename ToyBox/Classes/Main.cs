@@ -55,6 +55,8 @@ public static partial class Main {
             _ = BPLoader;
             Debug($"BPLoader init took {sw2.ElapsedMilliseconds}ms");
 
+            ToyBoxUnitHelper.Initialize();
+
             sw2.Start();
             RegisterFeatureTabs();
             Debug($"Early init took {sw2.ElapsedMilliseconds}ms");

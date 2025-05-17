@@ -3,7 +3,7 @@ using Kingmaker.EntitySystem.Entities;
 
 namespace ToyBox.Infrastructure;
 public static class ToyBoxUnitHelper {
-    private static Dictionary<UnitEntityData, bool> m_PartyOrPetCache = new();
+    private static readonly Dictionary<UnitEntityData, bool> m_PartyOrPetCache = new();
     private static bool m_IsInitialized = false;
     internal static void Initialize() {
         if (m_IsInitialized) return;
