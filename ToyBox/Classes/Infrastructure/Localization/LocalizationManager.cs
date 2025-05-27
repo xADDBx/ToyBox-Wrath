@@ -31,6 +31,9 @@ public static class LocalizationManager {
         }
         var filePath = GetPathToLocalizationFile(Settings.UILanguage);
         CurrentLocalization = JsonConvert.DeserializeObject<Language>(File.ReadAllText(filePath), m_Settings) ?? new();
+        if (Main.OnLocaleChanged != null) {
+            Main.OnLocaleChanged();
+        }
     }
     public static HashSet<string> DiscoverLocalizations() {
         m_FoundLanguageFiles = new();

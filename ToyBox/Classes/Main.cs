@@ -17,6 +17,7 @@ public static partial class Main {
     internal static Harmony HarmonyInstance = new("ToyBox");
     internal static UnityModManager.ModEntry ModEntry = null!;
     internal static List<Task> LateInitTasks = new List<Task>();
+    internal static Action? OnLocaleChanged;
     private static Exception? m_CaughtException = null;
     private static List<FeatureTab> m_FeatureTabs = new();
     private static readonly ConcurrentQueue<Action> m_MainThreadTaskQueue = new();
