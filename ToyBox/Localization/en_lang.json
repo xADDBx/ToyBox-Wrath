@@ -147,6 +147,14 @@
     "Original": "Turns spell slot cost of spells to 0",
     "Translated": null
   },
+  "ToyBox_Features_BagOfTricks_Cheats_InstantChangePartyMembersFeature_Name": {
+    "Original": "Instant change party members",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_InstantChangePartyMembersFeature_Description": {
+    "Original": "Spend no time when switching out party members regardless of your location",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_InstantGlobalCrusadeSpellsFeature_Name": {
     "Original": "Instant Global Crusade Spells Cooldown",
     "Translated": null

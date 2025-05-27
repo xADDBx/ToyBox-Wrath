@@ -38,5 +38,6 @@ public partial class BagOfTricksFeatureTab : FeatureTab {
         AddFeature(new RestoreSpellsAfterCombatFeature(), CheatsText);
         AddFeature(new RestoreItemsAfterCombatFeature(), CheatsText);
         AddFeature(new RestAfterCombatFeature(), CheatsText);
+        AddFeature(new InstantChangePartyMembersFeature(), CheatsText);
     }
 }
