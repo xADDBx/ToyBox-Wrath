@@ -75,6 +75,14 @@
     "Original": "Sets the spell failure chance on spells to 0",
     "Translated": null
   },
+  "ToyBox_Features_BagOfTricks_Cheats_FreeMetaMagicFeature_Name": {
+    "Original": "Free Meta-Magic",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_FreeMetaMagicFeature_Description": {
+    "Original": "Metamagic no longer increases the effective spell level or, in case of spontaneous casters, casting time.",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_HighlightHiddenObjectsFeature_Name": {
     "Original": "Highlight Hidden Objects",
     "Translated": null

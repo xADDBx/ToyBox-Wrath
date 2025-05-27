@@ -32,7 +32,7 @@ public partial class BagOfTricksFeatureTab : FeatureTab {
         AddFeature(new DisableSpellFailureFeature(), CheatsText);
         AddFeature(new IgnoreArmourChecksPenaltyFeature(), CheatsText);
         AddFeature(new NoFriendlyFireAoEFeature(), CheatsText);
-
+        AddFeature(new FreeMetaMagicFeature(), CheatsText);
         AddFeature(new DisableFogOfWarFeature(), CheatsText);
         AddFeature(new RestoreAbilitiesAfterCombatFeature(), CheatsText);
         AddFeature(new RestoreSpellsAfterCombatFeature(), CheatsText);

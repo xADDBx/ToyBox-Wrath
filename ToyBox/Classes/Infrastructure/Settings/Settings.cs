@@ -59,7 +59,7 @@ internal class GeneralSettings : AbstractSettings {
     public bool ToggleDisableSpellFailure = false;
     public bool ToggleIgnoreArmourChecksPenalty = false;
     public bool ToggleNoFriendlyFireAoEFeature = false;
-
+    public bool ToggleFreeMetaMagic = false;
     public bool DisableFoW = false;
     public bool RestoreAbilitiesAfterCombat = false;
     public bool RestoreSpellsAfterCombat = false;
