@@ -15,8 +15,9 @@ public partial class RestoreSpellsAfterCombatFeature : ToggledFeature, IPartyCom
     public void HandlePartyCombatStateChanged(bool inCombat) {
         if (!inCombat) {
             foreach (var unit in Game.Instance.Player.Party) {
-                foreach (var spellbook in unit.Descriptor.Spellbooks)
+                foreach (var spellbook in unit.Descriptor.Spellbooks) {
                     spellbook.Rest();
+                }
             }
         }
     }
