@@ -42,5 +42,6 @@ public partial class BagOfTricksFeatureTab : FeatureTab {
         AddFeature(new RestAfterCombatFeature(), CheatsText);
         AddFeature(new InstantChangePartyMembersFeature(), CheatsText);
         AddFeature(new EquipmentNoWeightFeature(), CheatsText);
+        AddFeature(new AllowItemUseFromInventoryDuringCombatFeature(), CheatsText);
     }
 }

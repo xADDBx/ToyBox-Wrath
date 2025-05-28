@@ -11,6 +11,14 @@
     "Original": "Cheats",
     "Translated": "Читы"
   },
+  "ToyBox_Features_BagOfTricks_Cheats_AllowItemUseFromInventoryDuringCombatFeature_Name": {
+    "Original": "Allow inventory items in combat",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_AllowItemUseFromInventoryDuringCombatFeature_Description": {
+    "Original": "Makes it possible to use items in the inventory even in a fight",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_DisableArcaneSpellFailureFeature_Name": {
     "Original": "Disable Arcane Spell Failure",
     "Translated": null
