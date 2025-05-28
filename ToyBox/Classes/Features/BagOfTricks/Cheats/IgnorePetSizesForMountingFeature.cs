@@ -10,7 +10,7 @@ public partial class IgnorePetSizesForMountingFeature : FeatureWithPatch {
     public override ref bool IsEnabled => ref Settings.ToggleIgnorePetSizesForMounting;
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_IgnorePetSizesForMountingFeature_Name", "Ignore pet sizes for mounting")]
     public override partial string Name { get; }
-    [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_IgnorePetSizesForMountingFeature_Description", "Allows mounting pets of any size. Also allows mounting vermin, Night Hag and Blizzard Servants")]
+    [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_IgnorePetSizesForMountingFeature_Description", "Allows mounting pets of any size")]
     public override partial string Description { get; }
     private const string MountTargetAbility = "MountTargetAbility";
     [HarmonyPatch(typeof(AbilityTargetHasFact), nameof(AbilityTargetHasFact.IsTargetRestrictionPassed)), HarmonyPrefix]

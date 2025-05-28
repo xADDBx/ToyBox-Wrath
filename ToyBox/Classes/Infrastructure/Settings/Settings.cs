@@ -72,4 +72,5 @@ internal class GeneralSettings : AbstractSettings {
     public bool ToggleIgnoreAlignmentRequirementsForAbilities = false;
     public bool ToggleIgnoreAllRequirementsForAbilities = false;
     public bool ToggleIgnorePetSizesForMounting = false;
+    public bool ToggleAllowAnyUnitAsYourMount = false;
 }

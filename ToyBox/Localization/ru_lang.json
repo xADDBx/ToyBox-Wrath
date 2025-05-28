@@ -11,6 +11,14 @@
     "Original": "Cheats",
     "Translated": "Читы"
   },
+  "ToyBox_Features_BagOfTricks_Cheats_AllowAnyUnitAsYourMountFeature_Name": {
+    "Original": "Ride Any Unit As Your Mount",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_AllowAnyUnitAsYourMountFeature_Description": {
+    "Original": "Allows you to mount any unit, even if they are not a pet (this will likely look weird)",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_AllowItemUseFromInventoryDuringCombatFeature_Name": {
     "Original": "Allow inventory items in combat",
     "Translated": null
@@ -152,7 +160,7 @@
     "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_IgnorePetSizesForMountingFeature_Description": {
-    "Original": "Allows mounting pets of any size. Also allows mounting vermin, Night Hag and Blizzard Servants",
+    "Original": "Allows mounting pets of any size",
     "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_InfiniteAbilitiesFeature_Name": {

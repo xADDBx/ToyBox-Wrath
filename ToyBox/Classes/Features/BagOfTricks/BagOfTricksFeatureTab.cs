@@ -46,5 +46,6 @@ public partial class BagOfTricksFeatureTab : FeatureTab {
         AddFeature(new IgnoreAlignmentRequirementsForAbilitiesFeature(), CheatsText);
         AddFeature(new IgnoreAllRequirementsForAbilitiesFeature(), CheatsText);
         AddFeature(new IgnorePetSizesForMountingFeature(), CheatsText);
+        AddFeature(new AllowAnyUnitAsYourMountFeature(), CheatsText);
     }
 }
