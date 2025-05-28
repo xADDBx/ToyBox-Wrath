@@ -123,6 +123,14 @@
     "Original": "Disables ability/spellbook checks regarding alignment for both initiator and target",
     "Translated": null
   },
+  "ToyBox_Features_BagOfTricks_Cheats_IgnoreAllRequirementsForAbilitiesFeature_Name": {
+    "Original": "Ignore all Requirements for Abilities",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_IgnoreAllRequirementsForAbilitiesFeature_Description": {
+    "Original": "Allows casting any abilities regardless of requirements",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_IgnoreArmourChecksPenaltyFeature_Name": {
     "Original": "Disable Armor Checks Penalty",
     "Translated": null
