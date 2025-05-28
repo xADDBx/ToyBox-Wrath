@@ -115,6 +115,14 @@
     "Original": "Also Highlight in Fog of War",
     "Translated": "Также выделять в тумане войны"
   },
+  "ToyBox_Features_BagOfTricks_Cheats_IgnoreAlignmentRequirementsForAbilitiesFeature_Name": {
+    "Original": "Ignore Alignment Requirements for Abilities",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_IgnoreAlignmentRequirementsForAbilitiesFeature_Description": {
+    "Original": "Disables ability/spellbook checks regarding alignment for both initiator and target",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_IgnoreArmourChecksPenaltyFeature_Name": {
     "Original": "Disable Armor Checks Penalty",
     "Translated": null

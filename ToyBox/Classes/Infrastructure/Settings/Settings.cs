@@ -69,4 +69,5 @@ internal class GeneralSettings : AbstractSettings {
     public bool ToggleInstantChangePartyMembers = false;
     public bool ToggleEquipmentNoWeight = false;
     public bool ToggleAllowItemUseFromInventoryDuringCombat = false;
+    public bool ToggleIgnoreAlignmentRequirementsForAbilities = false;
 }
