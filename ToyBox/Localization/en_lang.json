@@ -75,6 +75,14 @@
     "Original": "Sets the spell failure chance on spells to 0",
     "Translated": null
   },
+  "ToyBox_Features_BagOfTricks_Cheats_EquipmentNoWeightFeature_Name": {
+    "Original": "Equipment no weight",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_EquipmentNoWeightFeature_Description": {
+    "Original": "Makes things have no weight in both the collective and the individual inventories",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_FreeMetaMagicFeature_Name": {
     "Original": "Free Meta-Magic",
     "Translated": null

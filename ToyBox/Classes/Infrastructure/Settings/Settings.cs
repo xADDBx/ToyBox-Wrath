@@ -66,4 +66,5 @@ internal class GeneralSettings : AbstractSettings {
     public bool RestoreItemsAfterCombat = false;
     public bool RestAfterCombat = false;
     public bool ToggleInstantChangePartyMembers = false;
+    public bool ToggleEquipmentNoWeight = false;
 }

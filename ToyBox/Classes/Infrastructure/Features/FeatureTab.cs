@@ -1,13 +1,18 @@
 ﻿using System.Diagnostics;
-using UnityEngine;
 
 namespace ToyBox;
 public abstract class FeatureTab {
+    public List<Feature> FailedFeatures = new();
     private Dictionary<string, List<Feature>> FeatureGroups { get; set; } = new();
     public abstract string Name { get; }
     public virtual void AddFeature(Feature feature, string groupName = "") {
         if (feature is INeedEarlyInitFeature) {
-            feature.Initialize();
+            try {
+                feature.Initialize();
+            } catch (Exception ex) {
+                Error($"Failed to early initialize feature {feature.Name}\n{ex}", 1, false);
+                FailedFeatures.Add(feature);
+            }
         }
         if (!FeatureGroups.TryGetValue(groupName, out var group)) {
             group = new();
@@ -31,7 +36,12 @@ public abstract class FeatureTab {
         Stopwatch a = Stopwatch.StartNew();
         foreach (var feature in GetFeatures()) {
             if (feature is not INeedEarlyInitFeature) {
-                feature.Initialize();
+                try {
+                    feature.Initialize();
+                } catch (Exception ex) {
+                    Error($"Failed to initialize feature {feature.Name}\n{ex}", 1, false);
+                    FailedFeatures.Add(feature);
+                }
             }
         }
         Debug($"!!Threaded!!: {GetType().Name} lazy init took {a.ElapsedMilliseconds}ms");
