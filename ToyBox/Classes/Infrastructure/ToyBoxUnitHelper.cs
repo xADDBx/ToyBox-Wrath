@@ -1,5 +1,7 @@
 ﻿using Kingmaker;
+using Kingmaker.Blueprints.Root;
 using Kingmaker.EntitySystem.Entities;
+using Kingmaker.UnitLogic;
 
 namespace ToyBox.Infrastructure;
 public static class ToyBoxUnitHelper {
@@ -24,5 +26,22 @@ public static class ToyBoxUnitHelper {
                              || Game.Instance.Player.AllCharacters.Any(y => y.OriginalBlueprint == x.Master.OriginalBlueprint)));
         m_PartyOrPetCache[unit] = isPartyOrPet;
         return isPartyOrPet;
+    }
+    private static bool IsEnemy(UnitEntityData unit) {
+        UnitAttackFactions uaf = unit.Descriptor.AttackFactions;
+        return uaf.m_Owner.Faction.EnemyForEveryone || uaf.m_Factions.Contains(BlueprintRoot.Instance.PlayerFaction);
+    }
+    public static bool IsOfSelectedType(UnitEntityData? unit, UnitSelectType type) {
+        if (unit == null) {
+            return false;
+        }
+        return type switch {
+            UnitSelectType.Everyone => true,
+            UnitSelectType.Party => unit.IsPlayerFaction,
+            UnitSelectType.You => unit.IsMainCharacter,
+            UnitSelectType.Friendly => !IsEnemy(unit),
+            UnitSelectType.Enemies => IsEnemy(unit),
+            _ => false,
+        };
     }
 }

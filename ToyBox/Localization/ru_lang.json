@@ -51,6 +51,14 @@
     "Original": "Some armours and shields apply a modifier to speed. This feature removes said modifiers.",
     "Translated": null
   },
+  "ToyBox_Features_BagOfTricks_Cheats_DisableAttackOfOpportunityFeature_Name": {
+    "Original": "Disable Attacks Of Opportunity",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_DisableAttackOfOpportunityFeature_Description": {
+    "Original": "Prevents the selected units from being attacked with an Attack of Opportunity",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_DisableFogOfWarFeature_DisableFogOfWarText": {
     "Original": "Disable Fog of War",
     "Translated": "Отключить туман войны"
@@ -390,6 +398,30 @@
   "ToyBox_Features_SettingsFeatures_UpdateAndIntegrity_VersionCompatabilityFeature_ModVersionIsNotCompatibleWithThi": {
     "Original": "Mod Version is not compatible with this game version!",
     "Translated": "Версия мода не совместима с этой версией игры!"
+  },
+  "ToyBox_Infrastructure_Enums_UnitSelectType_Localizer_EveryoneText": {
+    "Original": "Everyone",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_UnitSelectType_Localizer_EnemiesText": {
+    "Original": "Enemies",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_UnitSelectType_Localizer_FriendlyText": {
+    "Original": "Friendly",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_UnitSelectType_Localizer_PartyText": {
+    "Original": "Party",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_UnitSelectType_Localizer_MainCharacterText": {
+    "Original": "Main Character",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_UnitSelectType_Localizer_OffText": {
+    "Original": "Off",
+    "Translated": null
   },
   "ToyBox_Infrastructure_UI_Browser_ShowAllText": {
     "Original": "Show All",

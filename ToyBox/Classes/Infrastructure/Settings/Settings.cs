@@ -73,4 +73,5 @@ internal class GeneralSettings : AbstractSettings {
     public bool ToggleIgnoreAllRequirementsForAbilities = false;
     public bool ToggleIgnorePetSizesForMounting = false;
     public bool ToggleAllowAnyUnitAsYourMount = false;
+    public UnitSelectType SelectionDisableAttackOfOpportunityFeature = UnitSelectType.Off;
 }
