@@ -71,4 +71,5 @@ internal class GeneralSettings : AbstractSettings {
     public bool ToggleAllowItemUseFromInventoryDuringCombat = false;
     public bool ToggleIgnoreAlignmentRequirementsForAbilities = false;
     public bool ToggleIgnoreAllRequirementsForAbilities = false;
+    public bool ToggleIgnorePetSizesForMounting = false;
 }

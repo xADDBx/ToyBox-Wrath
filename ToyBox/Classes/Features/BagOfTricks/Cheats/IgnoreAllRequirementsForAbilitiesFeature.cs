@@ -1,6 +1,5 @@
 ﻿using Kingmaker.UnitLogic.Abilities;
 using ToyBox.Infrastructure;
-using static UnityModManagerNet.UnityModManager.Param;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 

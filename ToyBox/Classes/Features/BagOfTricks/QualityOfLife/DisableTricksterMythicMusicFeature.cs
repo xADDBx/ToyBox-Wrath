@@ -10,8 +10,8 @@ public partial class DisableTricksterMythicMusicFeature : FeatureWithPatch {
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Features_BagOfTricks_QualityOfLife_DisableTricksterMythicMusicFeature_Description", "Prevents the Trickster Theme from running in Drezen")]
     public override partial string Description { get; }
-    private static string TricksterCouncil_Council5_2_Music_Etude = "61aa5a32f2934c9189d31f74759ea8de";
-    private static string Trickster_MusicState_Drezen_Etude = "b6eaccea5fa954145a4a9d74fdbf7c62";
+    private const string TricksterCouncil_Council5_2_Music_Etude = "61aa5a32f2934c9189d31f74759ea8de";
+    private const string Trickster_MusicState_Drezen_Etude = "b6eaccea5fa954145a4a9d74fdbf7c62";
     [HarmonyPatch(typeof(EtudeBracketMusic), nameof(EtudeBracketMusic.OnEnter)), HarmonyPrefix]
     private static bool EtudeBracketMusic_OnEnter_Patch(EtudeBracketMusic __instance) {
         return __instance.OwnerBlueprint.AssetGuid != TricksterCouncil_Council5_2_Music_Etude;

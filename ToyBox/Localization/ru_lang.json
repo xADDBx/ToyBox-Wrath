@@ -147,6 +147,14 @@
     "Original": "Ignores restrictions when equipping weapons, shields, armour and other items",
     "Translated": null
   },
+  "ToyBox_Features_BagOfTricks_Cheats_IgnorePetSizesForMountingFeature_Name": {
+    "Original": "Ignore pet sizes for mounting",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_Cheats_IgnorePetSizesForMountingFeature_Description": {
+    "Original": "Allows mounting pets of any size. Also allows mounting vermin, Night Hag and Blizzard Servants",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_Cheats_InfiniteAbilitiesFeature_Name": {
     "Original": "Infinite Abilities",
     "Translated": null
