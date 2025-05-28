@@ -1,4 +1,6 @@
-﻿namespace ToyBox.Infrastructure;
+﻿using static UnityModManagerNet.UnityModManager.TextureReplacer;
+
+namespace ToyBox.Infrastructure;
 
 public enum LogLevel {
     Error,
@@ -32,13 +34,13 @@ public static class Logging {
     public static void Critical(Exception ex) {
         Main.ModEntry.Logger.Critical(ex.ToString());
     }
-    public static void Critical(string str) {
-        Main.ModEntry.Logger.Error($"{str}:\n{new System.Diagnostics.StackTrace(1, true)}");
+    public static void Critical(string str, bool includeStackTrace = true) {
+        Main.ModEntry.Logger.Error($"{str}:\n{(includeStackTrace ? new System.Diagnostics.StackTrace(1, true).ToString() : "")}");
     }
     public static void Error(Exception ex) {
         Main.ModEntry.Logger.Error(ex.ToString());
     }
-    public static void Error(string str, int skip = 1) {
-        Main.ModEntry.Logger.Error($"{str}:\n{new System.Diagnostics.StackTrace(skip, true)}");
+    public static void Error(string str, int skip = 1, bool includeStackTrace = true) {
+        Main.ModEntry.Logger.Error($"{str}:\n{(includeStackTrace ? new System.Diagnostics.StackTrace(skip, true).ToString() : "")}");
     }
 }
