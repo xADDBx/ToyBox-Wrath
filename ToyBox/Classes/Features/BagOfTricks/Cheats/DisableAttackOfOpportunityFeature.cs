@@ -22,7 +22,7 @@ public partial class DisableAttackOfOpportunityFeature : FeatureWithPatch {
         base.Destroy();
     }
     private void UpdateEnabled() {
-         m_IsEnabled = Settings.SelectionDisableAttackOfOpportunityFeature != UnitSelectType.Off;
+         m_IsEnabled = Settings.SelectionDisableAttackOfOpportunity != UnitSelectType.Off;
     }
     public override void OnGui() {
         using (VerticalScope()) {
@@ -34,8 +34,8 @@ public partial class DisableAttackOfOpportunityFeature : FeatureWithPatch {
             }
             using (HorizontalScope()) {
                 Space(150);
-                if (UI.SelectionGrid(ref Settings.SelectionDisableAttackOfOpportunityFeature, 6, (type) => type.GetLocalized(), AutoWidth())) {
-                    if (Settings.SelectionDisableAttackOfOpportunityFeature != UnitSelectType.Off) {
+                if (UI.SelectionGrid(ref Settings.SelectionDisableAttackOfOpportunity, 6, (type) => type.GetLocalized(), AutoWidth())) {
+                    if (Settings.SelectionDisableAttackOfOpportunity != UnitSelectType.Off) {
                         if (!m_IsEnabled) {
                             Initialize();
                         }
@@ -50,7 +50,7 @@ public partial class DisableAttackOfOpportunityFeature : FeatureWithPatch {
     }
     [HarmonyPatch(typeof(UnitCombatState), nameof(UnitCombatState.AttackOfOpportunity)), HarmonyPrefix]
     private static bool UnitCombatState_AttackOfOpportunity_Patch(UnitEntityData target) {
-        if (ToyBoxUnitHelper.IsOfSelectedType(target, Settings.SelectionDisableAttackOfOpportunityFeature)) {
+        if (ToyBoxUnitHelper.IsOfSelectedType(target, Settings.SelectionDisableAttackOfOpportunity)) {
             return false;
         }
         return true;

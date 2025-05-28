@@ -33,6 +33,8 @@ public static partial class UI {
             xCols = vals.Length;
         }
         var selectedInt = m_IndexToEnumCache[typeof(TEnum)][selected];
+        // Create a copy to not recolour the selected element permanently
+        names = [.. names];
         names[selectedInt] = names[selectedInt].Orange();
         var newSel = GUILayout.SelectionGrid(selectedInt, names, xCols, options);
         bool changed = selectedInt != newSel;

@@ -48,5 +48,6 @@ public partial class BagOfTricksFeatureTab : FeatureTab {
         AddFeature(new IgnorePetSizesForMountingFeature(), CheatsText);
         AddFeature(new AllowAnyUnitAsYourMountFeature(), CheatsText);
         AddFeature(new DisableAttackOfOpportunityFeature(), CheatsText);
+        AddFeature(new AllowMovingThroughUnitsFeature(), CheatsText);
     }
 }
