@@ -35,6 +35,7 @@ internal class GeneralSettings : AbstractSettings {
 
     // - QoL
     public bool EnableModdedAchievements = true;
+    public bool ToggleDisableTricksterMythicMusic = false;
 
     // - Cheats
     public bool DisableTraps = false;

@@ -1,5 +1,6 @@
 ﻿using ToyBox.Features.BagOfTricks.Cheats;
 using ToyBox.Features.BagOfTricks.QoL;
+using ToyBox.Features.BagOfTricks.QualityOfLife;
 
 namespace ToyBox.Features.BagOfTricks;
 public partial class BagOfTricksFeatureTab : FeatureTab {
@@ -11,6 +12,7 @@ public partial class BagOfTricksFeatureTab : FeatureTab {
     private static partial string CheatsText { get; }
     public BagOfTricksFeatureTab() {
         AddFeature(new EnableAchievementsFeature(), QualityOfLifeText);
+        AddFeature(new DisableTricksterMythicMusicFeature(), QualityOfLifeText);
 
         AddFeature(new PreventTrapsFromTriggeringFeature(), CheatsText);
         AddFeature(new ToggleLockJamFeature(), CheatsText);

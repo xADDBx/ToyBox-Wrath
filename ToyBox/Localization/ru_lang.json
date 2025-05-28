@@ -243,6 +243,14 @@
     "Original": "Forces any kind of (Stat/AC/Hit/Etc) bonus to stack, even if they would normally override each other",
     "Translated": "Принудительно складывает любые виды бонусов ({Статов/Защиты/Атаки/И т.д.}), даже если они обычно перекрывают друг друга."
   },
+  "ToyBox_Features_BagOfTricks_QualityOfLife_DisableTricksterMythicMusicFeature_Name": {
+    "Original": "Disable Trickster Mythic Music in Drezen",
+    "Translated": null
+  },
+  "ToyBox_Features_BagOfTricks_QualityOfLife_DisableTricksterMythicMusicFeature_Description": {
+    "Original": "Prevents the Trickster Theme from running in Drezen",
+    "Translated": null
+  },
   "ToyBox_Features_BagOfTricks_QoL_EnableAchievementsFeature_AllowAchievementsWhileUsingModsT": {
     "Original": "Allow Achievements While Using Mods",
     "Translated": "Включить достижения при использовании модов"
