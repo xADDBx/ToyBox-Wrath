@@ -139,7 +139,7 @@ namespace ToyBox.Analyzer {
             var baseType = type.BaseType;
             while (baseType != null) {
                 if (baseType.ToString() == "ToyBox.FeatureWithPatch") {
-                    return true;
+                    return !type.IsAbstract;
                 }
                 baseType = baseType.BaseType;
             }
