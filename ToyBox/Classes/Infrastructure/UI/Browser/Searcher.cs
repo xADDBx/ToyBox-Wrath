@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Globalization;
 using UnityEngine;
 
 namespace ToyBox.Infrastructure.UI;
@@ -49,7 +50,7 @@ public class ThreadedListSearcher<T> where T : notnull {
                         return;
                     }
                     var text = getSearchKey(item);
-                    if (terms.All(text.Contains)) {
+                    if (terms.All(t => CultureInfo.InvariantCulture.CompareInfo.IndexOf(text, t, CompareOptions.IgnoreCase) >= 0)) {
                         allResults.Add(item);
                         m_InProgress.Enqueue(item);
                         CurrentlyFound++;
@@ -62,9 +63,9 @@ public class ThreadedListSearcher<T> where T : notnull {
                         }
                     }
                 }
-                m_Parent.QueueUpdateItems(allResults.AsParallel().WithDegreeOfParallelism(Environment.ProcessorCount).OrderBy(getSortKey).ToArray(), 1);
+                m_Parent.QueueUpdateItems(allResults.AsParallel().WithDegreeOfParallelism(Environment.ProcessorCount).OrderBy(getSortKey).ToArray(), 1, true);
             } else {
-                m_Parent.QueueUpdateItems(items.AsParallel().WithDegreeOfParallelism(Environment.ProcessorCount).OrderBy(getSortKey).ToArray(), 1);
+                m_Parent.QueueUpdateItems(items.AsParallel().WithDegreeOfParallelism(Environment.ProcessorCount).OrderBy(getSortKey).ToArray(), 1, true);
             }
             Debug($"Searched {items.Count()} items in {watch.ElapsedMilliseconds}ms; found {allResults.Count} results");
         } catch (Exception e) {
