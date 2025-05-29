@@ -15,7 +15,7 @@ public partial class SpontaneousCasterCopyScrollFeature : FeatureWithPatch {
     public override partial string Description { get; }
     [HarmonyPatch(typeof(CopyScroll), nameof(CopyScroll.CanCopySpell), [typeof(BlueprintAbility), typeof(Spellbook)]), HarmonyPostfix]
     private static void CopyScrolls_Postfix(BlueprintAbility spell, Spellbook spellbook, ref bool __result) {
-        if (spellbook.IsKnown(spell)) {
+        if (spellbook.IsKnown(spell) || spellbook.Blueprint.AllSpellsKnown) {
             __result = false;
             return;
         }

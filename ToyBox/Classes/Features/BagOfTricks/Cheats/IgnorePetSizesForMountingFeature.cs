@@ -12,7 +12,7 @@ public partial class IgnorePetSizesForMountingFeature : FeatureWithPatch {
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_IgnorePetSizesForMountingFeature_Description", "Allows mounting pets of any size")]
     public override partial string Description { get; }
-    private const string MountTargetAbility = "MountTargetAbility";
+    private const string MountTargetAbility = "9f8c0f4fcabdb3145b449826d17da18d";
     [HarmonyPatch(typeof(AbilityTargetHasFact), nameof(AbilityTargetHasFact.IsTargetRestrictionPassed)), HarmonyPrefix]
     public static bool AbilityTargetHasFact_IsTargetRestrictionPassed_Patch(AbilityTargetHasFact __instance, UnitEntityData caster, TargetWrapper target, ref bool __result) {
         if (__instance.OwnerBlueprint.AssetGuid == MountTargetAbility) {
@@ -22,7 +22,7 @@ public partial class IgnorePetSizesForMountingFeature : FeatureWithPatch {
         return true;
     }
     [HarmonyPatch(typeof(AbilityTargetIsSuitableMountSize), nameof(AbilityTargetIsSuitableMountSize.CanMount)), HarmonyPrefix]
-    private static bool AbilityTargetIsSuitableMountSize_CanMount_Patch(UnitEntityData master, UnitEntityData pet, ref bool __result) {
+    private static bool AbilityTargetIsSuitableMountSize_CanMount_Patch(ref bool __result) {
         __result = true;
         return false;
     }

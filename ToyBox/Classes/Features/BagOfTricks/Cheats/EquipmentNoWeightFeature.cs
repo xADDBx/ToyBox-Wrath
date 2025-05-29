@@ -13,11 +13,15 @@ public partial class EquipmentNoWeightFeature : FeatureWithPatch {
     public override partial string Description { get; }
     public override void Initialize() {
         base.Initialize();
-        Game.Instance?.Player?.Inventory?.UpdateWeight();
+        Main.ScheduleForMainThread(() => {
+            Game.Instance?.Player?.Inventory?.UpdateWeight();
+        });
     }
     public override void Destroy() {
         base.Destroy();
-        Game.Instance?.Player?.Inventory?.UpdateWeight();
+        Main.ScheduleForMainThread(() => {
+            Game.Instance?.Player?.Inventory?.UpdateWeight();
+        });
     }
     [HarmonyPatch(typeof(ItemsCollection), nameof(ItemsCollection.DeltaWeight)), HarmonyPrefix]
     private static bool ItemsCollection_DeltaWeight_Patch(ItemsCollection __instance) {

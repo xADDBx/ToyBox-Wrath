@@ -12,10 +12,12 @@ public partial class InfiniteSpellCastsFeature : FeatureWithPatch {
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_InfiniteSpellCastsFeature_Description", "Turns spell slot cost of spells to 0")]
     public override partial string Description { get; }
 
-    [HarmonyPatch(typeof(AbilityData), nameof(AbilityData.SpellSlotCost), MethodType.Getter), HarmonyPostfix]
-    private static void AbilityData_SpellSlotCost_Patch(ref int __result, AbilityData __instance) {
-        if (ToyBoxUnitHelper.IsPartyOrPet(__instance.Fact.Owner)) {
+    [HarmonyPatch(typeof(AbilityData), nameof(AbilityData.SpellSlotCost), MethodType.Getter), HarmonyPrefix]
+    private static bool AbilityData_SpellSlotCost_Patch(ref int __result, AbilityData __instance) {
+        if (ToyBoxUnitHelper.IsPartyOrPet(__instance.Caster) || ToyBoxUnitHelper.IsPartyOrPet(__instance.Fact.Owner)) {
             __result = 0;
+            return false;
         }
+        return true;
     }
 }

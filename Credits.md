@@ -26,4 +26,5 @@ A special thanks to the many GitHub contributors for their various bug reports a
 - Kuru (Debugging Help)
 
 - Tomek (Testing)
+- Rafanat89 (Testing)
 - ztanz (Providing saves)

@@ -19,7 +19,7 @@ public static partial class Main {
     internal static List<Task> LateInitTasks = new List<Task>();
     internal static Action? OnLocaleChanged;
     private static Exception? m_CaughtException = null;
-    private static List<FeatureTab> m_FeatureTabs = new();
+    internal static List<FeatureTab> m_FeatureTabs = new();
     private static readonly ConcurrentQueue<Action> m_MainThreadTaskQueue = new();
     private static bool Load(UnityModManager.ModEntry modEntry) {
         Stopwatch sw = Stopwatch.StartNew();
@@ -79,6 +79,7 @@ public static partial class Main {
     private static void RegisterFeatureTabs() {
         m_FeatureTabs.Add(new Features.BagOfTricks.BagOfTricksFeatureTab());
         m_FeatureTabs.Add(new Features.SettingsFeatures.SettingsFeaturesTab());
+        m_FeatureTabs.Add(new Features.FeatureSearch.FeatureSearchTab());
     }
     private static bool OnUnload(UnityModManager.ModEntry modEntry) {
         foreach (var tab in m_FeatureTabs) {

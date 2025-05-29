@@ -18,19 +18,21 @@ public partial class DisableArmourMaxDexterityFeature : FeatureWithPatch {
         base.Destroy();
     }
     public static void Update() {
-        var party = Game.Instance?.Player?.PartyAndPets;
-        if (party != null) {
-            foreach (var member in party) {
-                var body = member?.Descriptor?.Body;
-                if (body != null) {
-                    body.Armor?.MaybeArmor?.RecalculateStats();
-                    body.SecondaryHand?.MaybeShield?.ArmorComponent?.RecalculateStats();
+        Main.ScheduleForMainThread(() => {
+            var party = Game.Instance?.Player?.PartyAndPets;
+            if (party != null) {
+                foreach (var member in party) {
+                    var body = member?.Descriptor?.Body;
+                    if (body != null) {
+                        body.Armor?.MaybeArmor?.RecalculateStats();
+                        body.SecondaryHand?.MaybeShield?.ArmorComponent?.RecalculateStats();
+                    }
                 }
             }
-        }
+        });
     }
-    [HarmonyPatch(typeof(BlueprintArmorType), nameof(BlueprintArmorType.HasDexterityBonusLimit), MethodType.Getter), HarmonyPostfix]
-    private static void BlueprintArmorType_HasDexterityBonusLimit_Patch(ref bool __result) {
+    [HarmonyPatch(typeof(BlueprintItemArmor), nameof(BlueprintItemArmor.HasDexterityBonusLimit), MethodType.Getter), HarmonyFinalizer]
+    private static void BlueprintItemArmor_HasDexterityBonusLimit_Patch(ref bool __result) {
         __result = false;
     }
 }

@@ -40,7 +40,7 @@
     "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_DisableArcaneSpellFailureFeature_Description": {
-    "Original": "Sets the arcane spell failure chance on spells to 0",
+    "Original": "Sets the spell failure chance on spells to 0",
     "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_DisableArmourMaxDexterityFeature_Name": {
@@ -97,14 +97,6 @@
   },
   "ToyBox_Features_BagOfTricks_Cheats_DisableRequireMaterialComponent_AbilitiesNoLongerNeedAnyMaterial": {
     "Original": "Abilities no longer need any material components which they would otherwise consume",
-    "Translated": null
-  },
-  "ToyBox_Features_BagOfTricks_Cheats_DisableSpellFailureFeature_Name": {
-    "Original": "Disable Spell Failure",
-    "Translated": null
-  },
-  "ToyBox_Features_BagOfTricks_Cheats_DisableSpellFailureFeature_Description": {
-    "Original": "Sets the spell failure chance on spells to 0",
     "Translated": null
   },
   "ToyBox_Features_BagOfTricks_Cheats_EquipmentNoWeightFeature_Name": {
@@ -313,6 +305,22 @@
   },
   "ToyBox_Features_BagOfTricks_QoL_EnableAchievementsFeature_ThisIsIntendedForYouToBeAbleToEn": {
     "Original": "This is intended for you to be able to enjoy the game while using mods that enhance your quality of life.",
+    "Translated": null
+  },
+  "ToyBox_Features_FeatureSearch_FeatureSearchFeature_Name": {
+    "Original": "Default Name",
+    "Translated": null
+  },
+  "ToyBox_Features_FeatureSearch_FeatureSearchFeature_Description": {
+    "Original": "Default Description",
+    "Translated": null
+  },
+  "ToyBox_Features_FeatureSearch_FeatureSearchFeature_ShowGUIText": {
+    "Original": "Show GUI",
+    "Translated": null
+  },
+  "ToyBox_Features_FeatureSearch_FeatureSearchTab_Name": {
+    "Original": "Feature Search",
     "Translated": null
   },
   "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_PerformanceEnhancementText": {

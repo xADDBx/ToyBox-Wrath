@@ -20,16 +20,18 @@ public partial class DisableArmourSpeedReductionFeature : FeatureWithPatch {
         base.Destroy();
     }
     public static void Update() {
-        var party = Game.Instance?.Player?.PartyAndPets;
-        if (party != null) {
-            foreach (var member in party) {
-                var body = member?.Descriptor?.Body;
-                if (body != null) {
-                    body.Armor?.MaybeArmor?.RecalculateStats();
-                    body.SecondaryHand?.MaybeShield?.ArmorComponent?.RecalculateStats();
+        Main.ScheduleForMainThread(() => {
+            var party = Game.Instance?.Player?.PartyAndPets;
+            if (party != null) {
+                foreach (var member in party) {
+                    var body = member?.Descriptor?.Body;
+                    if (body != null) {
+                        body.Armor?.MaybeArmor?.RecalculateStats();
+                        body.SecondaryHand?.MaybeShield?.ArmorComponent?.RecalculateStats();
+                    }
                 }
             }
-        }
+        });
     }
     [HarmonyPatch(typeof(ItemEntityArmor), nameof(ItemEntityArmor.RecalculateStats)), HarmonyPostfix]
     private static void ItemEntityArmor_RecalculateStats_Patch(ItemEntityArmor __instance) {
