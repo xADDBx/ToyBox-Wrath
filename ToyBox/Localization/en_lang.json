@@ -415,6 +415,26 @@
     "Original": "Mod Version is not compatible with this game version!",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Enums_LogLevel_Localizer_ErrorText": {
+    "Original": "Error",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_LogLevel_Localizer_WarningText": {
+    "Original": "Warning",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_LogLevel_Localizer_InfoText": {
+    "Original": "Info",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_LogLevel_Localizer_DebugText": {
+    "Original": "Debug",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_LogLevel_Localizer_TraceText": {
+    "Original": "Trace",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Enums_UnitSelectType_Localizer_EveryoneText": {
     "Original": "Everyone",
     "Translated": null

@@ -16,7 +16,7 @@ public static partial class UnitSelectType_Localizer {
             UnitSelectType.Friendly => FriendlyText,
             UnitSelectType.Enemies => EnemiesText,
             UnitSelectType.Everyone => EveryoneText,
-            _ => "Error",
+            _ => "!!Error Unknown UnitSelectType!!",
         };
     }
 

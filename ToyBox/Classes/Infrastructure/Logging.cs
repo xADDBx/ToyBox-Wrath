@@ -1,14 +1,5 @@
-﻿using static UnityModManagerNet.UnityModManager.TextureReplacer;
+﻿namespace ToyBox.Infrastructure;
 
-namespace ToyBox.Infrastructure;
-
-public enum LogLevel {
-    Error,
-    Warning,
-    Info,
-    Debug,
-    Trace
-}
 public static class Logging {
     internal static void LogEarly(string str) {
         Main.ModEntry.Logger.Log(str);
