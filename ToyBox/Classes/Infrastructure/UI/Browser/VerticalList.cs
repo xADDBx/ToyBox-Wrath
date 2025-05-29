@@ -74,9 +74,10 @@ public partial class VerticalList<T> where T : notnull {
     /// </summary>
     /// <param name="newItems">The new items to display.</param>
     /// <param name="forcePage">If provided, forces the list to jump to the specified page after update.</param>
-    public virtual void QueueUpdateItems(IEnumerable<T> newItems, int? forcePage = null) {
+    /// <param name="onlyDisplayedItems">Whether the update actually changes the base item collection (or just restricts it to a subset due e.g. a search</param>
+    public virtual void QueueUpdateItems(IEnumerable<T> newItems, int? forcePage = null, bool onlyDisplayedItems = false) {
         Main.ScheduleForMainThread(new(() => {
-            UpdateItems(newItems, forcePage);
+            UpdateItems(newItems, forcePage, onlyDisplayedItems);
         }));
     }
     /// <summary>
@@ -84,7 +85,8 @@ public partial class VerticalList<T> where T : notnull {
     /// </summary>
     /// <param name="newItems">The new items to display.</param>
     /// <param name="forcePage">If provided, forces the list to jump to the specified page after update.</param>
-    internal virtual void UpdateItems(IEnumerable<T> newItems, int? forcePage = null) {
+    /// <param name="onlyDisplayedItems">Whether the update actually changes the base item collection (or just restricts it to a subset due e.g. a search</param>
+    internal virtual void UpdateItems(IEnumerable<T> newItems, int? forcePage = null, bool onlyDisplayedItems = false) {
         if (forcePage != null) {
             CurrentPage = 1;
         }

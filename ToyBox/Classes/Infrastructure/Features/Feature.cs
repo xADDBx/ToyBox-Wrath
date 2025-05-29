@@ -5,9 +5,9 @@ public abstract class Feature {
     public abstract void OnGui();
     public virtual void Initialize() { }
     public virtual void Destroy() { }
-    public virtual string[] SortKeys {
+    public virtual string SortKey {
         get {
-            return [Name];
+            return Name;
         }
         set { }
     }

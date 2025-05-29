@@ -79,6 +79,12 @@ public partial class Browser<T> : VerticalList<T> where T : notnull {
         ShowSearchBar = showSearchBar;
         Searcher = new(this);
     }
+    internal override void UpdateItems(IEnumerable<T> newItems, int? forcePage = null, bool onlyDisplayedItems = false) {
+        if (!onlyDisplayedItems) {
+            UnsearchedItems = newItems;
+        }
+        base.UpdateItems(newItems, forcePage);
+    }
     public void RedoSearch() => StartNewSearch(CurrentSearchString, true);
     /// <summary>
     /// Provides the full "Show All" item set to the browser and immediately restarts the search.
@@ -126,7 +132,11 @@ public partial class Browser<T> : VerticalList<T> where T : notnull {
                 MainThreadDispatcher.StartUpdateMicroCoroutine(DebouncedSearch());
             }
         }) : null;
-        UI.ActionTextField(ref CurrentSearchString, m_SearchBarControlName, contentChangedAction, (string query) => StartNewSearch(query));
+        using (HorizontalScope()) {
+            UI.ActionTextField(ref CurrentSearchString, m_SearchBarControlName, contentChangedAction, (string query) => StartNewSearch(query));
+            Space(5);
+            UI.Button("Search", () => StartNewSearch(CurrentSearchString));
+        }
     }
     protected override void HeaderGUI() {
         using (VerticalScope()) {

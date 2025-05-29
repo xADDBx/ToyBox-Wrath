@@ -49,8 +49,8 @@ public class ThreadedListSearcher<T> where T : notnull {
                         Debug("Cancelled Search");
                         return;
                     }
-                    var text = getSearchKey(item);
-                    if (terms.All(t => CultureInfo.InvariantCulture.CompareInfo.IndexOf(text, t, CompareOptions.IgnoreCase) >= 0)) {
+                    var text = getSearchKey(item).ToUpper();
+                    if (terms.All(text.Contains)) {
                         allResults.Add(item);
                         m_InProgress.Enqueue(item);
                         CurrentlyFound++;
