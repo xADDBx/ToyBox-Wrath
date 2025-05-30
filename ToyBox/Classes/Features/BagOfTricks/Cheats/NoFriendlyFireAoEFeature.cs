@@ -11,6 +11,7 @@ namespace ToyBox.Features.BagOfTricks.Cheats;
 
 [HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.NoFriendlyFireAoEFeature")]
 public partial class NoFriendlyFireAoEFeature : FeatureWithPatch {
+#warning https://discord.com/channels/645948717400064030/815735034514112512/1377588591567573152 (not working)
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.NoFriendlyFireAoEFeature";
     public override ref bool IsEnabled => ref Settings.ToggleNoFriendlyFireAoEFeature;
     [LocalizedString("ToyBox_Features_BagOfTricks_Cheats_NoFriendlyFireAoEFeature_Name", "No Friendly Fire On AoEs")]
