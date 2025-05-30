@@ -58,9 +58,6 @@
         <PackageReference Include="MicroUtils.HarmonyAnalyzers" IncludeAssets="runtime; build; native; contentfiles; analyzers" Version="*-*" PrivateAssets="all" />
         <PackageReference Include="ToyBox.BuildTools" IncludeAssets="analyzers; build; compile" Version="1.1.6" PrivateAssets="all" />
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Localization\" />
-    </ItemGroup>
     <Target Name="UpdateLocalizationFiles" BeforeTargets="Deploy">
         <UpdateLocalizationTask LocalizationDirectoryPath="$(SolutionDir)ToyBox\Localization" AssemblyPath="$(TargetDir)$(AssemblyName).dll" />
     </Target>
