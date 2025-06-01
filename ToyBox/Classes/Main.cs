@@ -16,8 +16,10 @@ public static partial class Main {
     private static partial string ModFilesAreCorrupted_Text { get; }
     internal static Harmony HarmonyInstance = new("ToyBox");
     internal static UnityModManager.ModEntry ModEntry = null!;
-    internal static List<Task> LateInitTasks = new List<Task>();
+    internal static List<Task> LateInitTasks = [];
     internal static Action? OnLocaleChanged;
+    internal static Action? OnHideGUIAction;
+    internal static Action? OnShowGUIAction;
     private static Exception? m_CaughtException = null;
     internal static List<FeatureTab> m_FeatureTabs = new();
     private static readonly ConcurrentQueue<Action> m_MainThreadTaskQueue = new();
@@ -144,9 +146,11 @@ public static partial class Main {
         Settings.Save();
     }
     private static void OnShowGUI(UnityModManager.ModEntry modEntry) {
+        OnShowGUIAction?.Invoke();
     }
     private static void OnHideGUI(UnityModManager.ModEntry modEntry) {
         Settings.Save();
+        OnHideGUIAction?.Invoke();
     }
     private static void OnFixedUpdate(UnityModManager.ModEntry modEntry, float z) {
         try {
