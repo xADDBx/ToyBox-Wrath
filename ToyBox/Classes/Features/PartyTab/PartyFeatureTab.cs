@@ -26,7 +26,7 @@ public partial class PartyFeatureTab : FeatureTab, IDisposable {
             var mainChar = GameHelper.GetPlayerCharacter();
             foreach (var unit in CharacterPicker.CurrentList.Units) {
                 using (HorizontalScope()) {
-                    UI.Label(ToyBoxUnitHelper.GetUnitName(unit).Orange().Bold(), GUILayout.MinWidth(100), GUILayout.MaxWidth(400));
+                    UI.Label(ToyBoxUnitHelper.GetUnitName(unit).Orange().Bold());
                     Space(5);
  #warning rename feature; unique id based!
                     
