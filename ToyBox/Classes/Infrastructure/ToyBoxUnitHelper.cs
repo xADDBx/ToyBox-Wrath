@@ -44,4 +44,23 @@ public static class ToyBoxUnitHelper {
             _ => false,
         };
     }
+    public static string GetUnitName(UnitEntityData? unit, bool includeId = false) {
+        if (unit == null) {
+            return "!!Null Unit!!";
+        }
+        try {
+            string name = unit.CharacterName;
+            if (string.IsNullOrWhiteSpace(name)) {
+                name = unit.Blueprint.name;
+            }
+            if (includeId) {
+                name += $" ({unit.UniqueId})";
+            }
+            return name;
+        } catch (Exception ex) {
+            var id = (unit.Blueprint?.AssetGuid.ToString() ?? "??NULL??");
+            Warn($"Encountered exception while getting name for unit with bp {id}: \n{ex}");
+            return $"AssetId: {id}";
+        }
+    }
 }

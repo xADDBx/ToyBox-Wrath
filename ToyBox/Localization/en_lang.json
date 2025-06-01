@@ -419,6 +419,50 @@
     "Original": "Mod Version is not compatible with this game version!",
     "Translated": null
   },
+  "ToyBox_Infrastructure_CharacterPicker_ThereAreNoCharactersInThisList": {
+    "Original": "There are no characters in this list!",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_PartyText": {
+    "Original": "Party",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_PetsText": {
+    "Original": "Party & Pets",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_AllText": {
+    "Original": "All Characters",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_ActiveText": {
+    "Original": "Active",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_RemoteText": {
+    "Original": "Remote",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_CustomCompanionText": {
+    "Original": "Custom Companions",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_NearbyText": {
+    "Original": "Nearby",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_FriendlyText": {
+    "Original": "Friendly",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_EnemiesText": {
+    "Original": "Enemies",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_AllUnitsText": {
+    "Original": "All Units",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Enums_LogLevel_Localizer_ErrorText": {
     "Original": "Error",
     "Translated": null
@@ -469,6 +513,14 @@
   },
   "ToyBox_Infrastructure_UI_VerticalList_PageText": {
     "Original": "Page",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_UI_UI_NoneText": {
+    "Original": "None",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Utilities_Strings_SharedStrings_ThisCannotBeUsedFromTheMainMenu": {
+    "Original": "This cannot be used from the main menu!",
     "Translated": null
   },
   "ToyBox_Main_ModFilesAreCorrupted_Text": {

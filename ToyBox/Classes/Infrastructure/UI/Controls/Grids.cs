@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ToyBox.Infrastructure.UI;
 public static partial class UI {
@@ -43,4 +42,30 @@ public static partial class UI {
         }
         return changed;
     }
+    public static bool SelectionGrid<T>(ref T? selected, IList<T> vals, int xCols, Func<T, string>? titler, params GUILayoutOption[] options) where T : notnull {
+        if (xCols < 0) {
+            xCols = vals.Count;
+        }       var selectedInt = selected != null ? vals.IndexOf(selected) + 1 : 0;
+        string[] names = [NoneText, .. vals.Select(x => {
+            if (titler != null) {
+                return titler(x);
+            } else {
+                return x.ToString();
+            }
+        })];
+        names[selectedInt] = names[selectedInt].Orange();
+        var newSel = GUILayout.SelectionGrid(selectedInt, names, xCols, options);
+        bool changed = selectedInt != newSel;
+        if (changed) {
+            if (newSel == 0) {
+                selected = default;
+            } else {
+                selected = vals[newSel - 1];
+            }
+        }
+        return changed;
+    }
+
+    [LocalizedString("ToyBox_Infrastructure_UI_UI_NoneText", "None")]
+    private static partial string NoneText { get; }
 }

@@ -76,8 +76,10 @@ public static partial class Main {
         Debug($"Complete init took {sw.ElapsedMilliseconds}ms");
         return true;
     }
+    private static string[]? m_TabNames;
     private static void RegisterFeatureTabs() {
         m_FeatureTabs.Add(new Features.BagOfTricks.BagOfTricksFeatureTab());
+        m_FeatureTabs.Add(new Features.PartyTab.PartyFeatureTab());
         m_FeatureTabs.Add(new Features.SettingsFeatures.SettingsFeaturesTab());
         m_FeatureTabs.Add(new Features.FeatureSearch.FeatureSearchTab());
     }
@@ -121,7 +123,8 @@ public static partial class Main {
 
 
                 UI.Label(CurrentlyLoadedBPsText.Format(m_LoadedBps));
-                Settings.SelectedTab = GUILayout.SelectionGrid(Settings.SelectedTab, m_FeatureTabs.Select(t => t.Name).ToArray(), 10);
+                m_TabNames ??= m_FeatureTabs.Select(t => t.Name).ToArray();
+                Settings.SelectedTab = GUILayout.SelectionGrid(Settings.SelectedTab, m_TabNames, Math.Min(m_TabNames.Length, 10), GUILayout.ExpandWidth(true));
                 Space(10);
                 Div.DrawDiv();
                 Space(10);

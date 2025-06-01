@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityModManagerNet;
 
 namespace ToyBox.Infrastructure.UI;
 public static class LayoutHelper {
@@ -25,4 +26,5 @@ public static class LayoutHelper {
     public static GUILayoutOption AutoWidth() => GUILayout.ExpandWidth(false);
     public static GUILayoutOption AutoHeight() => GUILayout.ExpandHeight(false);
     public static void Space(float pixels) => GUILayout.Space(pixels);
+    public static float EffectiveWindowWidth() => 0.98f * UnityModManager.Params.WindowWidth;
 }
