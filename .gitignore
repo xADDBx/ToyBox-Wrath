@@ -39,6 +39,7 @@ bld/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
+.vshistory/
 
 #Visual Studio Code options directory
 .vscode/
