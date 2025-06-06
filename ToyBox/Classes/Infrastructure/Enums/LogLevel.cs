@@ -1,4 +1,5 @@
 ﻿namespace ToyBox.Infrastructure.Enums;
+#warning expose in settings
 public enum LogLevel {
     Error,
     Warning,
