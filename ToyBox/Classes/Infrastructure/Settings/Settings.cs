@@ -18,6 +18,9 @@ internal class GeneralSettings : AbstractSettings {
     public LogLevel LogLevel = LogLevel.Info;
     public string UILanguage = "en";
 
+    // - Browser
+    public int PageLimit = 25;
+
     // - BPLoader Settings
     public int BlueprintsLoaderNumShards = 32;
     public int BlueprintsLoaderChunkSize = 200;

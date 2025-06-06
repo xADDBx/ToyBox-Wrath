@@ -5,12 +5,7 @@
 /// Supports optional detail toggling and customizable pagination settings.
 /// </summary>
 /// <typeparam name="T">The type of items to display. Must be non-nullable.</typeparam>
-public partial class VerticalList<T> where T : notnull {
-#warning TODO: put into setting
-    /// <summary>
-    /// The maximum number of items to show per page.
-    /// </summary>
-    public int PageLimit = 25;
+public partial class VerticalList<T> : IPagedList where T : notnull {
     protected int PageWidth = 600;
     protected int CurrentPage = 1;
     protected int PagedItemsCount = 0;
@@ -38,12 +33,13 @@ public partial class VerticalList<T> where T : notnull {
             PageWidth = overridePageWidth.Value;
         }
         if (overridePageLimit.HasValue) {
-            PageLimit = overridePageLimit.Value;
+            Settings.PageLimit = overridePageLimit.Value;
         }
         if (initialItems != null) {
             QueueUpdateItems(initialItems);
         }
         ShowDivBetweenItems = showDivBetweenItems;
+        Main.m_VerticalLists.Add(new(this));
     }
     /// <summary>
     /// Clears all expanded detail sections.
@@ -92,8 +88,11 @@ public partial class VerticalList<T> where T : notnull {
         }
         Items = newItems;
         ItemCount = Items.Count();
-        if (PageLimit > 0) {
-            TotalPages = (int)Math.Ceiling((double)ItemCount / PageLimit);
+        UpdatePages();
+    }
+    public virtual void UpdatePages() {
+        if (Settings.PageLimit > 0) {
+            TotalPages = (int)Math.Ceiling((double)ItemCount / Settings.PageLimit);
             CurrentPage = Math.Max(Math.Min(CurrentPage, TotalPages), 1);
         } else {
             CurrentPage = 1;
@@ -102,13 +101,14 @@ public partial class VerticalList<T> where T : notnull {
         UpdatePagedItems();
     }
     protected virtual void UpdatePagedItems() {
-        var offset = Math.Min(ItemCount, (CurrentPage - 1) * PageLimit);
-        PagedItemsCount = Math.Min(PageLimit, ItemCount - offset);
+        var offset = Math.Min(ItemCount, (CurrentPage - 1) * Settings.PageLimit);
+        PagedItemsCount = Math.Min(Settings.PageLimit, ItemCount - offset);
         PagedItems = Items.Skip(offset).Take(PagedItemsCount);
     }
     protected void PageGUI() {
         using (HorizontalScope()) {
-            UI.Label($"{PageText.Orange()}: {CurrentPage.ToString().Cyan()} / {Math.Max(1, TotalPages).ToString().Cyan()}");
+            UI.Label($"{SharedStrings.ShowingText.Orange()} {PagedItemsCount.ToString().Cyan()} / {ItemCount.ToString().Cyan()} {SharedStrings.ResultsText.Orange()},   " + 
+                $"{SharedStrings.PageText.Orange()}: {CurrentPage.ToString().Cyan()} / {Math.Max(1, TotalPages).ToString().Cyan()}");
             if (TotalPages > 1) {
                 Space(25);
                 if (UI.Button("-")) {
@@ -161,7 +161,4 @@ public partial class VerticalList<T> where T : notnull {
             return false;
         }
     }
-
-    [LocalizedString("ToyBox_Infrastructure_UI_VerticalList_PageText", "Page")]
-    private static partial string PageText { get; }
 }

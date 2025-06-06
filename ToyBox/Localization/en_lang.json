@@ -343,6 +343,14 @@
     "Original": "Always load all Blueprints on game Start. This increases initial load times and RAM usage, but can decrease game loading times once finished.",
     "Translated": null
   },
+  "ToyBox_Features_SettingsFeatures_BrowserSettings_PageLimitSetting_Name": {
+    "Original": "Page Limit",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_BrowserSettings_PageLimitSetting_Description": {
+    "Original": "Restricts the amount of items a page of a list/browser can display",
+    "Translated": null
+  },
   "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_LanguagePickerText": {
     "Original": "Language Picker",
     "Translated": null
@@ -369,6 +377,10 @@
   },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_LanguageCategory": {
     "Original": "Language",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_ListsAndBrowsersText": {
+    "Original": "Lists and Browsers",
     "Translated": null
   },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_SettingsText": {
@@ -511,16 +523,28 @@
     "Original": "Show All",
     "Translated": null
   },
-  "ToyBox_Infrastructure_UI_VerticalList_PageText": {
-    "Original": "Page",
-    "Translated": null
-  },
   "ToyBox_Infrastructure_UI_UI_NoneText": {
     "Original": "None",
     "Translated": null
   },
   "ToyBox_Infrastructure_Utilities_Strings_SharedStrings_ThisCannotBeUsedFromTheMainMenu": {
     "Original": "This cannot be used from the main menu!",
+    "Translated": null
+  },
+  "oyBox_Infrastructure_Utilities_Strings_SharedStrings_Reset_to_default_Value": {
+    "Original": "Reset",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Utilities_Strings_SharedStrings_List_Showing_x_Items": {
+    "Original": "Showing",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Utilities_Strings_SharedStrings_Search_List_Results_Lower_Case": {
+    "Original": "results",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_UI_VerticalList_PageText": {
+    "Original": "Page",
     "Translated": null
   },
   "ToyBox_Main_ModFilesAreCorrupted_Text": {

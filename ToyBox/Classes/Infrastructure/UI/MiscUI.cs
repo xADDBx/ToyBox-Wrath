@@ -20,22 +20,4 @@ public static partial class UI {
         }
         GUI.Box(fillRect, GUIContent.none, m_CachedProgressBarStyle);
     }
-    public static bool ActionTextField(ref string content, string? name, Action<string>? onContentChanged, Action<string>? onEnterPressed, params GUILayoutOption[] options) {
-        options = options.Length == 0 ? [AutoWidth(), Width(600)] : options;
-        bool hasChanged = false;
-        if (name != null) {
-            GUI.SetNextControlName(name);
-        }
-        var newText = GUILayout.TextField(content, options);
-        if (newText != content) {
-            content = newText;
-            onContentChanged?.Invoke(content);
-            hasChanged = true;
-
-        }
-        if (name != null && onEnterPressed != null && PressedEnterInControl(name)) {
-            onEnterPressed(content);
-        }
-        return hasChanged;
-    }
 }

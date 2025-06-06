@@ -22,6 +22,7 @@ public static partial class Main {
     internal static Action? OnShowGUIAction;
     private static Exception? m_CaughtException = null;
     internal static List<FeatureTab> m_FeatureTabs = new();
+    internal static List<WeakReference<IPagedList>> m_VerticalLists = new();
     private static readonly ConcurrentQueue<Action> m_MainThreadTaskQueue = new();
     private static bool Load(UnityModManager.ModEntry modEntry) {
         Stopwatch sw = Stopwatch.StartNew();

@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace ToyBox.Infrastructure;
 public static partial class CharacterPicker {
+    private static readonly TimeSpan CacheDuration = TimeSpan.FromSeconds(1);
     private static Dictionary<CharacterListType, CharacterList> m_Lists = new() {
         [CharacterListType.Party] = new(() => Game.Instance.Player.Party),
         [CharacterListType.PartyAndPets] = new(() => Game.Instance.Player.PartyAndPets),
@@ -32,12 +33,26 @@ public static partial class CharacterPicker {
     private static WeakReference<UnitEntityData>? m_CurrentUnit;
     public class CharacterList {
         private readonly Func<IEnumerable<UnitEntityData>?> m_GetUnitsFunc;
+        // This is totally necessary and not just because I feel like it
+        private DateTime m_LastCacheUpdate;
+        private List<UnitEntityData> m_CachedList = null!;
         public CharacterList(Func<IEnumerable<UnitEntityData>> getUnits) {
-#warning implement something like 1 second caching to prevent issues with expensive functions
             m_GetUnitsFunc = getUnits;
         }
-        public IEnumerable<UnitEntityData> Units => m_GetUnitsFunc() ?? [];
-        public List<UnitEntityData> UnitsList => m_GetUnitsFunc()?.ToList() ?? [];
+        private void RefreshCacheIfNeeded() {
+            var now = DateTime.UtcNow;
+            if ((now - m_LastCacheUpdate) > CacheDuration) {
+                var result = m_GetUnitsFunc()?.ToList() ?? [];
+                m_CachedList = result;
+                m_LastCacheUpdate = now;
+            }
+        }
+        public List<UnitEntityData> Units {
+            get {
+                RefreshCacheIfNeeded();
+                return m_CachedList;
+            }
+        }
     }
     public static UnitEntityData? CurrentUnit {
         get {
@@ -56,7 +71,7 @@ public static partial class CharacterPicker {
 #warning Expose to user
     public static float NearbyRange = 25;
     public static List<UnitEntityData> GetUnitsFromCurrentList() {
-        return CurrentList.UnitsList;
+        return CurrentList.Units;
     }
     public static CharacterList OnFilterPickerGUI(int? xcols = null, params GUILayoutOption[] options) {
         if (!IsInGame()) {
@@ -73,7 +88,7 @@ public static partial class CharacterPicker {
             UI.UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red());
             return null;
         }
-        var charactersList = CurrentList.UnitsList;
+        var charactersList = CurrentList.Units;
         if (charactersList.Count == 0) {
             UI.UI.Label(ThereAreNoCharactersInThisList.Orange(), options);
         } else {

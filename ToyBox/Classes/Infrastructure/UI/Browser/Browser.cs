@@ -125,9 +125,9 @@ public partial class Browser<T> : VerticalList<T> where T : notnull {
             }
         }
         m_SearchBarControlName ??= RuntimeHelpers.GetHashCode(this).ToString();
-        Action<string>? contentChangedAction = SearchAsYouType ? ((string newQuery) => {
+        Action<(string oldContent, string newContent)>? contentChangedAction = SearchAsYouType ? (((string oldContent, string newContent) pair) => {
             if (Time.time - LastSearchedAt > SearchDelay) {
-                StartNewSearch(newQuery);
+                StartNewSearch(pair.newContent);
             } else {
                 MainThreadDispatcher.StartUpdateMicroCoroutine(DebouncedSearch());
             }
