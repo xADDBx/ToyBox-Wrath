@@ -5,6 +5,7 @@ public abstract class Feature {
     public abstract void OnGui();
     public virtual void Initialize() { }
     public virtual void Destroy() { }
+    public virtual bool ShouldHide => false;
     public virtual string SortKey {
         get {
             return Name;

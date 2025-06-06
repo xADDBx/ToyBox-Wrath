@@ -20,8 +20,10 @@ internal class GeneralSettings : AbstractSettings {
 
     // - Browser
     public int PageLimit = 25;
+    public bool ToggleSearchAsYouType = true;
+    public float SearchDelay = 0.3f;
 
-    // - BPLoader Settings
+    // - Blueprints Settings
     public int BlueprintsLoaderNumShards = 32;
     public int BlueprintsLoaderChunkSize = 200;
     public int BlueprintsLoaderNumThreads = 4;
@@ -29,6 +31,7 @@ internal class GeneralSettings : AbstractSettings {
     public bool UseBPIdCache = true;
     public bool AutomaticallyBuildBPIdCache = true;
     public bool EnableBlueprintPerformancePatches = true;
+    public bool ToggleBPsShowDisplayAndInternalName = false;
 
     // - UpdateAndIntegrity
     public bool EnableVersionCompatibilityCheck = true;

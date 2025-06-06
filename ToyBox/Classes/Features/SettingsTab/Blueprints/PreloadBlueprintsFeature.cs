@@ -1,4 +1,4 @@
-﻿namespace ToyBox.Features.SettingsFeatures.BlueprintLoaderSettings;
+﻿namespace ToyBox.Features.SettingsFeatures.Blueprints;
 
 public partial class PreloadBlueprintsFeature : ToggledFeature {
     [LocalizedString("ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PreloadBlueprintsFeature_PreloadBlueprintsText", "Preload Blueprints")]

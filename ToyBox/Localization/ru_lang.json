@@ -343,12 +343,36 @@
     "Original": "Always load all Blueprints on game Start. This increases initial load times and RAM usage, but can decrease game loading times once finished.",
     "Translated": "Всегда загружать все Блюпринты при запуске игры. Это увеличивает время первоначальной загрузки игры и использование оперативной памяти, но может уменьшить длительность загрузочных экранов во время игры."
   },
+  "ToyBox_Features_SettingsFeatures_Blueprints_ShowDisplayAndInternalNamesSetting_Name": {
+    "Original": "Show Display and Internal names",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_Blueprints_ShowDisplayAndInternalNamesSetting_Description": {
+    "Original": "Blueprints have both internal names and display names. By default, ToyBox will try to show the Display name and fall back to the Internal one in case of issues. This feature will display both at the same time.",
+    "Translated": null
+  },
   "ToyBox_Features_SettingsFeatures_BrowserSettings_PageLimitSetting_Name": {
     "Original": "Page Limit",
     "Translated": null
   },
   "ToyBox_Features_SettingsFeatures_BrowserSettings_PageLimitSetting_Description": {
     "Original": "Restricts the amount of items a page of a list/browser can display",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_BrowserSettings_SearchAsYouTypeFeature_Name": {
+    "Original": "Search as you type",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_BrowserSettings_SearchAsYouTypeFeature_Description": {
+    "Original": "Automatically start a new search after a configurable delay even while you are typing",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_BrowserSettings_SearchDelaySetting_Name": {
+    "Original": "Search Delay",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_BrowserSettings_SearchDelaySetting_Description": {
+    "Original": "This is the time in seconds that is waited before a new search is automatically started",
     "Translated": null
   },
   "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_LanguagePickerText": {
@@ -519,10 +543,6 @@
     "Original": "Off",
     "Translated": null
   },
-  "ToyBox_Infrastructure_UI_Browser_ShowAllText": {
-    "Original": "Show All",
-    "Translated": "Показать всё"
-  },
   "ToyBox_Infrastructure_UI_UI_NoneText": {
     "Original": "None",
     "Translated": null
@@ -546,6 +566,10 @@
   "ToyBox_Infrastructure_UI_VerticalList_PageText": {
     "Original": "Page",
     "Translated": "страница"
+  },
+  "ToyBox_Infrastructure_UI_Browser_ShowAllText": {
+    "Original": "Show All",
+    "Translated": "Показать всё"
   },
   "ToyBox_Main_ModFilesAreCorrupted_Text": {
     "Original": "Mod files are corrupted!",

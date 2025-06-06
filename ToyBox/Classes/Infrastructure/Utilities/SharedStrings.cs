@@ -10,4 +10,6 @@ public partial class SharedStrings {
     public static partial string ResultsText { get; }
     [LocalizedString("ToyBox_Infrastructure_UI_VerticalList_PageText", "Page")]
     public static partial string PageText { get; }
+    [LocalizedString("ToyBox_Infrastructure_UI_Browser_ShowAllText", "Show All")]
+    public static partial string ShowAllText { get; }
 }

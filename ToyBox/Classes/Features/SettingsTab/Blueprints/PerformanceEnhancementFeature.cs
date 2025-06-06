@@ -5,15 +5,15 @@ using System.Reflection.Emit;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace ToyBox.Features.SettingsFeatures.BlueprintLoaderSettings;
+namespace ToyBox.Features.SettingsFeatures.Blueprints;
 
-[HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.SettingsFeatures.BlueprintLoaderSettings.PerformanceEnhancementFeatures")]
+[HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.SettingsFeatures.Blueprints.PerformanceEnhancementFeatures")]
 public partial class PerformanceEnhancementFeatures : FeatureWithPatch {
     [LocalizedString("ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_PerformanceEnhancementText", "Performance Enhancement")]
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_EnhancesBlueprintLoadingPerforma", "Enhances Blueprint loading performance")]
     public override partial string Description { get; }
-    protected override string HarmonyName => "ToyBox.Features.SettingsFeatures.BlueprintLoaderSettings.PerformanceEnhancementFeatures";
+    protected override string HarmonyName => "ToyBox.Features.SettingsFeatures.Blueprints.PerformanceEnhancementFeatures";
     public override ref bool IsEnabled => ref Settings.EnableBlueprintPerformancePatches;
 
     private static Dictionary<(Type, Type), bool> HasAttributeCache = new();

@@ -5,8 +5,6 @@ using System.Collections.Concurrent;
 
 namespace ToyBox.Infrastructure.Blueprints;
 public static class BPHelper {
-#warning TODO: more settings
-    public static bool showDisplayAndInternalNames = true;
     private static ConcurrentDictionary<(SimpleBlueprint, Func<string, string>), string> m_TitleCache = new();
     private static ConcurrentDictionary<SimpleBlueprint, string> m_SortKeyCache = new();
     private static ConcurrentDictionary<SimpleBlueprint, string> m_SearchKeyCache = new();
@@ -102,7 +100,7 @@ public static class BPHelper {
         if (string.IsNullOrEmpty(name)) return bp.name;
         if (name == "<null>" || name.StartsWith("[unknown key: ")) {
             name = colorInternal ? bp.name.DarkGrey() : bp.name;
-        } else if (showDisplayAndInternalNames || forceInternalDisplay) {
+        } else if (Settings.ToggleBPsShowDisplayAndInternalName || forceInternalDisplay) {
             name += colorInternal ? bp.name.DarkGrey() : bp.name;
         }
         return name;

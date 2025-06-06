@@ -59,7 +59,9 @@ public abstract class FeatureTab {
                     Space(25);
                     using (VerticalScope()) {
                         foreach (var feature in features) {
-                            feature.OnGui();
+                            if (!feature.ShouldHide) {
+                                feature.OnGui();
+                            }
                         }
                     }
                 }

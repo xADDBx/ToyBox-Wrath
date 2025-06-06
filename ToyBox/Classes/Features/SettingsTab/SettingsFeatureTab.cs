@@ -1,4 +1,4 @@
-﻿using ToyBox.Features.SettingsFeatures.BlueprintLoaderSettings;
+﻿using ToyBox.Features.SettingsFeatures.Blueprints;
 using ToyBox.Features.SettingsFeatures.BrowserSettings;
 using ToyBox.Features.SettingsFeatures.UpdateAndIntegrity;
 
@@ -20,11 +20,16 @@ public partial class SettingsFeaturesTab : FeatureTab {
         AddFeature(new UpdaterFeature(), UpdateText);
 
         AddFeature(new PageLimitSetting(), ListsAndBrowsersText);
+        AddFeature(new SearchAsYouTypeFeature(), ListsAndBrowsersText);
+        AddFeature(new SearchDelaySetting(), ListsAndBrowsersText);
 
         AddFeature(new IntegrityCheckerFeature(), VersionAndFileIntegrityText);
         AddFeature(new VersionCompatabilityFeature(), VersionAndFileIntegrityText);
+
         AddFeature(new PerformanceEnhancementFeatures(), BlueprintsText);
         AddFeature(new PreloadBlueprintsFeature(), BlueprintsText);
+        AddFeature(new ShowDisplayAndInternalNamesSetting(), BlueprintsText);
+
         AddFeature(new LanguagePickerFeature(), LanguageText);
     }
 }
