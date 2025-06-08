@@ -18,7 +18,7 @@ public static partial class CharacterPicker {
         [CharacterListType.Pets] = new(() => Game.Instance.Player.AllCharacters.Where(u => u.IsPet)?.ToList() ?? [], m_CacheDuration),
         [CharacterListType.Nearby] = new(() => {
             var player = GameHelper.GetPlayerCharacter();
-            return GameHelper.GetTargetsAround(player.Position, NearbyRange, false, false)?.ToList() ?? [];
+            return GameHelper.GetTargetsAround(player.Position, Settings.NearbyRange, false, false)?.ToList() ?? [];
         }, m_CacheDuration),
         [CharacterListType.Friendly] = new(() => {
             var player = GameHelper.GetPlayerCharacter();
@@ -46,8 +46,6 @@ public static partial class CharacterPicker {
             return m_Lists[m_CurrentList];
         }
     }
-#warning Expose to user
-    public static float NearbyRange = 25;
     public static List<UnitEntityData> OnFilterPickerGUI(int? xcols = null, params GUILayoutOption[] options) {
         if (!IsInGame()) {
             UI.UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red());

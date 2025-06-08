@@ -399,6 +399,22 @@
     "Original": "This is the time in seconds that is waited before a new search is automatically started",
     "Translated": null
   },
+  "ToyBox_Features_SettingsFeatures_BrowserSettings_SearchDescriptionsSetting_Name": {
+    "Original": "Search Descriptions",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_BrowserSettings_SearchDescriptionsSetting_Description": {
+    "Original": "Also search through the descriptions of blueprints",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_CharacterPickerNearbyRangeSetting_Name": {
+    "Original": "Nearby Range",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_CharacterPickerNearbyRangeSetting_Description": {
+    "Original": "Modifies the range for the Nearby Character Picker category",
+    "Translated": null
+  },
   "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_LanguagePickerText": {
     "Original": "Language Picker",
     "Translated": "Выбор языка"

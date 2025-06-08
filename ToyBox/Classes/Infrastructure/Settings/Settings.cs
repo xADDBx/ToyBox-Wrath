@@ -14,14 +14,15 @@ internal class GeneralSettings : AbstractSettings {
     // Settings Tab
 
     // - Stuff
-    public bool SearchDescriptions = true;
     public LogLevel LogLevel = LogLevel.Info;
     public string UILanguage = "en";
+    public float NearbyRange = 25f;
 
     // - Browser
     public int PageLimit = 25;
     public bool ToggleSearchAsYouType = true;
     public float SearchDelay = 0.3f;
+    public bool SearchDescriptions = true;
 
     // - Blueprints Settings
     public int BlueprintsLoaderNumShards = 32;
