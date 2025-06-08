@@ -31,7 +31,7 @@ public static partial class CharacterListType_Localizer {
     }
     [LocalizedString("ToyBox_Infrastructure_Enums_CharacterListType_Localizer_PartyText", "Party")]
     private static partial string PartyText { get; }
-    [LocalizedString("ToyBox_Infrastructure_Enums_CharacterListType_Localizer_PetsText", "Party & Pets")]
+    [LocalizedString("ToyBox_Infrastructure_Enums_CharacterListType_Localizer_PartyAndPetsText", "Party & Pets")]
     private static partial string PartyAndPetsText { get; }
     [LocalizedString("ToyBox_Infrastructure_Enums_CharacterListType_Localizer_AllText", "All Characters")]
     private static partial string AllText { get; }

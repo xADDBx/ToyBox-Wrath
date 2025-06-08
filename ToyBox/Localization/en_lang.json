@@ -463,7 +463,7 @@
     "Original": "Party",
     "Translated": null
   },
-  "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_PetsText": {
+  "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_PartyAndPetsText": {
     "Original": "Party & Pets",
     "Translated": null
   },
@@ -481,6 +481,10 @@
   },
   "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_CustomCompanionText": {
     "Original": "Custom Companions",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_PetsText": {
+    "Original": "Pets",
     "Translated": null
   },
   "ToyBox_Infrastructure_Enums_CharacterListType_Localizer_NearbyText": {
