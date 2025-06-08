@@ -12,9 +12,9 @@ public partial class VerticalList<T> : IPagedList where T : notnull {
     protected int TotalPages = 1;
     protected int ItemCount = 0;
     protected bool ShowDivBetweenItems = true;
-    protected readonly Dictionary<object, T> ToggledDetailGUIs = new();
-    protected IEnumerable<T> PagedItems = new List<T>();
-    protected IEnumerable<T> Items = new List<T>();
+    protected readonly Dictionary<object, T> ToggledDetailGUIs = [];
+    protected IEnumerable<T> PagedItems = [];
+    protected IEnumerable<T> Items = [];
     /// <summary>
     /// Initializes a new instance of the <see cref="VerticalList{T}"/> class.
     /// </summary>

@@ -12,8 +12,6 @@ namespace ToyBox;
 [EnableReloading]
 #endif
 public static partial class Main {
-    [LocalizedString("ToyBox_Main_ModFilesAreCorrupted_Text", "Mod files are corrupted!")]
-    private static partial string ModFilesAreCorrupted_Text { get; }
     internal static Harmony HarmonyInstance = new("ToyBox");
     internal static UnityModManager.ModEntry ModEntry = null!;
     internal static List<Task> LateInitTasks = [];
@@ -21,9 +19,9 @@ public static partial class Main {
     internal static Action? OnHideGUIAction;
     internal static Action? OnShowGUIAction;
     private static Exception? m_CaughtException = null;
-    internal static List<FeatureTab> m_FeatureTabs = new();
-    internal static List<WeakReference<IPagedList>> m_VerticalLists = new();
-    private static readonly ConcurrentQueue<Action> m_MainThreadTaskQueue = new();
+    internal static List<FeatureTab> m_FeatureTabs = [];
+    internal static List<WeakReference<IPagedList>> m_VerticalLists = [];
+    private static readonly ConcurrentQueue<Action> m_MainThreadTaskQueue = [];
     private static bool Load(UnityModManager.ModEntry modEntry) {
         Stopwatch sw = Stopwatch.StartNew();
         try {
@@ -38,7 +36,7 @@ public static partial class Main {
 
             if (Settings.EnableFileIntegrityCheck && !IntegrityCheckerFeature.CheckFilesHealthy()) {
                 Critical("Failed Integrity Check. Files have issues!");
-                ModEntry.Info.DisplayName = "ToyBox ".Orange().SizePercent(40) + ModFilesAreCorrupted_Text.Red().Bold().SizePercent(60);
+                ModEntry.Info.DisplayName = "ToyBox ".Orange().SizePercent(40) + SharedStrings.ModFilesAreCorrupted_Text.Red().Bold().SizePercent(60);
                 ModEntry.OnGUI = _ => UpdaterFeature.UpdaterGUI();
                 return true;
             }

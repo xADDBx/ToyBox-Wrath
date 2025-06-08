@@ -12,4 +12,6 @@ public partial class SharedStrings {
     public static partial string PageText { get; }
     [LocalizedString("ToyBox_Infrastructure_UI_Browser_ShowAllText", "Show All")]
     public static partial string ShowAllText { get; }
+    [LocalizedString("ToyBox_Main_ModFilesAreCorrupted_Text", "Mod files are corrupted!")]
+    private static partial string ModFilesAreCorrupted_Text { get; }
 }

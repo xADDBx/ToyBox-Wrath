@@ -3,57 +3,35 @@ using Kingmaker;
 using Kingmaker.UnitLogic;
 using Kingmaker.Designers;
 using UnityEngine;
+using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure;
 public static partial class CharacterPicker {
-    private static readonly TimeSpan CacheDuration = TimeSpan.FromSeconds(1);
-    private static Dictionary<CharacterListType, CharacterList> m_Lists = new() {
-        [CharacterListType.Party] = new(() => Game.Instance.Player.Party),
-        [CharacterListType.PartyAndPets] = new(() => Game.Instance.Player.PartyAndPets),
-        [CharacterListType.AllCharacters] = new(() => Game.Instance.Player.AllCharacters),
-        [CharacterListType.Active] = new(() => Game.Instance.Player.ActiveCompanions),
-        [CharacterListType.Remote] = new(() => Game.Instance.Player.RemoteCompanions),
-        [CharacterListType.CustomCompanions] = new(() => Game.Instance.Player.AllCharacters.Where(u => u.IsCustomCompanion())),
-        [CharacterListType.Pets] = new(() => Game.Instance.Player.AllCharacters.Where(u => u.IsPet)),
+    private static readonly int m_CacheDuration = 1;
+    private static Dictionary<CharacterListType, TimedCache<List<UnitEntityData>>> m_Lists = new() {
+        [CharacterListType.Party] = new(() => Game.Instance.Player.Party ?? [], m_CacheDuration),
+        [CharacterListType.PartyAndPets] = new(() => Game.Instance.Player.PartyAndPets ?? [], m_CacheDuration),
+        [CharacterListType.AllCharacters] = new(() => Game.Instance.Player.AllCharacters ?? [], m_CacheDuration),
+        [CharacterListType.Active] = new(() => Game.Instance.Player.ActiveCompanions ?? [], m_CacheDuration),
+        [CharacterListType.Remote] = new(() => Game.Instance.Player.RemoteCompanions?.ToList() ?? [], m_CacheDuration),
+        [CharacterListType.CustomCompanions] = new(() => Game.Instance.Player.AllCharacters.Where(u => u.IsCustomCompanion())?.ToList() ?? [], m_CacheDuration),
+        [CharacterListType.Pets] = new(() => Game.Instance.Player.AllCharacters.Where(u => u.IsPet)?.ToList() ?? [], m_CacheDuration),
         [CharacterListType.Nearby] = new(() => {
             var player = GameHelper.GetPlayerCharacter();
-            return GameHelper.GetTargetsAround(player.Position, NearbyRange, false, false);
-        }),
+            return GameHelper.GetTargetsAround(player.Position, NearbyRange, false, false)?.ToList() ?? [];
+        }, m_CacheDuration),
         [CharacterListType.Friendly] = new(() => {
             var player = GameHelper.GetPlayerCharacter();
-            return Game.Instance.State.Units.Where(u => u != null && !u.IsEnemy(player));
-        }),
+            return Game.Instance.State.Units.Where(u => u != null && !u.IsEnemy(player))?.ToList() ?? [];
+        }, m_CacheDuration),
         [CharacterListType.Enemies] = new(() => {
             var player = GameHelper.GetPlayerCharacter();
-            return Game.Instance.State.Units.Where(u => u != null && u.IsEnemy(player));
-        }),
-        [CharacterListType.AllUnits] = new(() => Game.Instance.State.Units)
+            return Game.Instance.State.Units.Where(u => u != null && u.IsEnemy(player))?.ToList() ?? [];
+        }, m_CacheDuration),
+        [CharacterListType.AllUnits] = new(() => Game.Instance.State.Units?.ToList() ?? [], m_CacheDuration)
     };
     private static CharacterListType m_CurrentList;
     private static WeakReference<UnitEntityData>? m_CurrentUnit;
-    public class CharacterList {
-        private readonly Func<IEnumerable<UnitEntityData>?> m_GetUnitsFunc;
-        // This is totally necessary and not just because I feel like it
-        private DateTime m_LastCacheUpdate;
-        private List<UnitEntityData> m_CachedList = null!;
-        public CharacterList(Func<IEnumerable<UnitEntityData>> getUnits) {
-            m_GetUnitsFunc = getUnits;
-        }
-        private void RefreshCacheIfNeeded() {
-            var now = DateTime.UtcNow;
-            if ((now - m_LastCacheUpdate) > CacheDuration) {
-                var result = m_GetUnitsFunc()?.ToList() ?? [];
-                m_CachedList = result;
-                m_LastCacheUpdate = now;
-            }
-        }
-        public List<UnitEntityData> Units {
-            get {
-                RefreshCacheIfNeeded();
-                return m_CachedList;
-            }
-        }
-    }
     public static UnitEntityData? CurrentUnit {
         get {
             if (m_CurrentUnit is not null && m_CurrentUnit.TryGetTarget(out var unit) && !unit.IsDisposed && !unit.IsDisposingNow) {
@@ -63,32 +41,29 @@ public static partial class CharacterPicker {
             }
         }
     }
-    public static CharacterList CurrentList {
+    public static List<UnitEntityData> CurrentUnits {
         get {
             return m_Lists[m_CurrentList];
         }
     }
 #warning Expose to user
     public static float NearbyRange = 25;
-    public static List<UnitEntityData> GetUnitsFromCurrentList() {
-        return CurrentList.Units;
-    }
-    public static CharacterList OnFilterPickerGUI(int? xcols = null, params GUILayoutOption[] options) {
+    public static List<UnitEntityData> OnFilterPickerGUI(int? xcols = null, params GUILayoutOption[] options) {
         if (!IsInGame()) {
             UI.UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red());
-            return CurrentList;
+            return [];
         }
         if (UI.UI.SelectionGrid(ref m_CurrentList, xcols ?? Math.Min(11, m_Lists.Count), type => type.GetLocalized(), options)) {
             m_CurrentUnit = null;
         }
-        return CurrentList;
+        return CurrentUnits;
     }
     public static UnitEntityData? OnCharacterPickerGUI(int? xcols = null, params GUILayoutOption[] options) {
         if (!IsInGame()) {
             UI.UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red());
             return null;
         }
-        var charactersList = CurrentList.Units;
+        var charactersList = CurrentUnits;
         if (charactersList.Count == 0) {
             UI.UI.Label(ThereAreNoCharactersInThisList.Orange(), options);
         } else {
