@@ -327,6 +327,30 @@
     "Original": "Party",
     "Translated": null
   },
+  "ToyBox_Features_SettingsFeatures_Blueprints_BlueprintsLoaderChunkSizeSetting_Name": {
+    "Original": "Chunk Size",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_Blueprints_BlueprintsLoaderChunkSizeSetting_Description": {
+    "Original": "Affects the amount of blueprints a thread loads at once. A lower number means better load balancing but more synchronization overhead.",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_Blueprints_BlueprintsLoaderNumShardSetting_Name": {
+    "Original": "Amount of Shards",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_Blueprints_BlueprintsLoaderNumShardSetting_Description": {
+    "Original": "This affects the amount of dictionaries that will be used to reduce synchronization overhead when threaded loading.",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_Blueprints_BlueprintsLoaderNumThreadSetting_Name": {
+    "Original": "Amount of Threads",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_Blueprints_BlueprintsLoaderNumThreadSetting_Description": {
+    "Original": "This affects the amount of threads that will be used to simultaneously load blueprints. Larger is not necessarily better.",
+    "Translated": null
+  },
   "ToyBox_Features_SettingsFeatures_BlueprintLoaderSettings_PerformanceEnhancementFeatures_PerformanceEnhancementText": {
     "Original": "Performance Enhancement",
     "Translated": "Оптимизация производительности"
@@ -387,6 +411,14 @@
     "Original": "Current Language",
     "Translated": "Язык интерфейса"
   },
+  "ToyBox_Features_SettingsFeatures_LogLevelSetting_Name": {
+    "Original": "Log Level",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_LogLevelSetting_Description": {
+    "Original": "Decides what type of messages get written to the log file.",
+    "Translated": null
+  },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_UpdateText": {
     "Original": "Update",
     "Translated": "Обновления"
@@ -405,6 +437,10 @@
   },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_ListsAndBrowsersText": {
     "Original": "Lists and Browsers",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_OtherText": {
+    "Original": "Other",
     "Translated": null
   },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_SettingsText": {

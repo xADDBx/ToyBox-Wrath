@@ -139,10 +139,10 @@ public class BlueprintLoader {
     }
     private int m_TotalLoading;
     private int m_EstimateLoaded;
-    private HashSet<Action<IEnumerable<SimpleBlueprint>>> OnFinishLoadingCallback = new();
+    private readonly HashSet<Action<IEnumerable<SimpleBlueprint>>> OnFinishLoadingCallback = [];
     private Action<List<SimpleBlueprint>> m_OnFinishLoading = null!;
-    private List<ConcurrentDictionary<BlueprintGuid, object>> m_StartedLoadingShards = new();
-    private List<Task> m_WorkerTasks = new();
+    private readonly List<ConcurrentDictionary<BlueprintGuid, object>> m_StartedLoadingShards = [];
+    private readonly List<Task> m_WorkerTasks = [];
     private ConcurrentQueue<IEnumerable<(BlueprintGuid, int)>> m_ChunkQueue = null!;
     private void Load(Action<List<SimpleBlueprint>> callback, ISet<BlueprintGuid>? toLoad = null) {
         if (IsLoading
@@ -162,7 +162,6 @@ public class BlueprintLoader {
         Task.Run(() => Run(toLoad));
     }
     public float Progress {
-        // This will probably throw if it's called more than once per event
         get {
             if (ImguiCanChangeStateAtBeginning()) {
                 if (m_TotalLoading > 0) {

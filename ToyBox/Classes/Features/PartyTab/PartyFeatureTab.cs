@@ -14,7 +14,7 @@ public partial class PartyFeatureTab : FeatureTab {
             UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red());
             return;
         }
-        var units = CharacterPicker.OnFilterPickerGUI(null, GUILayout.ExpandWidth(true));
+        var units = CharacterPicker.OnFilterPickerGUI(6, GUILayout.ExpandWidth(true));
         using (VerticalScope()) {
 #warning Inspect Party + Current Party Level
             var mainChar = GameHelper.GetPlayerCharacter();

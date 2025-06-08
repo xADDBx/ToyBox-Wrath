@@ -14,6 +14,9 @@ public partial class SettingsFeaturesTab : FeatureTab {
     private static partial string LanguageText { get; }
     [LocalizedString("ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_ListsAndBrowsersText", "Lists and Browsers")]
     private static partial string ListsAndBrowsersText { get; }
+
+    [LocalizedString("ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_OtherText", "Other")]
+    private static partial string OtherText { get; }
     [LocalizedString("ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_SettingsText", "Settings")]
     public override partial string Name { get; }
     public SettingsFeaturesTab() {
@@ -29,6 +32,11 @@ public partial class SettingsFeaturesTab : FeatureTab {
         AddFeature(new PerformanceEnhancementFeatures(), BlueprintsText);
         AddFeature(new PreloadBlueprintsFeature(), BlueprintsText);
         AddFeature(new ShowDisplayAndInternalNamesSetting(), BlueprintsText);
+        AddFeature(new BlueprintsLoaderNumThreadSetting(), BlueprintsText);
+        AddFeature(new BlueprintsLoaderNumShardSetting(), BlueprintsText);
+        AddFeature(new BlueprintsLoaderNumShardSetting(), BlueprintsText);
+
+        AddFeature(new LogLevelSetting(), OtherText);
 
         AddFeature(new LanguagePickerFeature(), LanguageText);
     }
