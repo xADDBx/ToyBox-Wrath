@@ -221,8 +221,8 @@ public class BlueprintLoader {
         }
     }
     // External mods could register their own actions here
-    public Action<BlueprintGuid> OnAfterBPLoad = _ => { };
-    public Action<BlueprintGuid> OnBeforeBPLoad = _ => { };
+    public Action<SimpleBlueprint>? OnAfterBPLoad = null;
+    public Action<BlueprintGuid>? OnBeforeBPLoad = null;
     public void HandleChunks(byte[] bytes) {
         try {
             Stream stream = new MemoryStream(bytes);
@@ -254,7 +254,7 @@ public class BlueprintLoader {
                                 continue;
                             }
                             if (/* BadBlueprints.Contains(guid.ToString()) || */entry.Offset == 0U) continue;
-                            OnBeforeBPLoad(guid);
+                            OnBeforeBPLoad?.Invoke(guid);
                             stream.Seek(entry.Offset, SeekOrigin.Begin);
                             SimpleBlueprint? simpleBlueprint = null;
                             seralizer.Blueprint(ref simpleBlueprint);
@@ -270,7 +270,7 @@ public class BlueprintLoader {
                             m_BlueprintBeingLoaded[bpEntry.index] = simpleBlueprint;
                             ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[guid] = entry;
                             closeCountLocal++;
-                            OnAfterBPLoad(guid);
+                            OnAfterBPLoad?.Invoke(simpleBlueprint);
                         }
                     } catch (Exception ex) {
                         Warn($"Exception loading blueprint {guid}:\n{ex}");
