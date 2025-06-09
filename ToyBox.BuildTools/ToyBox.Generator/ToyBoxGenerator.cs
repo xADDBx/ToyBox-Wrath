@@ -92,7 +92,8 @@ namespace ToyBox.Generator {
             sb.AppendLine("namespace ToyBox.Infrastructure.Localization;");
             sb.AppendLine("public partial class Language {");
             foreach (var entry in localizationEntries) {
-                sb.AppendLine($"    public (string Original, string Translated) {entry.Key} = (@\"{entry.Value}\", @\"{entry.Value}\");");
+                var literal = SyntaxFactory.LiteralExpression(SyntaxKind.StringLiteralExpression, SyntaxFactory.Literal(entry.Value));
+                sb.AppendLine($"    public (string Original, string Translated) {entry.Key} = ({literal}, {literal});");
             }
             sb.AppendLine("}");
             return sb.ToString();
