@@ -5,6 +5,12 @@ namespace ToyBox.Infrastructure;
 public static class LazyInit {
     internal static Stopwatch Stopwatch = new();
     public static void EnsureFinish() {
+#if DEBUG
+        Task.Run(() => {
+            Task.WaitAll([.. Main.LateInitTasks]);
+            Debug($"Lazy Init finished after {Stopwatch.ElapsedMilliseconds}ms");
+        });
+#endif
         var original = AccessTools.Method(typeof(MainMenu), nameof(MainMenu.Awake));
         var patch = AccessTools.Method(typeof(LazyInit), nameof(LazyInit.MainMenu_Awake_Postfix));
         Main.HarmonyInstance.Patch(original, postfix: new(patch));
