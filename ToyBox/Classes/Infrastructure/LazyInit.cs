@@ -12,7 +12,7 @@ public static class LazyInit {
     public static void MainMenu_Awake_Postfix() {
         Debug($"Lazy init had {Stopwatch.ElapsedMilliseconds}ms before waiting");
         Stopwatch sw = Stopwatch.StartNew();
-        Task.WaitAll(Main.LateInitTasks.ToArray());
+        Task.WaitAll([.. Main.LateInitTasks]);
         Debug($"Waited {sw.ElapsedMilliseconds}ms for lazy init finish");
     }
 }
