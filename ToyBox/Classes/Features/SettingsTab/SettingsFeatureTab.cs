@@ -34,7 +34,7 @@ public partial class SettingsFeaturesTab : FeatureTab {
         AddFeature(new ShowDisplayAndInternalNamesSetting(), BlueprintsText);
         AddFeature(new BlueprintsLoaderNumThreadSetting(), BlueprintsText);
         AddFeature(new BlueprintsLoaderNumShardSetting(), BlueprintsText);
-        AddFeature(new BlueprintsLoaderNumShardSetting(), BlueprintsText);
+        AddFeature(new BlueprintsLoaderChunkSizeSetting(), BlueprintsText);
 
         AddFeature(new LogLevelSetting(), OtherText);
 
