@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Reflection.Emit;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Collections.Concurrent;
 
 namespace ToyBox.Features.SettingsFeatures.Blueprints;
 
@@ -16,12 +17,12 @@ public partial class PerformanceEnhancementFeatures : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.SettingsFeatures.Blueprints.PerformanceEnhancementFeatures";
     public override ref bool IsEnabled => ref Settings.EnableBlueprintPerformancePatches;
 
-    private static Dictionary<(Type, Type), bool> HasAttributeCache = new();
-    private static Dictionary<(Type, Type), bool> IsListOfCache = new();
-    private static Dictionary<(Type, Type), bool> IsListCache = new();
-    private static Dictionary<(Type, Type), bool> IsOrSubclassOfCache = new();
-    private static Dictionary<Type, Func<object>?> TypeConstructorCache = new();
-    private static Dictionary<Type, Func<int, Array>> ArrayTypeConstructorCache = new();
+    private static ConcurrentDictionary<(Type, Type), bool> HasAttributeCache = new();
+    private static ConcurrentDictionary<(Type, Type), bool> IsListOfCache = new();
+    private static ConcurrentDictionary<(Type, Type), bool> IsListCache = new();
+    private static ConcurrentDictionary<(Type, Type), bool> IsOrSubclassOfCache = new();
+    private static ConcurrentDictionary<Type, Func<object>?> TypeConstructorCache = new();
+    private static ConcurrentDictionary<Type, Func<int, Array>> ArrayTypeConstructorCache = new();
     private static MethodInfo Activator_CreateInstance = AccessTools.Method(typeof(Activator), nameof(Activator.CreateInstance), [typeof(Type)]);
     private static MethodInfo Array_CreateInstance = AccessTools.Method(typeof(Array), nameof(Array.CreateInstance), [typeof(Type), typeof(int)]);
     private static MethodInfo ReflectionBasedSerializer_CreateObject = AccessTools.Method(typeof(ReflectionBasedSerializer), nameof(ReflectionBasedSerializer.CreateObject));
