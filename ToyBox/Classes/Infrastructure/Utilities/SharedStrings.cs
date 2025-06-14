@@ -14,4 +14,6 @@ public partial class SharedStrings {
     public static partial string ShowAllText { get; }
     [LocalizedString("ToyBox_Main_ModFilesAreCorrupted_Text", "Mod files are corrupted!")]
     public static partial string ModFilesAreCorrupted_Text { get; }
+    [LocalizedString("ToyBox_Infrastructure_Inspector_InspectorUI_CurrentlyInspectingText", "Currently Inspecting")]
+    public static partial string CurrentlyInspectingText { get; }
 }

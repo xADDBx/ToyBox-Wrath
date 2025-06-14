@@ -3,8 +3,6 @@ using UnityEngine;
 
 namespace ToyBox.Infrastructure.Inspector;
 public static partial class InspectorUI {
-    [LocalizedString("ToyBox_Infrastructure_Inspector_InspectorUI_CurrentlyInspectingText", "Currently Inspecting")]
-    private static partial string CurrentlyInspectingText { get; }
     private static GUIStyle ButtonStyle {
         get {
             field ??= new(GUI.skin.button) { alignment = TextAnchor.MiddleLeft, stretchHeight = false };
@@ -24,7 +22,7 @@ public static partial class InspectorUI {
     public static void Inspect(object? obj) {
         using (VerticalScope()) {
             if (obj == null) {
-                UI.UI.Label(CurrentlyInspectingText + ": " + "<null>".Cyan());
+                UI.UI.Label(SharedStrings.CurrentlyInspectingText + ": " + "<null>".Cyan());
             } else {
                 var valueText = "";
                 try {
@@ -32,7 +30,7 @@ public static partial class InspectorUI {
                 } catch (Exception ex) {
                     Warn($"Encountered exception in Inspect -> obj.ToString():\n{ex}");
                 }
-                UI.UI.Label(CurrentlyInspectingText + ": " + valueText.Cyan());
+                UI.UI.Label(SharedStrings.CurrentlyInspectingText + ": " + valueText.Cyan());
                 if (!m_CurrentlyInspecting.TryGetValue(obj, out InspectorNode root)) {
                     root = InspectorTraverser.BuildRoot(obj);
                     InspectorTraverser.BuildChildren(root);
