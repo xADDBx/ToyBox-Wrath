@@ -11,6 +11,7 @@ public static partial class InspectorUI {
             return field;
         }
     }
+#warning expose?
     private const float m_IndentWidth = 20f;
     private const float m_NameFractionOfWidth = 0.3f;
     private static readonly Dictionary<object, InspectorNode> m_CurrentlyInspecting = [];
