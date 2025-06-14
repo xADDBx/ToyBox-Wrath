@@ -1,6 +1,7 @@
 ﻿using ToyBox.Features.SettingsFeatures.Blueprints;
 using ToyBox.Features.SettingsFeatures.BrowserSettings;
 using ToyBox.Features.SettingsFeatures.UpdateAndIntegrity;
+using ToyBox.Features.SettingsTab.Inspector;
 
 namespace ToyBox.Features.SettingsFeatures;
 public partial class SettingsFeaturesTab : FeatureTab {
@@ -14,7 +15,8 @@ public partial class SettingsFeaturesTab : FeatureTab {
     private static partial string LanguageText { get; }
     [LocalizedString("ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_ListsAndBrowsersText", "Lists and Browsers")]
     private static partial string ListsAndBrowsersText { get; }
-
+    [LocalizedString("ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_InspectorText", "Inspector")]
+    private static partial string InspectorText { get; }
     [LocalizedString("ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_OtherText", "Other")]
     private static partial string OtherText { get; }
     [LocalizedString("ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_SettingsText", "Settings")]
@@ -36,8 +38,13 @@ public partial class SettingsFeaturesTab : FeatureTab {
         AddFeature(new BlueprintsLoaderNumShardSetting(), BlueprintsText);
         AddFeature(new BlueprintsLoaderChunkSizeSetting(), BlueprintsText);
 
+        AddFeature(new InspectorShowNullAndEmptyMembersSetting(), InspectorText);
+        AddFeature(new InspectorShowEnumerableFieldsSetting(), InspectorText);
+        AddFeature(new InspectorShowStaticMembersSetting(), InspectorText);
+
         AddFeature(new LogLevelSetting(), OtherText);
 
         AddFeature(new LanguagePickerFeature(), LanguageText);
     }
+
 }

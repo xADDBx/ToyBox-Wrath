@@ -18,6 +18,7 @@ public static partial class Main {
     internal static Action? OnLocaleChanged;
     internal static Action? OnHideGUIAction;
     internal static Action? OnShowGUIAction;
+    internal static Action? OnUnloadAction;
     private static Exception? m_CaughtException = null;
     internal static List<FeatureTab> m_FeatureTabs = [];
     internal static List<WeakReference<IPagedList>> m_VerticalLists = [];
@@ -89,6 +90,7 @@ public static partial class Main {
             tab.DestroyAll();
         }
         HarmonyInstance.UnpatchAll(ModEntry.Info.Id);
+        OnUnloadAction?.Invoke();
         return true;
     }
     private static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) {

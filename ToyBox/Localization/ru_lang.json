@@ -415,6 +415,30 @@
     "Original": "Modifies the range for the Nearby Character Picker category",
     "Translated": null
   },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorShowEnumerableFieldsSetting_Name": {
+    "Original": "Show fields on enumerable",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorShowEnumerableFieldsSetting_Description": {
+    "Original": "Whether to also show other fields besides the actual collection items of IEnumerable types.",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorShowNullAndEmptyMembersSetting_Name": {
+    "Original": "Show members that are null or empty",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorShowNullAndEmptyMembersSetting_Description": {
+    "Original": "Shows Fields/Properties that are either null or an empty collection",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorShowStaticMembersSetting_Name": {
+    "Original": "Show static fields and properties",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorShowStaticMembersSetting_Description": {
+    "Original": "Whether to show static members of types.",
+    "Translated": null
+  },
   "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_LanguagePickerText": {
     "Original": "Language Picker",
     "Translated": "Выбор языка"
@@ -453,6 +477,10 @@
   },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_ListsAndBrowsersText": {
     "Original": "Lists and Browsers",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_InspectorText": {
+    "Original": "Inspector",
     "Translated": null
   },
   "ToyBox_Features_SettingsFeatures_SettingsFeaturesTab_OtherText": {
@@ -597,6 +625,10 @@
   },
   "ToyBox_Infrastructure_Enums_UnitSelectType_Localizer_OffText": {
     "Original": "Off",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Inspector_InspectorUI_CurrentlyInspectingText": {
+    "Original": "Currently Inspecting",
     "Translated": null
   },
   "ToyBox_Infrastructure_UI_UI_NoneText": {

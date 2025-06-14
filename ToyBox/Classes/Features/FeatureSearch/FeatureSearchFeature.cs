@@ -35,7 +35,7 @@ public partial class FeatureSearchFeature : Feature {
                     Space(15);
                     UI.Label(feature.Name.Orange());
                     Space(15);
-                    UI.Label(feature.Description.Grey());
+                    UI.Label(feature.Description.Yellow());
                 }
                 using (HorizontalScope()) {
                     if (showNested) {

@@ -13,6 +13,7 @@ internal class GeneralSettings : AbstractSettings {
 
     // Settings Tab
 
+    
     // - Stuff
     public LogLevel LogLevel = LogLevel.Info;
     public string UILanguage = "en";
@@ -34,11 +35,18 @@ internal class GeneralSettings : AbstractSettings {
     public bool EnableBlueprintPerformancePatches = true;
     public bool ToggleBPsShowDisplayAndInternalName = false;
 
+    // - Inspector
+    public bool ToggleInspectorShowNullAndEmptyMembers = false;
+    public bool ToggleInspectorShowStaticMembers = true;
+    public bool ToggleInspectorShowFieldsOnEnumerable = false;
+
     // - UpdateAndIntegrity
     public bool EnableVersionCompatibilityCheck = true;
     public bool EnableFileIntegrityCheck = true;
 
+    
     // Bag of Tricks
+
 
     // - QoL
     public bool EnableModdedAchievements = true;
