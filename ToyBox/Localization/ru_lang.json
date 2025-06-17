@@ -307,6 +307,14 @@
     "Original": "This is intended for you to be able to enjoy the game while using mods that enhance your quality of life.",
     "Translated": "Это задумано для того, чтобы вы могли наслаждаться игрой, используя моды, улучшающие удобство игры."
   },
+  "ToyBox_Features_FeatureSearch_FeatureSearchFeature_FeatureSearchNotImplementedForTh": {
+    "Original": "Feature search not implemented for this feature!",
+    "Translated": null
+  },
+  "ToyBox_Features_FeatureSearch_FeatureSearchFeature_ShowGUIText": {
+    "Original": "Show GUI",
+    "Translated": null
+  },
   "ToyBox_Features_FeatureSearch_FeatureSearchFeature_Name": {
     "Original": "Default Name",
     "Translated": null
@@ -315,12 +323,16 @@
     "Original": "Default Description",
     "Translated": null
   },
-  "ToyBox_Features_FeatureSearch_FeatureSearchFeature_ShowGUIText": {
-    "Original": "Show GUI",
-    "Translated": null
-  },
   "ToyBox_Features_FeatureSearch_FeatureSearchTab_Name": {
     "Original": "Feature Search",
+    "Translated": null
+  },
+  "ToyBox_Features_PartyTab_FeatureBrowserUnitFeature_Name": {
+    "Original": "Unit Feature Browser",
+    "Translated": null
+  },
+  "ToyBox_Features_PartyTab_FeatureBrowserUnitFeature_Description": {
+    "Original": "Views a Browser containing all the features of the unit in question and adding/removing them",
     "Translated": null
   },
   "ToyBox_Features_PartyTab_PartyFeatureTab_PartyLevelText": {
@@ -611,6 +623,38 @@
     "Original": "Trace",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Enums_PartyTabSectionType_Localizer_NoneText": {
+    "Original": "None",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_PartyTabSectionType_Localizer_ClassesText": {
+    "Original": "Classes",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_PartyTabSectionType_Localizer_StatsText": {
+    "Original": "Stats",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_PartyTabSectionType_Localizer_FeaturesText": {
+    "Original": "Features",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_PartyTabSectionType_Localizer_BuffsText": {
+    "Original": "Buffs",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_PartyTabSectionType_Localizer_AbilitiesText": {
+    "Original": "Abilities",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_PartyTabSectionType_Localizer_SpellsText": {
+    "Original": "Spells",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Enums_PartyTabSectionType_Localizer_InspectText": {
+    "Original": "Inspect",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Enums_UnitSelectType_Localizer_EveryoneText": {
     "Original": "Everyone",
     "Translated": null
@@ -669,6 +713,10 @@
   },
   "ToyBox_Infrastructure_Inspector_InspectorUI_CurrentlyInspectingText": {
     "Original": "Currently Inspecting",
+    "Translated": null
+  },
+  "ToyBox_Features_FeatureSearch_FeatureSearchFeature_PleaseSelectAUnitFirst_Text": {
+    "Original": "Please select a unit first!",
     "Translated": null
   },
   "ToyBox_Main_ResetText": {

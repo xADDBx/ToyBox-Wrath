@@ -46,20 +46,21 @@ public static partial class CharacterPicker {
             return m_Lists[m_CurrentList];
         }
     }
-    public static List<UnitEntityData> OnFilterPickerGUI(int? xcols = null, params GUILayoutOption[] options) {
+    public static bool OnFilterPickerGUI(int? xcols = null, params GUILayoutOption[] options) {
         if (!IsInGame()) {
             UI.UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red());
-            return [];
+            return false;
         }
         if (UI.UI.SelectionGrid(ref m_CurrentList, xcols ?? Math.Min(11, m_Lists.Count), type => type.GetLocalized(), options)) {
             m_CurrentUnit = null;
+            return true;
         }
-        return CurrentUnits;
+        return false;
     }
-    public static UnitEntityData? OnCharacterPickerGUI(int? xcols = null, params GUILayoutOption[] options) {
+    public static bool OnCharacterPickerGUI(int? xcols = null, params GUILayoutOption[] options) {
         if (!IsInGame()) {
             UI.UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red());
-            return null;
+            return false;
         }
         var charactersList = CurrentUnits;
         if (charactersList.Count == 0) {
@@ -72,9 +73,10 @@ public static partial class CharacterPicker {
                 } else {
                     m_CurrentUnit = null;
                 }
+                return true;
             }
         }
-        return CurrentUnit;
+        return false;
     }
 
     [LocalizedString("ToyBox_Infrastructure_CharacterPicker_ThereAreNoCharactersInThisList", "There are no characters in this list!")]

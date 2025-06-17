@@ -9,11 +9,12 @@ public abstract class Feature {
             throw new InvalidOperationException($"Feature of type {t.Name} was already constructed.");
         }
     }
-    public static Feature GetInstance(Type featureType) {
-        if (!m_Instances.TryGetValue(featureType, out var inst)) {
-            inst = (Feature)Activator.CreateInstance(featureType, true);
+    public static T GetInstance<T>() where T : Feature {
+        if (!m_Instances.TryGetValue(typeof(T), out var inst)) {
+            inst = (T)Activator.CreateInstance(typeof(T), true);
         }
-        return m_Instances[featureType] = inst;
+        m_Instances[typeof(T)] = inst;
+        return (T)inst;
     }
     public abstract string Name { get; }
     public abstract string Description { get; }

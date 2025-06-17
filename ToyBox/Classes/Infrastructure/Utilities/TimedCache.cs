@@ -23,6 +23,9 @@ public class TimedCache<T> {
             }
         }
     }
+    public void ForceRefresh() {
+        m_LastCacheUpdate = DateTime.MinValue;
+    }
     public T Value {
         get {
             RefreshCacheIfNeeded();

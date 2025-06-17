@@ -127,7 +127,7 @@ public static partial class Main {
 
                 UI.Label(CurrentlyLoadedBPsText.Format(m_LoadedBps));
                 m_TabNames ??= m_FeatureTabs.Select(t => t.Name).ToArray();
-                Settings.SelectedTab = GUILayout.SelectionGrid(Settings.SelectedTab, m_TabNames, Math.Min(m_TabNames.Length, 10), GUILayout.ExpandWidth(true));
+                Settings.SelectedTab = GUILayout.SelectionGrid(Settings.SelectedTab, m_TabNames, Math.Min(m_TabNames.Length, 10), Width(EffectiveWindowWidth()));
                 Space(10);
                 Div.DrawDiv();
                 Space(10);

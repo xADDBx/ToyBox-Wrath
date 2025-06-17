@@ -1,9 +1,14 @@
-﻿using ToyBox.Infrastructure.Localization;
-using UnityModManagerNet;
+﻿using Kingmaker.EntitySystem.Entities;
+using ToyBox.Infrastructure;
+using ToyBox.Infrastructure.Localization;
 
 namespace ToyBox.Features.FeatureSearch;
 
 public partial class FeatureSearchFeature : Feature {
+    [LocalizedString("ToyBox_Features_FeatureSearch_FeatureSearchFeature_FeatureSearchNotImplementedForTh", "Feature search not implemented for this feature!")]
+    private static partial string FeatureSearchNotImplementedForTh { get; }
+    [LocalizedString("ToyBox_Features_FeatureSearch_FeatureSearchFeature_ShowGUIText", "Show GUI")]
+    private static partial string ShowGUIText { get; }
     [LocalizedString("ToyBox_Features_FeatureSearch_FeatureSearchFeature_Name", "Default Name")]
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Features_FeatureSearch_FeatureSearchFeature_Description", "Default Description")]
@@ -40,12 +45,30 @@ public partial class FeatureSearchFeature : Feature {
                 using (HorizontalScope()) {
                     if (showNested) {
                         Space(15);
-                        feature.OnGui();
+                        using (VerticalScope()) {
+                            if (feature is INeedContextFeature) {
+                                if (feature is INeedContextFeature<UnitEntityData> unitFeature) {
+                                    if (!IsInGame()) {
+                                        UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red());
+                                        return;
+                                    }
+                                    CharacterPicker.OnFilterPickerGUI();
+                                    CharacterPicker.OnCharacterPickerGUI();
+                                    if (CharacterPicker.CurrentUnit != null) {
+                                        unitFeature.OnGui(CharacterPicker.CurrentUnit);
+                                    } else {
+                                        UI.Label(SharedStrings.PleaseSelectAUnitFirstText.Orange());
+                                    }
+                                } else {
+                                    UI.Label(FeatureSearchNotImplementedForTh.Red().Bold());
+                                }
+                            } else {
+                                feature.OnGui();
+                            }
+                        }
                     }
                 }
             }
         });
     }
-    [LocalizedString("ToyBox_Features_FeatureSearch_FeatureSearchFeature_ShowGUIText", "Show GUI")]
-    private static partial string ShowGUIText { get; }
 }

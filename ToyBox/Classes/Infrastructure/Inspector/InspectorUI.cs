@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ToyBox.Infrastructure.Inspector;
 public static partial class InspectorUI {
-    private static GUIStyle ButtonStyle {
+    private static GUIStyle m_ButtonStyle {
         get {
             field ??= new(GUI.skin.button) { alignment = TextAnchor.MiddleLeft, stretchHeight = false };
             return field;
@@ -134,7 +134,7 @@ public static partial class InspectorUI {
 
             if (node.ConcreteType != node.FieldType) {
                 var text = ToyBoxReflectionHelper.GetNameWithGenericsResolved(node.ConcreteType).Yellow();
-                GUILayout.Label(text, ButtonStyle, AutoWidth());
+                GUILayout.Label(text, m_ButtonStyle, AutoWidth());
             } else {
                 UI.UI.Label("");
             }
