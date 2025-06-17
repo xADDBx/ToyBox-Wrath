@@ -13,11 +13,34 @@ public static partial class InspectorUI {
     private const float m_IndentWidth = 20f;
     private const float m_NameFractionOfWidth = 0.3f;
     private static readonly Dictionary<object, InspectorNode> m_CurrentlyInspecting = [];
+    private static readonly HashSet<object> m_ExpandedKeys = [];
     static InspectorUI() {
         Main.OnHideGUIAction += ClearCache;
     }
     public static void ClearCache() {
         m_CurrentlyInspecting.Clear();
+        m_ExpandedKeys.Clear();
+    }
+    public static void InspectToggle(object key, string? title = null, object? toInspect = null, int indent = 0) {
+        using (VerticalScope()) {
+            title ??= key.ToString();
+            toInspect ??= key;
+            var expanded = m_ExpandedKeys.Contains(key);
+            if (UI.UI.DisclosureToggle(ref expanded, title)) {
+                if (expanded) {
+                    m_ExpandedKeys.Clear();
+                    m_ExpandedKeys.Add(key);
+                } else {
+                    m_ExpandedKeys.Remove(key);
+                }
+            }
+            if (expanded) {
+                using (HorizontalScope()) {
+                    Space(indent);
+                    Inspect(toInspect);
+                }
+            }
+        }
     }
     public static void Inspect(object? obj) {
         using (VerticalScope()) {
@@ -76,11 +99,12 @@ public static partial class InspectorUI {
                 typeName = typeName.Orange();
             }
             labelText += " : " + typeName;
-
-            var leftOverWidth = EffectiveWindowWidth() - (indent * m_IndentWidth) - 40;
+            var discWidth = UI.UI.DisclosureGlyphWidth.Value;
+            var leftOverWidth = EffectiveWindowWidth() - (indent * m_IndentWidth) - 40 - discWidth;
             if (node.Children!.Count > 0) {
-                UI.UI.DisclosureToggle(ref node.IsExpanded, labelText, Width(m_NameFractionOfWidth * leftOverWidth));
+                UI.UI.DisclosureToggle(ref node.IsExpanded, labelText, Width(m_NameFractionOfWidth * leftOverWidth + discWidth));
             } else {
+                Space(discWidth);
                 GUILayout.Label(labelText, Width(m_NameFractionOfWidth * leftOverWidth));
             }
             var valueText = "";

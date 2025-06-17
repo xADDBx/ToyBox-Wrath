@@ -61,5 +61,11 @@ public class InspectorNode : IComparable {
         ContainerPrefix = containerPrefix;
     }
 
-    public int CompareTo(object obj) => Name.CompareTo((obj as InspectorNode)?.Name ?? "");
+    public int CompareTo(object obj) {
+        var other = obj as InspectorNode;
+        if (other == null) {
+            return 1;
+        }
+        return (ContainerPrefix + Name).CompareTo(other.ContainerPrefix + other.Name);
+    }
 }

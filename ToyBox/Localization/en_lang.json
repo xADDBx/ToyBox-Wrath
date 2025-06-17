@@ -323,6 +323,14 @@
     "Original": "Feature Search",
     "Translated": null
   },
+  "ToyBox_Features_PartyTab_PartyFeatureTab_PartyLevelText": {
+    "Original": "Party Level",
+    "Translated": null
+  },
+  "ToyBox_Features_PartyTab_PartyFeatureTab_InspectParty_forDebugging__Text": {
+    "Original": "Inspect Party (for debugging)",
+    "Translated": null
+  },
   "ToyBox_Features_PartyTab_PartyFeatureTab_Name": {
     "Original": "Party",
     "Translated": null
@@ -627,10 +635,6 @@
     "Original": "Off",
     "Translated": null
   },
-  "ToyBox_Infrastructure_Inspector_InspectorUI_CurrentlyInspectingText": {
-    "Original": "Currently Inspecting",
-    "Translated": null
-  },
   "ToyBox_Infrastructure_UI_UI_NoneText": {
     "Original": "None",
     "Translated": null
@@ -661,6 +665,10 @@
   },
   "ToyBox_Main_ModFilesAreCorrupted_Text": {
     "Original": "Mod files are corrupted!",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Inspector_InspectorUI_CurrentlyInspectingText": {
+    "Original": "Currently Inspecting",
     "Translated": null
   },
   "ToyBox_Main_ResetText": {
