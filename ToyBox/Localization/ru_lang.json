@@ -483,6 +483,14 @@
     "Original": "Whether to show static members of types.",
     "Translated": null
   },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorSlimModeSetting_Name": {
+    "Original": "Slim Mode",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorSlimModeSetting_Description": {
+    "Original": "If you hate whitespace and alignment",
+    "Translated": null
+  },
   "ToyBox_Features_SettingsFeatures_LanguagePickerFeature_LanguagePickerText": {
     "Original": "Language Picker",
     "Translated": "Выбор языка"

@@ -42,6 +42,7 @@ public partial class SettingsFeaturesTab : FeatureTab {
         AddFeature(new InspectorShowEnumerableFieldsSetting(), InspectorText);
         AddFeature(new InspectorShowStaticMembersSetting(), InspectorText);
         AddFeature(new InspectorShowCompilerGeneratedFields(), InspectorText);
+        AddFeature(new InspectorSlimModeSetting(), InspectorText);
         AddFeature(new InspectorIndentWidthSetting(), InspectorText);
         AddFeature(new InspectorNameFractionOfWidthSetting(), InspectorText);
 

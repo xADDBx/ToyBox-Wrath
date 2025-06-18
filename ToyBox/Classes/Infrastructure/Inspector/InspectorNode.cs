@@ -38,6 +38,25 @@ public class InspectorNode : IComparable {
             return Array.Empty<object>();
         }
     }
+    public float? ChildNameTextMaxLength {
+        get {
+            if (Children == null) {
+                InspectorTraverser.BuildChildren(this);
+            }
+            if (Children!.Count == 0) {
+                field ??= 0;
+            } else {
+                field ??= CalculateLargestLabelSize(Children.Select(node => node.NameText));
+            }
+            return field;
+        }
+    }
+    public float? OwnTextLength {
+        get {
+            field ??= CalculateLargestLabelSize([NameText]);
+            return field;
+        }
+    }
     public int? ElementCount {
         get {
             field ??= Children?.Where(x => m_ContainerMembers.Contains(x.m_ContainerPrefix))?.Count() ?? 0;

@@ -77,11 +77,20 @@ public static class InspectorUI {
 
             var discWidth = UI.UI.DisclosureGlyphWidth.Value;
             var leftOverWidth = EffectiveWindowWidth() - (indent * Settings.InspectorIndentWidth) - 40 - discWidth;
+            var calculatedWidth = Settings.InspectorNameFractionOfWidth * leftOverWidth;
+            if (Settings.ToggleInspectorSlimMode) {
+                calculatedWidth = Math.Min(calculatedWidth * leftOverWidth, node.OwnTextLength!.Value);
+            }
+
             if (node.Children!.Count > 0) {
-                UI.UI.DisclosureToggle(ref node.IsExpanded, node.NameText, Width(Settings.InspectorNameFractionOfWidth * leftOverWidth + discWidth));
+                UI.UI.DisclosureToggle(ref node.IsExpanded, node.NameText, Width(calculatedWidth + discWidth));
             } else {
                 Space(discWidth);
-                GUILayout.Label(node.NameText, Width(Settings.InspectorNameFractionOfWidth * leftOverWidth));
+                GUILayout.Label(node.NameText, Width(calculatedWidth));
+            }
+
+            if (Settings.ToggleInspectorSlimMode) {
+                Space(10);
             }
 
             // TextArea does not parse color tags; so it needs this workaround to colour text
@@ -96,7 +105,7 @@ public static class InspectorUI {
             }
         }
         if (node.IsExpanded) {
-            foreach (var child in node.Children) {
+            foreach (var child in node.Children!) {
                 DrawNode(child, indent + 1);
             }
         }
