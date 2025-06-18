@@ -75,7 +75,7 @@ public static class InspectorUI {
             if (!Settings.ToggleInspectorShowNullAndEmptyMembers && node.IsEnumerable && node.Children!.Count == 0) {
                 return;
             }
-            
+
             var discWidth = UI.UI.DisclosureGlyphWidth.Value;
             var leftOverWidth = EffectiveWindowWidth() - (indent * Settings.InspectorIndentWidth) - 40 - discWidth;
             if (node.Children!.Count > 0) {
@@ -90,8 +90,11 @@ public static class InspectorUI {
             GUI.contentColor = node.ColorOverride ?? currentColor;
             GUILayout.TextArea(node.ValueText);
             GUI.contentColor = currentColor;
-
-            GUILayout.Label(node.AfterText, m_ButtonStyle, AutoWidth());
+            if (node.AfterText != "") {
+                GUILayout.Label(node.AfterText, m_ButtonStyle, AutoWidth());
+            } else {
+                UI.UI.Label("");
+            }
         }
         if (node.IsExpanded) {
             foreach (var child in node.Children) {
