@@ -26,6 +26,7 @@ public class InspectorNode : IComparable {
     public readonly bool IsEnumerable = false;
     public readonly bool IsGameObject = false;
     public readonly bool IsNull = false;
+    public readonly bool IsCompilerGenerated = false;
     public bool IsExpanded = false;
     public Exception? Exception;
     public List<InspectorNode>? Children;
@@ -112,7 +113,7 @@ public class InspectorNode : IComparable {
         nameText += " : " + typeName;
         return nameText;
     }
-    public InspectorNode(string name, string path, Type type, object? value, InspectorNode? parent, string containerPrefix, bool isStatic = false, bool isPublic = true, bool isPrivate = false) {
+    public InspectorNode(string name, string path, Type type, object? value, InspectorNode? parent, string containerPrefix, bool isStatic = false, bool isPublic = true, bool isPrivate = false, bool isCompilerGenerated = false) {
         m_Name = name;
         Value = value;
         Path = path + name + "/";
@@ -138,6 +139,7 @@ public class InspectorNode : IComparable {
         IsGameObject = typeof(GameObject).IsAssignableFrom(ConcreteType);
         IsEnumerable = typeof(IEnumerable).IsAssignableFrom(ConcreteType) && ConcreteType != typeof(string);
         m_ContainerPrefix = containerPrefix;
+        IsCompilerGenerated = isCompilerGenerated;
     }
 
     public int CompareTo(object obj) {

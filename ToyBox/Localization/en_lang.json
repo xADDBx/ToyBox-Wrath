@@ -451,6 +451,14 @@
     "Original": "The fraction of the screen width the name part of inspector takes (0.3 means 30%).",
     "Translated": null
   },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorShowCompilerGeneratedFields_Name": {
+    "Original": "Show compiler generated fields",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorShowCompilerGeneratedFields_Description": {
+    "Original": "Show fields that are marked as compiler generated in Inspector (e.g. backing fields of properties)",
+    "Translated": null
+  },
   "ToyBox_Features_SettingsTab_Inspector_InspectorShowEnumerableFieldsSetting_Name": {
     "Original": "Show fields on enumerable",
     "Translated": null

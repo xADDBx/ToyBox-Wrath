@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Reflection;
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using ToyBox.Infrastructure.Utilities;
 using UnityEngine;
 
@@ -72,13 +72,17 @@ public static class InspectorTraverser {
         }
 
         foreach (var field in node.ConcreteType.GetFields(Settings.ToggleInspectorShowStaticMembers ? m_All : m_AllInstance)) {
+            bool isCompilerGenerated = field.GetCustomAttribute<CompilerGeneratedAttribute>() != null;
+            if (isCompilerGenerated && !Settings.ToggleInspectorShowCompilerGeneratedFields) {
+                continue;
+            }
             object? fieldValue;
             if (field.IsStatic) {
                 fieldValue = field.GetValue(null);
             } else {
                 fieldValue = field.GetValue(node.Value);
             }
-            var childNode = new InspectorNode(field.Name, node.Path, field.FieldType, fieldValue, node, InspectorNode.FieldPrefix, field.IsStatic, field.IsPublic, field.IsPrivate);
+            var childNode = new InspectorNode(field.Name, node.Path, field.FieldType, fieldValue, node, InspectorNode.FieldPrefix, field.IsStatic, field.IsPublic, field.IsPrivate, isCompilerGenerated);
             node.Children.Add(childNode);
         }
 

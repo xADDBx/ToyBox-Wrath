@@ -101,7 +101,7 @@ public static partial class Main {
     private static void OnGUI(UnityModManager.ModEntry modEntry) {
         if (m_CaughtException == null) {
             try {
-                // InspectorUI.Inspect(ResourcesLibrary.TryGetBlueprint(new(new Guid("12d74de992a8845458ba8a16ace425a7"))));
+                InspectorUI.Inspect(ResourcesLibrary.TryGetBlueprint(new(new Guid("12d74de992a8845458ba8a16ace425a7"))));
                 if (BPLoader.IsLoading) {
                     UI.ProgressBar(BPLoader.Progress, "");
                 }

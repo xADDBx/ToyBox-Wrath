@@ -1,5 +1,4 @@
-﻿using ToyBox.Infrastructure.Utilities;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ToyBox.Infrastructure.Inspector;
 public static class InspectorUI {
@@ -62,7 +61,7 @@ public static class InspectorUI {
             }
         }
     }
-    
+
     public static void DrawNode(InspectorNode node, int indent) {
         using (HorizontalScope()) {
             GUILayout.Space(indent * Settings.InspectorIndentWidth);
