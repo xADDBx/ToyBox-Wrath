@@ -39,6 +39,8 @@ internal class GeneralSettings : AbstractSettings {
     public bool ToggleInspectorShowNullAndEmptyMembers = false;
     public bool ToggleInspectorShowStaticMembers = true;
     public bool ToggleInspectorShowFieldsOnEnumerable = false;
+    public float InspectorIndentWidth = 20f;
+    public float InspectorNameFractionOfWidth = 0.3f;
 
     // - UpdateAndIntegrity
     public bool EnableVersionCompatibilityCheck = true;

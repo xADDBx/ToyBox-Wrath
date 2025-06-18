@@ -18,4 +18,8 @@ public partial class SharedStrings {
     public static partial string CurrentlyInspectingText { get; }
     [LocalizedString("ToyBox_Features_FeatureSearch_FeatureSearchFeature_PleaseSelectAUnitFirst_Text", "Please select a unit first!")]
     public static partial string PleaseSelectAUnitFirstText { get; }
+    [LocalizedString("ToyBox_Main_ResetText", "Reset")]
+    public static partial string ResetLabel { get; }
+    [LocalizedString("ToyBox_Main_CurrentlyLoadedBPsText", "Currently loaded blueprints: {0}")]
+    public static partial string CurrentlyLoadedBPsText { get; }
 }

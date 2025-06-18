@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using ToyBox.Features.SettingsFeatures.UpdateAndIntegrity;
 using ToyBox.Infrastructure;
+using ToyBox.Infrastructure.Inspector;
 using ToyBox.Infrastructure.Utilities;
 using UnityEngine;
 using UnityModManagerNet;
@@ -96,15 +97,11 @@ public static partial class Main {
     private static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) {
         return true;
     }
-    [LocalizedString("ToyBox_Main_ResetText", "Reset")]
-    private static partial string resetLabel { get; }
-    [LocalizedString("ToyBox_Main_CurrentlyLoadedBPsText", "Currently loaded blueprints: {0}")]
-    private static partial string CurrentlyLoadedBPsText { get; }
     private static int m_LoadedBps = 0;
-    private static Browser<SimpleBlueprint> m_Browser = new(BPHelper.GetSortKey, BPHelper.GetSearchKey, [], (Action<IEnumerable<SimpleBlueprint>> func) => BPLoader.GetBlueprints(func));
     private static void OnGUI(UnityModManager.ModEntry modEntry) {
         if (m_CaughtException == null) {
             try {
+                // InspectorUI.Inspect(ResourcesLibrary.TryGetBlueprint(new(new Guid("12d74de992a8845458ba8a16ace425a7"))));
                 if (BPLoader.IsLoading) {
                     UI.ProgressBar(BPLoader.Progress, "");
                 }
@@ -115,17 +112,7 @@ public static partial class Main {
                 Div.DrawDiv();
                 Space(10);
 
-                /*
-                using (HorizontalScope()) {
-                    Space(20);
-                    m_Browser.OnGUI(item => {
-                        UI.Label(BPHelper.GetTitle(item).Green());
-                    });
-                }
-                */
-
-
-                UI.Label(CurrentlyLoadedBPsText.Format(m_LoadedBps));
+                UI.Label(SharedStrings.CurrentlyLoadedBPsText.Format(m_LoadedBps));
                 m_TabNames ??= m_FeatureTabs.Select(t => t.Name).ToArray();
                 Settings.SelectedTab = GUILayout.SelectionGrid(Settings.SelectedTab, m_TabNames, Math.Min(m_TabNames.Length, 10), Width(EffectiveWindowWidth()));
                 Space(10);
@@ -138,7 +125,7 @@ public static partial class Main {
             }
         } else {
             UI.Label(m_CaughtException.ToString());
-            if (UI.Button(resetLabel)) {
+            if (UI.Button(SharedStrings.ResetLabel)) {
                 m_CaughtException = null;
             }
         }

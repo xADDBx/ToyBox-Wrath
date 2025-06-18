@@ -41,6 +41,8 @@ public partial class SettingsFeaturesTab : FeatureTab {
         AddFeature(new InspectorShowNullAndEmptyMembersSetting(), InspectorText);
         AddFeature(new InspectorShowEnumerableFieldsSetting(), InspectorText);
         AddFeature(new InspectorShowStaticMembersSetting(), InspectorText);
+        AddFeature(new InspectorIndentWidthSetting(), InspectorText);
+        AddFeature(new InspectorNameFractionOfWidthSetting(), InspectorText);
 
         AddFeature(new LogLevelSetting(), OtherText);
 

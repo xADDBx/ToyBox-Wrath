@@ -9,9 +9,6 @@ public static partial class InspectorUI {
             return field;
         }
     }
-#warning expose?
-    private const float m_IndentWidth = 20f;
-    private const float m_NameFractionOfWidth = 0.3f;
     private static readonly Dictionary<object, InspectorNode> m_CurrentlyInspecting = [];
     private static readonly HashSet<object> m_ExpandedKeys = [];
     static InspectorUI() {
@@ -68,7 +65,7 @@ public static partial class InspectorUI {
     
     public static void DrawNode(InspectorNode node, int indent) {
         using (HorizontalScope()) {
-            GUILayout.Space(indent * m_IndentWidth);
+            GUILayout.Space(indent * Settings.InspectorIndentWidth);
             if (!Settings.ToggleInspectorShowNullAndEmptyMembers && node.Value is null) {
                 return;
             }
@@ -100,12 +97,12 @@ public static partial class InspectorUI {
             }
             labelText += " : " + typeName;
             var discWidth = UI.UI.DisclosureGlyphWidth.Value;
-            var leftOverWidth = EffectiveWindowWidth() - (indent * m_IndentWidth) - 40 - discWidth;
+            var leftOverWidth = EffectiveWindowWidth() - (indent * Settings.InspectorIndentWidth) - 40 - discWidth;
             if (node.Children!.Count > 0) {
-                UI.UI.DisclosureToggle(ref node.IsExpanded, labelText, Width(m_NameFractionOfWidth * leftOverWidth + discWidth));
+                UI.UI.DisclosureToggle(ref node.IsExpanded, labelText, Width(Settings.InspectorNameFractionOfWidth * leftOverWidth + discWidth));
             } else {
                 Space(discWidth);
-                GUILayout.Label(labelText, Width(m_NameFractionOfWidth * leftOverWidth));
+                GUILayout.Label(labelText, Width(Settings.InspectorNameFractionOfWidth * leftOverWidth));
             }
             var valueText = "";
             var currentColor = GUI.contentColor;

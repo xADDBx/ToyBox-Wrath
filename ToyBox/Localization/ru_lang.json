@@ -435,6 +435,22 @@
     "Original": "Modifies the range for the Nearby Character Picker category",
     "Translated": null
   },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorIndentWidthSetting_Name": {
+    "Original": "Indent Width",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorIndentWidthSetting_Description": {
+    "Original": "Amount of space that is indented for each nested level in the inspector",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorNameFractionOfWidthSetting_Name": {
+    "Original": "Name section relative width",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorNameFractionOfWidthSetting_Description": {
+    "Original": "The fraction of the screen width the name part of inspector takes (0.3 means 30%).",
+    "Translated": null
+  },
   "ToyBox_Features_SettingsTab_Inspector_InspectorShowEnumerableFieldsSetting_Name": {
     "Original": "Show fields on enumerable",
     "Translated": null
