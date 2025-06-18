@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace ToyBox.Infrastructure.Inspector;
-public static partial class InspectorUI {
+public static class InspectorUI {
     private static GUIStyle m_ButtonStyle {
         get {
             field ??= new(GUI.skin.button) { alignment = TextAnchor.MiddleLeft, stretchHeight = false };
@@ -66,7 +66,7 @@ public static partial class InspectorUI {
     public static void DrawNode(InspectorNode node, int indent) {
         using (HorizontalScope()) {
             GUILayout.Space(indent * Settings.InspectorIndentWidth);
-            if (!Settings.ToggleInspectorShowNullAndEmptyMembers && node.Value is null) {
+            if (!Settings.ToggleInspectorShowNullAndEmptyMembers && node.IsNull) {
                 return;
             }
             if (node.Children == null) {
@@ -75,66 +75,23 @@ public static partial class InspectorUI {
             if (!Settings.ToggleInspectorShowNullAndEmptyMembers && node.IsEnumerable && node.Children!.Count == 0) {
                 return;
             }
-
-            string labelText = $"[{node.ContainerPrefix}] ".Grey();
-            if (node.IsStatic) {
-                labelText += "[s] ".Magenta();
-            }
-            labelText += node.Name;
-
-            if (node.IsGameObject || node.IsEnumerable) {
-                labelText += " " + $"[{node.ElementCount}]".Yellow();
-            }
-            string typeName = ToyBoxReflectionHelper.GetNameWithGenericsResolved(node.FieldType);
-            if (ToyBoxReflectionHelper.PrimitiveTypes.Contains(node.ConcreteType)) {
-                typeName = typeName.Grey();
-            } else if (node.IsGameObject) {
-                typeName = typeName.Magenta();
-            } else if (node.IsEnumerable) {
-                typeName = typeName.Cyan();
-            } else {
-                typeName = typeName.Orange();
-            }
-            labelText += " : " + typeName;
+            
             var discWidth = UI.UI.DisclosureGlyphWidth.Value;
             var leftOverWidth = EffectiveWindowWidth() - (indent * Settings.InspectorIndentWidth) - 40 - discWidth;
             if (node.Children!.Count > 0) {
-                UI.UI.DisclosureToggle(ref node.IsExpanded, labelText, Width(Settings.InspectorNameFractionOfWidth * leftOverWidth + discWidth));
+                UI.UI.DisclosureToggle(ref node.IsExpanded, node.NameText, Width(Settings.InspectorNameFractionOfWidth * leftOverWidth + discWidth));
             } else {
                 Space(discWidth);
-                GUILayout.Label(labelText, Width(Settings.InspectorNameFractionOfWidth * leftOverWidth));
+                GUILayout.Label(node.NameText, Width(Settings.InspectorNameFractionOfWidth * leftOverWidth));
             }
-            var valueText = "";
-            var currentColor = GUI.contentColor;
-            Color color = currentColor;
-            if (node.Exception != null) {
-                valueText = "<exception>";
-                color = Color.red;
-            } else {
-                if (node.Value is null) {
-                    valueText = "<null>";
-                    color = Color.gray;
-                } else {
-                    try {
-                        valueText = node.Value.ToString();
-                    } catch (Exception ex) {
-                        node.Exception = ex;
-                        valueText = "<exception>";
-                        color = Color.red;
-                    }
-                }
-            }
+
             // TextArea does not parse color tags; so it needs this workaround to colour text
-            GUI.contentColor = color;
-            GUILayout.TextArea(valueText);
+            var currentColor = GUI.contentColor;
+            GUI.contentColor = node.ColorOverride ?? currentColor;
+            GUILayout.TextArea(node.ValueText);
             GUI.contentColor = currentColor;
 
-            if (node.ConcreteType != node.FieldType) {
-                var text = ToyBoxReflectionHelper.GetNameWithGenericsResolved(node.ConcreteType).Yellow();
-                GUILayout.Label(text, m_ButtonStyle, AutoWidth());
-            } else {
-                UI.UI.Label("");
-            }
+            GUILayout.Label(node.AfterText, m_ButtonStyle, AutoWidth());
         }
         if (node.IsExpanded) {
             foreach (var child in node.Children) {

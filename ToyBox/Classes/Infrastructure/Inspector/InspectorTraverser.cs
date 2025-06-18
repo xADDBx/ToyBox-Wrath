@@ -22,7 +22,7 @@ public static class InspectorTraverser {
     private static void BuildChildrenInternal(InspectorNode node) {
         node.Children = [];
 
-        if (node.Value == null) {
+        if (node.IsNull) {
             return;
         }
 
@@ -30,9 +30,9 @@ public static class InspectorTraverser {
             return;
         }
 
-        if (node.Value is IEnumerable enumerable) {
+        if (node.IsEnumerable) {
             Type? elementType = null;
-            var collectionType = node.Value.GetType();
+            var collectionType = node.ConcreteType;
             if (collectionType.IsArray) {
                 elementType = collectionType.GetElementType()!;
             } else {
@@ -46,7 +46,7 @@ public static class InspectorTraverser {
                 }
             }
             int index = 0;
-            foreach (object? element in enumerable) {
+            foreach (object? element in node.AsEnumerableSafe()) {
                 var childNode = new InspectorNode("<item_" + index + ">", node.Path, element?.GetType() ?? elementType ?? typeof(object), element, node, InspectorNode.EnumerableItemPrefix);
                 node.Children.Add(childNode);
                 index++;
