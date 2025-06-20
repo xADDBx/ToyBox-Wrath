@@ -435,6 +435,14 @@
     "Original": "Modifies the range for the Nearby Character Picker category",
     "Translated": null
   },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorDrawLimitSetting_Name": {
+    "Original": "Inspector Draw Limit",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorDrawLimitSetting_Description": {
+    "Original": "Limits the amount of items/rows that are drawn to prevent freezing the ui. Items exceeding the limit are discarded.",
+    "Translated": null
+  },
   "ToyBox_Features_SettingsTab_Inspector_InspectorIndentWidthSetting_Name": {
     "Original": "Indent Width",
     "Translated": null
@@ -449,6 +457,14 @@
   },
   "ToyBox_Features_SettingsTab_Inspector_InspectorNameFractionOfWidthSetting_Description": {
     "Original": "The fraction of the screen width the name part of inspector takes (0.3 means 30%).",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorSearcherBatchSizeSetting_Name": {
+    "Original": "Inspector Searcher Batch Size",
+    "Translated": null
+  },
+  "ToyBox_Features_SettingsTab_Inspector_InspectorSearcherBatchSizeSetting_Description": {
+    "Original": "Lower numbers mean less ui lag during search but longer searc time.",
     "Translated": null
   },
   "ToyBox_Features_SettingsTab_Inspector_InspectorShowCompilerGeneratedFields_Name": {
@@ -711,6 +727,30 @@
     "Original": "Off",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Inspector_InspectorUI_ShowSearchText": {
+    "Original": "Show Search",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Inspector_InspectorUI_SearchByNameText": {
+    "Original": "Search by Name",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Inspector_InspectorUI_SearchByTypeText": {
+    "Original": "Search by Type",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Inspector_InspectorUI_SearchByValueText": {
+    "Original": "Search by Value",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Inspector_InspectorUI_SearchDepthText": {
+    "Original": "Search Depth",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Inspector_InspectorUI_StoppedDrawingEntriesToPreventUI": {
+    "Original": "Stopped drawing entries to prevent UI crash",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_UI_UI_NoneText": {
     "Original": "None",
     "Translated": null
@@ -757,6 +797,26 @@
   },
   "ToyBox_Main_CurrentlyLoadedBPsText": {
     "Original": "Currently loaded blueprints: {0}",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_UI_Browser_SearchText": {
+    "Original": "Search",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_UI_UI_MinimumText": {
+    "Original": "min",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_UI_UI_MaximumText": {
+    "Original": "max",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Inspector_InspectorUI_SearchInProgres___Text": {
+    "Original": "Search in progres...",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Inspector_InspectorUI_CancelText": {
+    "Original": "Cancel",
     "Translated": null
   }
 }

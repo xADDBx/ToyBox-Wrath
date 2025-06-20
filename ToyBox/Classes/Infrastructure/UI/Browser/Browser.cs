@@ -136,7 +136,7 @@ public partial class Browser<T> : VerticalList<T> where T : notnull {
                 StartNewSearch(query);
             });
             Space(5);
-            UI.Button("Search", () => StartNewSearch(CurrentSearchString));
+            UI.Button(SharedStrings.SearchText, () => StartNewSearch(CurrentSearchString));
         }
     }
     protected override void HeaderGUI() {

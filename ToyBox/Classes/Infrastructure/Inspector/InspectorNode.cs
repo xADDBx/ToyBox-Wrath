@@ -29,7 +29,22 @@ public class InspectorNode : IComparable {
     public readonly bool IsCompilerGenerated = false;
     public bool IsExpanded = false;
     public Exception? Exception;
-    public List<InspectorNode>? Children;
+    public bool IsSelfMatched = false;
+    public bool IsChildMatched = false;
+    public bool IsMatched {
+        get {
+            return IsSelfMatched || IsChildMatched;
+        }
+    }
+    public List<InspectorNode> Children {
+        get {
+            if (field == null) {
+                InspectorTraverser.BuildChildren(this);
+            }
+            return field!;
+        }
+        internal set;
+    }
     public Color? ColorOverride;
     public IEnumerable AsEnumerableSafe() {
         if (Value is IEnumerable enumerable) {
@@ -40,97 +55,102 @@ public class InspectorNode : IComparable {
     }
     public float? ChildNameTextMaxLength {
         get {
-            if (Children == null) {
-                InspectorTraverser.BuildChildren(this);
-            }
-            if (Children!.Count == 0) {
+            if (Children.Count == 0) {
                 field ??= 0;
             } else {
-                field ??= CalculateLargestLabelSize(Children.Select(node => node.NameText));
+                field ??= CalculateLargestLabelSize(Children.Select(node => node.LabelText));
             }
             return field;
         }
     }
     public float? OwnTextLength {
         get {
-            field ??= CalculateLargestLabelSize([NameText]);
+            field ??= CalculateLargestLabelSize([LabelText]);
             return field;
         }
     }
     public int? ElementCount {
         get {
-            field ??= Children?.Where(x => m_ContainerMembers.Contains(x.m_ContainerPrefix))?.Count() ?? 0;
+            field ??= Children.Where(x => m_ContainerMembers.Contains(x.m_ContainerPrefix))?.Count() ?? 0;
             return field;
         }
     }
     public string ValueText {
         get {
-            field ??= GetValueText();
+            if (field == null) {
+                var valueText = "";
+                if (Exception != null) {
+                    valueText = "<exception>";
+                    ColorOverride = Color.red;
+                } else {
+                    if (IsNull) {
+                        valueText = "<null>";
+                        ColorOverride = Color.gray;
+                    } else {
+                        try {
+                            valueText = Value!.ToString();
+                        } catch (Exception ex) {
+                            Exception = ex;
+                            valueText = "<exception>";
+                            ColorOverride = Color.red;
+                        }
+                    }
+                }
+                field = valueText;
+            }
+            return field;
+        }
+    }
+    public string TypeNameText {
+        get {
+            field ??= ToyBoxReflectionHelper.GetNameWithGenericsResolved(m_FieldType);
             return field;
         }
     }
     public string NameText {
         get {
-            field ??= GetNameText();
+            return m_Name;
+        }
+    }
+    public string LabelText {
+        get {
+            if (field == null) {
+                string nameText = $"[{m_ContainerPrefix}] ".Grey();
+                if (IsStatic) {
+                    nameText += "[s] ".Magenta();
+                }
+                nameText += NameText;
+
+                if (IsGameObject || IsEnumerable) {
+                    nameText += " " + $"[{ElementCount}]".Yellow();
+                }
+                string typeName;
+                if (ToyBoxReflectionHelper.PrimitiveTypes.Contains(ConcreteType)) {
+                    typeName = TypeNameText.Grey();
+                } else if (IsGameObject) {
+                    typeName = TypeNameText.Magenta();
+                } else if (IsEnumerable) {
+                    typeName = TypeNameText.Cyan();
+                } else {
+                    typeName = TypeNameText.Orange();
+                }
+                nameText += " : " + typeName;
+                field = nameText;
+            }
             return field;
         }
     }
     public string AfterText {
         get {
-            field ??= GetAfterText();
-            return field;
-        }
-    }
-    private string GetAfterText() {
-        if (ConcreteType != m_FieldType) {
-            return ToyBoxReflectionHelper.GetNameWithGenericsResolved(ConcreteType).Yellow();
-        } else {
-            return "";
-        }
-    }
-    private string GetValueText() {
-        var valueText = "";
-        if (Exception != null) {
-            valueText = "<exception>";
-            ColorOverride = Color.red;
-        } else {
-            if (IsNull) {
-                valueText = "<null>";
-                ColorOverride = Color.gray;
-            } else {
-                try {
-                    valueText = Value!.ToString();
-                } catch (Exception ex) {
-                    Exception = ex;
-                    valueText = "<exception>";
-                    ColorOverride = Color.red;
+            if (field == null) {
+                if (ConcreteType != m_FieldType) {
+                    field = ToyBoxReflectionHelper.GetNameWithGenericsResolved(ConcreteType).Yellow();
+                } else {
+                    field = "";
                 }
             }
+            return field;
         }
-        return valueText;
-    }
-    private string GetNameText() {
-        string nameText = $"[{m_ContainerPrefix}] ".Grey();
-        if (IsStatic) {
-            nameText += "[s] ".Magenta();
-        }
-        nameText += m_Name;
-
-        if (IsGameObject || IsEnumerable) {
-            nameText += " " + $"[{ElementCount}]".Yellow();
-        }
-        string typeName = ToyBoxReflectionHelper.GetNameWithGenericsResolved(m_FieldType);
-        if (ToyBoxReflectionHelper.PrimitiveTypes.Contains(ConcreteType)) {
-            typeName = typeName.Grey();
-        } else if (IsGameObject) {
-            typeName = typeName.Magenta();
-        } else if (IsEnumerable) {
-            typeName = typeName.Cyan();
-        } else {
-            typeName = typeName.Orange();
-        }
-        nameText += " : " + typeName;
-        return nameText;
     }
     public InspectorNode(string name, string path, Type type, object? value, InspectorNode? parent, string containerPrefix, bool isStatic = false, bool isPublic = true, bool isPrivate = false, bool isCompilerGenerated = false) {
         m_Name = name;
@@ -159,6 +179,24 @@ public class InspectorNode : IComparable {
         IsEnumerable = typeof(IEnumerable).IsAssignableFrom(ConcreteType) && ConcreteType != typeof(string);
         m_ContainerPrefix = containerPrefix;
         IsCompilerGenerated = isCompilerGenerated;
+    }
+
+    internal InspectorNode(InspectorNode node) {
+        m_Name = node.m_Name;
+        Value = node.Value;
+        Path = node.Path;
+        m_FieldType = node.m_FieldType;
+        Parent = node.Parent;
+        IsStatic = node.IsStatic;
+        IsPublic = node.IsPublic;
+        IsPrivate = node.IsPrivate;
+        IsNull = node.IsNull;
+        ConcreteType = node.ConcreteType;
+        IsNullable = node.IsNullable;
+        IsGameObject = node.IsGameObject;
+        IsEnumerable = node.IsEnumerable;
+        m_ContainerPrefix = node.m_ContainerPrefix;
+        IsCompilerGenerated = node.IsCompilerGenerated;
     }
 
     public int CompareTo(object obj) {

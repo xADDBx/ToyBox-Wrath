@@ -11,13 +11,9 @@ public static class InspectorTraverser {
         var type = obj?.GetType() ?? typeof(object);
         return new InspectorNode("root", "", type, obj, null, "");
     }
-    public static void BuildChildren(InspectorNode node) {
-        if (node.Children != null) {
-            return;
-        } else {
-            BuildChildrenInternal(node);
-            node.Children!.Sort();
-        }
+    internal static void BuildChildren(InspectorNode node) {
+        BuildChildrenInternal(node);
+        node.Children!.Sort();
     }
     private static void BuildChildrenInternal(InspectorNode node) {
         node.Children = [];
@@ -63,8 +59,9 @@ public static class InspectorTraverser {
                 node.Children.Add(childNode);
                 index++;
             }
-            foreach (GameObject child in go.transform) {
-                var childNode = new InspectorNode("<child_" + index + ">", node.Path, child?.GetType() ?? typeof(GameObject), child, node, InspectorNode.GameObjectChildPrefix);
+            foreach (Transform child in go.transform) {
+                var child2 = child.gameObject;
+                var childNode = new InspectorNode("<child_" + index + ">", node.Path, child2?.GetType() ?? typeof(GameObject), child2, node, InspectorNode.GameObjectChildPrefix);
                 node.Children.Add(childNode);
                 index++;
             }

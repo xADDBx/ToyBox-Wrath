@@ -22,4 +22,15 @@ public partial class SharedStrings {
     public static partial string ResetLabel { get; }
     [LocalizedString("ToyBox_Main_CurrentlyLoadedBPsText", "Currently loaded blueprints: {0}")]
     public static partial string CurrentlyLoadedBPsText { get; }
+
+    [LocalizedString("ToyBox_Infrastructure_UI_Browser_SearchText", "Search")]
+    public static partial string SearchText { get; }
+    [LocalizedString("ToyBox_Infrastructure_UI_UI_MinimumText", "min")]
+    public static partial string MinText { get; }
+    [LocalizedString("ToyBox_Infrastructure_UI_UI_MaximumText", "max")]
+    public static partial string MaxText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Inspector_InspectorUI_SearchInProgres___Text", "Search in progres...")]
+    public static partial string SearchInProgresText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Inspector_InspectorUI_CancelText", "Cancel")]
+    public static partial string CancelText { get; }
 }
