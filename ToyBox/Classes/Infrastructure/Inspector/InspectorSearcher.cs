@@ -11,7 +11,7 @@ public static class InspectorSearcher {
     } = false;
     public static string? LastPrompt = "";
     private static Stopwatch? m_Stopwatch;
-    public static bool m_ShouldCancel = false;
+    public static bool ShouldCancel = false;
     public static bool DidSearch {
         get {
             return LastPrompt != "" && !IsRunning;
@@ -25,39 +25,43 @@ public static class InspectorSearcher {
     public static void StartSearch(SearchMode mode, InspectorNode root, int depthToSearch, string query) {
         lock (m_SyncRoot) {
             if (query.ToUpper() != LastPrompt && !IsRunning) {
-                // We can't use a thread to run this sadly
-                // This should probably be further Coroutin-ed; making yields more granular and reducing UI lag
-                ToyBoxBehaviour.Instance.StartCoroutine(SearchCoroutine(mode, root, depthToSearch, query));
                 IsRunning = true;
-                m_ShouldCancel = false;
+                ShouldCancel = false;
                 LastPrompt = query.ToUpper();
+                m_Stopwatch = Stopwatch.StartNew();
+                ToyBoxBehaviour.Instance.StartCoroutine(SearchCoroutine(mode, root, depthToSearch, query));
             }
         }
-        m_Stopwatch = Stopwatch.StartNew();
     }
     private static IEnumerator SearchCoroutine(SearchMode mode, InspectorNode root, int depthToSearch, string query) {
-        var work = new Stack<(InspectorNode node, int depth)>();
+        var work = new Stack<(InspectorNode node, int depth, bool childrenPushed)>();
         foreach (var child in root.Children) {
-            work.Push((child, depthToSearch));
+            child.IsChildMatched = false;
+            child.IsSelfMatched = false;
+            work.Push((child, depthToSearch, false));
         }
 
         int processed = 0;
         while (work.Count > 0) {
-            var (node, depth) = work.Pop();
-            node.IsSelfMatched = MatchNode(mode, node, query);
-            node.Parent!.IsChildMatched |= node.IsMatched;
-            if (depth > 0) {
+            var (node, depth, childrenPushed) = work.Pop();
+
+            if (!childrenPushed && depth > 0) {
+                work.Push((node, depth, true));
                 foreach (var c in node.Children) {
-                    work.Push((c, depth - 1));
+                    c.IsChildMatched = false;
+                    c.IsSelfMatched = false;
+                    work.Push((c, depth - 1, false));
                 }
+            } else {
+                node.IsSelfMatched = MatchNode(mode, node, query);
+                node.Parent!.IsChildMatched |= node.IsMatched;
             }
-            // every 50 nodes, give the GUI a frame
             if (++processed % Settings.InspectorSearchBatchSize == 0) {
-                if (m_ShouldCancel) {
+                if (ShouldCancel) {
                     lock (m_SyncRoot) {
                         LastPrompt = "";
                         IsRunning = false;
-                        m_ShouldCancel = false;
+                        ShouldCancel = false;
                     }
                     Debug($"Inspector Search aborted after  {m_Stopwatch?.ElapsedMilliseconds.ToString() ?? "??????? Something is seriously wrong "}ms");
                     yield break;

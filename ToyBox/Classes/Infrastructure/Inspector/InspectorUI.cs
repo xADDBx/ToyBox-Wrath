@@ -28,7 +28,7 @@ public static partial class InspectorUI {
     public static void ClearCache() {
         m_CurrentlyInspecting.Clear();
         m_ExpandedKeys.Clear();
-        InspectorSearcher.m_ShouldCancel = true;
+        InspectorSearcher.ShouldCancel = true;
         InspectorSearcher.LastPrompt = "";
     }
     public static void InspectToggle(object key, string? title = null, object? toInspect = null, int indent = 0) {
@@ -77,7 +77,7 @@ public static partial class InspectorUI {
                         Space(20);
                         UI.UI.Label(SharedStrings.SearchInProgresText.Orange());
                         Space(20);
-                        UI.UI.Button(SharedStrings.CancelText.Cyan(), () => InspectorSearcher.m_ShouldCancel = true);
+                        UI.UI.Button(SharedStrings.CancelText.Cyan(), () => InspectorSearcher.ShouldCancel = true);
                     }
                 }
                 if (m_DoShowSearch) {
@@ -152,8 +152,10 @@ public static partial class InspectorUI {
                 return;
             }
 
+            m_DrawnNodes++;
+
             var discWidth = UI.UI.DisclosureGlyphWidth.Value;
-            var leftOverWidth = EffectiveWindowWidth() - (indent * Settings.InspectorIndentWidth) - 40 - discWidth;
+            var leftOverWidth = EffectiveWindowWidth() /*- (indent * Settings.InspectorIndentWidth)*/ - 40 - discWidth;
             var calculatedWidth = Settings.InspectorNameFractionOfWidth * leftOverWidth;
             if (Settings.ToggleInspectorSlimMode) {
                 calculatedWidth = Math.Min(calculatedWidth * leftOverWidth, node.OwnTextLength!.Value);
