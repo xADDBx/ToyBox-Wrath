@@ -22,7 +22,6 @@ public partial class SharedStrings {
     public static partial string ResetLabel { get; }
     [LocalizedString("ToyBox_Main_CurrentlyLoadedBPsText", "Currently loaded blueprints: {0}")]
     public static partial string CurrentlyLoadedBPsText { get; }
-
     [LocalizedString("ToyBox_Infrastructure_UI_Browser_SearchText", "Search")]
     public static partial string SearchText { get; }
     [LocalizedString("ToyBox_Infrastructure_UI_UI_MinimumText", "min")]

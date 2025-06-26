@@ -24,10 +24,11 @@ public static class InspectorSearcher {
     }
     public static void StartSearch(SearchMode mode, InspectorNode root, int depthToSearch, string query) {
         lock (m_SyncRoot) {
-            if (query.ToUpper() != LastPrompt && !IsRunning) {
+            var upperQuery = query.ToUpper();
+            if (upperQuery != LastPrompt && !IsRunning) {
                 IsRunning = true;
                 ShouldCancel = false;
-                LastPrompt = query.ToUpper();
+                LastPrompt = upperQuery;
                 m_Stopwatch = Stopwatch.StartNew();
                 ToyBoxBehaviour.Instance.StartCoroutine(SearchCoroutine(mode, root, depthToSearch, query));
             }
