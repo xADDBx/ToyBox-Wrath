@@ -11,9 +11,14 @@ public class ToyBoxPatchCategoryAttribute : Attribute {
     public static void PatchCategory(string categoryName, Harmony harmony) {
         if (m_HarmonyCategoryCache == null) CreateHarmonyCategoryCache();
         if (m_HarmonyCategoryCache!.TryGetValue(categoryName, out var toPatch)) {
-            toPatch.Do(type => {
-                harmony.CreateClassProcessor(type).Patch();
-            });
+            try {
+                toPatch.Do(type => {
+                    harmony.CreateClassProcessor(type).Patch();
+                });
+            } catch {
+                harmony.UnpatchAll(harmony.Id);
+                throw;
+            }
         }
     }
     public static void CreateHarmonyCategoryCache() {
