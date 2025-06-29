@@ -35,8 +35,11 @@
   WARNING: this tool can both miraculously fix your broken progression or it can break it even further. Save and back up
   your save before using. Remember that "with great power comes great responsibility"
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
-  skip quests you don't want to do. Be warned this may break your game progression if used carelessly.
-  
+  skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
+
+### Toybox Wrath - Ver 1.7.17 (built for 2.7.0w)
+* (***ADDB***) PatchTool: Special case certain Unity Value types (e.g. Vector2) and allow instantiating them.
+
 ### Toybox Wrath - Ver 1.7.16 (built for 2.7.0w)
 * (***ADDB***) Fix Gestalt issue where, when using game languages other than english, Gestalt might not work proprely (at chargen) (might be because of PC locale?).
 
