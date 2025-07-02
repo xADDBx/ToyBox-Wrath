@@ -21,7 +21,7 @@ namespace ToyBox {
                 var versions = JsonConvert.DeserializeAnonymousType(raw, definition);
                 var currentOrNewer = versions.FirstOrDefault(v => new Version(v[0]) >= modVersion);
                 if (currentOrNewer == null) return true;
-                return IsVersionGreaterThan(GetNumifiedVersion(logger, currentOrNewer[1]), GetNumifiedVersion(logger, gameVersion));
+                return IsVersionGreaterThan(GetNumifiedVersion(logger, currentOrNewer[1]), GetNumifiedVersion(logger, GameVersion.GetVersion()));
             } catch (Exception ex) {
                 logger.Log(ex.ToString());
             }
