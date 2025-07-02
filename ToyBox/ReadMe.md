@@ -38,6 +38,7 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
 
 ### Toybox Wrath - Ver 1.7.17 (built for 2.7.0w)
+* (***ADDB***) Fix Version Checker
 * (***ADDB***) PatchTool: Special case certain Unity Value types (e.g. Vector2) and allow instantiating them.
 
 ### Toybox Wrath - Ver 1.7.16 (built for 2.7.0w)
