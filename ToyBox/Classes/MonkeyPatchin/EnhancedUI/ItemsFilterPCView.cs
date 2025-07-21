@@ -10,7 +10,6 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using UniRx;
-using static ToyBox.BlueprintExtensions;
 
 namespace ToyBox.Inventory {
     // Handles both adding selected sorters to the sorter dropdowns and making sure that the dropdown is properly updates to match the selected sorter.

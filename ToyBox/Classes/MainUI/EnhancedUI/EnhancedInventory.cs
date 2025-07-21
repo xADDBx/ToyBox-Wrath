@@ -32,10 +32,10 @@ namespace ToyBox {
             [ItemSortCategories.DateDown] = ((int)ItemsFilter.SorterType.DateDown, null),
             [ItemSortCategories.WeightUp] = ((int)ItemsFilter.SorterType.WeightUp, null),
             [ItemSortCategories.WeightDown] = ((int)ItemsFilter.SorterType.WeightDown, null),
-            [ItemSortCategories.WeightValueUp] = ((int)ExpandedSorterType.WeightValueUp, "Price / Weight (in ascending order)"),
-            [ItemSortCategories.WeightValueDown] = ((int)ExpandedSorterType.WeightValueDown, "Price / Weight (in descending order)"),
-            [ItemSortCategories.RarityUp] = ((int)ExpandedSorterType.RarityUp, "Rarity (ascending order)"),
-            [ItemSortCategories.RarityDown] = ((int)ExpandedSorterType.RarityDown, "Rarity (descending order)")
+            [ItemSortCategories.WeightValueUp] = ((int)ExpandedSorterType.WeightValueUp, "Price / Weight (in ascending order)".localize()),
+            [ItemSortCategories.WeightValueDown] = ((int)ExpandedSorterType.WeightValueDown, "Price / Weight (in descending order)".localize()),
+            [ItemSortCategories.RarityUp] = ((int)ExpandedSorterType.RarityUp, "Rarity (ascending order)".localize()),
+            [ItemSortCategories.RarityDown] = ((int)ExpandedSorterType.RarityDown, "Rarity (descending order)".localize())
         };
 
         public static readonly Dictionary<FilterCategories, (int index, string title)> FilterCategoryMap = new Dictionary<FilterCategories, (int index, string title)> {
@@ -53,13 +53,13 @@ namespace ToyBox {
             [FilterCategories.Potion] = ((int)ItemsFilter.FilterType.Potion, null),
             [FilterCategories.Recipe] = ((int)ItemsFilter.FilterType.Recipe, null),
             [FilterCategories.Unlearned] = ((int)ItemsFilter.FilterType.Unlearned, null),
-            [FilterCategories.QuickslotUtils] = ((int)ExpandedFilterType.QuickslotUtilities, "Quickslot Usable"),
-            [FilterCategories.UnlearnedRecipes] = ((int)ExpandedFilterType.UnlearnedRecipes, "Unlearned Recipes"),
-            [FilterCategories.UnreadDocuments] = ((int)ExpandedFilterType.UnreadDocuments, "Unread Documents"),
-            [FilterCategories.UsableWithoutUMD] = ((int)ExpandedFilterType.UsableWithoutUMD, "Usable Without Magic Device Check"),
-            [FilterCategories.CurrentEquipped] = ((int)ExpandedFilterType.CurrentEquipped, "Can Equip (Current Char)"),
-            [FilterCategories.NonZeroPW] = ((int)ExpandedFilterType.NonZeroPW, "Non-zero price and weight"),
-            [FilterCategories.UnlearnedScrolls] = ((int)ExpandedFilterType.UnlearnedScrolls, "Unlearned Scrolls")
+            [FilterCategories.QuickslotUtils] = ((int)ExpandedFilterType.QuickslotUtilities, "Quickslot Usable".localize()),
+            [FilterCategories.UnlearnedRecipes] = ((int)ExpandedFilterType.UnlearnedRecipes, "Unlearned Recipes".localize()),
+            [FilterCategories.UnreadDocuments] = ((int)ExpandedFilterType.UnreadDocuments, "Unread Documents".localize()),
+            [FilterCategories.UsableWithoutUMD] = ((int)ExpandedFilterType.UsableWithoutUMD, "Usable Without Magic Device Check".localize()),
+            [FilterCategories.CurrentEquipped] = ((int)ExpandedFilterType.CurrentEquipped, "Can Equip (Current Char)".localize()),
+            [FilterCategories.NonZeroPW] = ((int)ExpandedFilterType.NonZeroPW, "Non-zero price and weight".localize()),
+            [FilterCategories.UnlearnedScrolls] = ((int)ExpandedFilterType.UnlearnedScrolls, "Unlearned Scrolls".localize())
         };
 
         public static readonly RemappableInt FilterMapper = new RemappableInt();
