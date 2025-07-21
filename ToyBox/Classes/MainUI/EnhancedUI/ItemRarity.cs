@@ -170,9 +170,9 @@ namespace ToyBox {
             var name = Settings.toggleColorLootByRarity ? s.Color(RarityColors[(int)rarity]) : s;
             if (!Settings.toggleShowRarityTags) return name;
             if (Settings.toggleColorLootByRarity)
-                return name + " " + $"[{rarity}]".DarkGrey().Bold(); //.SizePercent(75);
+                return name + " " + $"[{rarity.ToString().localize()}]".DarkGrey().Bold(); //.SizePercent(75);
             else
-                return name + " " + $"[{rarity}]".Rarity(rarity).Bold(); //.SizePercent(75);
+                return name + " " + $"[{rarity.ToString().localize()}]".Rarity(rarity).Bold(); //.SizePercent(75);
         }
         public static string? GetString(this RarityType rarity, float adjust = 0) => rarity.ToString().Rarity(rarity, adjust);
         public static void Hide(this LocalMapLootMarkerPCView localMapLootMarkerPCView) {
