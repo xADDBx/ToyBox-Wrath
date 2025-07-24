@@ -15,6 +15,12 @@ public partial class VerticalList<T> : IPagedList where T : notnull {
     protected readonly Dictionary<object, T> ToggledDetailGUIs = [];
     protected IEnumerable<T> PagedItems = [];
     protected IEnumerable<T> Items = [];
+    protected int? OverridePageLimit;
+    protected int EffectivePageLimit {
+        get {
+            return OverridePageLimit ?? Settings.PageLimit;
+        }
+    }
     /// <summary>
     /// Initializes a new instance of the <see cref="VerticalList{T}"/> class.
     /// </summary>
@@ -32,9 +38,7 @@ public partial class VerticalList<T> : IPagedList where T : notnull {
         if (overridePageWidth.HasValue) {
             PageWidth = overridePageWidth.Value;
         }
-        if (overridePageLimit.HasValue) {
-            Settings.PageLimit = overridePageLimit.Value;
-        }
+        OverridePageLimit = overridePageLimit;
         if (initialItems != null) {
             QueueUpdateItems(initialItems);
         }
@@ -91,8 +95,8 @@ public partial class VerticalList<T> : IPagedList where T : notnull {
         UpdatePages();
     }
     public virtual void UpdatePages() {
-        if (Settings.PageLimit > 0) {
-            TotalPages = (int)Math.Ceiling((double)ItemCount / Settings.PageLimit);
+        if (EffectivePageLimit > 0) {
+            TotalPages = (int)Math.Ceiling((double)ItemCount / EffectivePageLimit);
             CurrentPage = Math.Max(Math.Min(CurrentPage, TotalPages), 1);
         } else {
             CurrentPage = 1;
@@ -101,36 +105,38 @@ public partial class VerticalList<T> : IPagedList where T : notnull {
         UpdatePagedItems();
     }
     protected virtual void UpdatePagedItems() {
-        var offset = Math.Min(ItemCount, (CurrentPage - 1) * Settings.PageLimit);
-        PagedItemsCount = Math.Min(Settings.PageLimit, ItemCount - offset);
+        var offset = Math.Min(ItemCount, (CurrentPage - 1) * EffectivePageLimit);
+        PagedItemsCount = Math.Min(EffectivePageLimit, ItemCount - offset);
         PagedItems = Items.Skip(offset).Take(PagedItemsCount);
     }
     protected void PageGUI() {
-        using (HorizontalScope()) {
-            UI.Label($"{SharedStrings.ShowingText.Orange()} {PagedItemsCount.ToString().Cyan()} / {ItemCount.ToString().Cyan()} {SharedStrings.ResultsText.Orange()},   " + 
-                $"{SharedStrings.PageText.Orange()}: {CurrentPage.ToString().Cyan()} / {Math.Max(1, TotalPages).ToString().Cyan()}");
-            if (TotalPages > 1) {
-                Space(25);
-                if (UI.Button("-")) {
-                    if (CurrentPage <= 1) {
-                        CurrentPage = TotalPages;
-                    } else {
-                        CurrentPage -= 1;
-                    }
-                    UpdatePagedItems();
+        UI.Label($"{SharedStrings.ShowingText.Orange()} {PagedItemsCount.ToString().Cyan()} / {ItemCount.ToString().Cyan()} {SharedStrings.ResultsText.Orange()},   " +
+            $"{SharedStrings.PageText.Orange()}: {CurrentPage.ToString().Cyan()} / {Math.Max(1, TotalPages).ToString().Cyan()}");
+        if (TotalPages > 1) {
+            Space(25);
+            if (UI.Button("-")) {
+                if (CurrentPage <= 1) {
+                    CurrentPage = TotalPages;
+                } else {
+                    CurrentPage -= 1;
                 }
-                if (UI.Button("+")) {
-                    if (CurrentPage >= TotalPages) {
-                        CurrentPage = 1;
-                    } else {
-                        CurrentPage += 1;
-                    }
-                    UpdatePagedItems();
+                UpdatePagedItems();
+            }
+            if (UI.Button("+")) {
+                if (CurrentPage >= TotalPages) {
+                    CurrentPage = 1;
+                } else {
+                    CurrentPage += 1;
                 }
+                UpdatePagedItems();
             }
         }
     }
-    protected virtual void HeaderGUI() => PageGUI();
+    protected virtual void HeaderGUI() {
+        using (HorizontalScope()) {
+            PageGUI();
+        }
+    }
     /// <summary>
     /// Renders the paged list using the provided item GUI rendering callback.
     /// </summary>

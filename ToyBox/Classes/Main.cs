@@ -33,7 +33,7 @@ public static partial class Main {
             ModEntry.OnShowGUI = OnShowGUI;
             ModEntry.OnHideGUI = OnHideGUI;
             ModEntry.OnGUI = OnGUI;
-            ModEntry.OnFixedUpdate = OnFixedUpdate;
+            ModEntry.OnUpdate = OnUpdate;
             ModEntry.OnSaveGUI = OnSaveGUI;
 
             if (Settings.EnableFileIntegrityCheck && !IntegrityCheckerFeature.CheckFilesHealthy()) {
@@ -140,7 +140,7 @@ public static partial class Main {
         Settings.Save();
         OnHideGUIAction?.Invoke();
     }
-    private static void OnFixedUpdate(UnityModManager.ModEntry modEntry, float z) {
+    private static void OnUpdate(UnityModManager.ModEntry modEntry, float z) {
         try {
             if (m_MainThreadTaskQueue.TryDequeue(out var task)) {
                 task();

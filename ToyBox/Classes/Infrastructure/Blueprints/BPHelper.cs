@@ -37,8 +37,8 @@ public static class BPHelper {
                 string Name = "";
                 try {
                     Name = uiDataProvider.Name;
-                } catch (Exception) {
-                    Debug($"Error while getting name for {uiDataProvider}");
+                } catch (Exception ex) {
+                    Debug($"Error while getting name for {uiDataProvider}:\n{ex}");
                 }
                 ret = CheckNullName(blueprint, Name);
             } else if (blueprint is BlueprintItemEnchantment enchantment) {
@@ -46,8 +46,7 @@ public static class BPHelper {
             }
             ret ??= blueprint.name;
         } catch (Exception ex) {
-            Debug($"Error getting SortKey for BP: {blueprint} - {blueprint.AssetGuid}");
-            Debug(ex.ToString());
+            Debug($"Error getting SortKey for BP: {blueprint} - {blueprint.AssetGuid}:\n{ex}");
             ret ??= "<ToyBox Error>";
         }
         return formatter(ret);
@@ -59,8 +58,8 @@ public static class BPHelper {
                 string Name = "";
                 try {
                     Name = uiDataProvider.Name;
-                } catch (Exception) {
-                    Debug($"Error while getting name for {uiDataProvider}");
+                } catch (Exception ex) {
+                    Debug($"Error while getting name for {uiDataProvider}:\n{ex}");
                 }
                 ret = CheckNullName(blueprint, Name, true);
             } else if (blueprint is BlueprintItemEnchantment enchantment) {
@@ -68,8 +67,7 @@ public static class BPHelper {
             }
             ret ??= blueprint.name;
         } catch (Exception ex) {
-            Debug($"Error getting SearchKey for BP: {blueprint} - {blueprint.AssetGuid}");
-            Debug(ex.ToString());
+            Debug($"Error getting SearchKey for BP: {blueprint} - {blueprint.AssetGuid}:\n{ex}");
             ret ??= "<ToyBox Error>";
         }
         return (ret + $" {blueprint.AssetGuid} {blueprint.GetType()}").ToUpper();
@@ -81,8 +79,8 @@ public static class BPHelper {
                 string Name = "";
                 try {
                     Name = uiDataProvider.Name;
-                } catch (Exception) {
-                    Debug($"Error while getting name for {uiDataProvider}");
+                } catch (Exception ex) {
+                    Debug($"Error while getting name for {uiDataProvider}:\n{ex}");
                 }
                 ret = CheckNullName(blueprint, Name);
                 if (Settings.SearchDescriptions) {
@@ -96,8 +94,7 @@ public static class BPHelper {
             }
             ret ??= blueprint.name;
         } catch (Exception ex) {
-            Debug($"Error getting SortKey for BP: {blueprint} - {blueprint.AssetGuid}");
-            Debug(ex.ToString());
+            Debug($"Error getting SortKey for BP: {blueprint} - {blueprint.AssetGuid}:\n{ex}");
             ret ??= "<ToyBox Error>";
         }
         return ret;

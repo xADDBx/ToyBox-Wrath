@@ -28,14 +28,17 @@ public static partial class UI {
             m_EnumNameCache[typeof(TEnum)] = names;
             m_IndexToEnumCache[typeof(TEnum)] = indexToEnum;
         }
-        if (xCols < 0) {
+        if (xCols <= 0) {
             xCols = vals.Length;
         }
         var selectedInt = m_IndexToEnumCache[typeof(TEnum)][selected];
         // Create a copy to not recolour the selected element permanently
-        names = [.. names];
-        names[selectedInt] = names[selectedInt].Orange();
+        // names = [.. names];
+        // Better idea: Just cache that one name and change it back after
+        var uncolored = names[selectedInt];
+        names[selectedInt] = uncolored.Orange();
         var newSel = GUILayout.SelectionGrid(selectedInt, names, xCols, options);
+        names[selectedInt] = uncolored;
         bool changed = selectedInt != newSel;
         if (changed) {
             selected = (TEnum)vals.GetValue(newSel);
@@ -43,9 +46,10 @@ public static partial class UI {
         return changed;
     }
     public static bool SelectionGrid<T>(ref T? selected, IList<T> vals, int xCols, Func<T, string>? titler, params GUILayoutOption[] options) where T : notnull {
-        if (xCols < 0) {
+        if (xCols <= 0) {
             xCols = vals.Count;
-        }       var selectedInt = selected != null ? vals.IndexOf(selected) + 1 : 0;
+        }      
+        var selectedInt = selected != null ? vals.IndexOf(selected) + 1 : 0;
         string[] names = [NoneText, .. vals.Select(x => {
             if (titler != null) {
                 return titler(x);

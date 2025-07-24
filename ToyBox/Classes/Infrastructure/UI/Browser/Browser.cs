@@ -1,7 +1,5 @@
 ﻿using Kingmaker.Utility;
-using System.Collections;
 using System.Runtime.CompilerServices;
-using UniRx;
 using UnityEngine;
 
 namespace ToyBox.Infrastructure.UI;
@@ -81,7 +79,14 @@ public partial class Browser<T> : VerticalList<T> where T : notnull {
         if (!onlyDisplayedItems) {
             UnsearchedItems = newItems;
         }
-        base.UpdateItems(newItems, forcePage);
+        if (!ShowAll) {
+            base.UpdateItems(newItems, forcePage);
+            RedoSearch();
+        } else {
+            if (onlyDisplayedItems) {
+                base.UpdateItems(newItems, forcePage);
+            }
+        }
     }
     public void RedoSearch() => StartNewSearch(CurrentSearchString, true);
     /// <summary>
@@ -158,6 +163,15 @@ public partial class Browser<T> : VerticalList<T> where T : notnull {
                 }
             }
             SearchBarGUI();
+        }
+    }
+    public void ForceShowAll() {
+        if (ShowAllFunc != null) {
+            ShowAll = true;
+            if (UnsearchedShowAllItems == null && !m_ShowAllFuncCalled) {
+                m_ShowAllFuncCalled = true;
+                ShowAllFunc(RegisterShowAllItems);
+            }
         }
     }
 }

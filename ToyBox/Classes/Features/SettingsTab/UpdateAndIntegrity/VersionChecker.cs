@@ -1,6 +1,7 @@
 ﻿using Kingmaker;
 using Newtonsoft.Json;
 using System.Net;
+using System.Numerics;
 using ToyBox.Infrastructure;
 
 namespace ToyBox.Features.SettingsFeatures.UpdateAndIntegrity;
@@ -19,37 +20,47 @@ public static class VersionChecker {
             if (currentOrNewer == null) {
                 ResultOfCheck = true;
             } else {
-                ResultOfCheck = new Version(GetNumifiedVersion(currentOrNewer[1])) > new Version(GetNumifiedVersion(GameVersion.GetVersion()));
+                ResultOfCheck = IsVersionGreaterThan(GetNumifiedVersion(currentOrNewer[1]), GetNumifiedVersion(GameVersion.GetVersion()));
             }
         } catch (Exception ex) {
             Warn(ex.ToString());
         }
     }
-    internal static string GetNumifiedVersion(string version) {
+    internal static bool IsVersionGreaterThan(List<BigInteger> a, List<BigInteger> b) {
+        int maxLen = Math.Max(a.Count, b.Count);
+        for (int i = 0; i < maxLen; i++) {
+            BigInteger t = (i < a.Count) ? a[i] : 0;
+            BigInteger g = (i < b.Count) ? b[i] : 0;
+            if (t > g) {
+                return true;
+            }
+            if (t < g) {
+                return false;
+            }
+        }
+        return false;
+    }
+    internal static List<BigInteger> GetNumifiedVersion(string version) {
         var comps = version.Split('.');
-        var newComps = new List<string>();
+        var newComps = new List<BigInteger>();
         foreach (var comp in comps) {
-            ulong num = 0;
+            BigInteger num = 0;
             foreach (var c in comp) {
-                ulong newNum = num;
                 try {
-                    checked {
-                        if (ulong.TryParse(c.ToString(), out var n)) {
-                            newNum = newNum * 10u + n;
-                        } else {
-                            long signedCharNumber = char.ToUpper(c) - ' ';
-                            ulong unsignedCharNumber = (ulong)Math.Max(0, Math.Min(signedCharNumber, 99));
-                            newNum = newNum * 100u + unsignedCharNumber;
-                        }
-                        num = newNum;
+                    if (uint.TryParse(c.ToString(), out var n)) {
+                        num = num * 10u + n;
+                    } else {
+                        int signedCharNumber = char.ToUpper(c) - ' ';
+                        uint unsignedCharNumber = (uint)Math.Max(0, Math.Min(signedCharNumber, 99));
+                        num = num * 100u + unsignedCharNumber;
                     }
-                } catch (OverflowException) {
-                    Warn($"Encountered ulong overflow while parsing version component {comp}, continuing with {num}");
+                } catch (Exception ex) {
+                    Warn($"Error while trying to numify version component {comp}, continuing with {num}.\n{ex}");
                     break;
                 }
             }
-            newComps.Add(num.ToString());
+            newComps.Add(num);
         }
-        return string.Join(".", newComps);
+        return newComps;
     }
 }
