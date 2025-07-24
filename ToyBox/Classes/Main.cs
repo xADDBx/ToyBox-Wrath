@@ -1,4 +1,4 @@
-﻿using Kingmaker.Blueprints;
+using Kingmaker.Blueprints;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using ToyBox.Features.SettingsFeatures.UpdateAndIntegrity;
@@ -13,7 +13,8 @@ namespace ToyBox;
 [EnableReloading]
 #endif
 public static partial class Main {
-    internal static Harmony HarmonyInstance = new("ToyBox");
+    private const string HarmonyId = "ToyBox";
+    internal static Harmony HarmonyInstance = new(HarmonyId);
     internal static UnityModManager.ModEntry ModEntry = null!;
     internal static List<Task> LateInitTasks = [];
     internal static Action? OnLocaleChanged;
@@ -74,6 +75,7 @@ public static partial class Main {
 
         } catch (Exception ex) {
             Error(ex);
+            OnUnload(modEntry);
             return false;
         }
         Debug($"Complete init took {sw.ElapsedMilliseconds}ms");
@@ -90,7 +92,7 @@ public static partial class Main {
         foreach (var tab in m_FeatureTabs) {
             tab.DestroyAll();
         }
-        HarmonyInstance.UnpatchAll(ModEntry.Info.Id);
+        HarmonyInstance.UnpatchAll(HarmonyId);
         OnUnloadAction?.Invoke();
         return true;
     }
