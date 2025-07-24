@@ -38,8 +38,10 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
 
 ### Toybox Wrath - Ver 1.7.17 (built for 2.7.0w)
+* (***ADDB***) Fix ToyBox potentially breaking Owlmods when loading blueprints
 * (***ADDB***) Fix Version Checker
 * (***ADDB***) PatchTool: Special case certain Unity Value types (e.g. Vector2) and allow instantiating them.
+* (***kkk2174***) Updated Chinese Localization via DeepSeek R1
 
 ### Toybox Wrath - Ver 1.7.16 (built for 2.7.0w)
 * (***ADDB***) Fix Gestalt issue where, when using game languages other than english, Gestalt might not work proprely (at chargen) (might be because of PC locale?).

@@ -8,6 +8,7 @@ using Kingmaker.Blueprints.JsonSystem.Converters;
 using Kingmaker.Modding;
 using Kingmaker.Utility;
 using ModKit;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -20,6 +21,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ToyBox.classes.Infrastructure.Blueprints;
@@ -166,7 +168,7 @@ namespace ToyBox {
             }
             _blueprints.RemoveAll(b => b is null);
             watch.Stop();
-            Mod.Log($"Threaded loaded {_blueprints.Count + bpsToAdd.Count + BlueprintLoaderPatches.BlueprintsCache_Patches.IsLoading.Count} blueprints in {watch.ElapsedMilliseconds} milliseconds");
+            Mod.Log($"Threaded loaded roughly {_blueprints.Count + bpsToAdd.Count + BlueprintLoaderPatches.BlueprintsCache_Patches.IsLoading.Value.Count} blueprints in {watch.ElapsedMilliseconds} milliseconds");
             toLoad = null;
             lock (loader) {
                 _callback(_blueprints);
@@ -271,14 +273,14 @@ namespace ToyBox {
                         Shared.bpsToAdd.RemoveWhere(bp => bp.AssetGuid == guid);
                     }
                 }
-                internal static HashSet<BlueprintGuid> IsLoading = new();
+                internal static ThreadLocal<HashSet<BlueprintGuid>> IsLoading = new(() => []);
                 [HarmonyPatch(nameof(BlueprintsCache.Load)), HarmonyPrefix]
                 public static bool Pre_Load(BlueprintGuid guid, ref SimpleBlueprint __result) {
                     if (!Shared.IsRunning) return true;
                     int shardIndex = Math.Abs(guid.GetHashCode()) % Main.Settings.BlueprintsLoaderNumShards;
                     var startedLoading = Shared._startedLoadingShards[shardIndex];
                     if (startedLoading.TryAdd(guid, Shared)) {
-                        IsLoading.Add(guid);
+                        IsLoading.Value.Add(guid);
                         return true;
                     }
                     lock (startedLoading[guid]) {
@@ -292,8 +294,7 @@ namespace ToyBox {
                 }
                 [HarmonyPatch(nameof(BlueprintsCache.Load)), HarmonyPostfix]
                 public static void Post_Load(BlueprintGuid guid, ref SimpleBlueprint __result) {
-                    if (IsLoading.Contains(guid)) {
-                        IsLoading.Remove(guid);
+                    if (IsLoading.Value.Remove(guid)) {
                         lock (Shared.bpsToAdd) {
                             if (__result != null) Shared.bpsToAdd.Add(__result);
                         }
@@ -311,6 +312,36 @@ namespace ToyBox {
                     }, Main.Settings.savePreloadHelper.Select(BlueprintGuid.Parse).ToHashSet());
                 }
                 */
+            }
+            [HarmonyPatch(typeof(OwlcatModificationBlueprintPatcher), nameof(OwlcatModificationBlueprintPatcher.ApplyPatchEntry)), HarmonyPrefix]
+            private static bool OwlcatModificationBlueprintPatcher_ApplyPatchEntry(JObject jsonBlueprint, JObject patchEntry) {
+                JsonMergeSettings settings = new() {
+                    MergeArrayHandling = OwlcatModificationBlueprintPatcher.ExtractMergeArraySettings(patchEntry),
+                    MergeNullValueHandling = OwlcatModificationBlueprintPatcher.ExtractNullArraySettings(patchEntry)
+                };
+                jsonBlueprint.Merge(patchEntry, settings);
+                return false;
+            }
+            private static readonly ConcurrentDictionary<SimpleBlueprint, JObject> m_JsonBlueprintsCache = [];
+            [ThreadStatic]
+            private static StringBuilder? m_Builder;
+            [HarmonyPatch(typeof(OwlcatModificationBlueprintPatcher), nameof(OwlcatModificationBlueprintPatcher.GetJObject)), HarmonyPrefix]
+            private static bool OwlcatModificationBlueprintPatcher_GetJObject(SimpleBlueprint blueprint, ref JObject __result) {
+                if (m_JsonBlueprintsCache.TryGetValue(blueprint, out JObject jsonBlueprint)) {
+                    __result = jsonBlueprint;
+                    return false;
+                }
+                var blueprintJsonWrapper = new BlueprintJsonWrapper(blueprint) {
+                    AssetId = blueprint.AssetGuid.ToString()
+                };
+                m_Builder ??= new(64);
+                using var stringWriter = new StringWriter(m_Builder);
+                Json.Serializer.Serialize(stringWriter, blueprintJsonWrapper);
+                var jobject = JObject.Parse(m_Builder.ToString());
+                m_JsonBlueprintsCache[blueprint] = jobject;
+                __result = jobject;
+                m_Builder.Clear();
+                return false;
             }
         }
     }
