@@ -622,6 +622,7 @@ namespace ToyBox {
                 //() => UI.Toggle("Access Remote Characters", ref settings.toggleAccessRemoteCharacters,0),
                 //() => UI.Toggle("Show Pet Portraits", ref settings.toggleShowAllPartyPortraits,0),
                 () => Toggle("Instant Rest After Combat".localize(), ref Settings.toggleInstantRestAfterCombat),
+                () => Toggle("Full Heal After Combat".localize(), ref Settings.toggleFullHealAfterCombat),
                 () => Toggle("Instant change party members".localize(), ref Settings.toggleInstantChangeParty),
                 () => ToggleCallback("Equipment No Weight".localize(), ref Settings.toggleEquipmentNoWeight, BagOfPatches.Tweaks.NoWeight_Patch1.Refresh),
                 () => Toggle("Allow Equipment Change During Combat".localize(), ref Settings.toggleEquipItemsDuringCombat),
