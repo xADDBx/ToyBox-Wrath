@@ -29,8 +29,10 @@ using Kingmaker.Kingdom;
 using Kingmaker.Kingdom.Tasks;
 using Kingmaker.Kingdom.UI;
 using Kingmaker.PubSubSystem;
+using Kingmaker.RuleSystem;
 using Kingmaker.RuleSystem.Rules;
 using Kingmaker.RuleSystem.Rules.Abilities;
+using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.Tutorial;
 using Kingmaker.UI.FullScreenUITypes;
 using Kingmaker.UI.Group;
@@ -257,6 +259,15 @@ namespace ToyBox.BagOfPatches {
                 }
                 if (!inCombat && Settings.toggleInstantRestAfterCombat) {
                     CheatsCombat.RestAll();
+                }
+                if (!inCombat && Settings.toggleFullHealAfterCombat) {
+                    foreach (var unit in Game.Instance.Player.Party) {
+                        Rulebook.Trigger(new RuleHealDamage(unit, unit, default, unit.Descriptor.Stats.HitPoints.ModifiedValue));
+                        foreach (var attribute in unit.Stats.Attributes) {
+                            attribute.Damage = 0;
+                            attribute.Drain = 0;
+                        }
+                    }
                 }
                 if (inCombat && (Settings.toggleEnterCombatAutoRage || Settings.toggleEnterCombatAutoRage)) {
                     foreach (var unit in Game.Instance.Player.Party) {
