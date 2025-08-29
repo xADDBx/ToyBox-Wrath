@@ -38,6 +38,9 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
 
 ### Toybox Wrath - Ver 1.7.18 (built for 2.7.0w)
+* (***ADDB***) Proper Buff Rank handling
+ 
+### Toybox Wrath - Ver 1.7.18 (built for 2.7.0w)
 * (***taburetka123***) Add Full Heal After Combat option in Cheats tab that heals the party after combat without triggering the rest mechanic
 
 ### Toybox Wrath - Ver 1.7.17 (built for 2.7.0w)

@@ -262,7 +262,7 @@ namespace ToyBox {
                                                     (bp, ch, n, index) => ch.Descriptor().Buffs.GetFact(bp)?.AddRank(),
                                                     (bp, ch, index) => {
                                                         var buff = ch.Descriptor().Buffs.GetFact(bp);
-                                                        return buff != null && buff?.GetRank() < buff.Blueprint.Ranks - 1;
+                                                        return buff != null && buff?.GetRank() < buff.Blueprint.Ranks;
                                                     });
             // Kingdom Bufs
             BlueprintAction.Register<BlueprintKingdomBuff>("Add".localize(),
