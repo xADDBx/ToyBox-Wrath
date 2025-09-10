@@ -42,7 +42,7 @@ internal class GeneralSettings : AbstractSettings {
     public bool ToggleInspectorShowCompilerGeneratedFields = true;
     public bool ToggleInspectorSlimMode = false;
     public int InspectorSearchBatchSize = 20000;
-    public int InspectorDrawLimit = 4000;
+    public int InspectorDrawLimit = 500;
     public float InspectorIndentWidth = 20f;
     public float InspectorNameFractionOfWidth = 0.3f;
 
