@@ -11,9 +11,10 @@ public abstract class Feature {
     }
     public static T GetInstance<T>() where T : Feature {
         if (!m_Instances.TryGetValue(typeof(T), out var inst)) {
-            inst = (T)Activator.CreateInstance(typeof(T), true);
+            // inst = (T)Activator.CreateInstance(typeof(T), true);
+            // m_Instances[typeof(T)] = inst;
+            throw new InvalidOperationException($"No constructed instance of type {typeof(T)} found!");
         }
-        m_Instances[typeof(T)] = inst;
         return (T)inst;
     }
     public abstract string Name { get; }

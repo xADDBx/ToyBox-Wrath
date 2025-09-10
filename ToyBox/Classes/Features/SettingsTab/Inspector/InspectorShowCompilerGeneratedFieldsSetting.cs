@@ -2,7 +2,7 @@
 
 namespace ToyBox.Features.SettingsTab.Inspector;
 
-public partial class InspectorShowCompilerGeneratedFields : ToggledFeature {
+public partial class InspectorShowCompilerGeneratedFieldsSetting : ToggledFeature {
     public override ref bool IsEnabled => ref Settings.ToggleInspectorShowCompilerGeneratedFields;
     [LocalizedString("ToyBox_Features_SettingsTab_Inspector_InspectorShowCompilerGeneratedFields_Name", "Show compiler generated fields")]
     public override partial string Name { get; }

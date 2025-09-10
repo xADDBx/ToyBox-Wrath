@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using ToyBox.Features.SettingsTab.Inspector;
+using UnityEngine;
 
 namespace ToyBox.Infrastructure.Inspector;
 public static partial class InspectorUI {
     [LocalizedString("ToyBox_Infrastructure_Inspector_InspectorUI_ShowSearchText", "Show Search")]
     private static partial string ShowSearchText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Inspector_InspectorUI_ShowSearchSettingsText", "Show Settings")]
+    private static partial string ShowSettingsText { get; }
     [LocalizedString("ToyBox_Infrastructure_Inspector_InspectorUI_SearchByNameText", "Search by Name")]
     private static partial string SearchByNameText { get; }
     [LocalizedString("ToyBox_Infrastructure_Inspector_InspectorUI_SearchByTypeText", "Search by Type")]
@@ -56,6 +59,7 @@ public static partial class InspectorUI {
     private static string m_TypeSearch = "";
     private static string m_ValueSearch = "";
     private static bool m_DoShowSearch = false;
+    private static bool m_DoShowSettings = false;
     private static int m_SearchDepth = 2;
     private static int m_DrawnNodes;
     public static void Inspect(object? obj) {
@@ -73,11 +77,26 @@ public static partial class InspectorUI {
                     UI.UI.Label(SharedStrings.CurrentlyInspectingText + ": " + valueText.Cyan());
                     Space(20);
                     UI.UI.DisclosureToggle(ref m_DoShowSearch, ShowSearchText);
+                    Space(20);
+                    UI.UI.DisclosureToggle(ref m_DoShowSettings, ShowSettingsText);
                     if (InspectorSearcher.IsRunning) {
                         Space(20);
                         UI.UI.Label(SharedStrings.SearchInProgresText.Orange());
                         Space(20);
                         UI.UI.Button(SharedStrings.CancelText.Cyan(), () => InspectorSearcher.ShouldCancel = true);
+                    }
+                }
+                if (m_DoShowSettings) {
+                    using (VerticalScope()) {
+                        Feature.GetInstance<InspectorShowNullAndEmptyMembersSetting>().OnGui();
+                        Feature.GetInstance<InspectorShowStaticMembersSetting>().OnGui();
+                        Feature.GetInstance<InspectorShowEnumerableFieldsSetting>().OnGui();
+                        Feature.GetInstance<InspectorShowCompilerGeneratedFieldsSetting>().OnGui();
+                        Feature.GetInstance<InspectorSlimModeSetting>().OnGui();
+                        Feature.GetInstance<InspectorDrawLimitSetting>().OnGui();
+                        Feature.GetInstance<InspectorIndentWidthSetting>().OnGui();
+                        Feature.GetInstance<InspectorNameFractionOfWidthSetting>().OnGui();
+                        Feature.GetInstance<InspectorSearcherBatchSizeSetting>().OnGui();
                     }
                 }
                 if (m_DoShowSearch) {
