@@ -41,7 +41,8 @@ public static partial class UI {
     public static bool LogSlider(ref int value, float minValue, float maxValue, int? defaultValue = null, Action<(int oldValue, int newValue)>? onValueChanged = null, params GUILayoutOption[] options) {
         options = options.Length == 0 ? [AutoWidth(), Width(600)] : options;
         var oldValue = value;
-        const int offset = 1;
+        // Log(0) is bad; so shift to positive
+        double offset = minValue + 1;
 
         float logValue = 100f * (float)Math.Log10(value + offset);
         float logMin = 100f * (float)Math.Log10(minValue + offset);
@@ -66,7 +67,8 @@ public static partial class UI {
     public static bool LogSlider(ref float value, float minValue, float maxValue, float? defaultValue = null, int digits = 2, Action<(float oldValue, float newValue)>? onValueChanged = null, params GUILayoutOption[] options) {
         options = options.Length == 0 ? [AutoWidth(), Width(600)] : options;
         var oldValue = value;
-        const int offset = 1;
+        // Log(0) is bad; so shift to positive
+        double offset = minValue + 1;
 
         float logValue = 100f * (float)Math.Log10(value + offset);
         float logMin = 100f * (float)Math.Log10(minValue + offset);
