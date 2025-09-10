@@ -1,6 +1,6 @@
 ﻿namespace ToyBox.Features.SettingsFeatures.Blueprints;
 
-public partial class BlueprintsLoaderChunkSizeSetting : FeatureWithIntSlider {
+public partial class BlueprintsLoaderChunkSizeSetting : FeatureWithLogIntSlider {
     [LocalizedString("ToyBox_Features_SettingsFeatures_Blueprints_BlueprintsLoaderChunkSizeSetting_Name", "Chunk Size")]
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Features_SettingsFeatures_Blueprints_BlueprintsLoaderChunkSizeSetting_Description", "Affects the amount of blueprints a thread loads at once. A lower number means better load balancing but more synchronization overhead.")]
