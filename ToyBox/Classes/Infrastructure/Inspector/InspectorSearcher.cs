@@ -76,12 +76,16 @@ public static class InspectorSearcher {
         Debug($"Inspector Search finished in {m_Stopwatch?.ElapsedMilliseconds.ToString() ?? "??????? Something is seriously wrong "}ms");
     }
     private static bool MatchNode(SearchMode mode, InspectorNode node, string query) {
-        if (mode == SearchMode.ValueSearch) {
-            return MatchString(node.ValueText, query);
-        } else if (mode == SearchMode.NameSearch) {
-            return MatchString(node.NameText, query);
-        } else if (mode == SearchMode.TypeSearch) {
-            return MatchString(node.TypeNameText, query);
+        try {
+            if (mode == SearchMode.ValueSearch) {
+                return MatchString(node.ValueText, query);
+            } else if (mode == SearchMode.NameSearch) {
+                return MatchString(node.NameText, query);
+            } else if (mode == SearchMode.TypeSearch) {
+                return MatchString(node.TypeNameText, query);
+            }
+        } catch (Exception ex) {
+            Warn($"Error trying to match node {node?.NameText ?? "NullName"} for mode {mode}:\n{ex}");
         }
         return false;
     }

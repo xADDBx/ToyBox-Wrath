@@ -89,6 +89,10 @@ public class InspectorNode : IComparable {
                     } else {
                         try {
                             valueText = Value!.ToString();
+                            if (valueText is null) {
+                                valueText = "<ToString returned null>";
+                                ColorOverride = Color.red;
+                            }
                         } catch (Exception ex) {
                             Exception = ex;
                             valueText = "<exception>";
