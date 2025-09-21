@@ -73,7 +73,7 @@ public partial class UpdaterFeature : Feature {
             string? remoteVersion = null;
             if (!reinstallCurrentVersion) {
                 remoteVersion = GetLatestVersion();
-                repoHasNewVersion = new Version(VersionChecker.GetNumifiedVersion(remoteVersion)) > new Version(VersionChecker.GetNumifiedVersion(Main.ModEntry.Info.Version));
+                repoHasNewVersion = VersionChecker.IsVersionGreaterThan(VersionChecker.GetNumifiedVersion(remoteVersion), VersionChecker.GetNumifiedVersion(Main.ModEntry.Info.Version));
             }
 
             if (reinstallCurrentVersion || repoHasNewVersion || !onlyUpdateIfRemoteIsNewer) {
