@@ -12,7 +12,6 @@ public partial class VerticalList<T> : IPagedList where T : notnull {
     protected int TotalPages = 1;
     protected int ItemCount = 0;
     protected bool ShowDivBetweenItems = true;
-    protected readonly Dictionary<object, T> ToggledDetailGUIs = [];
     protected IEnumerable<T> PagedItems = [];
     protected IEnumerable<T> Items = [];
     protected int? OverridePageLimit;
@@ -46,30 +45,6 @@ public partial class VerticalList<T> : IPagedList where T : notnull {
         Main.m_VerticalLists.Add(new(this));
     }
     /// <summary>
-    /// Clears all expanded detail sections.
-    /// </summary>
-    public void ClearDetails() => ToggledDetailGUIs.Clear();
-    /// <summary>
-    /// Toggles a collapsible detail section for the specified item.
-    /// </summary>
-    /// <param name="target">The item associated with the detail section.</param>
-    /// <param name="key">A unique key identifying the detail section (can be different from the item itself). It's an object because T can be a struct, but structs can't be used as keys.</param>
-    /// <param name="title">Optional title displayed on the disclosure toggle.</param>
-    /// <param name="width">Optional width for the toggle control.</param>
-    /// <returns><c>true</c> if the toggle changed state; otherwise, <c>false</c>.</returns>
-    public bool DetailToggle(T target, object key, string? title = null, int width = 400) {
-        var changed = false;
-        if (key == null) key = target;
-        var expanded = ToggledDetailGUIs.ContainsKey(key);
-        if (UI.DisclosureToggle(ref expanded, title, Width(width))) {
-            changed = true;
-            if (expanded) {
-                ToggledDetailGUIs[key] = target;
-            }
-        }
-        return changed;
-    }
-    /// <summary>
     /// Queues an update to replace the current item list with a new collection. Runs on the main thread.
     /// </summary>
     /// <param name="newItems">The new items to display.</param>
@@ -94,6 +69,9 @@ public partial class VerticalList<T> : IPagedList where T : notnull {
         ItemCount = Items.Count();
         UpdatePages();
     }
+    /// <summary>
+    /// Recalculate the current amount of pages and thereby update the currently displayed items
+    /// </summary>
     public virtual void UpdatePages() {
         if (EffectivePageLimit > 0) {
             TotalPages = (int)Math.Ceiling((double)ItemCount / EffectivePageLimit);
@@ -150,21 +128,6 @@ public partial class VerticalList<T> : IPagedList where T : notnull {
                 }
                 onItemGUI(item);
             }
-        }
-    }
-    /// <summary>
-    /// Renders a detail panel for an item if it is currently expanded.
-    /// </summary>
-    /// <param name="key">The key identifying the detail section.</param>
-    /// <param name="onDetailGUI">The delegate that renders the detail UI for the item.</param>
-    /// <returns><c>true</c> if the detail panel was rendered; otherwise, <c>false</c>.</returns>
-    public bool DetailGUI(object key, Action<T> onDetailGUI) {
-        ToggledDetailGUIs.TryGetValue(key, out var target);
-        if (target != null) {
-            onDetailGUI(target);
-            return true;
-        } else {
-            return false;
         }
     }
 }

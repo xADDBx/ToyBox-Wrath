@@ -165,6 +165,9 @@ public partial class Browser<T> : VerticalList<T> where T : notnull {
             SearchBarGUI();
         }
     }
+    /// <summary>
+    /// Forcefully activate ShowAll, simulating the user clicking the ShowAll toggle
+    /// </summary>
     public void ForceShowAll() {
         if (ShowAllFunc != null) {
             ShowAll = true;
