@@ -280,10 +280,13 @@ namespace ToyBox.BagOfPatches {
                                         if (answer.ShowOnce) {
                                             var dialog = Game.Instance.Player.Dialog;
                                             var dialogController = Game.Instance.DialogController;
-                                            if (dialogController.LocalSelectedAnswers.Where(a => a.AssetGuid == answer.AssetGuid).Any())
-                                                continue;
-                                            if (dialog.SelectedAnswers.Where(a => a.AssetGuid == answer.AssetGuid).Any())
-                                                continue;
+                                            if (answer.ShowOnceCurrentDialog) {
+                                                if (dialogController.LocalSelectedAnswers.Where(a => a.AssetGuid == answer.AssetGuid).Any())
+                                                    continue;
+                                            } else {
+                                                if (dialog.SelectedAnswers.Where(a => a.AssetGuid == answer.AssetGuid).Any())
+                                                    continue;
+                                            }
                                         }
                                         if (settings.toggleShowAllAnswersForEachConditionalResponse || cueBase.CanShow()) {
                                             var multiAnswer = answer.ShallowClone();
@@ -335,7 +338,6 @@ namespace ToyBox.BagOfPatches {
                     __result = Game.Instance.Player.Dialog.SelectedAnswers.Where(a => a.AssetGuid == __instance.Answer.AssetGuid).Any();
                 } else {
                     __result = Game.Instance.DialogController.LocalSelectedAnswers.Where(a => a.AssetGuid == __instance.Answer.AssetGuid).Any();
-
                 }
                 return false;
             }
