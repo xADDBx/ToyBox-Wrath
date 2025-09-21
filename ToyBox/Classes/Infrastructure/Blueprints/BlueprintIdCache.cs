@@ -46,7 +46,20 @@ public class BlueprintIdCache {
     private static bool? m_NeedsCacheRebuilt = null;
     public static bool NeedsCacheRebuilt {
         get {
-            if (m_NeedsCacheRebuilt.HasValue) return m_NeedsCacheRebuilt.Value && !IsRebuilding;
+            if (m_NeedsCacheRebuilt.HasValue) {
+                return m_NeedsCacheRebuilt.Value && !IsRebuilding;
+            }
+
+            foreach (var type in CachedIdTypes) {
+                if (!Instance.IdsByType.TryGetValue(type, out var ids)) {
+                    Error($"BPId Cache does not contain type {type}!");
+                    return true;
+                }
+                if (ids.Count == 0) {
+                    Error($"BPId Cache has no blueprints for type {type}!");
+                    return true;
+                }
+            }
 
             bool gameVersionChanged = GameVersion.GetVersion() != Instance.CachedGameVersion;
 
@@ -105,7 +118,11 @@ public class BlueprintIdCache {
                         idsForType.Add(bp.AssetGuid);
                     }
                 }
-                Instance.IdsByType[type] = idsForType;
+                if (idsForType.Count > 0) {
+                    Instance.IdsByType[type] = idsForType;
+                } else {
+                    Warn($"BPId Cache Rebuild found no ids for type {type}");
+                }
             }
 
             Instance.Save();
@@ -176,7 +193,11 @@ public class BlueprintIdCache {
                 for (int j = 0; j < listCount; j++) {
                     guidList.Add(BlueprintGuid.Parse(reader.ReadString()));
                 }
-                result.IdsByType[type] = guidList;
+                if (guidList.Count > 0) {
+                    result.IdsByType[type] = guidList;
+                } else {
+                    Warn($"BPId Cache Load found no ids for type {type}");
+                }
             }
             Trace("Finished loading BPId Cache");
             return result;
