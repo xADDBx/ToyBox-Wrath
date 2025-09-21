@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace ToyBox.Infrastructure.UI;
+namespace ToyBox.Infrastructure;
 /// <summary>
 /// A searchable, paginated browser view over a collection of items of type <typeparamref name="T"/>.
 /// Extends <see cref="VerticalList{T}"/> with live, threaded searching and optional "show all" support.

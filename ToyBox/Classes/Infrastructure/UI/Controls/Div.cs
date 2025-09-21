@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ToyBox.Infrastructure.UI;
+namespace ToyBox.Infrastructure;
 public static class Div {
     private static Texture2D? m_FillTexture;
     private static GUIStyle? m_DivStyle;

@@ -464,7 +464,7 @@
     "Translated": null
   },
   "ToyBox_Features_SettingsTab_Inspector_InspectorSearcherBatchSizeSetting_Description": {
-    "Original": "Lower numbers mean less ui lag during search but longer searc time.",
+    "Original": "Lower numbers mean less ui lag during search but longer search time.",
     "Translated": null
   },
   "ToyBox_Features_SettingsTab_Inspector_InspectorShowCompilerGeneratedFields_Name": {
@@ -729,6 +729,10 @@
   },
   "ToyBox_Infrastructure_Inspector_InspectorUI_ShowSearchText": {
     "Original": "Show Search",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Inspector_InspectorUI_ShowSearchSettingsText": {
+    "Original": "Show Settings",
     "Translated": null
   },
   "ToyBox_Infrastructure_Inspector_InspectorUI_SearchByNameText": {

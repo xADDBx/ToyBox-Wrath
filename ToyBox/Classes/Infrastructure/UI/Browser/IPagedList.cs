@@ -1,4 +1,4 @@
-﻿namespace ToyBox.Infrastructure.UI;
+﻿namespace ToyBox.Infrastructure;
 public interface IPagedList {
     public void UpdatePages();
 }

@@ -1,4 +1,4 @@
-﻿namespace ToyBox.Infrastructure.UI;
+﻿namespace ToyBox.Infrastructure;
 public static class Glyphs {
 #warning TODO: Glyph Stuff Settings thingies
     public static string DisclosureOn = "▼";

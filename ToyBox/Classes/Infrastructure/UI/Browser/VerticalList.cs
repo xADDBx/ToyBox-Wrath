@@ -1,4 +1,4 @@
-﻿namespace ToyBox.Infrastructure.UI;
+﻿namespace ToyBox.Infrastructure;
 
 /// <summary>
 /// A vertical paginated UI list for displaying and interacting with a collection of items of type <typeparamref name="T"/>.

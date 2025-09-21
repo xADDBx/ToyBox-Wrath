@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityModManagerNet;
 
-namespace ToyBox.Infrastructure.UI;
+namespace ToyBox.Infrastructure;
 public static class LayoutHelper {
     public static bool PressedEnterInControl(string controlName) {
         Event e = Event.current;

@@ -5,14 +5,12 @@ using Kingmaker.EntitySystem.Entities;
 using Kingmaker.UI;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
-using Kingmaker.UnitLogic.Abilities.Blueprints;
-using Kingmaker.UnitLogic.Buffs.Blueprints;
 
 namespace ToyBox.Infrastructure.Blueprints;
 public static class BlueprintUI {
-    private static Dictionary<(object parent, BlueprintScriptableObject key), bool> m_DisclosureStates = new();
-    private static Dictionary<(object parent, BlueprintScriptableObject key), Browser<FeatureSelectionData>> m_SelectionBrowsers = new();
-    private static Dictionary<(object parent, BlueprintScriptableObject key), Browser<BlueprintParametrizedFeature>> m_ParameterizedBrowser = new();
+    private static readonly Dictionary<(object parent, BlueprintScriptableObject key), bool> m_DisclosureStates = [];
+    private static readonly Dictionary<(object parent, BlueprintScriptableObject key), Browser<BlueprintFeature>> m_SelectionBrowsers = [];
+    private static readonly Dictionary<(object parent, BlueprintScriptableObject key), Browser<BlueprintParametrizedFeature>> m_ParameterizedBrowser = [];
     static BlueprintUI() {
         Main.OnHideGUIAction += ClearHideCaches;
     }
@@ -35,15 +33,20 @@ public static class BlueprintUI {
         if (maybeItem != null) {
             name = name.Cyan().Bold();
         }
-        var titleWidth = Math.Min(300, EffectiveWindowWidth() * 0.2f);
+        var titleWidth = CalculateTitleWidth();
         BlueprintFeatureSelection? maybeSelection = blueprint as BlueprintFeatureSelection;
         BlueprintParametrizedFeature? maybeParameterized = blueprint as BlueprintParametrizedFeature;
         if (maybeSelection != null || maybeParameterized != null) {
-            if (!m_DisclosureStates.TryGetValue((parent, blueprint), out var tmpBool)) {
-                m_DisclosureStates[(parent, blueprint)] = tmpBool = false;
+            (object parent, BlueprintScriptableObject blueprint) key = (parent, blueprint);
+            if (!m_DisclosureStates.TryGetValue(key, out var tmpBool)) {
+                m_DisclosureStates[key] = tmpBool = false;
             }
-            if (UI.UI.DisclosureToggle(ref tmpBool, name, Width(titleWidth))) {
-                m_DisclosureStates[(parent, blueprint)] = tmpBool;
+            if (UI.DisclosureToggle(ref tmpBool, name, Width(titleWidth))) {
+                m_DisclosureStates[key] = tmpBool;
+                if (!tmpBool) {
+                    m_SelectionBrowsers.Remove(key);
+                    m_ParameterizedBrowser.Remove(key);
+                }
             }
             if (tmpBool) {
                 if (maybeSelection != null) {
@@ -53,16 +56,34 @@ public static class BlueprintUI {
                 }
             }
         } else {
-            UI.UI.Label(name, Width(titleWidth));
+            UI.Label(name, Width(titleWidth));
         }
     }
     public static void BlueprintRowGUI(BlueprintFeatureSelection selection, UnitEntityData ch, object parent) {
+        var data = ch.Progression.GetSelectionData(selection);
         if (!m_SelectionBrowsers.TryGetValue((parent, selection), out var browser)) {
-            m_SelectionBrowsers[(parent, selection)] = browser = new();
+            m_SelectionBrowsers[(parent, selection)] = browser = new(BPHelper.GetSortKey, BPHelper.GetSearchKey, data.SelectionsByLevel.SelectMany(levelPair => levelPair.Value), func => func(selection.AllFeatures), false);
         }
-        browser.OnGUI(() => {
-
-        })
+        using (HorizontalScope()) {
+            Space(25);
+            browser.OnGUI(feature => {
+                int? featureLevel = GetLevelFeatureWasSelectedAt(data, feature);
+                var title = BPHelper.GetTitle(feature);
+                if (featureLevel != null) {
+                    title = title.Cyan().Bold();
+                }
+                UI.Label();
+            });
+        }
+    }
+    private static float CalculateTitleWidth() => Math.Min(300, EffectiveWindowWidth() * 0.2f);
+    private static int? GetLevelFeatureWasSelectedAt(FeatureSelectionData data, BlueprintFeature feature) {
+        foreach (var pair in data.m_SelectionsByLevel) {
+            if (pair.Value.Contains(feature)) {
+                return pair.Key;
+            }
+        }
+        return null;
     }
     public static void BlueprintRowGUI(BlueprintParametrizedFeature parameterized, UnitEntityData ch, object parent) {
 

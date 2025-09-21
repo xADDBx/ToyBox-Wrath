@@ -1,4 +1,4 @@
-﻿namespace ToyBox.Infrastructure.UI;
+﻿namespace ToyBox.Infrastructure;
 public static partial class UI {
     static UI() {
         Main.OnLocaleChanged += ClearLocaleCaches;

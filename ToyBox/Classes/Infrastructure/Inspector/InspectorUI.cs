@@ -39,7 +39,7 @@ public static partial class InspectorUI {
             title ??= key.ToString();
             toInspect ??= key;
             var expanded = m_ExpandedKeys.Contains(key);
-            if (UI.UI.DisclosureToggle(ref expanded, title)) {
+            if (UI.DisclosureToggle(ref expanded, title)) {
                 if (expanded) {
                     m_ExpandedKeys.Clear();
                     m_ExpandedKeys.Add(key);
@@ -65,7 +65,7 @@ public static partial class InspectorUI {
     public static void Inspect(object? obj) {
         using (VerticalScope()) {
             if (obj == null) {
-                UI.UI.Label(SharedStrings.CurrentlyInspectingText + ": " + "<null>".Cyan());
+                UI.Label(SharedStrings.CurrentlyInspectingText + ": " + "<null>".Cyan());
             } else {
                 var valueText = "";
                 try {
@@ -74,16 +74,16 @@ public static partial class InspectorUI {
                     Warn($"Encountered exception in Inspect -> obj.ToString():\n{ex}");
                 }
                 using (HorizontalScope()) {
-                    UI.UI.Label(SharedStrings.CurrentlyInspectingText + ": " + valueText.Cyan());
+                    UI.Label(SharedStrings.CurrentlyInspectingText + ": " + valueText.Cyan());
                     Space(20);
-                    UI.UI.DisclosureToggle(ref m_DoShowSearch, ShowSearchText);
+                    UI.DisclosureToggle(ref m_DoShowSearch, ShowSearchText);
                     Space(20);
-                    UI.UI.DisclosureToggle(ref m_DoShowSettings, ShowSettingsText);
+                    UI.DisclosureToggle(ref m_DoShowSettings, ShowSettingsText);
                     if (InspectorSearcher.IsRunning) {
                         Space(20);
-                        UI.UI.Label(SharedStrings.SearchInProgresText.Orange());
+                        UI.Label(SharedStrings.SearchInProgresText.Orange());
                         Space(20);
-                        UI.UI.Button(SharedStrings.CancelText.Cyan(), () => InspectorSearcher.ShouldCancel = true);
+                        UI.Button(SharedStrings.CancelText.Cyan(), () => InspectorSearcher.ShouldCancel = true);
                     }
                 }
                 if (m_DoShowSettings) {
@@ -101,8 +101,8 @@ public static partial class InspectorUI {
                 }
                 if (m_DoShowSearch) {
                     using (HorizontalScope()) {
-                        UI.UI.Label(SearchDepthText + ": ", Width(200));
-                        if (UI.UI.ValueAdjuster(ref m_SearchDepth, 1, 0, 8, false)) {
+                        UI.Label(SearchDepthText + ": ", Width(200));
+                        if (UI.ValueAdjuster(ref m_SearchDepth, 1, 0, 8, false)) {
                             if (InspectorSearcher.DidSearch) {
                                 InspectorSearcher.LastPrompt = null;
                             }
@@ -122,7 +122,7 @@ public static partial class InspectorUI {
                     }
                 }
                 if (m_DrawnNodes >= Settings.InspectorDrawLimit) {
-                    UI.UI.Label(StoppedDrawingEntriesToPreventUI.Red().Bold());
+                    UI.Label(StoppedDrawingEntriesToPreventUI.Red().Bold());
                 }
             }
         }
@@ -130,32 +130,32 @@ public static partial class InspectorUI {
     private static void SearchBarGUI(InspectorNode root) {
         if (m_DoShowSearch) {
             using (HorizontalScope()) {
-                UI.UI.Label(SearchByNameText + ":", Width(200));
-                UI.UI.ActionTextField(ref m_NameSearch, "InspectorNameSearch", null, (string prompt) => {
+                UI.Label(SearchByNameText + ":", Width(200));
+                UI.ActionTextField(ref m_NameSearch, "InspectorNameSearch", null, (string prompt) => {
                     InspectorSearcher.StartSearch(InspectorSearcher.SearchMode.NameSearch, root, m_SearchDepth, prompt);
                 }, Width(200), GUILayout.MaxWidth(EffectiveWindowWidth() * 0.3f));
                 Space(10);
-                UI.UI.Button(SharedStrings.SearchText, () => {
+                UI.Button(SharedStrings.SearchText, () => {
                     InspectorSearcher.StartSearch(InspectorSearcher.SearchMode.NameSearch, root, m_SearchDepth, m_NameSearch);
                 });
             }
             using (HorizontalScope()) {
-                UI.UI.Label(SearchByTypeText + ":", Width(200));
-                UI.UI.ActionTextField(ref m_TypeSearch, "InspectorTypeSearch", null, (string prompt) => {
+                UI.Label(SearchByTypeText + ":", Width(200));
+                UI.ActionTextField(ref m_TypeSearch, "InspectorTypeSearch", null, (string prompt) => {
                     InspectorSearcher.StartSearch(InspectorSearcher.SearchMode.TypeSearch, root, m_SearchDepth, prompt);
                 }, Width(200), GUILayout.MaxWidth(EffectiveWindowWidth() * 0.3f));
                 Space(10);
-                UI.UI.Button(SharedStrings.SearchText, () => {
+                UI.Button(SharedStrings.SearchText, () => {
                     InspectorSearcher.StartSearch(InspectorSearcher.SearchMode.TypeSearch, root, m_SearchDepth, m_TypeSearch);
                 });
             }
             using (HorizontalScope()) {
-                UI.UI.Label(SearchByValueText + ":", Width(200));
-                UI.UI.ActionTextField(ref m_ValueSearch, "InspectorValueSearch", null, (string prompt) => {
+                UI.Label(SearchByValueText + ":", Width(200));
+                UI.ActionTextField(ref m_ValueSearch, "InspectorValueSearch", null, (string prompt) => {
                     InspectorSearcher.StartSearch(InspectorSearcher.SearchMode.ValueSearch, root, m_SearchDepth, prompt);
                 }, Width(200), GUILayout.MaxWidth(EffectiveWindowWidth() * 0.3f));
                 Space(10);
-                UI.UI.Button(SharedStrings.SearchText, () => {
+                UI.Button(SharedStrings.SearchText, () => {
                     InspectorSearcher.StartSearch(InspectorSearcher.SearchMode.ValueSearch, root, m_SearchDepth, m_ValueSearch);
                 });
             }
@@ -173,7 +173,7 @@ public static partial class InspectorUI {
 
             m_DrawnNodes++;
 
-            var discWidth = UI.UI.DisclosureGlyphWidth.Value;
+            var discWidth = UI.DisclosureGlyphWidth.Value;
             var leftOverWidth = EffectiveWindowWidth() /*- (indent * Settings.InspectorIndentWidth)*/ - 40 - discWidth;
             var calculatedWidth = Settings.InspectorNameFractionOfWidth * leftOverWidth;
             if (Settings.ToggleInspectorSlimMode) {
@@ -181,7 +181,7 @@ public static partial class InspectorUI {
             }
 
             if (node.Children.Count > 0) {
-                UI.UI.DisclosureToggle(ref node.IsExpanded, node.LabelText, Width(calculatedWidth + discWidth));
+                UI.DisclosureToggle(ref node.IsExpanded, node.LabelText, Width(calculatedWidth + discWidth));
             } else {
                 Space(discWidth);
                 GUILayout.Label(node.LabelText, Width(calculatedWidth));
@@ -199,7 +199,7 @@ public static partial class InspectorUI {
             if (node.AfterText != "") {
                 GUILayout.Label(node.AfterText, m_ButtonStyle, AutoWidth());
             } else {
-                UI.UI.Label("");
+                UI.Label("");
             }
         }
         if (InspectorSearcher.DidSearch) {

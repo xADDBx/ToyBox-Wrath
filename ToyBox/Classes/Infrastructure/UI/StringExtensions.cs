@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ToyBox.Infrastructure.UI;
+namespace ToyBox.Infrastructure;
 public static class StringExtensions {
     public static string Size(this string s, int size) => $"<size={size}>{s}</size>";
     public static string Bold(this string s) => $"<b>{s}</b>";
