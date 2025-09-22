@@ -2,7 +2,6 @@
 using Kingmaker.Blueprints.Area;
 using Kingmaker.Designers;
 using Kingmaker.EntitySystem.Persistence;
-using Kingmaker.View;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 public partial class TeleportAreaBA : IBlueprintAction<BlueprintArea> {

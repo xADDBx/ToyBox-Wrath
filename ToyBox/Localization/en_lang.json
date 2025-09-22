@@ -603,6 +603,26 @@
     "Original": "Mod Version is not compatible with this game version!",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_LoadAreaPresetBA_LoadPresetText": {
+    "Original": "Load Preset",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportAreaBA_TeleportText": {
+    "Original": "Teleport",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportAreaEnterPointBA_TeleportText": {
+    "Original": "Teleport",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Add_x": {
+    "Original": "Add",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveItemBA_Remove_x": {
+    "Original": "Remove",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_AddText": {
     "Original": "Add",
     "Translated": null
@@ -621,6 +641,10 @@
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_RemoveText": {
     "Original": "Remove",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Spawn_x": {
+    "Original": "Spawn",
     "Translated": null
   },
   "ToyBox_Infrastructure_CharacterPicker_ThereAreNoCharactersInThisList": {
