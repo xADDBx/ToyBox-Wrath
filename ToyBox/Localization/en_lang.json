@@ -603,6 +603,26 @@
     "Original": "Mod Version is not compatible with this game version!",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_AddText": {
+    "Original": "Add",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_AddText": {
+    "Original": "Add",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA__Plus1CasterLevelText": {
+    "Original": "+1 CL",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_RemoveText": {
+    "Original": "Remove",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_RemoveText": {
+    "Original": "Remove",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_CharacterPicker_ThereAreNoCharactersInThisList": {
     "Original": "There are no characters in this list!",
     "Translated": null

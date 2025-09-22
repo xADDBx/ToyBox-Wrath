@@ -31,7 +31,7 @@ public partial class ChangeSpellbookLevelBA : IBlueprintAction<BlueprintSpellboo
             */
             UI.Label($" {spellbook.CasterLevel} ");
             if (spellbook.CasterLevel < spellbook.MaxCasterLevel) {
-                UI.Button(">", () => {
+                UI.Button(IncreaseCLText, () => {
                     if (spellbook.IsMythic) {
                         spellbook.AddMythicLevel();
                     } else {
@@ -41,4 +41,7 @@ public partial class ChangeSpellbookLevelBA : IBlueprintAction<BlueprintSpellboo
             }
         }
     }
+
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA__Plus1CasterLevelText", "+1 CL")]
+    private static partial string IncreaseCLText { get; }
 }

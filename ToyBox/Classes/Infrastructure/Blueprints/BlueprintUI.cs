@@ -33,30 +33,37 @@ public static class BlueprintUI {
         if (maybeItem != null) {
             name = name.Cyan().Bold();
         }
-        var titleWidth = CalculateTitleWidth();
-        BlueprintFeatureSelection? maybeSelection = blueprint as BlueprintFeatureSelection;
-        BlueprintParametrizedFeature? maybeParameterized = blueprint as BlueprintParametrizedFeature;
-        if (maybeSelection != null || maybeParameterized != null) {
-            (object parent, BlueprintScriptableObject blueprint) key = (parent, blueprint);
-            if (!m_DisclosureStates.TryGetValue(key, out var tmpBool)) {
-                m_DisclosureStates[key] = tmpBool = false;
-            }
-            if (UI.DisclosureToggle(ref tmpBool, name, Width(titleWidth))) {
-                m_DisclosureStates[key] = tmpBool;
-                if (!tmpBool) {
-                    m_SelectionBrowsers.Remove(key);
-                    m_ParameterizedBrowser.Remove(key);
+        var maybeSelection = blueprint as BlueprintFeatureSelection;
+        var maybeParameterized = blueprint as BlueprintParametrizedFeature;
+        bool hasUncollapsedChild = false;
+        using (VerticalScope()) {
+            using (HorizontalScope()) {
+                if (maybeSelection != null || maybeParameterized != null) {
+                    (object parent, BlueprintScriptableObject blueprint) key = (parent, blueprint);
+                    if (!m_DisclosureStates.TryGetValue(key, out hasUncollapsedChild)) {
+                        m_DisclosureStates[key] = hasUncollapsedChild = false;
+                    }
+                    if (UI.DisclosureToggle(ref hasUncollapsedChild, name, Width(CalculateTitleWidth()))) {
+                        m_DisclosureStates[key] = hasUncollapsedChild;
+                        if (!hasUncollapsedChild) {
+                            m_SelectionBrowsers.Remove(key);
+                            m_ParameterizedBrowser.Remove(key);
+                        }
+                    }
+                } else {
+                    UI.Label(name, Width(CalculateTitleWidth()));
                 }
+
+                // Put actions here
             }
-            if (tmpBool) {
+
+            if (hasUncollapsedChild) {
                 if (maybeSelection != null) {
                     BlueprintRowGUI(maybeSelection, ch, parent);
                 } else {
                     BlueprintRowGUI(maybeParameterized!, ch, parent);
                 }
             }
-        } else {
-            UI.Label(name, Width(titleWidth));
         }
     }
     public static void BlueprintRowGUI(BlueprintFeatureSelection selection, UnitEntityData ch, object parent) {
@@ -64,17 +71,40 @@ public static class BlueprintUI {
         if (!m_SelectionBrowsers.TryGetValue((parent, selection), out var browser)) {
             m_SelectionBrowsers[(parent, selection)] = browser = new(BPHelper.GetSortKey, BPHelper.GetSearchKey, data.SelectionsByLevel.SelectMany(levelPair => levelPair.Value), func => func(selection.AllFeatures), false);
         }
-        using (HorizontalScope()) {
-            Space(25);
-            browser.OnGUI(feature => {
-                int? featureLevel = GetLevelFeatureWasSelectedAt(data, feature);
-                var title = BPHelper.GetTitle(feature);
-                if (featureLevel != null) {
-                    title = title.Cyan().Bold();
+        Space(25);
+        browser.OnGUI(feature => {
+            int? featureLevel = GetLevelFeatureWasSelectedAt(data, feature);
+            var name = BPHelper.GetTitle(feature);
+            if (featureLevel != null) {
+                name = name.Cyan().Bold();
+            }
+            var parameterized = feature as BlueprintParametrizedFeature;
+            bool hasUncollapsedChild = false;
+            using (VerticalScope()) {
+                using (HorizontalScope()) {
+                    if (parameterized != null) {
+                        (object parent, BlueprintScriptableObject blueprint) key = (parent, feature);
+                        if (!m_DisclosureStates.TryGetValue(key, out hasUncollapsedChild)) {
+                            m_DisclosureStates[key] = hasUncollapsedChild = false;
+                        }
+                        if (UI.DisclosureToggle(ref hasUncollapsedChild, name, Width(CalculateTitleWidth()))) {
+                            m_DisclosureStates[key] = hasUncollapsedChild;
+                            if (!hasUncollapsedChild) {
+                                m_ParameterizedBrowser.Remove(key);
+                            }
+                        }
+                    } else {
+                        UI.Label(name, Width(CalculateTitleWidth()));
+                    }
+
+                    // Put actions here
                 }
-                UI.Label();
-            });
-        }
+
+                if (hasUncollapsedChild) {
+                    BlueprintRowGUI(parameterized!, ch, parent);
+                }
+            }
+        });
     }
     private static float CalculateTitleWidth() => Math.Min(300, EffectiveWindowWidth() * 0.2f);
     private static int? GetLevelFeatureWasSelectedAt(FeatureSelectionData data, BlueprintFeature feature) {

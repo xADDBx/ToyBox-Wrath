@@ -1,8 +1,10 @@
 ﻿using Kingmaker.Blueprints;
-using System.Linq;
-using System.Reflection;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
+public interface IBlueprintAction<in T> where T : SimpleBlueprint {
+    public abstract void OnGui(T blueprint, params object[] parameter);
+}
+
 public static class BlueprintActions {
     private static readonly Dictionary<Type, IBlueprintAction<SimpleBlueprint>> m_RegisteredTypes = [];
     private static readonly List<IBlueprintAction<SimpleBlueprint>> m_AllActions = [];
