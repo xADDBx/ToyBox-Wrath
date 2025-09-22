@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Kingmaker.Blueprints;
 
-namespace ToyBox.Classes.Infrastructure.Blueprints.BlueprintActions;
-internal interface IBlueprintAction {
+namespace ToyBox.Infrastructure.Blueprints.BlueprintActions; 
+public interface IBlueprintAction<in T> where T : SimpleBlueprint { 
+    public abstract void OnGui(T blueprint, params object[] parameter); 
 }
