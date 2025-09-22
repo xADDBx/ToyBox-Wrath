@@ -15,17 +15,17 @@ public partial class AddUnitFactBA : IBlueprintAction<BlueprintUnitFact> {
         return false;
     }
     private bool Execute(BlueprintUnitFact blueprint, params object[] parameter) {
-        if (CanExecute(blueprint, parameter)) {
-            return ((UnitEntityData)parameter[0]).AddFact(blueprint) != null;
-        }
-        return false;
+        ((IBlueprintAction<SimpleBlueprint>)this).LogBPAction(blueprint, parameter);
+        return ((UnitEntityData)parameter[0]).AddFact(blueprint) != null;
     }
-    public void OnGui(BlueprintUnitFact blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintUnitFact blueprint, params object[] parameter) {
+        bool? result = null;
         if (CanExecute(blueprint, parameter)) {
             UI.Button(AddText, () => {
-                Execute(blueprint, parameter);
+                result = Execute(blueprint, parameter);
             });
         }
+        return result;
     }
 
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_AddText", "Add")]

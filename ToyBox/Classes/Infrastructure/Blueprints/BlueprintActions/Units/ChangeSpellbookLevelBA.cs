@@ -1,6 +1,5 @@
 ﻿using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
-using Kingmaker.Blueprints.Facts;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.UnitLogic;
 
@@ -15,7 +14,17 @@ public partial class ChangeSpellbookLevelBA : IBlueprintAction<BlueprintSpellboo
         }
         return false;
     }
-    public void OnGui(BlueprintSpellbook blueprint, params object[] parameter) {
+    private bool Execute(BlueprintSpellbook blueprint, Spellbook spellbook, params object[] parameter) {
+        ((IBlueprintAction<SimpleBlueprint>)this).LogBPAction(blueprint, parameter);
+        if (spellbook.IsMythic) {
+            spellbook.AddMythicLevel();
+        } else {
+            spellbook.AddBaseLevel();
+        }
+        return true;
+    }
+    public bool? OnGui(BlueprintSpellbook blueprint, params object[] parameter) {
+        bool? result = null;
         if (CanExecute(blueprint, parameter)) {
             var spellbook = ((UnitEntityData)parameter[0])!.Descriptor.DemandSpellbook(blueprint);
             /* We don't allow decreasing Spellbook Level as there is no corresponding event (aka unlearning spells)
@@ -29,17 +38,14 @@ public partial class ChangeSpellbookLevelBA : IBlueprintAction<BlueprintSpellboo
                 });
             }
             */
-            UI.Label($" {spellbook.CasterLevel} ");
+            UI.Label($"{spellbook.CasterLevel} ");
             if (spellbook.CasterLevel < spellbook.MaxCasterLevel) {
                 UI.Button(IncreaseCLText, () => {
-                    if (spellbook.IsMythic) {
-                        spellbook.AddMythicLevel();
-                    } else {
-                        spellbook.AddBaseLevel();
-                    }
+                    result = Execute(blueprint, spellbook, parameter);
                 });
             }
         }
+        return result;
     }
 
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA__Plus1CasterLevelText", "+1 CL")]

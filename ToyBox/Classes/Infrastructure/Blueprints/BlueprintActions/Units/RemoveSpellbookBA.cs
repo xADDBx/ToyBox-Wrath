@@ -1,8 +1,6 @@
 ﻿using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
-using Kingmaker.Blueprints.Facts;
 using Kingmaker.EntitySystem.Entities;
-using Kingmaker.UnitLogic;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 public partial class RemoveSpellbookBA : IBlueprintAction<BlueprintSpellbook> {
@@ -16,18 +14,18 @@ public partial class RemoveSpellbookBA : IBlueprintAction<BlueprintSpellbook> {
         return false;
     }
     private bool Execute(BlueprintSpellbook blueprint, params object[] parameter) {
-        if (CanExecute(blueprint, parameter)) {
-            ((UnitEntityData)parameter[0])!.Descriptor.DeleteSpellbook(blueprint);
-            return true;
-        }
-        return false;
+        ((IBlueprintAction<SimpleBlueprint>)this).LogBPAction(blueprint, parameter);
+        ((UnitEntityData)parameter[0])!.Descriptor.DeleteSpellbook(blueprint);
+        return true;
     }
-    public void OnGui(BlueprintSpellbook blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintSpellbook blueprint, params object[] parameter) {
+        bool? result = null;
         if (CanExecute(blueprint, parameter)) {
             UI.Button(RemoveText, () => {
-                Execute(blueprint, parameter);
+                result = Execute(blueprint, parameter);
             });
         }
+        return result;
     }
 
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_RemoveText", "Remove")]

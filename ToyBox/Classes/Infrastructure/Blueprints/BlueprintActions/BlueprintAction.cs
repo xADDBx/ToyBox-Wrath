@@ -1,19 +1,26 @@
 ﻿using Kingmaker.Blueprints;
+using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 public interface IBlueprintAction<in T> where T : SimpleBlueprint {
-    public abstract void OnGui(T blueprint, params object[] parameter);
+    // Null - Nothing happened; False - Action execution failed; True - Action execution succeeded
+    public abstract bool? OnGui(T blueprint, params object[] parameter);
 }
 
 public static class BlueprintActions {
     private static readonly Dictionary<Type, IBlueprintAction<SimpleBlueprint>> m_RegisteredTypes = [];
     private static readonly List<IBlueprintAction<SimpleBlueprint>> m_AllActions = [];
     private static readonly Dictionary<Type, IEnumerable<IBlueprintAction<SimpleBlueprint>>> m_ActionsForType = [];
+    public static void LogBPAction(this IBlueprintAction<SimpleBlueprint> action, SimpleBlueprint bp, params object[] parameter) {
+        Log($"Executed {action.GetType()} for blueprint {BPHelper.GetTitle(bp)} with parameter {parameter.ToContentString()}");
+    }
     public static void RegisterAction(IBlueprintAction<SimpleBlueprint> action) {
         var type = action.GetType();
         if (!m_RegisteredTypes.ContainsKey(type)) {
             m_AllActions.Add(action);
             m_RegisteredTypes[type] = action;
+        } else {
+            Error($"Trying to register previously registered action: {type}");
         }
     }
     public static IBlueprintAction<SimpleBlueprint>? GetRegisteredAction<T>() where T : IBlueprintAction<SimpleBlueprint> {

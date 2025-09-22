@@ -1,8 +1,6 @@
 ﻿using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Spells;
-using Kingmaker.Blueprints.Facts;
 using Kingmaker.EntitySystem.Entities;
-using Kingmaker.UnitLogic;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 public partial class AddSpellbookBA : IBlueprintAction<BlueprintSpellbook> {
@@ -16,17 +14,17 @@ public partial class AddSpellbookBA : IBlueprintAction<BlueprintSpellbook> {
         return false;
     }
     private bool Execute(BlueprintSpellbook blueprint, params object[] parameter) {
-        if (CanExecute(blueprint, parameter)) {
-            return ((UnitEntityData)parameter[0])!.Descriptor.DemandSpellbook(blueprint) != null;
-        }
-        return false;
+        ((IBlueprintAction<SimpleBlueprint>)this).LogBPAction(blueprint, parameter);
+        return ((UnitEntityData)parameter[0])!.Descriptor.DemandSpellbook(blueprint) != null;
     }
-    public void OnGui(BlueprintSpellbook blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintSpellbook blueprint, params object[] parameter) {
+        bool? result = null;
         if (CanExecute(blueprint, parameter)) {
             UI.Button(AddText, () => {
-                Execute(blueprint, parameter);
+                result = Execute(blueprint, parameter);
             });
         }
+        return result;
     }
 
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_AddText", "Add")]
