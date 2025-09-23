@@ -32,4 +32,14 @@ public partial class SharedStrings {
     public static partial string SearchInProgresText { get; }
     [LocalizedString("ToyBox_Infrastructure_Inspector_InspectorUI_CancelText", "Cancel")]
     public static partial string CancelText { get; }
+    [LocalizedString("ToyBox_Infrastructure_BlueprintPicker_EnterTargetBlueprintIdText", "Enter target blueprint id")]
+    public static partial string EnterTargetBlueprintIdText { get; }
+    [LocalizedString("ToyBox_Infrastructure_BlueprintPicker_PickBlueprintText", "Pick Blueprint")]
+    public static partial string PickBlueprintText { get; }
+    [LocalizedString("ToyBox_Infrastructure_BlueprintPicker_NoBlueprintWithThatGuidFound_Text", "No blueprint with that guid found.")]
+    public static partial string NoBlueprintWithThatGuidFound { get; }
+    [LocalizedString("ToyBox_Infrastructure_BlueprintPicker_ShowListOfBlueprintsText", "Show List of Blueprints")]
+    public static partial string ShowListOfBlueprintsText { get; }
+    [LocalizedString("ToyBox_Infrastructure_BlueprintPicker_CurrentlySelectedBlueprint_Text", "Currently selected blueprint:")]
+    public static partial string CurrentlySelectedBlueprintText { get; }
 }

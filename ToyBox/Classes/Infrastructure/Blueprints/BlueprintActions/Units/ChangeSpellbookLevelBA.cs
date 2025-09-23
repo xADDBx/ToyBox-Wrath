@@ -1,13 +1,10 @@
-﻿using Kingmaker.Blueprints;
-using Kingmaker.Blueprints.Classes.Spells;
+﻿using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.UnitLogic;
+using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
-public partial class ChangeSpellbookLevelBA : IBlueprintAction<BlueprintSpellbook> {
-    static ChangeSpellbookLevelBA() {
-        BlueprintActions.RegisterAction((IBlueprintAction<SimpleBlueprint>)new ChangeSpellbookLevelBA());
-    }
+public partial class ChangeSpellbookLevelBA : BlueprintActionFeature, IBlueprintAction<BlueprintSpellbook>, INeedContextFeature<UnitEntityData> {
     private bool CanExecute(BlueprintSpellbook blueprint, params object[] parameter) {
         if (parameter.Length > 0 && parameter[0] is UnitEntityData unit) {
             return !unit.Descriptor.m_Spellbooks.ContainsKey(blueprint);
@@ -15,7 +12,7 @@ public partial class ChangeSpellbookLevelBA : IBlueprintAction<BlueprintSpellboo
         return false;
     }
     private bool Execute(BlueprintSpellbook blueprint, Spellbook spellbook, params object[] parameter) {
-        ((IBlueprintAction<SimpleBlueprint>)this).LogBPAction(blueprint, parameter);
+        LogExecution(blueprint, parameter);
         if (spellbook.IsMythic) {
             spellbook.AddMythicLevel();
         } else {
@@ -47,7 +44,18 @@ public partial class ChangeSpellbookLevelBA : IBlueprintAction<BlueprintSpellboo
         }
         return result;
     }
+    public bool GetContext(out BlueprintSpellbook? context) => ContextProvider.Blueprint(out context);
+    public bool GetContext(out UnitEntityData? context) => ContextProvider.UnitEntityData(out context);
+    public override void OnGui() {
+        if (GetContext(out BlueprintSpellbook? bp) && GetContext(out UnitEntityData? unit)) {
+            OnGui(bp!, unit!);
+        }
+    }
 
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA__Plus1CasterLevelText", "+1 CL")]
     private static partial string IncreaseCLText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA_Name", "Increase spellbook level")]
+    public override partial string Name { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA_Description", "Increases the level of the specified BlueprintSpellbook on the chosen unit.")]
+    public override partial string Description { get; }
 }

@@ -1,19 +1,16 @@
-﻿using Kingmaker.Blueprints;
-using Kingmaker.Blueprints.Area;
+﻿using Kingmaker.Blueprints.Area;
 using Kingmaker.Designers;
 using Kingmaker.EntitySystem.Persistence;
+using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
-public partial class TeleportAreaBA : IBlueprintAction<BlueprintArea> {
-    static TeleportAreaBA() {
-        BlueprintActions.RegisterAction((IBlueprintAction<SimpleBlueprint>)new TeleportAreaBA());
-    }
+public partial class TeleportAreaBA : BlueprintActionFeature, IBlueprintAction<BlueprintArea> {
     private bool CanExecute(BlueprintArea blueprint, params object[] parameter) {
         return IsInGame();
     }
     private bool Execute2(BlueprintArea blueprint, IEnumerable<BlueprintAreaEnterPoint> enterPoints, params object[] parameter) {
         var enterPoint = enterPoints.FirstOrDefault(bp => bp is BlueprintAreaEnterPoint ep && ep.Area == blueprint);
-        ((IBlueprintAction<SimpleBlueprint>)this).LogBPAction(blueprint, parameter, enterPoint);
+        LogExecution(blueprint, parameter, enterPoint);
         if (enterPoint != null) {
             GameHelper.EnterToArea(enterPoint, AutoSaveMode.None);
             return true;
@@ -39,6 +36,17 @@ public partial class TeleportAreaBA : IBlueprintAction<BlueprintArea> {
         return result;
     }
 
+    public bool GetContext(out BlueprintArea? context) => ContextProvider.Blueprint(out context);
+    public override void OnGui() {
+        if (GetContext(out var bp)) {
+            OnGui(bp!);
+        }
+    }
+
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportAreaBA_TeleportText", "Teleport")]
     private static partial string TeleportText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportAreaBA_Name", "Teleport to Area")]
+    public override partial string Name { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportAreaBA_Description", "Teleports you to a random enter point of the specified BlueprintArea.")]
+    public override partial string Description { get; }
 }

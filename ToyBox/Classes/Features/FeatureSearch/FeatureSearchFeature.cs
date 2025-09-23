@@ -46,22 +46,9 @@ public partial class FeatureSearchFeature : Feature {
                     if (showNested) {
                         Space(15);
                         using (VerticalScope()) {
-                            if (feature is INeedContextFeature) {
-                                if (feature is INeedContextFeature<UnitEntityData> unitFeature) {
-                                    if (!IsInGame()) {
-                                        UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red());
-                                        return;
-                                    }
-                                    CharacterPicker.OnFilterPickerGUI();
-                                    CharacterPicker.OnCharacterPickerGUI();
-                                    if (CharacterPicker.CurrentUnit != null) {
-                                        unitFeature.OnGui(CharacterPicker.CurrentUnit);
-                                    } else {
-                                        UI.Label(SharedStrings.PleaseSelectAUnitFirstText.Orange());
-                                    }
-                                } else {
-                                    UI.Label(FeatureSearchNotImplementedForTh.Red().Bold());
-                                }
+                            if (feature is INeedContextFeature contextFeature) {
+                                // Currently context needs are handled in the OnGui directly
+                                feature.OnGui();
                             } else {
                                 feature.OnGui();
                             }

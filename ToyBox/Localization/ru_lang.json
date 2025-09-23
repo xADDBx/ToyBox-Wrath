@@ -607,44 +607,132 @@
     "Original": "Load Preset",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_LoadAreaPresetBA_Name": {
+    "Original": "Load Area Preset",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_LoadAreaPresetBA_Description": {
+    "Original": "Loads a specified BlueprintAreaPreset.",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportAreaBA_TeleportText": {
     "Original": "Teleport",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportAreaBA_Name": {
+    "Original": "Teleport to Area",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportAreaBA_Description": {
+    "Original": "Teleports you to a random enter point of the specified BlueprintArea.",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportAreaEnterPointBA_TeleportText": {
     "Original": "Teleport",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportAreaEnterPointBA_Name": {
+    "Original": "Teleport to AreaEnterPoint",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportAreaEnterPointBA_Description": {
+    "Original": "Teleports you to a specified BlueprintAreaEnterPoint.",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Add_x": {
     "Original": "Add",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Name": {
+    "Original": "Add item",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Description": {
+    "Original": "Adds the specified BlueprintItem to your inventory.",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveItemBA_Remove_x": {
     "Original": "Remove",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveItemBA_Name": {
+    "Original": "Remove item",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveItemBA_Description": {
+    "Original": "Removes the specified BlueprintItem from your inventory.",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_AddText": {
     "Original": "Add",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_Name": {
+    "Original": "Add spellbook",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_Description": {
+    "Original": "Adds the specified BlueprintSpellbook to the chosen unit.",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_AddText": {
     "Original": "Add",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_Name": {
+    "Original": "Add fact",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_Description": {
+    "Original": "Adds the specified BlueprintUnitFact to the chosen unit.",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA__Plus1CasterLevelText": {
     "Original": "+1 CL",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA_Name": {
+    "Original": "Increase spellbook level",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA_Description": {
+    "Original": "Increases the level of the specified BlueprintSpellbook on the chosen unit.",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_RemoveText": {
     "Original": "Remove",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_Name": {
+    "Original": "Remove spellbook",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_Description": {
+    "Original": "Remove the specified BlueprintSpellbook from the chosen unit.",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_RemoveText": {
     "Original": "Remove",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_Name": {
+    "Original": "Remove fact",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_Description": {
+    "Original": "Removes the specified BlueprintUnitFact from the chosen unit.",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Spawn_x": {
     "Original": "Spawn",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Name": {
+    "Original": "Spawn unit",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Description": {
+    "Original": "Spawns the specified unit in the vicinity.",
     "Translated": null
   },
   "ToyBox_Infrastructure_CharacterPicker_ThereAreNoCharactersInThisList": {
@@ -865,6 +953,26 @@
   },
   "ToyBox_Infrastructure_Inspector_InspectorUI_CancelText": {
     "Original": "Cancel",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_BlueprintPicker_EnterTargetBlueprintIdText": {
+    "Original": "Enter target blueprint id",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_BlueprintPicker_PickBlueprintText": {
+    "Original": "Pick Blueprint",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_BlueprintPicker_NoBlueprintWithThatGuidFound_Text": {
+    "Original": "No blueprint with that guid found.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_BlueprintPicker_ShowListOfBlueprintsText": {
+    "Original": "Show List of Blueprints",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_BlueprintPicker_CurrentlySelectedBlueprint_Text": {
+    "Original": "Currently selected blueprint:",
     "Translated": null
   }
 }

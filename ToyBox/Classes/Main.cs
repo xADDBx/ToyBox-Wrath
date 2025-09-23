@@ -2,7 +2,6 @@ using Kingmaker.Blueprints;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using ToyBox.Features.SettingsFeatures.UpdateAndIntegrity;
-using ToyBox.Infrastructure;
 using ToyBox.Infrastructure.Inspector;
 using ToyBox.Infrastructure.Utilities;
 using UnityEngine;
@@ -115,7 +114,7 @@ public static partial class Main {
                 Space(10);
 
                 UI.Label(SharedStrings.CurrentlyLoadedBPsText.Format(m_LoadedBps));
-                m_TabNames ??= m_FeatureTabs.Select(t => t.Name).ToArray();
+                m_TabNames ??= [.. m_FeatureTabs.Where(tab => !tab.IsHiddenFromUI).Select(t => t.Name)];
                 Settings.SelectedTab = GUILayout.SelectionGrid(Settings.SelectedTab, m_TabNames, Math.Min(m_TabNames.Length, 10), Width(EffectiveWindowWidth()));
                 Space(10);
                 Div.DrawDiv();

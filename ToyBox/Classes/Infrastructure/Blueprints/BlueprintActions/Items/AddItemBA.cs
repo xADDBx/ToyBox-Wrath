@@ -1,17 +1,14 @@
 ﻿using Kingmaker;
-using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Items;
+using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
-public partial class AddItemBA : IBlueprintAction<BlueprintItem> {
-    static AddItemBA() {
-        BlueprintActions.RegisterAction((IBlueprintAction<SimpleBlueprint>)new AddItemBA());
-    }
+public partial class AddItemBA : BlueprintActionFeature, IBlueprintAction<BlueprintItem> {
     private bool CanExecute(BlueprintItem blueprint, params object[] parameter) {
         return IsInGame();
     }
     private bool Execute(BlueprintItem blueprint, int count) {
-        ((IBlueprintAction<SimpleBlueprint>)this).LogBPAction(blueprint, count);
+        LogExecution(blueprint, count);
         Game.Instance.Player.Inventory.Add(blueprint, count);
         return true;
     }
@@ -28,6 +25,18 @@ public partial class AddItemBA : IBlueprintAction<BlueprintItem> {
         }
         return result;
     }
+
+    public bool GetContext(out BlueprintItem? context) => ContextProvider.Blueprint(out context);
+    public override void OnGui() {
+        if (GetContext(out var bp)) {
+            OnGui(bp!);
+        }
+    }
+
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Add_x", "Add")]
     private static partial string AddText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Name", "Add item")]
+    public override partial string Name { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Description", "Adds the specified BlueprintItem to your inventory.")]
+    public override partial string Description { get; }
 }

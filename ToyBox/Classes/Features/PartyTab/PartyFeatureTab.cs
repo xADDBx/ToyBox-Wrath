@@ -2,7 +2,6 @@ using Kingmaker;
 using Kingmaker.Designers;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.PubSubSystem;
-using ToyBox.Infrastructure;
 using ToyBox.Infrastructure.Inspector;
 using ToyBox.Infrastructure.Utilities;
 using UnityEngine;
@@ -46,7 +45,7 @@ public partial class PartyFeatureTab : FeatureTab {
         using (VerticalScope()) {
             using (HorizontalScope()) {
                 UI.Label((PartyLevelText + ": ").Cyan() + Game.Instance.Player.PartyLevel.ToString().Orange().Bold(), Width(150));
-                InspectorUI.InspectToggle("Party", InspectPartyText, units, -150);
+                InspectorUI.InspectToggle("Party", InspectPartyText, units, -150, true);
             }
             var mainChar = GameHelper.GetPlayerCharacter();
             foreach (var unit in units) {

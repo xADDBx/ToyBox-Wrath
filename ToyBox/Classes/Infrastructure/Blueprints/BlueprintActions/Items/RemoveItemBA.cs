@@ -1,17 +1,14 @@
 ﻿using Kingmaker;
-using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Items;
+using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
-public partial class RemoveItemBA : IBlueprintAction<BlueprintItem> {
-    static RemoveItemBA() {
-        BlueprintActions.RegisterAction((IBlueprintAction<SimpleBlueprint>)new RemoveItemBA());
-    }
+public partial class RemoveItemBA : BlueprintActionFeature, IBlueprintAction<BlueprintItem> {
     private bool CanExecute(BlueprintItem blueprint, params object[] parameter) {
         return IsInGame();
     }
     private bool Execute(BlueprintItem blueprint, int count) {
-        ((IBlueprintAction<SimpleBlueprint>)this).LogBPAction(blueprint, count);
+        LogExecution(blueprint, count);
         Game.Instance.Player.Inventory.Remove(blueprint, count);
         return true;
     }
@@ -28,6 +25,17 @@ public partial class RemoveItemBA : IBlueprintAction<BlueprintItem> {
         }
         return result;
     }
+    public bool GetContext(out BlueprintItem? context) => ContextProvider.Blueprint(out context);
+    public override void OnGui() {
+        if (GetContext(out var bp)) {
+            OnGui(bp!);
+        }
+    }
+
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveItemBA_Remove_x", "Remove")]
     private static partial string RemoveText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveItemBA_Name", "Remove item")]
+    public override partial string Name { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveItemBA_Description", "Removes the specified BlueprintItem from your inventory.")]
+    public override partial string Description { get; }
 }

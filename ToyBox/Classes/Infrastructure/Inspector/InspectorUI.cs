@@ -34,7 +34,7 @@ public static partial class InspectorUI {
         InspectorSearcher.ShouldCancel = true;
         InspectorSearcher.LastPrompt = "";
     }
-    public static void InspectToggle(object key, string? title = null, object? toInspect = null, int indent = 0) {
+    public static void InspectToggle(object key, string? title = null, object? toInspect = null, int indent = 0, bool inspectInline = false) {
         using (VerticalScope()) {
             title ??= key.ToString();
             toInspect ??= key;
@@ -47,11 +47,16 @@ public static partial class InspectorUI {
                     m_ExpandedKeys.Remove(key);
                 }
             }
-            if (expanded) {
-                using (HorizontalScope()) {
-                    Space(indent);
-                    Inspect(toInspect);
-                }
+            if (inspectInline) {
+                InspectIfExpanded(key, toInspect, indent);
+            }
+        }
+    }
+    public static void InspectIfExpanded(object key, object? toInspect = null, int indent = 0) {
+        if (m_ExpandedKeys.Contains(key)) {
+            using (HorizontalScope()) {
+                Space(indent);
+                Inspect(toInspect ?? key);
             }
         }
     }

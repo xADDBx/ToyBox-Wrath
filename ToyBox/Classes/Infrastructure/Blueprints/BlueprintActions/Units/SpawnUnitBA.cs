@@ -1,18 +1,16 @@
 ﻿using Kingmaker;
 using Kingmaker.Blueprints;
 using Kingmaker.EntitySystem.Entities;
+using ToyBox.Infrastructure.Utilities;
 using UnityEngine;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
-public partial class SpawnUnitBA : IBlueprintAction<BlueprintUnit> {
-    static SpawnUnitBA() {
-        BlueprintActions.RegisterAction((IBlueprintAction<SimpleBlueprint>)new SpawnUnitBA());
-    }
+public partial class SpawnUnitBA : BlueprintActionFeature, IBlueprintAction<BlueprintUnit> {
     private bool CanExecute(BlueprintUnit blueprint, params object[] parameter) {
         return IsInGame();
     }
     private bool Execute(BlueprintUnit blueprint, int count) {
-        ((IBlueprintAction<SimpleBlueprint>)this).LogBPAction(blueprint, count);
+        LogExecution(blueprint, count);
         UnitEntityData? spawned = null;
         for (var i = 0; i < count; i++) {
             Vector3 spawnPosition = Game.Instance.ClickEventsController.WorldPosition;
@@ -35,7 +33,17 @@ public partial class SpawnUnitBA : IBlueprintAction<BlueprintUnit> {
         }
         return result;
     }
+    public bool GetContext(out BlueprintUnit? context) => ContextProvider.Blueprint(out context);
+    public override void OnGui() {
+        if (GetContext(out var bp)) {
+            OnGui(bp!);
+        }
+    }
 
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Spawn_x", "Spawn")]
     private static partial string SpawnText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Name", "Spawn unit")]
+    public override partial string Name { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Description", "Spawns the specified unit in the vicinity.")]
+    public override partial string Description { get; }
 }

@@ -1,18 +1,15 @@
-﻿using Kingmaker.Blueprints;
-using Kingmaker.Blueprints.Area;
+﻿using Kingmaker.Blueprints.Area;
 using Kingmaker.Cheats;
 using Kingmaker.EntitySystem.Persistence;
+using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
-public partial class LoadAreaPresetBA : IBlueprintAction<BlueprintAreaPreset> {
-    static LoadAreaPresetBA() {
-        BlueprintActions.RegisterAction((IBlueprintAction<SimpleBlueprint>)new LoadAreaPresetBA());
-    }
+public partial class LoadAreaPresetBA : BlueprintActionFeature, IBlueprintAction<BlueprintAreaPreset> {
     private bool CanExecute(BlueprintAreaPreset blueprint, params object[] parameter) {
         return true;
     }
     private bool Execute(BlueprintAreaPreset blueprint, params object[] parameter) {
-        ((IBlueprintAction<SimpleBlueprint>)this).LogBPAction(blueprint, parameter);
+        LogExecution(blueprint, parameter);
         LoadingProcess.Instance.StartCoroutine(CheatsTransfer.NewGameCoroutine(blueprint));
         return true;
     }
@@ -25,6 +22,16 @@ public partial class LoadAreaPresetBA : IBlueprintAction<BlueprintAreaPreset> {
         }
         return result;
     }
+    public bool GetContext(out BlueprintAreaPreset? context) => ContextProvider.Blueprint(out context);
+    public override void OnGui() {
+        if (GetContext(out var bp)) {
+            OnGui(bp!);
+        }
+    }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_LoadAreaPresetBA_LoadPresetText", "Load Preset")]
     private static partial string LoadPresetText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_LoadAreaPresetBA_Name", "Load Area Preset")]
+    public override partial string Name { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_LoadAreaPresetBA_Description", "Loads a specified BlueprintAreaPreset.")]
+    public override partial string Description { get; }
 }

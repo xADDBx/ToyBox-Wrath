@@ -34,4 +34,7 @@ public static class Logging {
     public static void Error(string str, int skip = 1, bool includeStackTrace = true) {
         Main.ModEntry.Logger.Error($"{str}:\n{(includeStackTrace ? new System.Diagnostics.StackTrace(skip, true).ToString() : "")}");
     }
+    public static void LogHistory(string str) {
+        Main.ModEntry.Logger.Log($"[History] {str}");
+    }
 }
