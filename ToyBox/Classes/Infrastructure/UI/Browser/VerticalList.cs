@@ -1,4 +1,6 @@
-﻿namespace ToyBox.Infrastructure;
+﻿using UnityEngine;
+
+namespace ToyBox.Infrastructure;
 
 /// <summary>
 /// A vertical paginated UI list for displaying and interacting with a collection of items of type <typeparamref name="T"/>.
@@ -111,25 +113,25 @@ public partial class VerticalList<T> : IPagedList where T : notnull {
     protected void PageGUI() {
         UI.Label($"{SharedStrings.ShowingText.Orange()} {PagedItemsCount.ToString().Cyan()} / {ItemCount.ToString().Cyan()} {SharedStrings.ResultsText.Orange()},   " +
             $"{SharedStrings.PageText.Orange()}: {CurrentPage.ToString().Cyan()} / {Math.Max(1, TotalPages).ToString().Cyan()}");
-        if (TotalPages > 1) {
-            Space(25);
-            if (UI.Button("-")) {
-                if (CurrentPage <= 1) {
-                    CurrentPage = TotalPages;
-                } else {
-                    CurrentPage -= 1;
-                }
-                UpdatePagedItems();
+        GUI.enabled = TotalPages > 1;
+        Space(25);
+        if (UI.Button("-")) {
+            if (CurrentPage <= 1) {
+                CurrentPage = TotalPages;
+            } else {
+                CurrentPage -= 1;
             }
-            if (UI.Button("+")) {
-                if (CurrentPage >= TotalPages) {
-                    CurrentPage = 1;
-                } else {
-                    CurrentPage += 1;
-                }
-                UpdatePagedItems();
-            }
+            UpdatePagedItems();
         }
+        if (UI.Button("+")) {
+            if (CurrentPage >= TotalPages) {
+                CurrentPage = 1;
+            } else {
+                CurrentPage += 1;
+            }
+            UpdatePagedItems();
+        }
+        GUI.enabled = true;
     }
     protected virtual void HeaderGUI() {
         using (HorizontalScope()) {
