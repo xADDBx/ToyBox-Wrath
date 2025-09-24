@@ -644,7 +644,7 @@
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Name": {
-    "Original": "Add item",
+    "Original": "Add Item",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Description": {
@@ -656,11 +656,59 @@
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveItemBA_Name": {
-    "Original": "Remove item",
+    "Original": "Remove Item",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveItemBA_Description": {
     "Original": "Removes the specified BlueprintItem from your inventory.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_Name": {
+    "Original": "Complete Quest",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_Description": {
+    "Original": "Completes a started quest by forcing each objective to complete.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_CompleteText": {
+    "Original": "Complete",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestObjectiveBA_Name": {
+    "Original": "Complete Quest Objective",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestObjectiveBA_Description": {
+    "Original": "Completes the specified BlueprintQuestObjective.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestObjectiveBA_CompleteText": {
+    "Original": "Complete",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_Name": {
+    "Original": "Start Quest",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_Description": {
+    "Original": "Start a quest by starting its first objective.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_StartText": {
+    "Original": "Start",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestObjectiveBA_Name": {
+    "Original": "Start Quest Objective",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestObjectiveBA_Description": {
+    "Original": "Starts the specified BlueprintQuestObjective.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestObjectiveBA_StartText": {
+    "Original": "Start",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_AddText": {
@@ -668,7 +716,7 @@
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_Name": {
-    "Original": "Add spellbook",
+    "Original": "Add Spellbook",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_Description": {
@@ -680,7 +728,7 @@
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_Name": {
-    "Original": "Add fact",
+    "Original": "Add Fact",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_Description": {
@@ -704,7 +752,7 @@
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_Name": {
-    "Original": "Remove spellbook",
+    "Original": "Remove Spellbook",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_Description": {
@@ -716,7 +764,7 @@
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_Name": {
-    "Original": "Remove fact",
+    "Original": "Remove Fact",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_Description": {
@@ -728,7 +776,7 @@
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Name": {
-    "Original": "Spawn unit",
+    "Original": "Spawn Unit",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Description": {
