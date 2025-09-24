@@ -16,19 +16,29 @@ public partial class CompleteQuestBA : BlueprintActionFeature, IBlueprintAction<
         }
         return true;
     }
-    public bool? OnGui(BlueprintQuest blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintQuest blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint)) {
-            UI.Button(CompleteText, () => {
+            var text = CompleteText;
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
                 result = Execute(blueprint);
             });
+        } else if (isFeatureSearch) {
+            if (IsInGame()) {
+                UI.Label(QuestIsNotStartedText.Red().Bold());
+            } else {
+                UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red().Bold());
+            }
         }
         return result;
     }
     public bool GetContext(out BlueprintQuest? context) => ContextProvider.Blueprint(out context);
     public override void OnGui() {
         if (GetContext(out var bp)) {
-            OnGui(bp!);
+            OnGui(bp!, true);
         }
     }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_Name", "Complete Quest")]
@@ -37,4 +47,6 @@ public partial class CompleteQuestBA : BlueprintActionFeature, IBlueprintAction<
     public override partial string Description { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_CompleteText", "Complete")]
     private static partial string CompleteText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_QuestIsNotStartedText", "Quest is not started")]
+    private static partial string QuestIsNotStartedText { get; }
 }

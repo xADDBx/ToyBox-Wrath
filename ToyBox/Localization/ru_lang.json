@@ -671,6 +671,10 @@
     "Original": "Increases or decreases the value of the specified BlueprintUnlockableFlag.",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeFlagValueBA_FlagIsNotUnlockedText": {
+    "Original": "Flag is not unlocked",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteEtudeBA_Name": {
     "Original": "Complete Etude",
     "Translated": null
@@ -681,6 +685,10 @@
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteEtudeBA_CompleteText": {
     "Original": "Complete",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteEtudeBA_EtudeIsNotStartedText": {
+    "Original": "Etude is not started",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_Name": {
@@ -695,6 +703,10 @@
     "Original": "Complete",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_QuestIsNotStartedText": {
+    "Original": "Quest is not started",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestObjectiveBA_Name": {
     "Original": "Complete Quest Objective",
     "Translated": null
@@ -707,6 +719,10 @@
     "Original": "Complete",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestObjectiveBA_QuestObjectiveIsNotStartedText": {
+    "Original": "Quest objective is not started",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_LockFlagBA_Name": {
     "Original": "Lock Flag",
     "Translated": null
@@ -717,6 +733,10 @@
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_LockFlagBA_LockText": {
     "Original": "Lock",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_LockFlagBA_FlagIsNotUnlockedText": {
+    "Original": "Flag is not unlocked",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_PlayCutsceneBA_Name": {
@@ -743,6 +763,10 @@
     "Original": "Start",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartEtudeBA_EtudeIsAlreadyStartedOrCompleted": {
+    "Original": "Etude is already started or completed",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_Name": {
     "Original": "Start Quest",
     "Translated": null
@@ -753,6 +777,10 @@
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_StartText": {
     "Original": "Start",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_QuestAlreadyStartedText": {
+    "Original": "Quest already started",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestObjectiveBA_Name": {
@@ -767,6 +795,10 @@
     "Original": "Start",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestObjectiveBA_QuestObjectiveStateIsNotNoneText": {
+    "Original": "QuestObjectiveState is not none",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_UnlockFlagBA_Name": {
     "Original": "Unlock Flag",
     "Translated": null
@@ -777,6 +809,10 @@
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_UnlockFlagBA_UnlockText": {
     "Original": "Unlock",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_UnlockFlagBA_FlagIsNotLockedText": {
+    "Original": "Flag is not locked",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_UnstartEtudeBA_Name": {
@@ -791,6 +827,10 @@
     "Original": "Unstart",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_UnstartEtudeBA_EtudeIsNotStartedText": {
+    "Original": "Etude is not started or completed",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_AddText": {
     "Original": "Add",
     "Translated": null
@@ -801,6 +841,10 @@
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_Description": {
     "Original": "Adds the specified BlueprintSpellbook to the chosen unit.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_UnitAlreadyHasThisSpellbookText": {
+    "Original": "Unit already has this Spellbook",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_AddText": {
@@ -815,6 +859,10 @@
     "Original": "Adds the specified BlueprintUnitFact to the chosen unit.",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_UnitAlreadyHasThisFactText": {
+    "Original": "Unit already has this Fact",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA__Plus1CasterLevelText": {
     "Original": "+1 CL",
     "Translated": null
@@ -825,6 +873,10 @@
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA_Description": {
     "Original": "Increases the level of the specified BlueprintSpellbook on the chosen unit.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA_UnitDoesNotHaveThisSpellbookText": {
+    "Original": "Unit does not have this Spellbook",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_RemoveText": {
@@ -839,6 +891,10 @@
     "Original": "Remove the specified BlueprintSpellbook from the chosen unit.",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_UnitDoesNotHaveThisSpellbookText": {
+    "Original": "Unit does not have this Spellbook",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_RemoveText": {
     "Original": "Remove",
     "Translated": null
@@ -849,6 +905,10 @@
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_Description": {
     "Original": "Removes the specified BlueprintUnitFact from the chosen unit.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_UnitDoesNotHaveThisFactText": {
+    "Original": "Unit does not have this Fact",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Spawn_x": {

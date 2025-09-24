@@ -13,19 +13,25 @@ public partial class TeleportAreaEnterPointBA : BlueprintActionFeature, IBluepri
         GameHelper.EnterToArea(blueprint, AutoSaveMode.None);
         return true;
     }
-    public bool? OnGui(BlueprintAreaEnterPoint blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintAreaEnterPoint blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
-            UI.Button(TeleportText, () => {
+            var text = TeleportText;
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
                 result = Execute(blueprint, parameter);
             });
+        } else if (isFeatureSearch) {
+            UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red().Bold());
         }
         return result;
     }
     public bool GetContext(out BlueprintAreaEnterPoint? context) => ContextProvider.Blueprint(out context);
     public override void OnGui() {
         if (GetContext(out var bp)) {
-            OnGui(bp!);
+            OnGui(bp!, true);
         }
     }
 

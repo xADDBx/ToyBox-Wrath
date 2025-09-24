@@ -12,12 +12,22 @@ public partial class StartEtudeBA : BlueprintActionFeature, IBlueprintAction<Blu
         Game.Instance.Player.EtudesSystem.StartEtude(blueprint);
         return true;
     }
-    public bool? OnGui(BlueprintEtude blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintEtude blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint)) {
-            UI.Button(StartText, () => {
+            var text = StartText;
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
                 result = Execute(blueprint);
             });
+        } else if (isFeatureSearch) {
+            if (IsInGame()) {
+                UI.Label(EtudeIsAlreadyStartedOrCompleted.Red().Bold());
+            } else {
+                UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red().Bold());
+            }
         }
         return result;
     }
@@ -25,7 +35,7 @@ public partial class StartEtudeBA : BlueprintActionFeature, IBlueprintAction<Blu
     public bool GetContext(out BlueprintEtude? context) => ContextProvider.Blueprint(out context);
     public override void OnGui() {
         if (GetContext(out var bp)) {
-            OnGui(bp!);
+            OnGui(bp!, true);
         }
     }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_StartEtudeBA_Name", "Start Etude")]
@@ -34,4 +44,6 @@ public partial class StartEtudeBA : BlueprintActionFeature, IBlueprintAction<Blu
     public override partial string Description { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_StartEtudeBA_StartText", "Start")]
     private static partial string StartText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_StartEtudeBA_EtudeIsAlreadyStartedOrCompleted", "Etude is already started or completed")]
+    private static partial string EtudeIsAlreadyStartedOrCompleted { get; }
 }

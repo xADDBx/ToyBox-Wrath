@@ -14,12 +14,22 @@ public partial class StartQuestObjectiveBA : BlueprintActionFeature, IBlueprintA
         Game.Instance.Player.QuestBook.GiveObjective(blueprint);
         return true;
     }
-    public bool? OnGui(BlueprintQuestObjective blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintQuestObjective blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint)) {
-            UI.Button(StartText, () => {
+            var text = StartText;
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
                 result = Execute(blueprint);
             });
+        } else if (isFeatureSearch) {
+            if (IsInGame()) {
+                UI.Label(QuestObjectiveStateIsNotNoneText.Red().Bold());
+            } else {
+                UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red().Bold());
+            }
         }
         return result;
     }
@@ -27,7 +37,7 @@ public partial class StartQuestObjectiveBA : BlueprintActionFeature, IBlueprintA
     public bool GetContext(out BlueprintQuestObjective? context) => ContextProvider.Blueprint(out context);
     public override void OnGui() {
         if (GetContext(out var bp)) {
-            OnGui(bp!);
+            OnGui(bp!, true);
         }
     }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestObjectiveBA_Name", "Start Quest Objective")]
@@ -36,4 +46,6 @@ public partial class StartQuestObjectiveBA : BlueprintActionFeature, IBlueprintA
     public override partial string Description { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestObjectiveBA_StartText", "Start")]
     private static partial string StartText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestObjectiveBA_QuestObjectiveStateIsNotNoneText", "QuestObjectiveState is not none")]
+    private static partial string QuestObjectiveStateIsNotNoneText { get; }
 }

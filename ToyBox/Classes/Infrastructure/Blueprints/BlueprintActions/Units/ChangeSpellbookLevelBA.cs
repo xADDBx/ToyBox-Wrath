@@ -20,7 +20,7 @@ public partial class ChangeSpellbookLevelBA : BlueprintActionFeature, IBlueprint
         }
         return true;
     }
-    public bool? OnGui(BlueprintSpellbook blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintSpellbook blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
             var spellbook = ((UnitEntityData)parameter[0])!.Descriptor.DemandSpellbook(blueprint);
@@ -37,10 +37,16 @@ public partial class ChangeSpellbookLevelBA : BlueprintActionFeature, IBlueprint
             */
             UI.Label($"{spellbook.CasterLevel} ");
             if (spellbook.CasterLevel < spellbook.MaxCasterLevel) {
-                UI.Button(IncreaseCLText, () => {
+                var text = IncreaseCLText;
+                if (isFeatureSearch) {
+                    text = text.Cyan().Bold().SizePercent(115);
+                }
+                UI.Button(text, () => {
                     result = Execute(blueprint, spellbook, parameter);
                 });
             }
+        } else if (isFeatureSearch) {
+            UI.Label(UnitDoesNotHaveThisSpellbookText.Red().Bold());
         }
         return result;
     }
@@ -48,7 +54,7 @@ public partial class ChangeSpellbookLevelBA : BlueprintActionFeature, IBlueprint
     public bool GetContext(out UnitEntityData? context) => ContextProvider.UnitEntityData(out context);
     public override void OnGui() {
         if (GetContext(out BlueprintSpellbook? bp) && GetContext(out UnitEntityData? unit)) {
-            OnGui(bp!, unit!);
+            OnGui(bp!, true, unit!);
         }
     }
 
@@ -58,4 +64,6 @@ public partial class ChangeSpellbookLevelBA : BlueprintActionFeature, IBlueprint
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA_Description", "Increases the level of the specified BlueprintSpellbook on the chosen unit.")]
     public override partial string Description { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA_UnitDoesNotHaveThisSpellbookText", "Unit does not have this Spellbook")]
+    private static partial string UnitDoesNotHaveThisSpellbookText { get; }
 }

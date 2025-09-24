@@ -13,11 +13,15 @@ public partial class LoadAreaPresetBA : BlueprintActionFeature, IBlueprintAction
         LoadingProcess.Instance.StartCoroutine(CheatsTransfer.NewGameCoroutine(blueprint));
         return true;
     }
-    public bool? OnGui(BlueprintAreaPreset blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintAreaPreset blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
-            UI.Button(LoadPresetText, () => {
-                 result = Execute(blueprint, parameter);
+            var text = LoadPresetText;
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
+                result = Execute(blueprint, parameter);
             });
         }
         return result;
@@ -25,7 +29,7 @@ public partial class LoadAreaPresetBA : BlueprintActionFeature, IBlueprintAction
     public bool GetContext(out BlueprintAreaPreset? context) => ContextProvider.Blueprint(out context);
     public override void OnGui() {
         if (GetContext(out var bp)) {
-            OnGui(bp!);
+            OnGui(bp!, true);
         }
     }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_LoadAreaPresetBA_LoadPresetText", "Load Preset")]

@@ -13,12 +13,22 @@ public partial class LockFlagBA : BlueprintActionFeature, IBlueprintAction<Bluep
         Game.Instance.Player.UnlockableFlags.Lock(blueprint);
         return true;
     }
-    public bool? OnGui(BlueprintUnlockableFlag blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintUnlockableFlag blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint)) {
-            UI.Button(LockText, () => {
+            var text = LockText;
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
                 result = Execute(blueprint);
             });
+        } else if (isFeatureSearch) {
+            if (IsInGame()) {
+                UI.Label(FlagIsNotUnlockedText.Red().Bold());
+            } else {
+                UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red().Bold());
+            }
         }
         return result;
     }
@@ -26,7 +36,7 @@ public partial class LockFlagBA : BlueprintActionFeature, IBlueprintAction<Bluep
     public bool GetContext(out BlueprintUnlockableFlag? context) => ContextProvider.Blueprint(out context);
     public override void OnGui() {
         if (GetContext(out var bp)) {
-            OnGui(bp!);
+            OnGui(bp!, true);
         }
     }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_LockFlagBA_Name", "Lock Flag")]
@@ -35,4 +45,6 @@ public partial class LockFlagBA : BlueprintActionFeature, IBlueprintAction<Bluep
     public override partial string Description { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_LockFlagBA_LockText", "Lock")]
     private static partial string LockText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_LockFlagBA_FlagIsNotUnlockedText", "Flag is not unlocked")]
+    private static partial string FlagIsNotUnlockedText { get; }
 }

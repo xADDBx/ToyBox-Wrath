@@ -32,12 +32,18 @@ public partial class RemoveUnitFactBA : BlueprintActionFeature, IBlueprintAction
             ((UnitEntityData)parameter[0]).RemoveFact(blueprint);
         return true;
     }
-    public bool? OnGui(BlueprintUnitFact blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintUnitFact blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
-            UI.Button(RemoveText, () => {
+            var text = RemoveText;
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
                 result = Execute(blueprint, parameter);
             });
+        } else if (isFeatureSearch) {
+            UI.Label(UnitDoesNotHaveThisFactText.Red().Bold());
         }
         return result;
     }
@@ -45,7 +51,7 @@ public partial class RemoveUnitFactBA : BlueprintActionFeature, IBlueprintAction
     public bool GetContext(out UnitEntityData? context) => ContextProvider.UnitEntityData(out context);
     public override void OnGui() {
         if (GetContext(out BlueprintUnitFact? bp) && GetContext(out UnitEntityData? unit)) {
-            OnGui(bp!, unit!);
+            OnGui(bp!, true, unit!);
         }
     }
 
@@ -55,4 +61,6 @@ public partial class RemoveUnitFactBA : BlueprintActionFeature, IBlueprintAction
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_Description", "Removes the specified BlueprintUnitFact from the chosen unit.")]
     public override partial string Description { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_UnitDoesNotHaveThisFactText", "Unit does not have this Fact")]
+    private static partial string UnitDoesNotHaveThisFactText { get; }
 }

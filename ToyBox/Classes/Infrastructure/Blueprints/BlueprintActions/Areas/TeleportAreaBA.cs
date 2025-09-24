@@ -26,12 +26,18 @@ public partial class TeleportAreaBA : BlueprintActionFeature, IBlueprintAction<B
         }
         return false;
     }
-    public bool? OnGui(BlueprintArea blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintArea blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
-            UI.Button(TeleportText, () => {
+            var text = TeleportText;
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
                 result = Execute(blueprint, parameter);
             });
+        } else if (isFeatureSearch) {
+            UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red().Bold());
         }
         return result;
     }
@@ -39,7 +45,7 @@ public partial class TeleportAreaBA : BlueprintActionFeature, IBlueprintAction<B
     public bool GetContext(out BlueprintArea? context) => ContextProvider.Blueprint(out context);
     public override void OnGui() {
         if (GetContext(out var bp)) {
-            OnGui(bp!);
+            OnGui(bp!, true);
         }
     }
 

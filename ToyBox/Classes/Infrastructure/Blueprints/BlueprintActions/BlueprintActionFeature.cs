@@ -4,7 +4,7 @@ namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 public interface IBlueprintAction { }
 public interface IBlueprintAction<T> : IBlueprintAction, INeedContextFeature<T> where T : SimpleBlueprint {
     // Null - Nothing happened; False - Action execution failed; True - Action execution succeeded
-    public abstract bool? OnGui(T blueprint, params object[] parameter);
+    public abstract bool? OnGui(T blueprint, bool isFeatureSearch, params object[] parameter);
 }
 public abstract class BlueprintActionFeature : FeatureWithAction, IBlueprintAction {
     private static readonly List<IBlueprintAction> m_AllActions = [];

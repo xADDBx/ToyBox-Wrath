@@ -24,12 +24,18 @@ public partial class PlayCutsceneBA : BlueprintActionFeature, IBlueprintAction<C
 
         return true;
     }
-    public bool? OnGui(Cutscene blueprint, params object[] parameter) {
+    public bool? OnGui(Cutscene blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint)) {
-            UI.Button(PlayText, () => {
+            var text = PlayText;
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
                 result = Execute(blueprint);
             });
+        } else if (isFeatureSearch) {
+            UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red().Bold());
         }
         return result;
     }
@@ -37,7 +43,7 @@ public partial class PlayCutsceneBA : BlueprintActionFeature, IBlueprintAction<C
     public bool GetContext(out Cutscene? context) => ContextProvider.Blueprint(out context);
     public override void OnGui() {
         if (GetContext(out var bp)) {
-            OnGui(bp!);
+            OnGui(bp!, true);
         }
     }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_PlayCutsceneBA_Name", "Play Cutscene")]

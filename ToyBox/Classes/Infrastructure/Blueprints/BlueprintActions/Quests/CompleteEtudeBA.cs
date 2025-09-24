@@ -13,12 +13,22 @@ public partial class CompleteEtudeBA : BlueprintActionFeature, IBlueprintAction<
         Game.Instance.Player.EtudesSystem.MarkEtudeCompleted(blueprint);
         return true;
     }
-    public bool? OnGui(BlueprintEtude blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintEtude blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint)) {
-            UI.Button(CompleteText, () => {
+            var text = CompleteText;
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
                 result = Execute(blueprint);
             });
+        } else if (isFeatureSearch) {
+            if (IsInGame()) {
+                UI.Label(EtudeIsNotStartedText.Red().Bold());
+            } else {
+                UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red().Bold());
+            }
         }
         return result;
     }
@@ -26,7 +36,7 @@ public partial class CompleteEtudeBA : BlueprintActionFeature, IBlueprintAction<
     public bool GetContext(out BlueprintEtude? context) => ContextProvider.Blueprint(out context);
     public override void OnGui() {
         if (GetContext(out var bp)) {
-            OnGui(bp!);
+            OnGui(bp!, true);
         }
     }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteEtudeBA_Name", "Complete Etude")]
@@ -35,4 +45,6 @@ public partial class CompleteEtudeBA : BlueprintActionFeature, IBlueprintAction<
     public override partial string Description { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteEtudeBA_CompleteText", "Complete")]
     private static partial string CompleteText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteEtudeBA_EtudeIsNotStartedText", "Etude is not started")]
+    private static partial string EtudeIsNotStartedText { get; }
 }

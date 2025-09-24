@@ -12,16 +12,22 @@ public partial class AddItemBA : BlueprintActionFeature, IBlueprintAction<Bluepr
         Game.Instance.Player.Inventory.Add(blueprint, count);
         return true;
     }
-    public bool? OnGui(BlueprintItem blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintItem blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
             int count = 1;
             if (parameter.Length > 0 && parameter[0] is int tmpCount) {
                 count = tmpCount;
             }
-            UI.Button(AddText + $" {count}", () => {
+            var text = AddText + $" {count}";
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
                 result = Execute(blueprint, count);
             });
+        } else if (isFeatureSearch) {
+            UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red().Bold());
         }
         return result;
     }
@@ -29,7 +35,7 @@ public partial class AddItemBA : BlueprintActionFeature, IBlueprintAction<Bluepr
     public bool GetContext(out BlueprintItem? context) => ContextProvider.Blueprint(out context);
     public override void OnGui() {
         if (GetContext(out var bp)) {
-            OnGui(bp!);
+            OnGui(bp!, true);
         }
     }
 

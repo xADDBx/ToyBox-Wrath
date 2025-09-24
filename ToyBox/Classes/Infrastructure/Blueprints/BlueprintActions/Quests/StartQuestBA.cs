@@ -13,12 +13,22 @@ public partial class StartQuestBA : BlueprintActionFeature, IBlueprintAction<Blu
         Game.Instance.Player.QuestBook.GiveObjective(blueprint.Objectives.First());
         return true;
     }
-    public bool? OnGui(BlueprintQuest blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintQuest blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint)) {
-            UI.Button(StartText, () => {
+            var text = StartText;
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
                 result = Execute(blueprint);
             });
+        } else if (isFeatureSearch) {
+            if (IsInGame()) {
+                UI.Label(QuestAlreadyStartedText.Red().Bold());
+            } else {
+                UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red().Bold());
+            }
         }
         return result;
     }
@@ -26,7 +36,7 @@ public partial class StartQuestBA : BlueprintActionFeature, IBlueprintAction<Blu
     public bool GetContext(out BlueprintQuest? context) => ContextProvider.Blueprint(out context);
     public override void OnGui() {
         if (GetContext(out var bp)) {
-            OnGui(bp!);
+            OnGui(bp!, true);
         }
     }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_Name", "Start Quest")]
@@ -35,4 +45,6 @@ public partial class StartQuestBA : BlueprintActionFeature, IBlueprintAction<Blu
     public override partial string Description { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_StartText", "Start")]
     private static partial string StartText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_QuestAlreadyStartedText", "Quest already started")]
+    private static partial string QuestAlreadyStartedText { get; }
 }

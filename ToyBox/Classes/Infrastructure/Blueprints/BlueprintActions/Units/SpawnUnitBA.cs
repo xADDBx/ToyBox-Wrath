@@ -20,23 +20,29 @@ public partial class SpawnUnitBA : BlueprintActionFeature, IBlueprintAction<Blue
         }
         return spawned != null;
     }
-    public bool? OnGui(BlueprintUnit blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintUnit blueprint, bool isFeatureSearch = false, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
             int count = 1;
             if (parameter.Length > 0 && parameter[0] is int tmpCount) {
                 count = tmpCount;
             }
-            UI.Button(SpawnText + $" {count}", () => {
+            var text = SpawnText + $" {count}";
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
                 result = Execute(blueprint, count);
             });
+        } else if (isFeatureSearch) {
+            UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red().Bold());
         }
         return result;
     }
     public bool GetContext(out BlueprintUnit? context) => ContextProvider.Blueprint(out context);
     public override void OnGui() {
         if (GetContext(out var bp)) {
-            OnGui(bp!);
+            OnGui(bp!, true);
         }
     }
 

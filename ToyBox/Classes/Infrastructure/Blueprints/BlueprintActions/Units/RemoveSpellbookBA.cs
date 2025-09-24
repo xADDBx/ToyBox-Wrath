@@ -15,12 +15,18 @@ public partial class RemoveSpellbookBA : BlueprintActionFeature, IBlueprintActio
         ((UnitEntityData)parameter[0])!.Descriptor.DeleteSpellbook(blueprint);
         return true;
     }
-    public bool? OnGui(BlueprintSpellbook blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintSpellbook blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
-            UI.Button(RemoveText, () => {
+            var text = RemoveText;
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
                 result = Execute(blueprint, parameter);
             });
+        } else if (isFeatureSearch) {
+            UI.Label(UnitDoesNotHaveThisSpellbookText.Red().Bold());
         }
         return result;
     }
@@ -28,7 +34,7 @@ public partial class RemoveSpellbookBA : BlueprintActionFeature, IBlueprintActio
     public bool GetContext(out UnitEntityData? context) => ContextProvider.UnitEntityData(out context);
     public override void OnGui() {
         if (GetContext(out BlueprintSpellbook? bp) && GetContext(out UnitEntityData? unit)) {
-            OnGui(bp!, unit!);
+            OnGui(bp!, true, unit!);
         }
     }
 
@@ -38,4 +44,6 @@ public partial class RemoveSpellbookBA : BlueprintActionFeature, IBlueprintActio
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_Description", "Remove the specified BlueprintSpellbook from the chosen unit.")]
     public override partial string Description { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_UnitDoesNotHaveThisSpellbookText", "Unit does not have this Spellbook")]
+    private static partial string UnitDoesNotHaveThisSpellbookText { get; }
 }

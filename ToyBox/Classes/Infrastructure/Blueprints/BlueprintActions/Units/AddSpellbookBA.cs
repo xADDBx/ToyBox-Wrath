@@ -14,12 +14,18 @@ public partial class AddSpellbookBA : BlueprintActionFeature, IBlueprintAction<B
         LogExecution(blueprint, parameter);
         return ((UnitEntityData)parameter[0])!.Descriptor.DemandSpellbook(blueprint) != null;
     }
-    public bool? OnGui(BlueprintSpellbook blueprint, params object[] parameter) {
+    public bool? OnGui(BlueprintSpellbook blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
-            UI.Button(AddText, () => {
+            var text = AddText;
+            if (isFeatureSearch) {
+                text = text.Cyan().Bold().SizePercent(115);
+            }
+            UI.Button(text, () => {
                 result = Execute(blueprint, parameter);
             });
+        } else if (isFeatureSearch) {
+            UI.Label(UnitAlreadyHasThisSpellbookText.Red().Bold());
         }
         return result;
     }
@@ -27,7 +33,7 @@ public partial class AddSpellbookBA : BlueprintActionFeature, IBlueprintAction<B
     public bool GetContext(out UnitEntityData? context) => ContextProvider.UnitEntityData(out context);
     public override void OnGui() {
         if (GetContext(out BlueprintSpellbook? bp) && GetContext(out UnitEntityData? unit)) {
-            OnGui(bp!, unit!);
+            OnGui(bp!, true, unit!);
         }
     }
 
@@ -37,4 +43,6 @@ public partial class AddSpellbookBA : BlueprintActionFeature, IBlueprintAction<B
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_Description", "Adds the specified BlueprintSpellbook to the chosen unit.")]
     public override partial string Description { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_UnitAlreadyHasThisSpellbookText", "Unit already has this Spellbook")]
+    private static partial string UnitAlreadyHasThisSpellbookText { get; }
 }
