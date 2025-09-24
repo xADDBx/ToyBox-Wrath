@@ -28,6 +28,9 @@ public static partial class InspectorUI {
     static InspectorUI() {
         Main.OnHideGUIAction += ClearCache;
     }
+    public static void RebuildCurrent() {
+        m_CurrentlyInspecting.Clear();
+    }
     public static void ClearCache() {
         m_CurrentlyInspecting.Clear();
         m_ExpandedKeys.Clear();
@@ -35,23 +38,30 @@ public static partial class InspectorUI {
         InspectorSearcher.LastPrompt = "";
     }
     public static void InspectToggle(object key, string? title = null, object? toInspect = null, int indent = 0, bool inspectInline = false) {
-        using (VerticalScope()) {
-            title ??= key.ToString();
-            toInspect ??= key;
-            var expanded = m_ExpandedKeys.Contains(key);
-            if (UI.DisclosureToggle(ref expanded, title)) {
-                if (expanded) {
-                    m_ExpandedKeys.Clear();
-                    m_ExpandedKeys.Add(key);
-                } else {
-                    m_ExpandedKeys.Remove(key);
-                }
-            }
-            if (inspectInline) {
+        title ??= key.ToString();
+        toInspect ??= key;
+        var expanded = m_ExpandedKeys.Contains(key);
+        if (inspectInline) {
+            using (VerticalScope()) {
+                DisclosureToggle(key, title, expanded);
                 InspectIfExpanded(key, toInspect, indent);
+            }
+        } else {
+            DisclosureToggle(key, title, expanded);
+        }
+    }
+
+    private static void DisclosureToggle(object key, string title, bool expanded) {
+        if (UI.DisclosureToggle(ref expanded, title, Width(UI.DisclosureGlyphWidth.Value))) {
+            if (expanded) {
+                m_ExpandedKeys.Clear();
+                m_ExpandedKeys.Add(key);
+            } else {
+                m_ExpandedKeys.Remove(key);
             }
         }
     }
+
     public static void InspectIfExpanded(object key, object? toInspect = null, int indent = 0) {
         if (m_ExpandedKeys.Contains(key)) {
             using (HorizontalScope()) {

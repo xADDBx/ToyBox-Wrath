@@ -16,8 +16,6 @@ public partial class SharedStrings {
     public static partial string ModFilesAreCorrupted_Text { get; }
     [LocalizedString("ToyBox_Infrastructure_Inspector_InspectorUI_CurrentlyInspectingText", "Currently Inspecting")]
     public static partial string CurrentlyInspectingText { get; }
-    [LocalizedString("ToyBox_Features_FeatureSearch_FeatureSearchFeature_PleaseSelectAUnitFirst_Text", "Please select a unit first!")]
-    public static partial string PleaseSelectAUnitFirstText { get; }
     [LocalizedString("ToyBox_Main_ResetText", "Reset")]
     public static partial string ResetLabel { get; }
     [LocalizedString("ToyBox_Main_CurrentlyLoadedBPsText", "Currently loaded blueprints: {0}")]
@@ -40,6 +38,8 @@ public partial class SharedStrings {
     public static partial string NoBlueprintWithThatGuidFound { get; }
     [LocalizedString("ToyBox_Infrastructure_BlueprintPicker_ShowListOfBlueprintsText", "Show List of Blueprints")]
     public static partial string ShowListOfBlueprintsText { get; }
-    [LocalizedString("ToyBox_Infrastructure_BlueprintPicker_CurrentlySelectedBlueprint_Text", "Currently selected blueprint:")]
+    [LocalizedString("ToyBox_Infrastructure_BlueprintPicker_CurrentlySelectedBlueprint_Text", "Currently selected blueprint")]
     public static partial string CurrentlySelectedBlueprintText { get; }
+    [LocalizedString("ToyBox_Infrastructure_UnitPicker_CurrentlySelectedUnit_Text", "Currently selected unit")]
+    public static partial string CurrentlySelectedUnitText { get; }
 }

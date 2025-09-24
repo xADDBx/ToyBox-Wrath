@@ -18,7 +18,7 @@ public partial class Browser<T> : VerticalList<T> where T : notnull {
     protected bool ShowAll = false;
     private Task? m_DebounceTask;
     protected IEnumerable<T>? UnsearchedShowAllItems = null;
-    protected IEnumerable<T> UnsearchedItems = new List<T>();
+    protected IEnumerable<T> UnsearchedItems = [];
     protected Func<T, string> GetSearchKey;
     protected Func<T, string> GetSortKey;
     protected bool ShowSearchBar = true;
@@ -79,13 +79,10 @@ public partial class Browser<T> : VerticalList<T> where T : notnull {
         if (!onlyDisplayedItems) {
             UnsearchedItems = newItems;
         }
-        if (!ShowAll) {
-            base.UpdateItems(newItems, forcePage);
+
+        base.UpdateItems(newItems, forcePage, onlyDisplayedItems);
+        if (!onlyDisplayedItems && LastSearchedAt > 0f) {
             RedoSearch();
-        } else {
-            if (onlyDisplayedItems) {
-                base.UpdateItems(newItems, forcePage);
-            }
         }
     }
     public void RedoSearch() => StartNewSearch(CurrentSearchString, true);
@@ -108,7 +105,9 @@ public partial class Browser<T> : VerticalList<T> where T : notnull {
     /// as the previous search; otherwise, skips if unchanged.
     /// </param>
     public void StartNewSearch(string query, bool force = false) {
-        if (!force && LastSearchedFor == query) return;
+        if (!force && LastSearchedFor == query) {
+            return;
+        }
         bool canOptimizeSearch = !query.IsNullOrEmpty() && query.StartsWith(LastSearchedFor) && !force;
         LastSearchedFor = query;
         LastSearchedAt = Time.time;

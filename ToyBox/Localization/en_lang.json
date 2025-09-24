@@ -891,6 +891,10 @@
     "Original": "None",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Utilities_ContextProvider_NoneText": {
+    "Original": "None",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Utilities_Strings_SharedStrings_ThisCannotBeUsedFromTheMainMenu": {
     "Original": "This cannot be used from the main menu!",
     "Translated": null
@@ -921,10 +925,6 @@
   },
   "ToyBox_Infrastructure_Inspector_InspectorUI_CurrentlyInspectingText": {
     "Original": "Currently Inspecting",
-    "Translated": null
-  },
-  "ToyBox_Features_FeatureSearch_FeatureSearchFeature_PleaseSelectAUnitFirst_Text": {
-    "Original": "Please select a unit first!",
     "Translated": null
   },
   "ToyBox_Main_ResetText": {
@@ -972,7 +972,11 @@
     "Translated": null
   },
   "ToyBox_Infrastructure_BlueprintPicker_CurrentlySelectedBlueprint_Text": {
-    "Original": "Currently selected blueprint:",
+    "Original": "Currently selected blueprint",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_UnitPicker_CurrentlySelectedUnit_Text": {
+    "Original": "Currently selected unit",
     "Translated": null
   }
 }

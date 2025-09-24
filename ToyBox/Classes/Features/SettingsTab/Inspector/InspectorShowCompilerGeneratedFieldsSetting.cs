@@ -10,10 +10,10 @@ public partial class InspectorShowCompilerGeneratedFieldsSetting : ToggledFeatur
     public override partial string Description { get; }
     public override void Initialize() {
         base.Initialize();
-        InspectorUI.ClearCache();
+        InspectorUI.RebuildCurrent();
     }
     public override void Destroy() {
         base.Destroy();
-        InspectorUI.ClearCache();
+        InspectorUI.RebuildCurrent();
     }
 }

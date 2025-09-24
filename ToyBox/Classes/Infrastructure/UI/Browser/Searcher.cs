@@ -44,7 +44,7 @@ public class ThreadedListSearcher<T> where T : notnull {
                             IsRunning = false;
                             cts.Dispose();
                         }
-                        m_Parent.QueueUpdateItems(allResults.AsParallel().WithDegreeOfParallelism(Environment.ProcessorCount).OrderBy(getSortKey).ToArray(), 1);
+                        m_Parent.QueueUpdateItems(allResults.AsParallel().WithDegreeOfParallelism(Environment.ProcessorCount).OrderBy(getSortKey).ToArray(), 1, true);
                         Debug("Cancelled Search");
                         return;
                     }
@@ -56,9 +56,7 @@ public class ThreadedListSearcher<T> where T : notnull {
                         if (lastShared < m_MaxNumForPartialUpdate && (Time.time - m_LastSharedResults) > m_ShareResultsDelay) {
                             lastShared = CurrentlyFound;
                             m_LastSharedResults = Time.time;
-                            Main.ScheduleForMainThread(() => {
-                                m_Parent.UpdateItems([.. m_InProgress], 1);
-                            });
+                            m_Parent.QueueUpdateItems([.. m_InProgress], 1, true);
                         }
                     }
                 }

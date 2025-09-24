@@ -2,18 +2,27 @@
 
 namespace ToyBox.Infrastructure.Utilities;
 public static partial class ContextProvider {
+    private static bool m_UnitProviderShown = false;
     public static bool UnitEntityData(out UnitEntityData? unit) {
-        unit = null;
+        unit = CharacterPicker.CurrentUnit;
         if (!IsInGame()) {
             UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red());
             return false;
         }
-        CharacterPicker.OnFilterPickerGUI();
-        CharacterPicker.OnCharacterPickerGUI();
-        if (CharacterPicker.CurrentUnit != null) {
-            unit = CharacterPicker.CurrentUnit;
+        string str;
+        if (unit != null) {
+            str = ": " + $"{unit}".Green().Bold();
         } else {
-            UI.Label(SharedStrings.PleaseSelectAUnitFirstText.Orange());
+            str = ": " + NoneText.Red();
+        }
+        using (VerticalScope()) {
+            UI.DisclosureToggle(ref m_UnitProviderShown, SharedStrings.CurrentlySelectedUnitText + str);
+            if (m_UnitProviderShown) {
+                CharacterPicker.OnFilterPickerGUI();
+                bool didChange = !CharacterPicker.OnCharacterPickerGUI();
+                unit = CharacterPicker.CurrentUnit;
+                m_UnitProviderShown = !didChange || (unit == null);
+            }
         }
         return unit != null;
     }

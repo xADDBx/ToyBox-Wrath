@@ -12,13 +12,33 @@ public partial class VerticalList<T> : IPagedList where T : notnull {
     protected int TotalPages = 1;
     protected int ItemCount = 0;
     protected bool ShowDivBetweenItems = true;
-    protected IEnumerable<T> PagedItems = [];
+    public IEnumerable<T> PagedItems = [];
     protected IEnumerable<T> Items = [];
     protected int? OverridePageLimit;
     protected int EffectivePageLimit {
         get {
             return OverridePageLimit ?? Settings.PageLimit;
         }
+    }
+    private bool m_IsCached = false;
+    /// <summary>
+    /// Marks data as cached
+    /// </summary>
+    public void SetCacheValid() {
+        m_IsCached = true;
+    }
+    /// <summary>
+    /// Marks cached data as invalid
+    /// </summary>
+    public void SetCacheInvalid() {
+        m_IsCached = false;
+    }
+    /// <summary>
+    /// Shows whether previously cached data is still valid
+    /// </summary>
+    /// <returns>Validity of cached data</returns>
+    public bool GetIsCachedValid() {
+        return m_IsCached;
     }
     /// <summary>
     /// Initializes a new instance of the <see cref="VerticalList{T}"/> class.
@@ -39,7 +59,7 @@ public partial class VerticalList<T> : IPagedList where T : notnull {
         }
         OverridePageLimit = overridePageLimit;
         if (initialItems != null) {
-            QueueUpdateItems(initialItems);
+            UpdateItems(initialItems);
         }
         ShowDivBetweenItems = showDivBetweenItems;
         Main.m_VerticalLists.Add(new(this));
@@ -86,6 +106,7 @@ public partial class VerticalList<T> : IPagedList where T : notnull {
         var offset = Math.Min(ItemCount, (CurrentPage - 1) * EffectivePageLimit);
         PagedItemsCount = Math.Min(EffectivePageLimit, ItemCount - offset);
         PagedItems = Items.Skip(offset).Take(PagedItemsCount);
+        SetCacheInvalid();
     }
     protected void PageGUI() {
         UI.Label($"{SharedStrings.ShowingText.Orange()} {PagedItemsCount.ToString().Cyan()} / {ItemCount.ToString().Cyan()} {SharedStrings.ResultsText.Orange()},   " +
