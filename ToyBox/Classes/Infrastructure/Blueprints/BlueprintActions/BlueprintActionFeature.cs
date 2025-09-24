@@ -43,11 +43,17 @@ public class BlueprintActions : FeatureTab {
 
         AddFeature(new StartQuestBA());
         AddFeature(new CompleteQuestBA());
+        
         AddFeature(new StartQuestObjectiveBA());
         AddFeature(new CompleteQuestObjectiveBA());
+        
         AddFeature(new StartEtudeBA());
         AddFeature(new UnstartEtudeBA());
         AddFeature(new CompleteEtudeBA());
+        
+        AddFeature(new UnlockFlagBA());
+        AddFeature(new LockFlagBA());
+        AddFeature(new ChangeFlagValueBA());
 
         AddFeature(new AddSpellbookBA());
         AddFeature(new AddUnitFactBA());

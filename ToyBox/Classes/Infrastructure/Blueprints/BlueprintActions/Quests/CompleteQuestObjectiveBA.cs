@@ -11,7 +11,7 @@ public partial class CompleteQuestObjectiveBA : BlueprintActionFeature, IBluepri
     }
     private bool Execute(BlueprintQuestObjective blueprint) {
         LogExecution(blueprint);
-        Game.Instance.Player.QuestBook.GiveObjective(blueprint);
+        Game.Instance.Player.QuestBook.CompleteObjective(blueprint);
         return true;
     }
     public bool? OnGui(BlueprintQuestObjective blueprint, params object[] parameter) {
