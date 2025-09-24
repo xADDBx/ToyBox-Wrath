@@ -36,13 +36,9 @@ public partial class ChangeSpellbookLevelBA : BlueprintActionFeature, IBlueprint
                 });
             }
             */
-            UI.Label($"{spellbook.CasterLevel} ");
+            UI.Label(StyleActionString($"{spellbook.CasterLevel} ", isFeatureSearch));
             if (spellbook.CasterLevel < spellbook.MaxCasterLevel) {
-                var text = IncreaseCLText;
-                if (isFeatureSearch) {
-                    text = text.Cyan().Bold().SizePercent(115);
-                }
-                UI.Button(text, () => {
+                UI.Button(StyleActionString(IncreaseCLText, isFeatureSearch), () => {
                     result = Execute(blueprint, spellbook, parameter);
                 });
             }

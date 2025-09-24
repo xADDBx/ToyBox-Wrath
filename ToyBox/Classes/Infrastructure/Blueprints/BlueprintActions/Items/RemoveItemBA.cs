@@ -20,11 +20,7 @@ public partial class RemoveItemBA : BlueprintActionFeature, IBlueprintAction<Blu
             if (parameter.Length > 0 && parameter[0] is int tmpCount) {
                 count = tmpCount;
             }
-            var text = RemoveText + $" {count}";
-            if (isFeatureSearch) {
-                text = text.Cyan().Bold().SizePercent(115);
-            }
-            UI.Button(text, () => {
+            UI.Button(StyleActionString(RemoveText + $" {count}", isFeatureSearch), () => {
                 result = Execute(blueprint, count);
             });
         } else if (isFeatureSearch) {

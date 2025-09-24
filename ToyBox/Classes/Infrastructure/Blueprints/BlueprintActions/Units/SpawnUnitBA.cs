@@ -28,11 +28,7 @@ public partial class SpawnUnitBA : BlueprintActionFeature, IBlueprintAction<Blue
             if (parameter.Length > 0 && parameter[0] is int tmpCount) {
                 count = tmpCount;
             }
-            var text = SpawnText + $" {count}";
-            if (isFeatureSearch) {
-                text = text.Cyan().Bold().SizePercent(115);
-            }
-            UI.Button(text, () => {
+            UI.Button(StyleActionString(SpawnText + $" {count}", isFeatureSearch), () => {
                 result = Execute(blueprint, count);
             });
         } else if (isFeatureSearch) {

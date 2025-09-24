@@ -17,11 +17,7 @@ public partial class UnstartEtudeBA : BlueprintActionFeature, IBlueprintAction<B
     public bool? OnGui(BlueprintEtude blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint)) {
-            var text = UnstartText;
-            if (isFeatureSearch) {
-                text = text.Cyan().Bold().SizePercent(115);
-            }
-            UI.Button(text, () => {
+            UI.Button(StyleActionString(UnstartText, isFeatureSearch), () => {
                 result = Execute(blueprint);
             });
         } else if (isFeatureSearch) {

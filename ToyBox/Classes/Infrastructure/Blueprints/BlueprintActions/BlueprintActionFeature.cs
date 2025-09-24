@@ -29,6 +29,13 @@ public abstract class BlueprintActionFeature : FeatureWithAction, IBlueprintActi
             return newActions;
         }
     }
+    protected string StyleActionString(string text, bool isFeatureSearch) {
+        if (isFeatureSearch) {
+            return text.Cyan().Bold().SizePercent(15);
+        } else {
+            return text;
+        }
+    }
 }
 public class BlueprintActions : FeatureTab {
     public override string Name => "Blueprint Actions (you should not be seeing this!)";

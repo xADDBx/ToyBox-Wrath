@@ -20,11 +20,7 @@ public partial class AddItemBA : BlueprintActionFeature, IBlueprintAction<Bluepr
             if (parameter.Length > 0 && parameter[0] is int tmpCount) {
                 count = tmpCount;
             }
-            var text = AddText + $" {count}";
-            if (isFeatureSearch) {
-                text = text.Cyan().Bold().SizePercent(115);
-            }
-            UI.Button(text, () => {
+            UI.Button(StyleActionString(AddText + $" {count}", isFeatureSearch), () => {
                 result = Execute(blueprint, count);
             });
         } else if (isFeatureSearch) {

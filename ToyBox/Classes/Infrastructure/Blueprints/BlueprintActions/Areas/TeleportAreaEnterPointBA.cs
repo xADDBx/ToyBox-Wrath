@@ -17,11 +17,7 @@ public partial class TeleportAreaEnterPointBA : BlueprintActionFeature, IBluepri
     public bool? OnGui(BlueprintAreaEnterPoint blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
-            var text = TeleportText;
-            if (isFeatureSearch) {
-                text = text.Cyan().Bold().SizePercent(115);
-            }
-            UI.Button(text, () => {
+            UI.Button(StyleActionString(TeleportText, isFeatureSearch), () => {
                 result = Execute(blueprint, parameter);
             });
         } else if (isFeatureSearch) {

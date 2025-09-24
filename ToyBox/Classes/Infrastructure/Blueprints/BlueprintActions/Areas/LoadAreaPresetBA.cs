@@ -17,11 +17,7 @@ public partial class LoadAreaPresetBA : BlueprintActionFeature, IBlueprintAction
     public bool? OnGui(BlueprintAreaPreset blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
-            var text = LoadPresetText;
-            if (isFeatureSearch) {
-                text = text.Cyan().Bold().SizePercent(115);
-            }
-            UI.Button(text, () => {
+            UI.Button(StyleActionString(LoadPresetText, isFeatureSearch), () => {
                 result = Execute(blueprint, parameter);
             });
         }

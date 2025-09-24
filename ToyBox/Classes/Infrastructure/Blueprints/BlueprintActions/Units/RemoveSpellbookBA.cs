@@ -19,11 +19,7 @@ public partial class RemoveSpellbookBA : BlueprintActionFeature, IBlueprintActio
     public bool? OnGui(BlueprintSpellbook blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
-            var text = RemoveText;
-            if (isFeatureSearch) {
-                text = text.Cyan().Bold().SizePercent(115);
-            }
-            UI.Button(text, () => {
+            UI.Button(StyleActionString(RemoveText, isFeatureSearch), () => {
                 result = Execute(blueprint, parameter);
             });
         } else if (isFeatureSearch) {

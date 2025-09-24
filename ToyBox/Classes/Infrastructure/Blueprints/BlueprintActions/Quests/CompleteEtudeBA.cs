@@ -17,11 +17,7 @@ public partial class CompleteEtudeBA : BlueprintActionFeature, IBlueprintAction<
     public bool? OnGui(BlueprintEtude blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint)) {
-            var text = CompleteText;
-            if (isFeatureSearch) {
-                text = text.Cyan().Bold().SizePercent(115);
-            }
-            UI.Button(text, () => {
+            UI.Button(StyleActionString(CompleteText, isFeatureSearch), () => {
                 result = Execute(blueprint);
             });
         } else if (isFeatureSearch) {

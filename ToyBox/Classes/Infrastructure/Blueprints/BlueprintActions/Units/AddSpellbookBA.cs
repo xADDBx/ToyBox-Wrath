@@ -18,11 +18,7 @@ public partial class AddSpellbookBA : BlueprintActionFeature, IBlueprintAction<B
     public bool? OnGui(BlueprintSpellbook blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
-            var text = AddText;
-            if (isFeatureSearch) {
-                text = text.Cyan().Bold().SizePercent(115);
-            }
-            UI.Button(text, () => {
+            UI.Button(StyleActionString(AddText, isFeatureSearch), () => {
                 result = Execute(blueprint, parameter);
             });
         } else if (isFeatureSearch) {
