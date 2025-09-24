@@ -19,6 +19,7 @@ public partial class PartyFeatureTab : FeatureTab {
     private static UnitEntityData? m_UncollapsedUnit = null;
     private static readonly PartyTabSectionType[] m_Sections = [PartyTabSectionType.Classes, PartyTabSectionType.Stats, PartyTabSectionType.Features,
         PartyTabSectionType.Buffs, PartyTabSectionType.Abilities, PartyTabSectionType.Spells, PartyTabSectionType.Inspect];
+    private static Lazy<float> m_InspectLabelWidth = new(() => CalculateLargestLabelSize([InspectPartyText]));
     public PartyFeatureTab() {
         AddFeature(new FeatureBrowserUnitFeature());
     }
@@ -45,7 +46,7 @@ public partial class PartyFeatureTab : FeatureTab {
         using (VerticalScope()) {
             using (HorizontalScope()) {
                 UI.Label((PartyLevelText + ": ").Cyan() + Game.Instance.Player.PartyLevel.ToString().Orange().Bold(), Width(150));
-                InspectorUI.InspectToggle("Party", InspectPartyText, units, -150, true);
+                InspectorUI.InspectToggle("Party", InspectPartyText, units, -150, true, Width(m_InspectLabelWidth.Value + UI.DisclosureGlyphWidth.Value));
             }
             var mainChar = GameHelper.GetPlayerCharacter();
             foreach (var unit in units) {
