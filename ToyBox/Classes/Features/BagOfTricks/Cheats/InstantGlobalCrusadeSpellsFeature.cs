@@ -2,6 +2,7 @@
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
+[NeedsTesting]
 [HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.InstantGlobalCrusadeSpellsFeature")]
 public partial class InstantGlobalCrusadeSpellsFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.InstantGlobalCrusadeSpellsFeature";

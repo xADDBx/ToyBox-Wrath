@@ -1,8 +1,8 @@
 ﻿using Kingmaker.RuleSystem.Rules;
-using ToyBox.Infrastructure;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
+[NeedsTesting]
 [HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisableNegativePartyLevelsFeature")]
 public partial class DisableNegativePartyLevelsFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.DisableNegativePartyLevelsFeature";

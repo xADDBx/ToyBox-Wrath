@@ -2,6 +2,7 @@
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
+[NeedsTesting]
 [HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.InstantChangePartyMembersFeature")]
 public partial class InstantChangePartyMembersFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.InstantChangePartyMembersFeature";

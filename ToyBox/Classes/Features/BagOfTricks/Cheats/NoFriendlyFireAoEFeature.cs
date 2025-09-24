@@ -5,10 +5,10 @@ using Kingmaker.UnitLogic.Abilities;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Abilities.Components;
 using Kingmaker.Utility;
-using ToyBox.Infrastructure;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
+[NeedsTesting]
 [HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.NoFriendlyFireAoEFeature")]
 public partial class NoFriendlyFireAoEFeature : FeatureWithPatch {
 #warning https://discord.com/channels/645948717400064030/815735034514112512/1377588591567573152 (not working)

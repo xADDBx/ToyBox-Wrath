@@ -3,6 +3,7 @@ using Kingmaker.Items;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
+[NeedsTesting]
 [HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.AllowItemUseFromInventoryDuringCombatFeature")]
 public partial class AllowItemUseFromInventoryDuringCombatFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.AllowItemUseFromInventoryDuringCombatFeature";

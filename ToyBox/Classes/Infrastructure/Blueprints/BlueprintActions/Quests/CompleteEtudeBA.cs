@@ -3,6 +3,7 @@ using Kingmaker.AreaLogic.Etudes;
 using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
+[NeedsTesting]
 public partial class CompleteEtudeBA : BlueprintActionFeature, IBlueprintAction<BlueprintEtude> {
 
     private bool CanExecute(BlueprintEtude blueprint) {

@@ -4,6 +4,7 @@ using Kingmaker.UnitLogic.Parts;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
+[NeedsTesting]
 [HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.IgnoreAlignmentRequirementsForAbilitiesFeature")]
 public partial class IgnoreAlignmentRequirementsForAbilitiesFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.IgnoreAlignmentRequirementsForAbilitiesFeature";

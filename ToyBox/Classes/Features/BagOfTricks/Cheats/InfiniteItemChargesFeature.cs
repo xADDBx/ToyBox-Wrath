@@ -1,10 +1,10 @@
 ﻿using Kingmaker.Blueprints.Items.Equipment;
 using Kingmaker.Items;
 using Kingmaker.UnitLogic;
-using ToyBox.Infrastructure;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
+[NeedsTesting]
 [HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.InfiniteItemChargesFeature")]
 public partial class InfiniteItemChargesFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.InfiniteItemChargesFeature";

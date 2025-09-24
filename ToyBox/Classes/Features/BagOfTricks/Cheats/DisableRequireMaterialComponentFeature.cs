@@ -2,6 +2,7 @@
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
+[NeedsTesting]
 [HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.DisableRequireMaterialComponentFeature")]
 public partial class DisableRequireMaterialComponentFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.DisableRequireMaterialComponentFeature";

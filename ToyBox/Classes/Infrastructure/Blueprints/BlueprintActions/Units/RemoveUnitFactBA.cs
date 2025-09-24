@@ -5,6 +5,7 @@ using Kingmaker.UnitLogic;
 using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
+[NeedsTesting]
 public partial class RemoveUnitFactBA : BlueprintActionFeature, IBlueprintAction<BlueprintUnitFact>, INeedContextFeature<UnitEntityData> {
     private bool CanExecute(BlueprintUnitFact blueprint, params object[] parameter) {
         if (parameter.Length > 0 && parameter[0] is UnitEntityData unit) {

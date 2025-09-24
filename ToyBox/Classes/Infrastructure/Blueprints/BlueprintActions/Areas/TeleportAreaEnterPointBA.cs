@@ -4,6 +4,7 @@ using Kingmaker.EntitySystem.Persistence;
 using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
+[NeedsTesting]
 public partial class TeleportAreaEnterPointBA : BlueprintActionFeature, IBlueprintAction<BlueprintAreaEnterPoint> {
     private bool CanExecute(BlueprintAreaEnterPoint blueprint, params object[] parameter) {
         return IsInGame();

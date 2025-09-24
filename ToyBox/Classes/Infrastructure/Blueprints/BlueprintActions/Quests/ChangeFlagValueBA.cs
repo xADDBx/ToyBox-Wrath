@@ -3,6 +3,7 @@ using Kingmaker.Blueprints;
 using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
+[NeedsTesting]
 public partial class ChangeFlagValueBA : BlueprintActionFeature, IBlueprintAction<BlueprintUnlockableFlag> {
 
     private bool CanExecute(BlueprintUnlockableFlag blueprint) {

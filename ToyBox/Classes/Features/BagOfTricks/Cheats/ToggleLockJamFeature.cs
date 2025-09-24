@@ -3,6 +3,7 @@ using System.Reflection.Emit;
 
 namespace ToyBox.Features.BagOfTricks.Cheats;
 
+[NeedsTesting]
 [HarmonyPatch, ToyBoxPatchCategory("ToyBox.Features.BagOfTricks.Cheats.ToggleLockJamFeature")]
 public partial class ToggleLockJamFeature : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.BagOfTricks.Cheats.ToggleLockJamFeature";

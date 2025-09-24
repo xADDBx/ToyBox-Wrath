@@ -3,6 +3,7 @@ using Kingmaker.AreaLogic.Etudes;
 using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
+[NeedsTesting]
 public partial class StartEtudeBA : BlueprintActionFeature, IBlueprintAction<BlueprintEtude> {
     private bool CanExecute(BlueprintEtude blueprint) {
         return IsInGame() && Game.Instance.Player.EtudesSystem.EtudeIsNotStarted(blueprint);

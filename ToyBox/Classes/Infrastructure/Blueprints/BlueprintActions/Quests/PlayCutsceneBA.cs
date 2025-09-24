@@ -4,6 +4,7 @@ using Kingmaker.ElementsSystem;
 using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
+[NeedsTesting]
 public partial class PlayCutsceneBA : BlueprintActionFeature, IBlueprintAction<Cutscene> {
 
     private bool CanExecute(Cutscene blueprint) {
