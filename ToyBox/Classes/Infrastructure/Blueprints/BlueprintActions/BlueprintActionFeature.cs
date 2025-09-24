@@ -45,6 +45,9 @@ public class BlueprintActions : FeatureTab {
         AddFeature(new CompleteQuestBA());
         AddFeature(new StartQuestObjectiveBA());
         AddFeature(new CompleteQuestObjectiveBA());
+        AddFeature(new StartEtudeBA());
+        AddFeature(new UnstartEtudeBA());
+        AddFeature(new CompleteEtudeBA());
 
         AddFeature(new AddSpellbookBA());
         AddFeature(new AddUnitFactBA());

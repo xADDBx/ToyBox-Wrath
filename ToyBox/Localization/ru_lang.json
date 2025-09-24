@@ -663,12 +663,24 @@
     "Original": "Removes the specified BlueprintItem from your inventory.",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteEtudeBA_Name": {
+    "Original": "Complete Etude",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteEtudeBA_Description": {
+    "Original": "Complete the specified BlueprintEtude. A failed Etude is often used to mark a failed quest state.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteEtudeBA_CompleteText": {
+    "Original": "Complete",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_Name": {
     "Original": "Complete Quest",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_Description": {
-    "Original": "Completes a started quest by forcing each objective to complete.",
+    "Original": "Completes the specified BlueprintQuest by forcing each objective to complete.",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_CompleteText": {
@@ -687,12 +699,24 @@
     "Original": "Complete",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartEtudeBA_Name": {
+    "Original": "Start Etude",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartEtudeBA_Description": {
+    "Original": "Starts the specified BlueprintEtude.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartEtudeBA_StartText": {
+    "Original": "Start",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_Name": {
     "Original": "Start Quest",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_Description": {
-    "Original": "Start a quest by starting its first objective.",
+    "Original": "Starts the specified BlueprintQuest by starting its first objective.",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_StartText": {
@@ -709,6 +733,18 @@
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestObjectiveBA_StartText": {
     "Original": "Start",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_UnstartEtudeBA_Name": {
+    "Original": "Unstart Etude",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_UnstartEtudeBA_Description": {
+    "Original": "Unstarts the specified BlueprintEtude.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_UnstartEtudeBA_UnstartText": {
+    "Original": "Unstart",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_AddText": {

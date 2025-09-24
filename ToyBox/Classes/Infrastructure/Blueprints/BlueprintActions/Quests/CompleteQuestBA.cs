@@ -33,7 +33,7 @@ public partial class CompleteQuestBA : BlueprintActionFeature, IBlueprintAction<
     }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_Name", "Complete Quest")]
     public override partial string Name { get; }
-    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_Description", "Completes a started quest by forcing each objective to complete.")]
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_Description", "Completes the specified BlueprintQuest by forcing each objective to complete.")]
     public override partial string Description { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteQuestBA_CompleteText", "Complete")]
     private static partial string CompleteText { get; }

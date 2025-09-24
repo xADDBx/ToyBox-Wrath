@@ -31,7 +31,7 @@ public partial class StartQuestBA : BlueprintActionFeature, IBlueprintAction<Blu
     }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_Name", "Start Quest")]
     public override partial string Name { get; }
-    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_Description", "Start a quest by starting its first objective.")]
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_Description", "Starts the specified BlueprintQuest by starting its first objective.")]
     public override partial string Description { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestBA_StartText", "Start")]
     private static partial string StartText { get; }
