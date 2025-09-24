@@ -33,7 +33,7 @@ public partial class AddSpellbookBA : BlueprintActionFeature, IBlueprintAction<B
 
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_AddText", "Add")]
     private static partial string AddText { get; }
-    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_Name", "Add spellbook")]
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_Name", "Add Spellbook")]
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_Description", "Adds the specified BlueprintSpellbook to the chosen unit.")]
     public override partial string Description { get; }

@@ -33,7 +33,7 @@ public partial class AddUnitFactBA : BlueprintActionFeature, IBlueprintAction<Bl
     }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_AddText", "Add")]
     private static partial string AddText { get; }
-    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_Name", "Add fact")]
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_Name", "Add Fact")]
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_Description", "Adds the specified BlueprintUnitFact to the chosen unit.")]
     public override partial string Description { get; }

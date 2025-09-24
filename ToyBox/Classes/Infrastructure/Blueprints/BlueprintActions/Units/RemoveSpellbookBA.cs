@@ -34,7 +34,7 @@ public partial class RemoveSpellbookBA : BlueprintActionFeature, IBlueprintActio
 
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_RemoveText", "Remove")]
     private static partial string RemoveText { get; }
-    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_Name", "Remove spellbook")]
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_Name", "Remove Spellbook")]
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_Description", "Remove the specified BlueprintSpellbook from the chosen unit.")]
     public override partial string Description { get; }

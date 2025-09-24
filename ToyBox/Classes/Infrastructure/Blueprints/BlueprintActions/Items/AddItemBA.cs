@@ -35,7 +35,7 @@ public partial class AddItemBA : BlueprintActionFeature, IBlueprintAction<Bluepr
 
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Add_x", "Add")]
     private static partial string AddText { get; }
-    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Name", "Add item")]
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Name", "Add Item")]
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Description", "Adds the specified BlueprintItem to your inventory.")]
     public override partial string Description { get; }

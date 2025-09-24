@@ -42,7 +42,7 @@ public partial class SpawnUnitBA : BlueprintActionFeature, IBlueprintAction<Blue
 
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Spawn_x", "Spawn")]
     private static partial string SpawnText { get; }
-    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Name", "Spawn unit")]
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Name", "Spawn Unit")]
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Description", "Spawns the specified unit in the vicinity.")]
     public override partial string Description { get; }

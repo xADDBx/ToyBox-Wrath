@@ -34,7 +34,7 @@ public partial class RemoveItemBA : BlueprintActionFeature, IBlueprintAction<Blu
 
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveItemBA_Remove_x", "Remove")]
     private static partial string RemoveText { get; }
-    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveItemBA_Name", "Remove item")]
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveItemBA_Name", "Remove Item")]
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveItemBA_Description", "Removes the specified BlueprintItem from your inventory.")]
     public override partial string Description { get; }

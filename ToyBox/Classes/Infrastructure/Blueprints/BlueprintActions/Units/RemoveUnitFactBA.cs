@@ -51,7 +51,7 @@ public partial class RemoveUnitFactBA : BlueprintActionFeature, IBlueprintAction
 
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_RemoveText", "Remove")]
     private static partial string RemoveText { get; }
-    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_Name", "Remove fact")]
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_Name", "Remove Fact")]
     public override partial string Name { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_Description", "Removes the specified BlueprintUnitFact from the chosen unit.")]
     public override partial string Description { get; }
