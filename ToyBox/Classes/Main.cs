@@ -110,8 +110,6 @@ public static partial class Main {
                     m_LoadedBps = BPLoader.GetBlueprints()!.Count;
                 }
                 Space(10);
-                Div.DrawDiv();
-                Space(10);
 
                 UI.Label(SharedStrings.CurrentlyLoadedBPsText.Format(m_LoadedBps));
                 m_TabNames ??= [.. m_FeatureTabs.Where(tab => !tab.IsHiddenFromUI).Select(t => t.Name)];

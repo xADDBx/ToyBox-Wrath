@@ -37,22 +37,25 @@ public static partial class InspectorUI {
         InspectorSearcher.ShouldCancel = true;
         InspectorSearcher.LastPrompt = "";
     }
-    public static void InspectToggle(object key, string? title = null, object? toInspect = null, int indent = 0, bool inspectInline = false) {
+    public static void InspectToggle(object key, string? title = null, object? toInspect = null, int indent = 0, bool inspectInline = false, params GUILayoutOption[] options) {
         title ??= key.ToString();
         toInspect ??= key;
         var expanded = m_ExpandedKeys.Contains(key);
         if (inspectInline) {
             using (VerticalScope()) {
-                DisclosureToggle(key, title, expanded);
+                DisclosureToggle(key, title, expanded, options);
                 InspectIfExpanded(key, toInspect, indent);
             }
         } else {
-            DisclosureToggle(key, title, expanded);
+            DisclosureToggle(key, title, expanded, options);
         }
     }
 
-    private static void DisclosureToggle(object key, string title, bool expanded) {
-        if (UI.DisclosureToggle(ref expanded, title, Width(UI.DisclosureGlyphWidth.Value))) {
+    private static void DisclosureToggle(object key, string title, bool expanded, params GUILayoutOption[] options) {
+        if (options.Length == 0) {
+            options = [Width(UI.DisclosureGlyphWidth.Value)];
+        }
+        if (UI.DisclosureToggle(ref expanded, title, options)) {
             if (expanded) {
                 m_ExpandedKeys.Clear();
                 m_ExpandedKeys.Add(key);

@@ -60,15 +60,13 @@ public static class BlueprintPicker<T> where T : SimpleBlueprint {
                                         Space(m_ButtonWidth + GUI.skin.button.margin.horizontal);
                                         title = BPHelper.GetTitle(bp).Orange().Bold();
                                     }
-                                    Space(17);
-                                    InspectorUI.InspectToggle(bp, "");
-                                    UI.Label(title, Width(m_CachedTitleWidth));
-                                    Space(17);
+                                    InspectorUI.InspectToggle(bp, title, null, 0, false, Width(m_CachedTitleWidth + UI.DisclosureGlyphWidth.Value));
+                                    Space(5);
                                     UI.Label(bp.GetType().Name.Grey(), Width(m_CachedTypeWidth));
-                                    Space(17);
+                                    Space(5);
                                     var tmp = bp.AssetGuid.ToString();
                                     UI.TextField(ref tmp, null, Width(m_CachedAssetIdWidth));
-                                    Space(17);
+                                    Space(5);
                                     var desc = BPHelper.GetDescription(bp);
                                     if (!string.IsNullOrWhiteSpace(desc)) {
                                         UI.Label(desc!.Green());
