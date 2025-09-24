@@ -55,6 +55,8 @@ public class BlueprintActions : FeatureTab {
         AddFeature(new LockFlagBA());
         AddFeature(new ChangeFlagValueBA());
 
+        AddFeature(new PlayCutsceneBA());
+
         AddFeature(new AddSpellbookBA());
         AddFeature(new AddUnitFactBA());
         AddFeature(new ChangeSpellbookLevelBA());

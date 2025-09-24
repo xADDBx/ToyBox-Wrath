@@ -663,6 +663,14 @@
     "Original": "Removes the specified BlueprintItem from your inventory.",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeFlagValueBA_Name": {
+    "Original": "Modify Flag Value",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeFlagValueBA_Description": {
+    "Original": "Increases or decreases the value of the specified BlueprintUnlockableFlag.",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_CompleteEtudeBA_Name": {
     "Original": "Complete Etude",
     "Translated": null
@@ -699,6 +707,30 @@
     "Original": "Complete",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_LockFlagBA_Name": {
+    "Original": "Lock Flag",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_LockFlagBA_Description": {
+    "Original": "Locks the specified BlueprintUnlockableFlag.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_LockFlagBA_LockText": {
+    "Original": "Lock",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_PlayCutsceneBA_Name": {
+    "Original": "Play Cutscene",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_PlayCutsceneBA_Description": {
+    "Original": "Plays the specified Cutscene.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_PlayCutsceneBA_PlayText": {
+    "Original": "Play",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartEtudeBA_Name": {
     "Original": "Start Etude",
     "Translated": null
@@ -733,6 +765,18 @@
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_StartQuestObjectiveBA_StartText": {
     "Original": "Start",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_UnlockFlagBA_Name": {
+    "Original": "Unlock Flag",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_UnlockFlagBA_Description": {
+    "Original": "Unlocks the specified BlueprintUnlockableFlag.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_UnlockFlagBA_UnlockText": {
+    "Original": "Unlock",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_UnstartEtudeBA_Name": {

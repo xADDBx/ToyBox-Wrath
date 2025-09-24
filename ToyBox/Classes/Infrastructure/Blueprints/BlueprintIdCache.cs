@@ -17,6 +17,7 @@ using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using System.Runtime.Serialization;
 using System.Text;
+using Kingmaker.AreaLogic.Cutscenes;
 
 namespace ToyBox.Infrastructure.Blueprints;
 public class BlueprintIdCache {
@@ -40,7 +41,7 @@ public class BlueprintIdCache {
                 typeof(BlueprintSpellbook), typeof(BlueprintAbility), typeof(BlueprintAreaEnterPoint),
                 typeof(BlueprintUnit), typeof(BlueprintAiAction), typeof(Consideration),
                 typeof(BlueprintBrain), typeof(BlueprintFeature), typeof(BlueprintUnitFact),
-                typeof(BlueprintAreaPreset)
+                typeof(BlueprintAreaPreset), typeof(Cutscene)
         };
 
     private static bool? m_NeedsCacheRebuilt = null;

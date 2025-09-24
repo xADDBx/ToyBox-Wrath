@@ -1,5 +1,6 @@
 ﻿using Kingmaker;
 using UnityEngine;
+using UnityModManagerNet;
 
 namespace ToyBox.Infrastructure.Utilities;
 public static class Helpers {
@@ -9,5 +10,8 @@ public static class Helpers {
     public static float CalculateLargestLabelSize(IEnumerable<string> items, GUIStyle? style = null) {
         style ??= GUI.skin.label;
         return items.Max(item => style.CalcSize(new(item)).x);
+    }
+    public static void ToggleModWindow() {
+        UnityModManager.UI.Instance.ToggleWindow();
     }
 }
