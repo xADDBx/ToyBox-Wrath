@@ -108,6 +108,9 @@ public class InspectorNode : IComparable {
     public string TypeNameText {
         get {
             field ??= ToyBoxReflectionHelper.GetNameWithGenericsResolved(m_FieldType);
+            if (IsNullable) {
+                field += "?";
+            }
             return field;
         }
     }
