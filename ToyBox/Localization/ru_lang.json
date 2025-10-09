@@ -931,6 +931,10 @@
     "Original": "Unit does not have this Fact",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_RemoveSpellText": {
+    "Original": "Remove Spell",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnUnitBA_Spawn_x": {
     "Original": "Spawn",
     "Translated": null

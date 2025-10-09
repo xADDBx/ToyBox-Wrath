@@ -2,6 +2,7 @@
 using Kingmaker.Blueprints.Facts;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.UnitLogic;
+using Kingmaker.UnitLogic.Abilities.Blueprints;
 using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
@@ -10,6 +11,18 @@ public partial class RemoveUnitFactBA : BlueprintActionFeature, IBlueprintAction
     private bool CanExecute(BlueprintUnitFact blueprint, params object[] parameter) {
         if (parameter.Length > 0 && parameter[0] is UnitEntityData unit) {
             return unit.GetFact(blueprint) != null;
+        }
+        return false;
+    }
+    private bool CanExecuteSpell(BlueprintUnitFact blueprint, out Spellbook? sb, params object[] parameter) {
+        sb = null;
+        if (parameter.Length > 0 && parameter[0] is UnitEntityData unit && blueprint is BlueprintAbility ability && ability.IsSpell) {
+            foreach (var spellbook in unit.Spellbooks) {
+                if (spellbook.GetAllKnownSpells().Any(spell => spell.Blueprint == blueprint)) {
+                    sb = spellbook;
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -33,12 +46,28 @@ public partial class RemoveUnitFactBA : BlueprintActionFeature, IBlueprintAction
             ((UnitEntityData)parameter[0]).RemoveFact(blueprint);
         return true;
     }
+    private bool ExecuteSpell(BlueprintUnitFact blueprint, Spellbook spellbook, params object[] parameter) {
+        LogExecution(blueprint, spellbook, parameter);
+        spellbook.RemoveSpell(blueprint as BlueprintAbility);
+        return true;
+    }
     public bool? OnGui(BlueprintUnitFact blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
-        if (CanExecute(blueprint, parameter)) {
-            UI.Button(StyleActionString(RemoveText, isFeatureSearch), () => {
-                result = Execute(blueprint, parameter);
-            });
+        bool canRemoveFact = CanExecute(blueprint, parameter);
+        bool canRemoveSpell = CanExecuteSpell(blueprint, out var spellbook, parameter);
+        if (canRemoveFact || canRemoveSpell) {
+            if (canRemoveFact) {
+                UI.Button(StyleActionString(RemoveText, isFeatureSearch), () => {
+                    result = Execute(blueprint, parameter);
+                });
+                UI.Label(" ");
+            }
+            Space(10);
+            if (canRemoveSpell) {
+                UI.Button(StyleActionString(RemoveSpellText, isFeatureSearch), () => {
+                    result = ExecuteSpell(blueprint, spellbook!, parameter);
+                });
+            }
         } else if (isFeatureSearch) {
             UI.Label(UnitDoesNotHaveThisFactText.Red().Bold());
         }
@@ -60,4 +89,6 @@ public partial class RemoveUnitFactBA : BlueprintActionFeature, IBlueprintAction
     public override partial string Description { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_UnitDoesNotHaveThisFactText", "Unit does not have this Fact")]
     private static partial string UnitDoesNotHaveThisFactText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveUnitFactBA_RemoveSpellText", "Remove Spell")]
+    private static partial string RemoveSpellText { get; }
 }

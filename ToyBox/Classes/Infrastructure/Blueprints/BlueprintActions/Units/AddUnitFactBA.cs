@@ -57,6 +57,7 @@ public partial class AddUnitFactBA : BlueprintActionFeature, IBlueprintAction<Bl
             UI.Button(StyleActionString(AddText, isFeatureSearch), () => {
                 result = Execute(blueprint, isSpell, maybeSpellbookToAdd, parameter);
             });
+            UI.Label(" ");
         } else if (isFeatureSearch) {
             if (isSpell) {
                 UI.Label(SpellAlreadyIsKnownInFirstSpellb.Red().Bold());

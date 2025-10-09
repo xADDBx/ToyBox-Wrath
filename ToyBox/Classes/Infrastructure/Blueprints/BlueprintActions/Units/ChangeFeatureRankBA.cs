@@ -1,7 +1,4 @@
-﻿using Kingmaker;
-using Kingmaker.Blueprints;
-using Kingmaker.Blueprints.Classes;
-using Kingmaker.Blueprints.Facts;
+﻿using Kingmaker.Blueprints.Classes;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.UnitLogic;
 using ToyBox.Infrastructure.Utilities;
@@ -26,12 +23,12 @@ public partial class ChangeFeatureRankBA : BlueprintActionFeature, IBlueprintAct
     }
     private bool ExecuteIncrease(BlueprintFeature blueprint, params object[] parameter) {
         LogExecution(blueprint, parameter);
-        (parameter[0] as UnitEntityData).GetFact<Kingmaker.UnitLogic.Feature>(blueprint).AddRank();
+        ((UnitEntityData)parameter[0]).GetFact<Kingmaker.UnitLogic.Feature>(blueprint).AddRank();
         return true;
     }
     private bool ExecuteDecrease(BlueprintFeature blueprint, params object[] parameter) {
         LogExecution(blueprint, parameter);
-        (parameter[0] as UnitEntityData).GetFact<Kingmaker.UnitLogic.Feature>(blueprint).RemoveRank();
+        ((UnitEntityData)parameter[0]).GetFact<Kingmaker.UnitLogic.Feature>(blueprint).RemoveRank();
         return true;
     }
     public bool? OnGui(BlueprintFeature blueprint, bool isFeatureSearch, params object[] parameter) {
