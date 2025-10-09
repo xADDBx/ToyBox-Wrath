@@ -639,6 +639,78 @@
     "Original": "Teleports you to a specified BlueprintAreaEnterPoint.",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddGlobalMagicSpellBA_AddText": {
+    "Original": "Add",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddGlobalMagicSpellBA_Name": {
+    "Original": "Add Global Spell",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddGlobalMagicSpellBA_Description": {
+    "Original": "Adds the specified BlueprintGlobalMagicSpell.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddGlobalMagicSpellBA_GlobalSpellIsAlreadyKnownText": {
+    "Original": "Global Spell is already known",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddKingdomBuffBA_AddText": {
+    "Original": "Add",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddKingdomBuffBA_Name": {
+    "Original": "Add Kingdom Buff",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddKingdomBuffBA_Description": {
+    "Original": "Adds the specified BlueprintKingdomBuff to the chosen kingdom.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddKingdomBuffBA_KingdomAlreadyHasThisBuffText": {
+    "Original": "Kingdom already has this Buff",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddKingdomBuffBA_ThereCurrentlyExistsNoKingdomTex": {
+    "Original": "There currently exists no kingdom",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveGlobalMagicSpellBA_RemoveText": {
+    "Original": "Remove",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveGlobalMagicSpellBA_Name": {
+    "Original": "Remove Global Spell",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveGlobalMagicSpellBA_Description": {
+    "Original": "Removes the specified BlueprintGlobalMagicSpell.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveGlobalMagicSpellBA_GlobalSpellIsNotKnownText": {
+    "Original": "Global Spell is not known",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveKingdomBuffBA_RemoveText": {
+    "Original": "Remove",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveKingdomBuffBA_Name": {
+    "Original": "Remove Kingdom Buff",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveKingdomBuffBA_Description": {
+    "Original": "Removes the specified BlueprintKingdomBuff from the chosen kingdom.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveKingdomBuffBA_KingdomDoesNotHaveThisBuffText": {
+    "Original": "Kingdom does not have this buff",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveKingdomBuffBA_ThereCurrentlyExistsNoKingdomTex": {
+    "Original": "There currently exists no kingdom",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Add_x": {
     "Original": "Add",
     "Translated": null
@@ -831,6 +903,22 @@
     "Original": "Etude is not started or completed",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddAbilityResourceBA_Name": {
+    "Original": "Add Ability Resource",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddAbilityResourceBA_Description": {
+    "Original": "Adds the specified BlueprintAbilityResource to the chosen unit.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddAbilityResourceBA_AddText": {
+    "Original": "Add",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddAbilityResourceBA_UnitAlreadyHasThisAbilityResourc": {
+    "Original": "Unit already has this ability resource",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_AddText": {
     "Original": "Add",
     "Translated": null
@@ -871,6 +959,18 @@
     "Original": "At Will",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeBuffRankBA_Name": {
+    "Original": "Modify Buff Rank",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeBuffRankBA_Description": {
+    "Original": "Increases or decreases the value of the specified BlueprintBuff on the BlueprintUnit.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeBuffRankBA_ThisBuffHasNoRanksText": {
+    "Original": "This buff has no ranks",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeFeatureRankBA_Name": {
     "Original": "Modify Feature Rank",
     "Translated": null
@@ -897,6 +997,22 @@
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA_UnitDoesNotHaveThisSpellbookText": {
     "Original": "Unit does not have this Spellbook",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveAbilityResourceBA_Name": {
+    "Original": "Remove Ability Resource",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveAbilityResourceBA_Description": {
+    "Original": "Removes the specified BlueprintAbilityResource from the chosen unit.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveAbilityResourceBA_RemoveText": {
+    "Original": "Remove",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveAbilityResourceBA_UnitAlreadyHasThisAbilityResourc": {
+    "Original": "Unit does not have this ability resource",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveSpellbookBA_RemoveText": {
