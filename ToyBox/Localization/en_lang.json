@@ -675,6 +675,26 @@
     "Original": "There currently exists no kingdom",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddLeaderSkillBA_AddText": {
+    "Original": "Add",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddLeaderSkillBA_Name": {
+    "Original": "Add Leader Skill",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddLeaderSkillBA_Description": {
+    "Original": "Adds the specified BlueprintLeaderSkill.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddLeaderSkillBA_LeaderAlreadyHasTheSpecifiedSkil": {
+    "Original": "Leader already has the specified skill",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddLeaderSkillBA_SelectAnArmyWithAValidLeaderFirs": {
+    "Original": "Select an army with a valid Leader first",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveGlobalMagicSpellBA_RemoveText": {
     "Original": "Remove",
     "Translated": null
@@ -709,6 +729,70 @@
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveKingdomBuffBA_ThereCurrentlyExistsNoKingdomTex": {
     "Original": "There currently exists no kingdom",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveLeaderSkillBA_RemoveText": {
+    "Original": "Remove",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveLeaderSkillBA_Name": {
+    "Original": "Remove Leader Skill",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveLeaderSkillBA_Description": {
+    "Original": "Removes the specified BlueprintLeaderSkill.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveLeaderSkillBA_LeaderAlreadyHasTheSpecifiedSkil": {
+    "Original": "Leader does not have the specified skill",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_RemoveLeaderSkillBA_SelectAnArmyWithAValudLeaderFirs": {
+    "Original": "Select an army with a valud Leader first",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnArmyPresetBA_TeleportText": {
+    "Original": "Spawn",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnArmyPresetBA_Name": {
+    "Original": "Spawn an army",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnArmyPresetBA_Description": {
+    "Original": "Spawns the specified BlueprintArmyPreset as friend or foe.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnArmyPresetBA_SpawnFriendlyText": {
+    "Original": "Spawn Friendly",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_SpawnArmyPresetBA_SpawnHostileText": {
+    "Original": "Spawn Hostile",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportGlobalMapBA_TeleportText": {
+    "Original": "Teleport",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportGlobalMapBA_Name": {
+    "Original": "Teleport to GlobalMap",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportGlobalMapBA_Description": {
+    "Original": "Teleports you to the specified BlueprintGlobalMap.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportGlobalMapPointBA_TeleportText": {
+    "Original": "Teleport",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportGlobalMapPointBA_Name": {
+    "Original": "Teleport to GlobalMapPoint",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_TeleportGlobalMapPointBA_Description": {
+    "Original": "Teleports you to the specified BlueprintGlobalMapPoint.",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddItemBA_Add_x": {
