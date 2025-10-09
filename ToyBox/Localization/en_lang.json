@@ -863,6 +863,26 @@
     "Original": "Unit already has this Fact",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_SpellAlreadyIsKnownInFirstSpellb": {
+    "Original": "Spell already is known in first Spellbook",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_AtWillText": {
+    "Original": "At Will",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeFeatureRankBA_Name": {
+    "Original": "Modify Feature Rank",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeFeatureRankBA_Description": {
+    "Original": "Increases or decreases the value of the specified BlueprintFeature on the BlueprintUnit.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeFeatureRankBA_ThisFeatureHasNoRanksText": {
+    "Original": "This feature has no ranks",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeSpellbookLevelBA__Plus1CasterLevelText": {
     "Original": "+1 CL",
     "Translated": null

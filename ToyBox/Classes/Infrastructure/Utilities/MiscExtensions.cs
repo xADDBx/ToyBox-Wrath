@@ -42,7 +42,7 @@ public static class MiscExtensions {
     public static string ToContentString(this IEnumerable enumerable) {
         return InternalToContentString(enumerable);
     }
-    private static string InternalToContentString(object obj) {
+    private static string InternalToContentString(object? obj) {
         if (obj == null) {
             return "null";
         }

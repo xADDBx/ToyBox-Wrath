@@ -8,7 +8,9 @@ public static class ToyBoxUnitHelper {
     private static readonly Dictionary<UnitEntityData, bool> m_PartyOrPetCache = new();
     private static bool m_IsInitialized = false;
     internal static void Initialize() {
-        if (m_IsInitialized) return;
+        if (m_IsInitialized) {
+            return;
+        }
         Main.HarmonyInstance.Patch(AccessTools.Method(typeof(Player), nameof(Player.InvalidateCharacterLists)), new(AccessTools.Method(typeof(ToyBoxUnitHelper), nameof(ToyBoxUnitHelper.ClearCache))));
         m_IsInitialized = true;
     }
@@ -16,8 +18,12 @@ public static class ToyBoxUnitHelper {
         m_PartyOrPetCache.Clear();
     }
     public static bool IsPartyOrPet(UnitEntityData? unit) {
-        if (unit == null) return false;
-        if (m_PartyOrPetCache.TryGetValue(unit, out bool result)) return result;
+        if (unit == null) {
+            return false;
+        }
+        if (m_PartyOrPetCache.TryGetValue(unit, out bool result)) {
+            return result;
+        }
         if (unit.OriginalBlueprint == null || Game.Instance?.Player?.AllCharacters is { Count: 0 }) {
             return false;
         }
