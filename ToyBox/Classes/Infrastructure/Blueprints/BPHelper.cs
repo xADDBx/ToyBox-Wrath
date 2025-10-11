@@ -10,8 +10,16 @@ public static class BPHelper {
     private static readonly ConcurrentDictionary<SimpleBlueprint, string> m_SortKeyCache = new();
     private static readonly ConcurrentDictionary<SimpleBlueprint, string> m_SearchKeyCache = new();
     private static readonly ConcurrentDictionary<SimpleBlueprint, string?> m_DescriptionCache = new();
+    public static void ClearNameCaches() {
+        m_TitleCache.Clear();
+        m_SortKeyCache.Clear();
+        m_DescriptionCache.Clear();
+        m_SearchKeyCache.Clear();
+    }
     public static string GetTitle(SimpleBlueprint blueprint, Func<string, string>? formatter = null) {
-        if (formatter == null) formatter = s => s;
+        if (formatter == null) {
+            formatter = s => s;
+        }
         if (!m_TitleCache.TryGetValue((blueprint, formatter), out var title)) {
             title = CreateGetTitle(blueprint, formatter);
             m_TitleCache[(blueprint, formatter)] = title;
