@@ -1,5 +1,6 @@
 ﻿using Kingmaker.Blueprints.Classes.Selection;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 namespace ToyBox.Infrastructure.Utilities;
 public static partial class ContextProvider {
@@ -13,17 +14,21 @@ public static partial class ContextProvider {
         var a = PickItemText;
         using (VerticalScope()) {
             if (data == null) {
-                UI.Label("Please select a Feature Selection first!".Orange());
+                UI.Label(PleaseSelectAFeatureSelectionFir.Orange());
             } else {
                 m_FeatureSelectionItemsCache.TryGetValue(data, out currentItem);
                 string str;
                 if (currentItem != null) {
-                    str = ": " + $"{BPHelper.GetTitle(currentItem.Feature)}".Green() + $" ({BPHelper.GetFeatureSelectionParamDescription(currentItem.Param)})".Cyan().Bold();
+                    var maybeParam = BPHelper.GetFeatureSelectionParamDescription(currentItem.Param);
+                    if (maybeParam != "") {
+                        maybeParam = $" ({maybeParam})".Cyan().Blue();
+                    }
+                    str = ": " + $"{BPHelper.GetTitle(currentItem.Feature)}".Green() + maybeParam;
                 } else {
                     str = ": " + SharedStrings.NoneText.Red();
                 }
                 bool isShown = m_FeatureSelectionItemProviderShown == (data as IFeatureSelection);
-                if (UI.DisclosureToggle(ref isShown, SharedStrings.CurrentlySelectedBlueprintText + str)) {
+                if (UI.DisclosureToggle(ref isShown, PickSelectionItemText + str)) {
                     if (isShown) {
                         m_FeatureSelectionItemProviderShown = data;
                         m_FeatureSelectionItemBrowser.UpdateItems(data.Items);
@@ -36,7 +41,11 @@ public static partial class ContextProvider {
                     var tmp = currentItem;
                     m_FeatureSelectionItemBrowser.OnGUI(item => {
                         using (HorizontalScope()) {
-                            var title = $"{BPHelper.GetTitle(item.Feature)} ({BPHelper.GetFeatureSelectionParamDescription(item.Param)})";
+                            var maybeParam = BPHelper.GetFeatureSelectionParamDescription(item.Param);
+                            if (maybeParam != "") {
+                                maybeParam = $" ({maybeParam})";
+                            }
+                            var title = $"{BPHelper.GetTitle(item.Feature)}{maybeParam}";
                             if (item != tmp) {
                                 UI.Button(PickItemText, () => {
                                     tmp = item;
@@ -53,10 +62,20 @@ public static partial class ContextProvider {
                     });
                     currentItem = tmp;
                 }
+                if (currentItem is BlueprintParametrizedFeature parametrized && currentItem.Param == null) {
+                    if (FeatureSelectionItemProvider(parametrized, out var item)) {
+                        currentItem = item;
+                        m_FeatureSelectionItemsCache[data] = item!;
+                    }
+                }
             }
         }
         return currentItem != null;
     }
     [LocalizedString("ToyBox_Infrastructure_Utilities_FeatureSelectionItemProvider_PickItemText", "Pick Item")]
     private static partial string PickItemText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Utilities_ContextProvider_PleaseSelectAFeatureSelectionFir", "Please select a Feature Selection first!")]
+    private static partial string PleaseSelectAFeatureSelectionFir { get; }
+    [LocalizedString("ToyBox_Infrastructure_Utilities_ContextProvider_PickSelectionItemText", "Pick Selection Item")]
+    private static partial string PickSelectionItemText { get; }
 }

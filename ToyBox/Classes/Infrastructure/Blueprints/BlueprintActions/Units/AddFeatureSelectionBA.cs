@@ -8,6 +8,9 @@ namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 public partial class AddFeatureSelectionBA : BlueprintActionFeature, IBlueprintAction<BlueprintFeatureSelection>, INeedContextFeature<BlueprintFeatureSelection, IFeatureSelectionItem>, INeedContextFeature<UnitEntityData> {
     private bool CanExecute(BlueprintFeatureSelection blueprint, params object[] parameter) {
         if (parameter.Length > 1 && parameter[0] is UnitEntityData unit && parameter[1] is IFeatureSelectionItem item) {
+            if (item.Feature is BlueprintParametrizedFeature parametrized && item.Param == null) {
+                return false;
+            }
             return !unit.GetFacts<Kingmaker.UnitLogic.Feature>(item.Feature).Any(f => f.Param == item.Param);
         }
         return false;
@@ -17,7 +20,7 @@ public partial class AddFeatureSelectionBA : BlueprintActionFeature, IBlueprintA
         var unit = (UnitEntityData)parameter[0];
         IFeatureSelectionItem item = (IFeatureSelectionItem)parameter[1];
         unit.Progression.AddSelection(blueprint, new(), 1, item.Feature);
-        return unit.AddFact(item.Feature) != null;
+        return unit.AddFact(item.Feature, null, item.Param) != null;
     }
     public bool? OnGui(BlueprintFeatureSelection blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
@@ -27,7 +30,11 @@ public partial class AddFeatureSelectionBA : BlueprintActionFeature, IBlueprintA
             });
             UI.Label(" ");
         } else if (isFeatureSearch) {
-            UI.Label(UnitAlreadyHasThisFactText.Red().Bold());
+            if (parameter[1] is IFeatureSelectionItem item && item.Feature is BlueprintParametrizedFeature && item.Param == null) {
+                UI.Label(YouNeedToPickAParameterForTheFea.Red().Bold());
+            } else {
+                UI.Label(UnitAlreadyHasThisFactText.Red().Bold());
+            }
         }
 
         return result;
@@ -49,4 +56,6 @@ public partial class AddFeatureSelectionBA : BlueprintActionFeature, IBlueprintA
     public override partial string Description { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddFeatureSelectionBA_UnitAlreadyHasThisFactText", "Unit already has the feature")]
     private static partial string UnitAlreadyHasThisFactText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddFeatureSelectionBA_YouNeedToPickAParameterForTheFea", "You need to pick a parameter for the feature list item!")]
+    private static partial string YouNeedToPickAParameterForTheFea { get; }
 }

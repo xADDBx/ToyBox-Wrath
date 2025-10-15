@@ -16,12 +16,15 @@ public static partial class ContextProvider {
             str = ": " + SharedStrings.NoneText.Red();
         }
         using (VerticalScope()) {
-            UI.DisclosureToggle(ref m_UnitProviderShown, SharedStrings.CurrentlySelectedUnitText + str);
+            bool justOpened = false;
+            if (UI.DisclosureToggle(ref m_UnitProviderShown, SharedStrings.CurrentlySelectedUnitText + str) && m_UnitProviderShown) {
+                justOpened = true;
+            }
             if (m_UnitProviderShown) {
                 CharacterPicker.OnFilterPickerGUI();
-                bool didChange = !CharacterPicker.OnCharacterPickerGUI();
+                bool didChange = CharacterPicker.OnCharacterPickerGUI();
                 unit = CharacterPicker.CurrentUnit;
-                m_UnitProviderShown = !didChange || (unit == null);
+                m_UnitProviderShown = !didChange || unit == null || justOpened;
             }
         }
         return unit != null;

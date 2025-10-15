@@ -20,6 +20,9 @@ public static class BPHelper {
         m_FeatureSelectionParamStringCache.Clear();
     }
     public static string GetFeatureSelectionParamDescription(FeatureParam param) {
+        if (param == null) {
+            return "";
+        }
         if (!m_FeatureSelectionParamStringCache.TryGetValue(param, out var desc)) {
             if (param.Blueprint != null) {
                 desc = GetTitle(param.Blueprint);
