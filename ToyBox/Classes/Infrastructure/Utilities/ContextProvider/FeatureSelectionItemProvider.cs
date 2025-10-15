@@ -1,6 +1,5 @@
 ﻿using Kingmaker.Blueprints.Classes.Selection;
 using UnityEngine;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 namespace ToyBox.Infrastructure.Utilities;
 public static partial class ContextProvider {
@@ -9,6 +8,10 @@ public static partial class ContextProvider {
     private static Browser<IFeatureSelectionItem> m_FeatureSelectionItemBrowser = new(i => BPHelper.GetSortKey(i.Feature) + BPHelper.GetFeatureSelectionParamDescription(i.Param), 
         i => BPHelper.GetSearchKey(i.Feature) + BPHelper.GetFeatureSelectionParamDescription(i.Param));
     private static Dictionary<IFeatureSelection, IFeatureSelectionItem> m_FeatureSelectionItemsCache = [];
+    // Handles:
+    // - BlueprintParametrizedFeature
+    // - BlueprintFeatureSelection
+    // - BlueprintFeatureSelection => BlueprintParametrizedFeature
     public static bool FeatureSelectionItemProvider<T>(T? data, out IFeatureSelectionItem? currentItem) where T : IFeatureSelection {
         currentItem = null;
         var a = PickItemText;
