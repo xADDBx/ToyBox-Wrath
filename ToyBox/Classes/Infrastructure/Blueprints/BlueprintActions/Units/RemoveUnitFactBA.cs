@@ -1,4 +1,5 @@
 ﻿using Kingmaker.Blueprints.Classes;
+using Kingmaker.Blueprints.Classes.Selection;
 using Kingmaker.Blueprints.Facts;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.UnitLogic;
@@ -28,8 +29,9 @@ public partial class RemoveUnitFactBA : BlueprintActionFeature, IBlueprintAction
     }
     private bool Execute(BlueprintUnitFact blueprint, params object[] parameter) {
         LogExecution(blueprint, parameter);
+        var unit = (UnitEntityData)parameter[0];
         if (blueprint is BlueprintFeature feature) {
-            foreach (var selection in ((UnitEntityData)parameter[0]).Progression.Selections) {
+            foreach (var selection in unit.Progression.Selections) {
                 foreach (var byLevel in selection.Value.SelectionsByLevel.ToList()) {
                     if (byLevel.Value.Contains(blueprint)) {
                         selection.Value.RemoveSelection(byLevel.Key, feature);
@@ -38,12 +40,25 @@ public partial class RemoveUnitFactBA : BlueprintActionFeature, IBlueprintAction
                         }
                     }
                     if (selection.Value.SelectionsByLevel.Count == 0) {
-                        ((UnitEntityData)parameter[0]).RemoveFact(selection.Key);
+                        Execute(selection.Key, unit);
                     }
                 }
             }
+            // if (feature is IFeatureSelection iFeatureSelection) {
+            if (feature is BlueprintFeatureSelection blueprintFeatureSelection) {
+                if (unit.Progression.Selections.TryGetValue(blueprintFeatureSelection, out var data)) {
+                    foreach (var sel in data.SelectionsByLevel) {
+                        foreach (var feat in sel.Value.ToArray()) {
+                            Execute(feat, unit);
+                        }
+                        data.RemoveLevel(sel.Key);
+                    }
+                    unit.Progression.Selections.Remove(blueprintFeatureSelection);
+                }
+            }
+            // }
         }
-            ((UnitEntityData)parameter[0]).RemoveFact(blueprint);
+        unit.RemoveFact(blueprint);
         return true;
     }
     private bool ExecuteSpell(BlueprintUnitFact blueprint, Spellbook spellbook, params object[] parameter) {
