@@ -159,9 +159,11 @@ public class BlueprintLoader {
     private readonly List<Task> m_WorkerTasks = [];
     private ConcurrentQueue<IEnumerable<(BlueprintGuid, int)>> m_ChunkQueue = null!;
     private void Load(Action<List<SimpleBlueprint>> callback, ISet<BlueprintGuid>? toLoad = null) {
-        if (IsLoading
-            || (!CanStart && Game.Instance.Player == null)
-            || m_Blueprints != null) {
+        // If:
+        // 1. Is Loading
+        // 2. Or: Is not set as startable and has null m_PackFile (if Hotreloading is used, CanStart is false even though it should be possible to load
+        // 3. Or: Already loaded
+        if (IsLoading || (!CanStart && ResourcesLibrary.BlueprintsCache.m_PackFile == null) || m_Blueprints != null) {
             return;
         }
 
