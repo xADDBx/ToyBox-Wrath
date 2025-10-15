@@ -10,7 +10,7 @@ public partial class AddFeatureSelectionBA : BlueprintActionFeature, IBlueprintA
         if (parameter.Length > 1 && parameter[0] is UnitEntityData unit && parameter[1] is IFeatureSelectionItem item) {
             if (item.Feature is BlueprintParametrizedFeature parametrized && item.Param == null) {
                 return false;
-            }
+                }
             return !unit.GetFacts<Kingmaker.UnitLogic.Feature>(item.Feature).Any(f => f.Param == item.Param);
         }
         return false;
@@ -20,6 +20,7 @@ public partial class AddFeatureSelectionBA : BlueprintActionFeature, IBlueprintA
         var unit = (UnitEntityData)parameter[0];
         IFeatureSelectionItem item = (IFeatureSelectionItem)parameter[1];
         unit.Progression.AddSelection(blueprint, new(), 1, item.Feature);
+        unit.AddFact(blueprint);
         return unit.AddFact(item.Feature, null, item.Param) != null;
     }
     public bool? OnGui(BlueprintFeatureSelection blueprint, bool isFeatureSearch, params object[] parameter) {
