@@ -45,28 +45,40 @@ public class BlueprintActions : FeatureTab {
         AddFeature(new TeleportAreaBA());
         AddFeature(new TeleportAreaEnterPointBA());
 
+        AddFeature(new AddGlobalMagicSpellBA());
+        AddFeature(new AddKingdomBuffBA());
+        AddFeature(new AddLeaderSkillBA());
+        AddFeature(new RemoveGlobalMagicSpellBA());
+        AddFeature(new RemoveKingdomBuffBA());
+        AddFeature(new RemoveLeaderSkillBA());
+        AddFeature(new SpawnArmyPresetBA());
+        AddFeature(new TeleportGlobalMapBA());
+        AddFeature(new TeleportGlobalMapPointBA());
+
         AddFeature(new AddItemBA());
         AddFeature(new RemoveItemBA());
 
-        AddFeature(new StartQuestBA());
-        AddFeature(new CompleteQuestBA());
-        
-        AddFeature(new StartQuestObjectiveBA());
-        AddFeature(new CompleteQuestObjectiveBA());
-        
-        AddFeature(new StartEtudeBA());
-        AddFeature(new UnstartEtudeBA());
-        AddFeature(new CompleteEtudeBA());
-        
-        AddFeature(new UnlockFlagBA());
-        AddFeature(new LockFlagBA());
         AddFeature(new ChangeFlagValueBA());
-
+        AddFeature(new CompleteEtudeBA());
+        AddFeature(new CompleteQuestBA());
+        AddFeature(new CompleteQuestObjectiveBA());
+        AddFeature(new LockFlagBA());
         AddFeature(new PlayCutsceneBA());
+        AddFeature(new StartEtudeBA());
+        AddFeature(new StartQuestBA());
+        AddFeature(new StartQuestObjectiveBA());
+        AddFeature(new UnlockFlagBA());
+        AddFeature(new UnstartEtudeBA());
 
+        AddFeature(new AddAbilityResourceBA());
+        AddFeature(new AddFeatureSelectionBA());
+        AddFeature(new AddParametrizedFeatureBA());
         AddFeature(new AddSpellbookBA());
         AddFeature(new AddUnitFactBA());
+        AddFeature(new ChangeBuffRankBA());
+        AddFeature(new ChangeFeatureRankBA());
         AddFeature(new ChangeSpellbookLevelBA());
+        AddFeature(new RemoveAbilityResourceBA());
         AddFeature(new RemoveSpellbookBA());
         AddFeature(new RemoveUnitFactBA());
         AddFeature(new SpawnUnitBA());

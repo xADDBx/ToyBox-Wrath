@@ -10,7 +10,7 @@ public static partial class ContextProvider {
             if (bp != null) {
                  str = ": " + $"{BPHelper.GetTitle(bp)}".Green().Bold() + $" ({bp.AssetGuid})".Grey();
             } else {
-                str = ": " + NoneText.Red();
+                str = ": " + SharedStrings.NoneText.Red();
             }
             UI.DisclosureToggle(ref m_BlueprintProviderShown, SharedStrings.CurrentlySelectedBlueprintText + str);
             if (m_BlueprintProviderShown) {
@@ -20,7 +20,4 @@ public static partial class ContextProvider {
         }
         return bp != null;
     }
-
-    [LocalizedString("ToyBox_Infrastructure_Utilities_ContextProvider_NoneText", "None")]
-    private static partial string NoneText { get; }
 }

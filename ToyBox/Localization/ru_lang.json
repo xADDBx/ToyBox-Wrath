@@ -1003,6 +1003,38 @@
     "Original": "Unit already has this ability resource",
     "Translated": null
   },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddFeatureSelectionBA_AddText": {
+    "Original": "Add",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddFeatureSelectionBA_Name": {
+    "Original": "Add Feature Selection",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddFeatureSelectionBA_Description": {
+    "Original": "Adds the specified feature under the BlueprintFeatureSelection to the chosen unit.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddFeatureSelectionBA_UnitAlreadyHasThisFactText": {
+    "Original": "Unit already has the feature",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddParametrizedFeatureBA_AddText": {
+    "Original": "Add",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddParametrizedFeatureBA_Name": {
+    "Original": "Add Parametrized Feature",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddParametrizedFeatureBA_Description": {
+    "Original": "Adds the BlueprintParametrizedFeature with the specified parameter to the chosen unit.",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddParametrizedFeatureBA_UnitAlreadyHasThisFactText": {
+    "Original": "Unit already has the feature with this parameter",
+    "Translated": null
+  },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddSpellbookBA_AddText": {
     "Original": "Add",
     "Translated": null
@@ -1041,6 +1073,10 @@
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_AtWillText": {
     "Original": "At Will",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_Can_tAddFeatureSelectionsViaTheA": {
+    "Original": "Can't add Feature Selections via the Add Unit Fact action. Use the Parametrized or Feature Selection variants instead!",
     "Translated": null
   },
   "ToyBox_Infrastructure_Blueprints_BlueprintActions_ChangeBuffRankBA_Name": {
@@ -1215,10 +1251,6 @@
     "Original": "Trace",
     "Translated": null
   },
-  "ToyBox_Infrastructure_Enums_PartyTabSectionType_Localizer_NoneText": {
-    "Original": "None",
-    "Translated": null
-  },
   "ToyBox_Infrastructure_Enums_PartyTabSectionType_Localizer_ClassesText": {
     "Original": "Classes",
     "Translated": null
@@ -1299,12 +1331,8 @@
     "Original": "Stopped drawing entries to prevent UI crash",
     "Translated": null
   },
-  "ToyBox_Infrastructure_UI_UI_NoneText": {
-    "Original": "None",
-    "Translated": null
-  },
-  "ToyBox_Infrastructure_Utilities_ContextProvider_NoneText": {
-    "Original": "None",
+  "ToyBox_Infrastructure_Utilities_FeatureSelectionItemProvider_PickItemText": {
+    "Original": "Pick Item",
     "Translated": null
   },
   "ToyBox_Infrastructure_Utilities_Strings_SharedStrings_ThisCannotBeUsedFromTheMainMenu": {
@@ -1389,6 +1417,10 @@
   },
   "ToyBox_Infrastructure_UnitPicker_CurrentlySelectedUnit_Text": {
     "Original": "Currently selected unit",
+    "Translated": null
+  },
+  "ToyBox_Infrastructure_Utilities_ContextProvider_NoneText": {
+    "Original": "None",
     "Translated": null
   }
 }

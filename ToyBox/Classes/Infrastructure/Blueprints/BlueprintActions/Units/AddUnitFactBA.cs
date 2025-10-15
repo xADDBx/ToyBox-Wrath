@@ -1,4 +1,5 @@
-﻿using Kingmaker.Blueprints.Facts;
+﻿using Kingmaker.Blueprints.Classes.Selection;
+using Kingmaker.Blueprints.Facts;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
@@ -7,8 +8,11 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class AddUnitFactBA : BlueprintActionFeature, IBlueprintAction<BlueprintUnitFact>, INeedContextFeature<UnitEntityData> {
-    private bool CanExecute(BlueprintUnitFact blueprint, bool isSpell, out (Spellbook, int)? sb, params object[] parameter) {
+    internal bool CanExecute(BlueprintUnitFact blueprint, bool isSpell, out (Spellbook, int)? sb, params object[] parameter) {
         sb = null;
+        if (blueprint is IFeatureSelection) {
+            return false;
+        }
         if (parameter.Length > 0 && parameter[0] is UnitEntityData unit) {
             if (isSpell) {
                 foreach (var spellbook in unit.Spellbooks) {
@@ -38,7 +42,7 @@ public partial class AddUnitFactBA : BlueprintActionFeature, IBlueprintAction<Bl
         }
         return false;
     }
-    private bool Execute(BlueprintUnitFact blueprint, bool isSpell, (Spellbook, int)? maybeSpellbook, params object[] parameter) {
+    internal bool Execute(BlueprintUnitFact blueprint, bool isSpell, (Spellbook, int)? maybeSpellbook, params object[] parameter) {
         LogExecution(blueprint, isSpell, maybeSpellbook, parameter);
         if (isSpell && maybeSpellbook.HasValue) {
             return maybeSpellbook.Value.Item1.AddKnown(maybeSpellbook.Value.Item2, blueprint as BlueprintAbility) != null;
@@ -62,7 +66,11 @@ public partial class AddUnitFactBA : BlueprintActionFeature, IBlueprintAction<Bl
             if (isSpell) {
                 UI.Label(SpellAlreadyIsKnownInFirstSpellb.Red().Bold());
             } else {
-                UI.Label(UnitAlreadyHasThisFactText.Red().Bold());
+                if (blueprint is IFeatureSelection) {
+                    UI.Label(CantAddFeatureSelectionsViaTheA.Red().Bold());
+                } else {
+                    UI.Label(UnitAlreadyHasThisFactText.Red().Bold());
+                }
             }
         }
 
@@ -97,4 +105,6 @@ public partial class AddUnitFactBA : BlueprintActionFeature, IBlueprintAction<Bl
     private static partial string SpellAlreadyIsKnownInFirstSpellb { get; }
     [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_AtWillText", "At Will")]
     private static partial string AtWillText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Blueprints_BlueprintActions_AddUnitFactBA_Can_tAddFeatureSelectionsViaTheA", "Can't add Feature Selections via the Add Unit Fact action. Use the Parametrized or Feature Selection variants instead!")]
+    private static partial string CantAddFeatureSelectionsViaTheA { get; }
 }

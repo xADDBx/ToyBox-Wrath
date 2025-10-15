@@ -42,4 +42,6 @@ public partial class SharedStrings {
     public static partial string CurrentlySelectedBlueprintText { get; }
     [LocalizedString("ToyBox_Infrastructure_UnitPicker_CurrentlySelectedUnit_Text", "Currently selected unit")]
     public static partial string CurrentlySelectedUnitText { get; }
+    [LocalizedString("ToyBox_Infrastructure_Utilities_ContextProvider_NoneText", "None")]
+    public static partial string NoneText { get; }
 }

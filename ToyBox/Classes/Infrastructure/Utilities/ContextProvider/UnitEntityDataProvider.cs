@@ -13,7 +13,7 @@ public static partial class ContextProvider {
         if (unit != null) {
             str = ": " + $"{unit}".Green().Bold();
         } else {
-            str = ": " + NoneText.Red();
+            str = ": " + SharedStrings.NoneText.Red();
         }
         using (VerticalScope()) {
             UI.DisclosureToggle(ref m_UnitProviderShown, SharedStrings.CurrentlySelectedUnitText + str);

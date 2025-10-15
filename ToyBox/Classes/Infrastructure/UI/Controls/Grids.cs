@@ -50,7 +50,7 @@ public static partial class UI {
             xCols = vals.Count;
         }      
         var selectedInt = selected != null ? vals.IndexOf(selected) + 1 : 0;
-        string[] names = [NoneText, .. vals.Select(x => {
+        string[] names = [SharedStrings.NoneText, .. vals.Select(x => {
             if (titler != null) {
                 return titler(x);
             } else {
@@ -69,7 +69,4 @@ public static partial class UI {
         }
         return changed;
     }
-
-    [LocalizedString("ToyBox_Infrastructure_UI_UI_NoneText", "None")]
-    private static partial string NoneText { get; }
 }

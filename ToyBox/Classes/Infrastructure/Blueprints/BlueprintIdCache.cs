@@ -1,23 +1,25 @@
 ﻿using Kingmaker;
-using Kingmaker.AI.Blueprints.Considerations;
 using Kingmaker.AI.Blueprints;
+using Kingmaker.AI.Blueprints.Considerations;
+using Kingmaker.AreaLogic.Cutscenes;
 using Kingmaker.AreaLogic.Etudes;
 using Kingmaker.Armies.Blueprints;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Area;
-using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.Classes;
+using Kingmaker.Blueprints.Classes.Selection;
+using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.Facts;
+using Kingmaker.Blueprints.Items;
 using Kingmaker.Blueprints.Items.Armors;
 using Kingmaker.Blueprints.Items.Ecnchantments;
 using Kingmaker.Blueprints.Items.Weapons;
-using Kingmaker.Blueprints.Items;
+using Kingmaker.Crusade.GlobalMagic;
 using Kingmaker.Modding;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using System.Runtime.Serialization;
 using System.Text;
-using Kingmaker.AreaLogic.Cutscenes;
 
 namespace ToyBox.Infrastructure.Blueprints;
 public class BlueprintIdCache {
@@ -41,7 +43,8 @@ public class BlueprintIdCache {
                 typeof(BlueprintSpellbook), typeof(BlueprintAbility), typeof(BlueprintAreaEnterPoint),
                 typeof(BlueprintUnit), typeof(BlueprintAiAction), typeof(Consideration),
                 typeof(BlueprintBrain), typeof(BlueprintFeature), typeof(BlueprintUnitFact),
-                typeof(BlueprintAreaPreset), typeof(Cutscene)
+                typeof(BlueprintAreaPreset), typeof(Cutscene), typeof(BlueprintParametrizedFeature),
+                typeof(BlueprintGlobalMagicSpell), typeof(BlueprintFeatureSelection)
         };
 
     private static bool? m_NeedsCacheRebuilt = null;
