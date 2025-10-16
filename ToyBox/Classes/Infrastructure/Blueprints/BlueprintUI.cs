@@ -1,10 +1,13 @@
 ﻿using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes;
 using Kingmaker.Blueprints.Classes.Selection;
+using Kingmaker.Blueprints.Facts;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.UI;
 using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Abilities;
+using Kingmaker.Utility;
+using ToyBox.Infrastructure.Blueprints.BlueprintActions;
 
 namespace ToyBox.Infrastructure.Blueprints;
 public static class BlueprintUI {
@@ -19,9 +22,13 @@ public static class BlueprintUI {
         m_SelectionBrowsers.Clear();
         m_ParameterizedBrowser.Clear();
     }
-    public static void BlueprintRowGUI<Item, Blueprint>(Item? maybeItem, Blueprint blueprint, UnitEntityData ch, object? parent = null) where Blueprint : BlueprintScriptableObject, IUIDataProvider {
+    public static void BlueprintRowGUI<Blueprint>(Blueprint blueprint, UnitEntityData ch, object? parent = null) where Blueprint : BlueprintScriptableObject, IUIDataProvider {
         string name;
         parent ??= ch;
+        object? maybeItem = null;
+        if (blueprint is BlueprintUnitFact fact) {
+            maybeItem = ch.GetFact(fact);
+        }
         if (maybeItem is AbilityData maybeSpell2 && maybeSpell2.Blueprint.IsSpell && maybeSpell2.MagicHackData != null) {
             name = maybeSpell2.MagicHackData.Name;
             if (string.IsNullOrEmpty(name)) {
@@ -54,7 +61,16 @@ public static class BlueprintUI {
                     UI.Label(name, Width(CalculateTitleWidth()));
                 }
 
-                // Put actions here
+                foreach (var action in BlueprintActionFeature.GetActionsForBlueprintType<Blueprint>()) {
+                    action.OnGui(blueprint, false, ch);
+                }
+
+                Space(10);
+
+                var desc = BPHelper.GetDescription(blueprint);
+                if (!desc.IsNullOrEmpty()) {
+                    UI.Label(desc!.Green());
+                }
             }
 
             if (hasUncollapsedChild) {
@@ -67,6 +83,8 @@ public static class BlueprintUI {
         }
     }
     public static void BlueprintRowGUI(BlueprintFeatureSelection selection, UnitEntityData ch, object parent) {
+        UI.Label("Selection");
+        return;
         var data = ch.Progression.GetSelectionData(selection);
         if (!m_SelectionBrowsers.TryGetValue((parent, selection), out var browser)) {
             m_SelectionBrowsers[(parent, selection)] = browser = new(BPHelper.GetSortKey, BPHelper.GetSearchKey, data.SelectionsByLevel.SelectMany(levelPair => levelPair.Value), func => func(selection.AllFeatures), false);
@@ -116,6 +134,7 @@ public static class BlueprintUI {
         return null;
     }
     public static void BlueprintRowGUI(BlueprintParametrizedFeature parameterized, UnitEntityData ch, object parent) {
-
+        UI.Label("Parametrized");
+        return;
     }
 }

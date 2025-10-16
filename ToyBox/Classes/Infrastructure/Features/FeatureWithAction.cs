@@ -1,4 +1,5 @@
-﻿using ToyBox.Infrastructure.Utilities;
+﻿using ToyBox.Features.PartyTab;
+using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox;
 public abstract class FeatureWithAction : Feature {
@@ -7,6 +8,8 @@ public abstract class FeatureWithAction : Feature {
         if (parameter?.Length > 0) {
             toLog += " with parameters " + parameter.ToContentString();
         }
+        Trace(toLog);
+        PartyFeatureTab.FeatureRefresh();
     }
     public abstract void ExecuteAction(params object[] parameter);
 }

@@ -1,7 +1,11 @@
 using Kingmaker;
+using Kingmaker.Blueprints;
+using Kingmaker.Blueprints.Classes;
 using Kingmaker.Designers;
 using Kingmaker.EntitySystem.Entities;
 using Kingmaker.PubSubSystem;
+using Kingmaker.UnitLogic.Abilities.Blueprints;
+using Kingmaker.UnitLogic.Buffs.Blueprints;
 using ToyBox.Infrastructure.Inspector;
 using ToyBox.Infrastructure.Utilities;
 using UnityEngine;
@@ -20,6 +24,12 @@ public partial class PartyFeatureTab : FeatureTab {
     private static readonly PartyTabSectionType[] m_Sections = [PartyTabSectionType.Classes, PartyTabSectionType.Stats, PartyTabSectionType.Features,
         PartyTabSectionType.Buffs, PartyTabSectionType.Abilities, PartyTabSectionType.Spells, PartyTabSectionType.Inspect];
     private static Lazy<float> m_InspectLabelWidth = new(() => CalculateLargestLabelSize([InspectPartyText]));
+    private static bool m_FeatureNeedsUpdate = true;
+    private static bool m_BuffNeedsUpdate = true;
+    private static bool m_AbilityNeedsUpdate = true;
+    private static Browser<BlueprintFeature> m_FeatureBrowser = new(BPHelper.GetSortKey, BPHelper.GetSearchKey, null, func => BPLoader.GetBlueprintsOfType(func), overridePageWidth: (int)EffectiveWindowWidth() - 40);
+    private static Browser<BlueprintBuff> m_BuffBrowser = new(BPHelper.GetSortKey, BPHelper.GetSearchKey, null, func => BPLoader.GetBlueprintsOfType(func), overridePageWidth: (int)EffectiveWindowWidth() - 40);
+    private static Browser<BlueprintAbility> m_AbilityBrowser = new(BPHelper.GetSortKey, BPHelper.GetSearchKey, null, func => BPLoader.GetBlueprintsOfType(func), overridePageWidth: (int)EffectiveWindowWidth() - 40);
     public PartyFeatureTab() {
         AddFeature(new FeatureBrowserUnitFeature());
     }
@@ -30,6 +40,12 @@ public partial class PartyFeatureTab : FeatureTab {
         m_UncollapsedSection = PartyTabSectionType.None;
         m_UncollapsedUnit = null;
         m_NameSectionWidth.ForceRefresh();
+        FeatureRefresh();
+    }
+    public static void FeatureRefresh() {
+        m_FeatureNeedsUpdate = true;
+        m_BuffNeedsUpdate = true;
+        m_AbilityNeedsUpdate = true;
     }
     private static readonly TimedCache<float> m_NameSectionWidth = new(() => {
         return CalculateLargestLabelSize(CharacterPicker.CurrentUnits.Select(u => u.CharacterName.Bold()));
@@ -73,6 +89,7 @@ public partial class PartyFeatureTab : FeatureTab {
                     foreach (var sec in m_Sections) {
                         bool isUncollapsed = sec == m_UncollapsedSection && unit == m_UncollapsedUnit;
                         if (UI.DisclosureToggle(ref isUncollapsed, " " + sec.GetLocalized())) {
+                            FeatureRefresh();
                             if (isUncollapsed) {
                                 m_UncollapsedSection = sec;
                                 m_UncollapsedUnit = unit;
@@ -86,11 +103,63 @@ public partial class PartyFeatureTab : FeatureTab {
                 }
                 if (m_UncollapsedUnit == unit && m_UncollapsedSection != PartyTabSectionType.None) {
                     using (HorizontalScope()) {
-                        Space(10);
-                        UI.Label("Uncollapsed Hurray");
+                        switch (m_UncollapsedSection) {
+                            case PartyTabSectionType.Inspect: OnInspectGui(unit); break;
+                            case PartyTabSectionType.Classes: OnClassesGui(unit); break;
+                            case PartyTabSectionType.Features: OnFeaturesGui(unit); break;
+                            case PartyTabSectionType.Buffs: OnBuffsGui(unit); break;
+                            case PartyTabSectionType.Abilities: OnAbilitiesGui(unit); break;
+                            case PartyTabSectionType.Spells: OnSpellsGui(unit); break;
+                            case PartyTabSectionType.Stats: OnStatsGui(unit); break;
+                        }
                     }
                 }
             }
         }
+    }
+    private static void OnStatsGui(UnitEntityData unit) {
+        Space(10);
+#warning TODO
+        UI.Label("Uncollapsed Stats");
+    }
+    private static void OnInspectGui(UnitEntityData unit) {
+        InspectorUI.Inspect(unit);
+    }
+    private static void OnClassesGui(UnitEntityData unit) {
+        Space(10);
+#warning TODO
+        UI.Label("Uncollapsed Classes");
+    }
+    private static void OnFeaturesGui(UnitEntityData unit) {
+        if (m_FeatureNeedsUpdate) {
+            m_FeatureNeedsUpdate = false;
+            m_FeatureBrowser.UpdateItems(unit.Progression.Features.Enumerable.Select(f => f.Blueprint));
+        }
+        m_FeatureBrowser.OnGUI(feature => {
+            BlueprintUI.BlueprintRowGUI(feature, unit);
+        });
+    }
+    private static void OnAbilitiesGui(UnitEntityData unit) {
+        if (m_AbilityNeedsUpdate) {
+            m_AbilityNeedsUpdate = false;
+            m_AbilityBrowser.UpdateItems(unit.Descriptor.Abilities.Enumerable.Select(f => f.Blueprint));
+        }
+        m_AbilityBrowser.OnGUI(ability => {
+            BlueprintUI.BlueprintRowGUI(ability, unit);
+        });
+    }
+    private static void OnBuffsGui(UnitEntityData unit) {
+        if (m_BuffNeedsUpdate) {
+            m_BuffNeedsUpdate = false;
+            m_BuffBrowser.UpdateItems(unit.Descriptor.Buffs.Enumerable.Select(f => f.Blueprint));
+        }
+        m_BuffBrowser.OnGUI(buff => {
+            BlueprintUI.BlueprintRowGUI(buff, unit);
+        });
+    }
+    private static void OnSpellsGui(UnitEntityData unit) {
+        Space(10);
+#warning TODO
+        UI.Label("Uncollapsed Spells");
     }
 }

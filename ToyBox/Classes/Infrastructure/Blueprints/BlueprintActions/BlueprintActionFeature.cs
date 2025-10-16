@@ -1,31 +1,31 @@
 ﻿using Kingmaker.Blueprints;
 
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
-public interface IBlueprintAction { }
-public interface IBlueprintAction<T> : IBlueprintAction, INeedContextFeature<T> where T : SimpleBlueprint {
+public interface IExecutableAction<in T> where T : SimpleBlueprint {
     // Null - Nothing happened; False - Action execution failed; True - Action execution succeeded
     public abstract bool? OnGui(T blueprint, bool isFeatureSearch, params object[] parameter);
 }
-public abstract class BlueprintActionFeature : FeatureWithAction, IBlueprintAction {
-    private static readonly List<IBlueprintAction> m_AllActions = [];
-    private static readonly Dictionary<Type, IEnumerable<IBlueprintAction>> m_ActionsForType = [];
+public interface IBlueprintAction<T> : IExecutableAction<T>, INeedContextFeature<T> where T : SimpleBlueprint { }
+public abstract class BlueprintActionFeature : FeatureWithAction {
+    private static readonly List<object> m_AllActions = [];
+    private static readonly Dictionary<Type, object> m_ActionsForType = [];
     public override void ExecuteAction(params object[] parameter) {
         LogExecution(parameter);
     }
     protected BlueprintActionFeature() {
         m_AllActions.Add(this);
     }
-    public static IEnumerable<IBlueprintAction<T>> GetActionsForBlueprintType<T>() where T : SimpleBlueprint {
+    public static IEnumerable<IExecutableAction<T>> GetActionsForBlueprintType<T>() where T : SimpleBlueprint {
         if (m_ActionsForType.TryGetValue(typeof(T), out var actions)) {
-            return actions.Cast<IBlueprintAction<T>>();
+            return (List<IExecutableAction<T>>)actions;
         } else {
-            List<IBlueprintAction<T>> newActions = [];
+            List<IExecutableAction<T>> newActions = [];
             foreach (var action in m_AllActions) {
-                if (action is IBlueprintAction<T> typedAction) {
+                if (action is IExecutableAction<T> typedAction) {
                     newActions.Add(typedAction);
                 }
             }
-            m_ActionsForType[typeof(T)] = newActions.AsEnumerable().Cast<IBlueprintAction<SimpleBlueprint>>();
+            m_ActionsForType[typeof(T)] = newActions;
             return newActions;
         }
     }
