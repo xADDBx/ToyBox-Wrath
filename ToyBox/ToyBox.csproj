@@ -11,7 +11,7 @@
         <LangVersion>preview</LangVersion>
         <Nullable>enable</Nullable>
         <RootNamespace>ToyBox</RootNamespace>
-        <AnalysisLevel>preview</AnalysisLevel>
+		<AnalysisLevel>preview-all</AnalysisLevel>
         <ImplicitUsings>enable</ImplicitUsings>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <RestoreAdditionalProjectSources>https://api.nuget.org/v3/index.json</RestoreAdditionalProjectSources>

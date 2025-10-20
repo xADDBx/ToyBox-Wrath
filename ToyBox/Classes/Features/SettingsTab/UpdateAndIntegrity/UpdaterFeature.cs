@@ -92,9 +92,9 @@ public partial class UpdaterFeature : Feature {
                     string fullPath = Path.GetFullPath(Path.Combine(tmpDir.FullName, entry.FullName));
 
                     if (Path.GetFileName(fullPath).Length == 0) {
-                        Directory.CreateDirectory(fullPath);
+                        _ = Directory.CreateDirectory(fullPath);
                     } else {
-                        Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+                        _ = Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
                         entry.ExtractToFile(fullPath, overwrite: true);
                     }
                 }

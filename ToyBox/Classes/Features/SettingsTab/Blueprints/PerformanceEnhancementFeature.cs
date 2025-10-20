@@ -31,7 +31,7 @@ public partial class PerformanceEnhancementFeatures : FeatureWithPatch {
         var ret = new List<MethodBase>();
         foreach (var method in typeof(ReflectionBasedSerializer).GetMethods(AccessTools.all).Concat(typeof(PrimitiveSerializer).GetMethods(AccessTools.all)).Concat(typeof(BlueprintFieldsTraverser).GetMethods(AccessTools.all)).Concat(typeof(FieldsContractResolver).GetMethods(AccessTools.all))) {
             try {
-                foreach (var instruction in PatchProcessor.GetCurrentInstructions(method) ?? new()) {
+                foreach (var instruction in PatchProcessor.GetCurrentInstructions(method) ?? []) {
                     if (instruction.Calls(Activator_CreateInstance)) {
                         ret.Add(method);
                         break;
