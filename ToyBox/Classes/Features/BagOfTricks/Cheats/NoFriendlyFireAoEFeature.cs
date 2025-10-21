@@ -49,7 +49,7 @@ public partial class NoFriendlyFireAoEFeature : FeatureWithPatch {
         }
     }
     private static bool ShouldOverride(RulebookEvent __instance) {
-        if (__instance.Reason?.Ability?.Blueprint is BlueprintAbility blueprintAbility 
+        if (__instance.Reason?.Ability?.Blueprint is BlueprintAbility blueprintAbility
             && ToyBoxUnitHelper.IsPartyOrPet(__instance.Reason.Caster)
             && ToyBoxUnitHelper.IsPartyOrPet(__instance.GetRuleTarget() ?? __instance.Initiator)
             && ((blueprintAbility.EffectOnAlly == AbilityEffectOnUnit.Harmful) || (blueprintAbility.EffectOnEnemy == AbilityEffectOnUnit.Harmful))) {

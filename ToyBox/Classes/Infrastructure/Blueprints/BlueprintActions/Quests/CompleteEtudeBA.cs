@@ -6,8 +6,9 @@ namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class CompleteEtudeBA : BlueprintActionFeature, IBlueprintAction<BlueprintEtude> {
 
-    private bool CanExecute(BlueprintEtude blueprint) {
-        return IsInGame() && Game.Instance.Player.EtudesSystem.EtudeIsStarted(blueprint);
+    public bool CanExecute(BlueprintEtude blueprint, params object[] parameter) {
+        return IsInGame()
+            && Game.Instance.Player.EtudesSystem.EtudeIsStarted(blueprint);
     }
     private bool Execute(BlueprintEtude blueprint) {
         LogExecution(blueprint);

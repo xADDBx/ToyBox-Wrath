@@ -3,9 +3,11 @@
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 public interface IExecutableAction<in T> where T : SimpleBlueprint {
     // Null - Nothing happened; False - Action execution failed; True - Action execution succeeded
-    public abstract bool? OnGui(T blueprint, bool isFeatureSearch, params object[] parameter);
+    abstract bool? OnGui(T blueprint, bool isFeatureSearch, params object[] parameter);
 }
-public interface IBlueprintAction<T> : IExecutableAction<T>, INeedContextFeature<T> where T : SimpleBlueprint { }
+public interface IBlueprintAction<T> : IExecutableAction<T>, INeedContextFeature<T> where T : SimpleBlueprint {
+    abstract bool CanExecute(T blueprint, params object[] parameter);
+}
 public abstract class BlueprintActionFeature : FeatureWithAction {
     private static readonly List<object> m_AllActions = [];
     private static readonly Dictionary<Type, object> m_ActionsForType = [];

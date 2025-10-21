@@ -5,8 +5,9 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class RemoveGlobalMagicSpellBA : BlueprintActionFeature, IBlueprintAction<BlueprintGlobalMagicSpell> {
-    private bool CanExecute(BlueprintGlobalMagicSpell blueprint, params object[] parameter) {
-        return IsInGame() && Game.Instance.Player.GlobalMapSpellsManager.SpellBook.Any(spell => spell.Blueprint == blueprint);
+    public bool CanExecute(BlueprintGlobalMagicSpell blueprint, params object[] parameter) {
+        return IsInGame()
+            && Game.Instance.Player.GlobalMapSpellsManager.SpellBook.Any(spell => spell.Blueprint == blueprint);
     }
     private bool Execute(BlueprintGlobalMagicSpell blueprint, params object[] parameter) {
         LogExecution(blueprint, parameter);

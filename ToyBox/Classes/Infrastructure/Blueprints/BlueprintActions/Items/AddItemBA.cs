@@ -5,9 +5,7 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class AddItemBA : BlueprintActionFeature, IBlueprintAction<BlueprintItem> {
-    private bool CanExecute(BlueprintItem blueprint, params object[] parameter) {
-        return IsInGame();
-    }
+    public bool CanExecute(BlueprintItem blueprint, params object[] parameter) => IsInGame();
     private bool Execute(BlueprintItem blueprint, int count) {
         LogExecution(blueprint, count);
         Game.Instance.Player.Inventory.Add(blueprint, count);
@@ -16,11 +14,11 @@ public partial class AddItemBA : BlueprintActionFeature, IBlueprintAction<Bluepr
     public bool? OnGui(BlueprintItem blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
-            int count = 1;
+            var count = 1;
             if (parameter.Length > 0 && parameter[0] is int tmpCount) {
                 count = tmpCount;
             }
-            UI.Button(StyleActionString(AddText + $" {count}", isFeatureSearch), () => {
+            _ = UI.Button(StyleActionString(AddText + $" {count}", isFeatureSearch), () => {
                 result = Execute(blueprint, count);
             });
         } else if (isFeatureSearch) {

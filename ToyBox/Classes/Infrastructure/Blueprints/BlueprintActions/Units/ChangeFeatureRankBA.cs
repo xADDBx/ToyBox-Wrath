@@ -6,7 +6,7 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class ChangeFeatureRankBA : BlueprintActionFeature, IBlueprintAction<BlueprintFeature>, INeedContextFeature<UnitEntityData> {
-
+    public bool CanExecute(BlueprintFeature blueprint, params object[] parameter) => CanExecute(blueprint, out _, out _, out _, parameter);
     private bool CanExecute(BlueprintFeature blueprint, out bool canDecrease, out bool canIncrease, out int rank, params object[] parameter) {
         canDecrease = false;
         canIncrease = false;

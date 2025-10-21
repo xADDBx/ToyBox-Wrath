@@ -49,7 +49,7 @@ public partial class PartyFeatureTab : FeatureTab {
     }
     private static readonly TimedCache<float> m_NameSectionWidth = new(() => {
         return CalculateLargestLabelSize(CharacterPicker.CurrentUnits.Select(u => u.CharacterName.Bold()));
-    }, 60*60*24);
+    }, 60 * 60 * 24);
     public override void OnGui() {
         if (!IsInGame()) {
             UI.Label(SharedStrings.ThisCannotBeUsedFromTheMainMenu.Red());

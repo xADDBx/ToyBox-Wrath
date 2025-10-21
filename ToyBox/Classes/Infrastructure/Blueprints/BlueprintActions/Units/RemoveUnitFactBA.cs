@@ -9,7 +9,7 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class RemoveUnitFactBA : BlueprintActionFeature, IBlueprintAction<BlueprintUnitFact>, INeedContextFeature<UnitEntityData> {
-    private bool CanExecute(BlueprintUnitFact blueprint, params object[] parameter) {
+    public bool CanExecute(BlueprintUnitFact blueprint, params object[] parameter) {
         if (parameter.Length > 0 && parameter[0] is UnitEntityData unit) {
             return unit.GetFact(blueprint) != null;
         }
@@ -68,8 +68,8 @@ public partial class RemoveUnitFactBA : BlueprintActionFeature, IBlueprintAction
     }
     public bool? OnGui(BlueprintUnitFact blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
-        bool canRemoveFact = CanExecute(blueprint, parameter);
-        bool canRemoveSpell = CanExecuteSpell(blueprint, out var spellbook, parameter);
+        var canRemoveFact = CanExecute(blueprint, parameter);
+        var canRemoveSpell = CanExecuteSpell(blueprint, out var spellbook, parameter);
         if (canRemoveFact || canRemoveSpell) {
             if (canRemoveFact) {
                 UI.Button(StyleActionString(RemoveText, isFeatureSearch), () => {

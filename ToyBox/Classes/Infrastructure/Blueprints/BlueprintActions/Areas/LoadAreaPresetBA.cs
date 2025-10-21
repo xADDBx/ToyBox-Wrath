@@ -6,9 +6,7 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class LoadAreaPresetBA : BlueprintActionFeature, IBlueprintAction<BlueprintAreaPreset> {
-    private bool CanExecute(BlueprintAreaPreset blueprint, params object[] parameter) {
-        return true;
-    }
+    public bool CanExecute(BlueprintAreaPreset blueprint, params object[] parameter) => true;
     private bool Execute(BlueprintAreaPreset blueprint, params object[] parameter) {
         LogExecution(blueprint, parameter);
         LoadingProcess.Instance.StartCoroutine(CheatsTransfer.NewGameCoroutine(blueprint));

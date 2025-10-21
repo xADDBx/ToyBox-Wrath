@@ -42,7 +42,7 @@ public static class BlueprintUI {
         }
         var maybeSelection = blueprint as BlueprintFeatureSelection;
         var maybeParameterized = blueprint as BlueprintParametrizedFeature;
-        bool hasUncollapsedChild = false;
+        var hasUncollapsedChild = false;
         using (VerticalScope()) {
             using (HorizontalScope()) {
                 if (maybeSelection != null || maybeParameterized != null) {
@@ -85,19 +85,21 @@ public static class BlueprintUI {
     public static void BlueprintRowGUI(BlueprintFeatureSelection selection, UnitEntityData ch, object parent) {
         UI.Label("Selection");
         return;
+#pragma warning disable CS0162 // Unreachable code detected
         var data = ch.Progression.GetSelectionData(selection);
+#pragma warning restore CS0162 // Unreachable code detected
         if (!m_SelectionBrowsers.TryGetValue((parent, selection), out var browser)) {
             m_SelectionBrowsers[(parent, selection)] = browser = new(BPHelper.GetSortKey, BPHelper.GetSearchKey, data.SelectionsByLevel.SelectMany(levelPair => levelPair.Value), func => func(selection.AllFeatures), false);
         }
         Space(25);
         browser.OnGUI(feature => {
-            int? featureLevel = GetLevelFeatureWasSelectedAt(data, feature);
+            var featureLevel = GetLevelFeatureWasSelectedAt(data, feature);
             var name = BPHelper.GetTitle(feature);
             if (featureLevel != null) {
                 name = name.Cyan().Bold();
             }
             var parameterized = feature as BlueprintParametrizedFeature;
-            bool hasUncollapsedChild = false;
+            var hasUncollapsedChild = false;
             using (VerticalScope()) {
                 using (HorizontalScope()) {
                     if (parameterized != null) {
@@ -133,8 +135,10 @@ public static class BlueprintUI {
         }
         return null;
     }
+#pragma warning disable IDE0060 // Remove unused parameter
     public static void BlueprintRowGUI(BlueprintParametrizedFeature parameterized, UnitEntityData ch, object parent) {
         UI.Label("Parametrized");
         return;
     }
+#pragma warning restore IDE0060 // Remove unused parameter
 }

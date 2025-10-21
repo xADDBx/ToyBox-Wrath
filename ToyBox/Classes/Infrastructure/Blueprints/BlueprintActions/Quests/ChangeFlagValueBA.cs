@@ -6,8 +6,9 @@ namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class ChangeFlagValueBA : BlueprintActionFeature, IBlueprintAction<BlueprintUnlockableFlag> {
 
-    private bool CanExecute(BlueprintUnlockableFlag blueprint) {
-        return IsInGame() && Game.Instance.Player.UnlockableFlags.IsUnlocked(blueprint);
+    public bool CanExecute(BlueprintUnlockableFlag blueprint, params object[] parameter) {
+        return IsInGame()
+            && Game.Instance.Player.UnlockableFlags.IsUnlocked(blueprint);
     }
     private bool ExecuteIncrease(BlueprintUnlockableFlag blueprint, int count) {
         LogExecution(blueprint, count);
@@ -22,7 +23,7 @@ public partial class ChangeFlagValueBA : BlueprintActionFeature, IBlueprintActio
     public bool? OnGui(BlueprintUnlockableFlag blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint)) {
-            int count = 1;
+            var count = 1;
             if (parameter.Length > 0 && parameter[0] is int tmpCount) {
                 count = tmpCount;
             }

@@ -5,11 +5,12 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class AddAbilityResourceBA : BlueprintActionFeature, IBlueprintAction<BlueprintAbilityResource>, INeedContextFeature<UnitEntityData> {
-    private bool CanExecute(BlueprintAbilityResource blueprint, params object[] parameter) {
+    public bool CanExecute(BlueprintAbilityResource blueprint, params object[] parameter) {
         if (parameter.Length > 0 && parameter[0] is UnitEntityData unit) {
             return !unit.Resources.ContainsResource(blueprint);
+        } else {
+            return false;
         }
-        return false;
     }
     private bool Execute(BlueprintAbilityResource blueprint, params object[] parameter) {
         LogExecution(blueprint, parameter);

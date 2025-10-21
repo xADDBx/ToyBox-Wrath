@@ -5,7 +5,7 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class RemoveAbilityResourceBA : BlueprintActionFeature, IBlueprintAction<BlueprintAbilityResource>, INeedContextFeature<UnitEntityData> {
-    private bool CanExecute(BlueprintAbilityResource blueprint, params object[] parameter) {
+    public bool CanExecute(BlueprintAbilityResource blueprint, params object[] parameter) {
         if (parameter.Length > 0 && parameter[0] is UnitEntityData unit) {
             return unit.Resources.ContainsResource(blueprint);
         }

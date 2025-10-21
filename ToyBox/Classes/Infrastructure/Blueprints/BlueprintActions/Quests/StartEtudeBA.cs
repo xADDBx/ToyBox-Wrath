@@ -5,8 +5,9 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class StartEtudeBA : BlueprintActionFeature, IBlueprintAction<BlueprintEtude> {
-    private bool CanExecute(BlueprintEtude blueprint) {
-        return IsInGame() && Game.Instance.Player.EtudesSystem.EtudeIsNotStarted(blueprint);
+    public bool CanExecute(BlueprintEtude blueprint, params object[] parameter) {
+        return IsInGame()
+            && Game.Instance.Player.EtudesSystem.EtudeIsNotStarted(blueprint);
     }
     private bool Execute(BlueprintEtude blueprint) {
         LogExecution(blueprint);

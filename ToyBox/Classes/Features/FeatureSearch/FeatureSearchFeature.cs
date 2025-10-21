@@ -14,7 +14,7 @@ public partial class FeatureSearchFeature : Feature {
     [LocalizedString("ToyBox_Features_FeatureSearch_FeatureSearchFeature_Description", "Default Description")]
     public override partial string Description { get; }
     private bool m_IsInitialized = false;
-    private readonly Browser<Feature> m_FeatureBrowser = new(f => f.SortKey, f => f.SearchKey, null, null, true, (int)(EffectiveWindowWidth()/1.03f));
+    private readonly Browser<Feature> m_FeatureBrowser = new(f => f.SortKey, f => f.SearchKey, null, null, true, (int)(EffectiveWindowWidth() / 1.03f));
     private readonly Dictionary<Feature, bool> m_DisclosureStates = [];
     public override void OnGui() {
         if (!m_IsInitialized) {

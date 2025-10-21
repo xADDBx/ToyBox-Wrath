@@ -1,8 +1,6 @@
-using Kingmaker.Blueprints;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using ToyBox.Features.SettingsFeatures.UpdateAndIntegrity;
-using ToyBox.Infrastructure.Inspector;
 using ToyBox.Infrastructure.Utilities;
 using UnityEngine;
 using UnityModManagerNet;
@@ -12,20 +10,20 @@ namespace ToyBox;
 [EnableReloading]
 #endif
 public static partial class Main {
-    private const string HarmonyId = "ToyBox";
-    internal static Harmony HarmonyInstance = new(HarmonyId);
+    private const string m_HarmonyId = "ToyBox";
+    internal static Harmony HarmonyInstance = new(m_HarmonyId);
     internal static UnityModManager.ModEntry ModEntry = null!;
     internal static List<Task> LateInitTasks = [];
-    internal static Action? OnLocaleChanged;
-    internal static Action? OnHideGUIAction;
-    internal static Action? OnShowGUIAction;
-    internal static Action? OnUnloadAction;
+    public static Action? OnLocaleChanged;
+    public static Action? OnHideGUIAction;
+    public static Action? OnShowGUIAction;
+    public static Action? OnUnloadAction;
     private static Exception? m_CaughtException = null;
     internal static List<FeatureTab> m_FeatureTabs = [];
     internal static List<WeakReference<IPagedList>> m_VerticalLists = [];
     private static readonly ConcurrentQueue<Action> m_MainThreadTaskQueue = [];
     private static bool Load(UnityModManager.ModEntry modEntry) {
-        Stopwatch sw = Stopwatch.StartNew();
+        var sw = Stopwatch.StartNew();
         try {
             ModEntry = modEntry;
             ModEntry.OnUnload = OnUnload;
@@ -51,7 +49,7 @@ public static partial class Main {
                 });
             }
 
-            Stopwatch sw2 = Stopwatch.StartNew();
+            var sw2 = Stopwatch.StartNew();
             Infrastructure.Localization.LocalizationManager.Enable();
             Debug($"Localization init took {sw2.ElapsedMilliseconds}ms");
 
@@ -92,13 +90,11 @@ public static partial class Main {
         foreach (var tab in m_FeatureTabs) {
             tab.DestroyAll();
         }
-        HarmonyInstance.UnpatchAll(HarmonyId);
+        HarmonyInstance.UnpatchAll(m_HarmonyId);
         OnUnloadAction?.Invoke();
         return true;
     }
-    private static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) {
-        return true;
-    }
+    private static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) => true;
     private static int m_LoadedBps = 0;
     private static void OnGUI(UnityModManager.ModEntry modEntry) {
         if (m_CaughtException == null) {
@@ -129,12 +125,8 @@ public static partial class Main {
             }
         }
     }
-    private static void OnSaveGUI(UnityModManager.ModEntry modEntry) {
-        Settings.Save();
-    }
-    private static void OnShowGUI(UnityModManager.ModEntry modEntry) {
-        OnShowGUIAction?.Invoke();
-    }
+    private static void OnSaveGUI(UnityModManager.ModEntry modEntry) => Settings.Save();
+    private static void OnShowGUI(UnityModManager.ModEntry modEntry) => OnShowGUIAction?.Invoke();
     private static void OnHideGUI(UnityModManager.ModEntry modEntry) {
         Settings.Save();
         OnHideGUIAction?.Invoke();
@@ -148,7 +140,5 @@ public static partial class Main {
             Error(ex);
         }
     }
-    public static void ScheduleForMainThread(this Action action) {
-        m_MainThreadTaskQueue.Enqueue(action);
-    }
+    public static void ScheduleForMainThread(this Action action) => m_MainThreadTaskQueue.Enqueue(action);
 }

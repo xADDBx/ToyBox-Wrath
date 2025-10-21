@@ -6,9 +6,7 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class TeleportAreaEnterPointBA : BlueprintActionFeature, IBlueprintAction<BlueprintAreaEnterPoint> {
-    private bool CanExecute(BlueprintAreaEnterPoint blueprint, params object[] parameter) {
-        return IsInGame();
-    }
+    public bool CanExecute(BlueprintAreaEnterPoint blueprint, params object[] parameter) => IsInGame();
     private bool Execute(BlueprintAreaEnterPoint blueprint, params object[] parameter) {
         LogExecution(blueprint, parameter);
         GameHelper.EnterToArea(blueprint, AutoSaveMode.None);

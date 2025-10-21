@@ -26,8 +26,8 @@ public static class BlueprintPicker<T> where T : SimpleBlueprint {
     }
     public static bool OnPickerGUI() {
         bool didChange = false;
-            using (HorizontalScope()) {
-                Space(20);
+        using (HorizontalScope()) {
+            Space(20);
             using (VerticalScope()) {
                 UI.DisclosureToggle(ref m_ShowBrowser, SharedStrings.ShowListOfBlueprintsText);
                 if (m_ShowBrowser) {

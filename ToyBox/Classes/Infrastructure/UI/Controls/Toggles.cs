@@ -13,7 +13,7 @@ public static partial class UI {
     });
     public static bool Toggle(string name, string description, ref bool setting, Action onEnable, Action onDisable, params GUILayoutOption[] options) {
         options = options.Length == 0 ? [AutoWidth()] : options;
-        bool changed = false;
+        var changed = false;
         using (HorizontalScope()) {
             var newValue = GUILayout.Toggle(setting, name.Cyan(), options);
             if (newValue != setting) {
@@ -32,7 +32,7 @@ public static partial class UI {
     }
     public static bool DisclosureToggle(ref bool state, string? name = null, params GUILayoutOption[] options) {
         options = options.Length == 0 ? [AutoWidth()] : options;
-        string glyph = state ? Glyphs.DisclosureOn : Glyphs.DisclosureOff;
+        var glyph = state ? Glyphs.DisclosureOn : Glyphs.DisclosureOff;
         var newValue = GUILayout.Toggle(state, glyph + (name ?? ""), m_DisclosureToggleStyle, options);
         if (newValue != state) {
             state = newValue;

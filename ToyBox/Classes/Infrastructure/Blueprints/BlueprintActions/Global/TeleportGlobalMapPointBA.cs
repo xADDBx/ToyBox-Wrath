@@ -6,9 +6,7 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class TeleportGlobalMapPointBA : BlueprintActionFeature, IBlueprintAction<BlueprintGlobalMapPoint> {
-    private bool CanExecute(BlueprintGlobalMapPoint blueprint, params object[] parameter) {
-        return IsInGame();
-    }
+    public bool CanExecute(BlueprintGlobalMapPoint blueprint, params object[] parameter) => IsInGame();
     private bool Execute(BlueprintGlobalMapPoint blueprint, params object[] parameter) {
         LogExecution(blueprint, parameter);
         GameHelper.EnterToArea(blueprint.GlobalMap.GlobalMapEnterPoint, AutoSaveMode.None);

@@ -6,7 +6,7 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class AddParametrizedFeatureBA : BlueprintActionFeature, IBlueprintAction<BlueprintParametrizedFeature>, INeedContextFeature<BlueprintParametrizedFeature, IFeatureSelectionItem>, INeedContextFeature<UnitEntityData> {
-    private bool CanExecute(BlueprintParametrizedFeature blueprint, params object[] parameter) {
+    public bool CanExecute(BlueprintParametrizedFeature blueprint, params object[] parameter) {
         if (parameter.Length > 1 && parameter[0] is UnitEntityData unit && parameter[1] is IFeatureSelectionItem item) {
             return !unit.GetFacts<Kingmaker.UnitLogic.Feature>(item.Feature).Any(f => f.Param == item.Param);
         }
@@ -14,7 +14,7 @@ public partial class AddParametrizedFeatureBA : BlueprintActionFeature, IBluepri
     }
     private bool Execute(BlueprintParametrizedFeature blueprint, params object[] parameter) {
         LogExecution(blueprint, parameter);
-        IFeatureSelectionItem item = (IFeatureSelectionItem)parameter[1];
+        var item = (IFeatureSelectionItem)parameter[1];
         return ((UnitEntityData)parameter[0]).AddFact(item.Feature, null, item.Param) != null;
     }
     public bool? OnGui(BlueprintParametrizedFeature blueprint, bool isFeatureSearch, params object[] parameter) {
@@ -34,7 +34,7 @@ public partial class AddParametrizedFeatureBA : BlueprintActionFeature, IBluepri
     public bool GetContext(out UnitEntityData? context) => ContextProvider.UnitEntityData(out context);
     public bool GetContext(BlueprintParametrizedFeature? data, out IFeatureSelectionItem? context) => ContextProvider.FeatureSelectionItemProvider(data, out context);
     public override void OnGui() {
-        if (GetContext(out BlueprintParametrizedFeature? bp) && GetContext(out UnitEntityData? unit) && GetContext(bp!, out IFeatureSelectionItem? item)) {
+        if (GetContext(out BlueprintParametrizedFeature? bp) && GetContext(out UnitEntityData? unit) && GetContext(bp!, out var item)) {
             OnGui(bp!, true, unit!, item!);
         }
     }

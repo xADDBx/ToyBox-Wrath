@@ -5,8 +5,9 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class SpawnArmyPresetBA : BlueprintActionFeature, IBlueprintAction<BlueprintArmyPreset> {
-    private bool CanExecute(BlueprintArmyPreset blueprint, params object[] parameter) {
-        return IsInGame() && Game.Instance.Player.GlobalMap.CurrentPosition != null;
+    public bool CanExecute(BlueprintArmyPreset blueprint, params object[] parameter) {
+        return IsInGame()
+            && Game.Instance.Player.GlobalMap.CurrentPosition != null;
     }
     private bool Execute(BlueprintArmyPreset blueprint, bool friendly, params object[] parameter) {
         var faction = friendly ? Kingmaker.Armies.ArmyFaction.Crusaders : Kingmaker.Armies.ArmyFaction.Demons;

@@ -6,8 +6,9 @@ namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class LockFlagBA : BlueprintActionFeature, IBlueprintAction<BlueprintUnlockableFlag> {
 
-    private bool CanExecute(BlueprintUnlockableFlag blueprint) {
-        return IsInGame() && Game.Instance.Player.UnlockableFlags.IsUnlocked(blueprint);
+    public bool CanExecute(BlueprintUnlockableFlag blueprint, params object[] parameter) {
+        return IsInGame()
+            && Game.Instance.Player.UnlockableFlags.IsUnlocked(blueprint);
     }
     private bool Execute(BlueprintUnlockableFlag blueprint) {
         LogExecution(blueprint);

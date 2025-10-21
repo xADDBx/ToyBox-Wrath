@@ -13,7 +13,7 @@ internal class GeneralSettings : AbstractSettings {
 
     // Settings Tab
 
-    
+
     // - Stuff
     public LogLevel LogLevel = LogLevel.Info;
     public string UILanguage = "en";
@@ -50,7 +50,7 @@ internal class GeneralSettings : AbstractSettings {
     public bool EnableVersionCompatibilityCheck = true;
     public bool EnableFileIntegrityCheck = true;
 
-    
+
     // Bag of Tricks
 
 

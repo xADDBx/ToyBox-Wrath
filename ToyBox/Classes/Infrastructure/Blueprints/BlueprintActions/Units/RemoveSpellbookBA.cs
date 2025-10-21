@@ -5,7 +5,7 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class RemoveSpellbookBA : BlueprintActionFeature, IBlueprintAction<BlueprintSpellbook>, INeedContextFeature<UnitEntityData> {
-    private bool CanExecute(BlueprintSpellbook blueprint, params object[] parameter) {
+    public bool CanExecute(BlueprintSpellbook blueprint, params object[] parameter) {
         if (parameter.Length > 0 && parameter[0] is UnitEntityData unit) {
             return unit.Descriptor.m_Spellbooks.ContainsKey(blueprint);
         }

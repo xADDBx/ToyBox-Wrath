@@ -6,8 +6,12 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class AddLeaderSkillBA : BlueprintActionFeature, IBlueprintAction<BlueprintLeaderSkill> {
-    private bool CanExecute(BlueprintLeaderSkill blueprint, ArmyLeader? leader, params object[] parameter) {
-        return IsInGame() && leader != null && !leader.Skills.Contains(blueprint);
+    public bool CanExecute(BlueprintLeaderSkill blueprint, params object[] parameter) {
+        if (parameter.Length > 0 && parameter[0] is ArmyLeader leader) {
+            return IsInGame() && !leader.Skills.Contains(blueprint);
+        } else {
+            return false;
+        }
     }
     private bool Execute(BlueprintLeaderSkill blueprint, ArmyLeader leader, params object[] parameter) {
         LogExecution(blueprint, leader, parameter);
@@ -20,8 +24,7 @@ public partial class AddLeaderSkillBA : BlueprintActionFeature, IBlueprintAction
     }
     public bool? OnGui(BlueprintLeaderSkill blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
-        GetLeader(out var leader);
-        if (CanExecute(blueprint, leader, parameter)) {
+        if (GetLeader(out var leader) && CanExecute(blueprint, leader!, parameter)) {
             UI.Button(StyleActionString(AddText, isFeatureSearch), () => {
                 result = Execute(blueprint, leader!, parameter);
             });

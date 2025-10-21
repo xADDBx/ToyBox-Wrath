@@ -7,14 +7,12 @@ using UnityEngine;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class SpawnUnitBA : BlueprintActionFeature, IBlueprintAction<BlueprintUnit> {
-    private bool CanExecute(BlueprintUnit blueprint, params object[] parameter) {
-        return IsInGame();
-    }
+    public bool CanExecute(BlueprintUnit blueprint, params object[] parameter) => IsInGame();
     private bool Execute(BlueprintUnit blueprint, int count) {
         LogExecution(blueprint, count);
         UnitEntityData? spawned = null;
         for (var i = 0; i < count; i++) {
-            Vector3 spawnPosition = Game.Instance.ClickEventsController.WorldPosition;
+            var spawnPosition = Game.Instance.ClickEventsController.WorldPosition;
             var offset = 5f * UnityEngine.Random.insideUnitSphere;
             spawnPosition = new(spawnPosition.x + offset.x, spawnPosition.y, spawnPosition.z + offset.z);
             spawned = Game.Instance.EntityCreator.SpawnUnit(blueprint, spawnPosition, Quaternion.identity, Game.Instance.State.LoadedAreaState.MainState);
@@ -24,7 +22,7 @@ public partial class SpawnUnitBA : BlueprintActionFeature, IBlueprintAction<Blue
     public bool? OnGui(BlueprintUnit blueprint, bool isFeatureSearch = false, params object[] parameter) {
         bool? result = null;
         if (CanExecute(blueprint, parameter)) {
-            int count = 1;
+            var count = 1;
             if (parameter.Length > 0 && parameter[0] is int tmpCount) {
                 count = tmpCount;
             }

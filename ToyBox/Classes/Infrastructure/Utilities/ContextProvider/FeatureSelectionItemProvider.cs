@@ -5,7 +5,7 @@ namespace ToyBox.Infrastructure.Utilities;
 public static partial class ContextProvider {
     private static readonly TimedCache<float> m_ButtonWidth = new(() => CalculateLargestLabelSize([PickItemText], GUI.skin.button));
     private static IFeatureSelection? m_FeatureSelectionItemProviderShown = null;
-    private static Browser<IFeatureSelectionItem> m_FeatureSelectionItemBrowser = new(i => BPHelper.GetSortKey(i.Feature) + BPHelper.GetFeatureSelectionParamDescription(i.Param), 
+    private static Browser<IFeatureSelectionItem> m_FeatureSelectionItemBrowser = new(i => BPHelper.GetSortKey(i.Feature) + BPHelper.GetFeatureSelectionParamDescription(i.Param),
         i => BPHelper.GetSearchKey(i.Feature) + BPHelper.GetFeatureSelectionParamDescription(i.Param));
     private static Dictionary<IFeatureSelection, IFeatureSelectionItem> m_FeatureSelectionItemsCache = [];
     // Handles:

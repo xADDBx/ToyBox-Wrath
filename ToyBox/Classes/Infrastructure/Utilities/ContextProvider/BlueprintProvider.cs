@@ -8,7 +8,7 @@ public static partial class ContextProvider {
             bp = BlueprintPicker<T>.CurrentBlueprint;
             string str;
             if (bp != null) {
-                 str = ": " + $"{BPHelper.GetTitle(bp)}".Green().Bold() + $" ({bp.AssetGuid})".Grey();
+                str = ": " + $"{BPHelper.GetTitle(bp)}".Green().Bold() + $" ({bp.AssetGuid})".Grey();
             } else {
                 str = ": " + SharedStrings.NoneText.Red();
             }

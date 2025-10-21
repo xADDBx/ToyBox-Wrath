@@ -7,13 +7,11 @@ namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class PlayCutsceneBA : BlueprintActionFeature, IBlueprintAction<Cutscene> {
 
-    private bool CanExecute(Cutscene blueprint) {
-        return IsInGame();
-    }
+    public bool CanExecute(Cutscene blueprint, params object[] parameter) => IsInGame();
     private bool Execute(Cutscene blueprint) {
         LogExecution(blueprint);
         ToggleModWindow();
-        
+
         var cutscenePlayerData = CutscenePlayerData.Queue.FirstOrDefault(c => c.PlayActionId == blueprint.name);
         if (cutscenePlayerData != null) {
             cutscenePlayerData.PreventDestruction = true;

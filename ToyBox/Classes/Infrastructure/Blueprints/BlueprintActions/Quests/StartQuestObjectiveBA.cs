@@ -7,8 +7,9 @@ namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class StartQuestObjectiveBA : BlueprintActionFeature, IBlueprintAction<BlueprintQuestObjective> {
 
-    private bool CanExecute(BlueprintQuestObjective blueprint) {
-        return IsInGame() && (Game.Instance.Player.QuestBook.GetQuest(blueprint.Quest)?.TryGetObjective(blueprint)?.State ?? QuestObjectiveState.None) == QuestObjectiveState.None;
+    public bool CanExecute(BlueprintQuestObjective blueprint, params object[] parameter) {
+        return IsInGame()
+            && (Game.Instance.Player.QuestBook.GetQuest(blueprint.Quest)?.TryGetObjective(blueprint)?.State ?? QuestObjectiveState.None) == QuestObjectiveState.None;
     }
     private bool Execute(BlueprintQuestObjective blueprint) {
         LogExecution(blueprint);

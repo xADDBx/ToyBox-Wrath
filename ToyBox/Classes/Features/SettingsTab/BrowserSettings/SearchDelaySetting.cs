@@ -1,7 +1,7 @@
 ﻿namespace ToyBox.Features.SettingsFeatures.BrowserSettings;
 
 public partial class SearchDelaySetting : FeatureWithFloatSlider {
-    public override bool IsEnabled => Settings.ToggleSearchAsYouType; 
+    public override bool IsEnabled => Settings.ToggleSearchAsYouType;
     public override ref float Value => ref Settings.SearchDelay;
     public override bool ShouldHide => !Settings.ToggleSearchAsYouType;
     public override float Min => 0f;

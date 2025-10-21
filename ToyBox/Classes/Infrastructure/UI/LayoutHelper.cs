@@ -5,7 +5,7 @@ namespace ToyBox.Infrastructure;
 public static class LayoutHelper {
     public static bool PressedEnterInControl(string controlName) {
         Event e = Event.current;
-        
+
         if (e.type == EventType.KeyUp && e.keyCode == KeyCode.Return && GUI.GetNameOfFocusedControl() == controlName) {
             e.Use();
             return true;

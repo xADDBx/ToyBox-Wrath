@@ -5,8 +5,9 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class AddKingdomBuffBA : BlueprintActionFeature, IBlueprintAction<BlueprintKingdomBuff> {
-    private bool CanExecute(BlueprintKingdomBuff blueprint, params object[] parameter) {
-        return KingdomState.Instance != null && !KingdomState.Instance.ActiveBuffs.HasFact(blueprint);
+    public bool CanExecute(BlueprintKingdomBuff blueprint, params object[] parameter) {
+        return KingdomState.Instance != null
+            && !KingdomState.Instance.ActiveBuffs.HasFact(blueprint);
     }
     private bool Execute(BlueprintKingdomBuff blueprint, params object[] parameter) {
         LogExecution(blueprint, parameter);

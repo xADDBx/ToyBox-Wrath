@@ -8,6 +8,17 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class AddUnitFactBA : BlueprintActionFeature, IBlueprintAction<BlueprintUnitFact>, INeedContextFeature<UnitEntityData> {
+    public bool CanExecute(BlueprintUnitFact blueprint, params object[] parameter) {
+        if (parameter.Length > 0) {
+            if (parameter[0] is bool isSpell) {
+                return CanExecute(blueprint, isSpell, out _, parameter.Skip(1));
+            } else {
+                return CanExecute(blueprint, false, out _, parameter);
+            }
+        } else {
+            return false;
+        }
+    }
     internal bool CanExecute(BlueprintUnitFact blueprint, bool isSpell, out (Spellbook, int)? sb, params object[] parameter) {
         sb = null;
         if (blueprint is IFeatureSelection) {
@@ -56,7 +67,7 @@ public partial class AddUnitFactBA : BlueprintActionFeature, IBlueprintAction<Bl
     }
     public bool? OnGui(BlueprintUnitFact blueprint, bool isFeatureSearch, params object[] parameter) {
         bool? result = null;
-        bool isSpell = blueprint is BlueprintAbility ability && ability.IsSpell;
+        var isSpell = blueprint is BlueprintAbility ability && ability.IsSpell;
         if (CanExecute(blueprint, isSpell, out var maybeSpellbookToAdd, parameter)) {
             UI.Button(StyleActionString(AddText, isFeatureSearch), () => {
                 result = Execute(blueprint, isSpell, maybeSpellbookToAdd, parameter);

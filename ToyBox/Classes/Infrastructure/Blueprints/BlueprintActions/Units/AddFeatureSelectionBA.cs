@@ -6,11 +6,11 @@ using ToyBox.Infrastructure.Utilities;
 namespace ToyBox.Infrastructure.Blueprints.BlueprintActions;
 [NeedsTesting]
 public partial class AddFeatureSelectionBA : BlueprintActionFeature, IBlueprintAction<BlueprintFeatureSelection>, INeedContextFeature<BlueprintFeatureSelection, IFeatureSelectionItem>, INeedContextFeature<UnitEntityData> {
-    private bool CanExecute(BlueprintFeatureSelection blueprint, params object[] parameter) {
+    public bool CanExecute(BlueprintFeatureSelection blueprint, params object[] parameter) {
         if (parameter.Length > 1 && parameter[0] is UnitEntityData unit && parameter[1] is IFeatureSelectionItem item) {
             if (item.Feature is BlueprintParametrizedFeature parametrized && item.Param == null) {
                 return false;
-                }
+            }
             return !unit.GetFacts<Kingmaker.UnitLogic.Feature>(item.Feature).Any(f => f.Param == item.Param);
         }
         return false;
@@ -18,7 +18,7 @@ public partial class AddFeatureSelectionBA : BlueprintActionFeature, IBlueprintA
     private bool Execute(BlueprintFeatureSelection blueprint, params object[] parameter) {
         LogExecution(blueprint, parameter);
         var unit = (UnitEntityData)parameter[0];
-        IFeatureSelectionItem item = (IFeatureSelectionItem)parameter[1];
+        var item = (IFeatureSelectionItem)parameter[1];
         unit.Progression.AddSelection(blueprint, new(), 1, item.Feature);
         unit.AddFact(blueprint);
         return unit.AddFact(item.Feature, null, item.Param) != null;
@@ -44,7 +44,7 @@ public partial class AddFeatureSelectionBA : BlueprintActionFeature, IBlueprintA
     public bool GetContext(out UnitEntityData? context) => ContextProvider.UnitEntityData(out context);
     public bool GetContext(BlueprintFeatureSelection? data, out IFeatureSelectionItem? context) => ContextProvider.FeatureSelectionItemProvider(data, out context);
     public override void OnGui() {
-        if (GetContext(out BlueprintFeatureSelection? bp) && GetContext(out UnitEntityData? unit) && GetContext(bp!, out IFeatureSelectionItem? item)) {
+        if (GetContext(out BlueprintFeatureSelection? bp) && GetContext(out UnitEntityData? unit) && GetContext(bp!, out var item)) {
             OnGui(bp!, true, unit!, item!);
         }
     }

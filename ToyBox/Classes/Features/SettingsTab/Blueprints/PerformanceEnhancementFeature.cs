@@ -17,28 +17,28 @@ public partial class PerformanceEnhancementFeatures : FeatureWithPatch {
     protected override string HarmonyName => "ToyBox.Features.SettingsFeatures.Blueprints.PerformanceEnhancementFeatures";
     public override ref bool IsEnabled => ref Settings.EnableBlueprintPerformancePatches;
 
-    private static ConcurrentDictionary<(Type, Type), bool> HasAttributeCache = new();
-    private static ConcurrentDictionary<(Type, Type), bool> IsListOfCache = new();
-    private static ConcurrentDictionary<(Type, Type), bool> IsListCache = new();
-    private static ConcurrentDictionary<(Type, Type), bool> IsOrSubclassOfCache = new();
-    private static ConcurrentDictionary<Type, Func<object>?> TypeConstructorCache = new();
-    private static ConcurrentDictionary<Type, Func<int, Array>> ArrayTypeConstructorCache = new();
-    private static MethodInfo Activator_CreateInstance = AccessTools.Method(typeof(Activator), nameof(Activator.CreateInstance), [typeof(Type)]);
-    private static MethodInfo Array_CreateInstance = AccessTools.Method(typeof(Array), nameof(Array.CreateInstance), [typeof(Type), typeof(int)]);
-    private static MethodInfo ReflectionBasedSerializer_CreateObject = AccessTools.Method(typeof(ReflectionBasedSerializer), nameof(ReflectionBasedSerializer.CreateObject));
+    private static readonly ConcurrentDictionary<(Type, Type), bool> m_HasAttributeCache = new();
+    private static readonly ConcurrentDictionary<(Type, Type), bool> m_IsListOfCache = new();
+    private static readonly ConcurrentDictionary<(Type, Type), bool> m_IsListCache = new();
+    private static readonly ConcurrentDictionary<(Type, Type), bool> m_IsOrSubclassOfCache = new();
+    private static readonly ConcurrentDictionary<Type, Func<object>?> m_TypeConstructorCache = new();
+    private static readonly ConcurrentDictionary<Type, Func<int, Array>> m_ArrayTypeConstructorCache = new();
+    private static readonly MethodInfo m_Activator_CreateInstance = AccessTools.Method(typeof(Activator), nameof(Activator.CreateInstance), [typeof(Type)]);
+    private static readonly MethodInfo m_Array_CreateInstance = AccessTools.Method(typeof(Array), nameof(Array.CreateInstance), [typeof(Type), typeof(int)]);
+    private static readonly MethodInfo m_ReflectionBasedSerializer_CreateObject = AccessTools.Method(typeof(ReflectionBasedSerializer), nameof(ReflectionBasedSerializer.CreateObject));
     [HarmonyTargetMethods]
     internal static IEnumerable<MethodBase> GetMethods() {
         var ret = new List<MethodBase>();
         foreach (var method in typeof(ReflectionBasedSerializer).GetMethods(AccessTools.all).Concat(typeof(PrimitiveSerializer).GetMethods(AccessTools.all)).Concat(typeof(BlueprintFieldsTraverser).GetMethods(AccessTools.all)).Concat(typeof(FieldsContractResolver).GetMethods(AccessTools.all))) {
             try {
                 foreach (var instruction in PatchProcessor.GetCurrentInstructions(method) ?? []) {
-                    if (instruction.Calls(Activator_CreateInstance)) {
+                    if (instruction.Calls(m_Activator_CreateInstance)) {
                         ret.Add(method);
                         break;
-                    } else if (instruction.Calls(Array_CreateInstance)) {
+                    } else if (instruction.Calls(m_Array_CreateInstance)) {
                         ret.Add(method);
                         break;
-                    } else if (instruction.Calls(ReflectionBasedSerializer_CreateObject)) {
+                    } else if (instruction.Calls(m_ReflectionBasedSerializer_CreateObject)) {
                         ret.Add(method);
                         break;
                     } else if (instruction.opcode == OpCodes.Call && instruction.operand is MethodInfo methodInfo) {
@@ -69,13 +69,13 @@ public partial class PerformanceEnhancementFeatures : FeatureWithPatch {
         var method3 = AccessTools.Method(typeof(PerformanceEnhancementFeatures), nameof(IsList));
         var method4 = AccessTools.Method(typeof(PerformanceEnhancementFeatures), nameof(IsOrSubclassOf));
         foreach (var instruction in instructions) {
-            if (instruction.Calls(Activator_CreateInstance)) {
+            if (instruction.Calls(m_Activator_CreateInstance)) {
                 yield return CodeInstruction.Call((Type t) => CreateInstance(t));
                 continue;
-            } else if (instruction.Calls(Array_CreateInstance)) {
+            } else if (instruction.Calls(m_Array_CreateInstance)) {
                 yield return CodeInstruction.Call((Type t, int n) => CreateArrayInstance(t, n));
                 continue;
-            } else if (instruction.Calls(ReflectionBasedSerializer_CreateObject)) {
+            } else if (instruction.Calls(m_ReflectionBasedSerializer_CreateObject)) {
                 yield return CodeInstruction.Call((Type t) => CreateObject(t));
                 continue;
             } else if (instruction.opcode == OpCodes.Call && instruction.operand is MethodInfo methodInfo) {
@@ -109,71 +109,77 @@ public partial class PerformanceEnhancementFeatures : FeatureWithPatch {
         }
     }
     public static object CreateInstance(Type type) {
-        if (!TypeConstructorCache.TryGetValue(type, out var f)) {
+        if (!m_TypeConstructorCache.TryGetValue(type, out var f)) {
             if (type.GetConstructor(Type.EmptyTypes) is { } constructor) {
-                f = TypeConstructorCache[type] =
+                f = m_TypeConstructorCache[type] =
                     Expression.Lambda<Func<object>>(
                         Expression.Convert(
                             Expression.New(constructor), typeof(object)))
                     .Compile();
             } else {
-                f = TypeConstructorCache[type] = null;
+                f = m_TypeConstructorCache[type] = null;
             }
         }
-        if (f == null) return Activator.CreateInstance(type);
+        if (f == null) {
+            return Activator.CreateInstance(type);
+        }
         return f();
     }
     public static object CreateObject(Type type) {
-        if (!TypeConstructorCache.TryGetValue(type, out var f)) {
+        if (!m_TypeConstructorCache.TryGetValue(type, out var f)) {
             if (type.GetConstructor(Type.EmptyTypes) is { } constructor) {
-                f = TypeConstructorCache[type] =
+                f = m_TypeConstructorCache[type] =
                     Expression.Lambda<Func<object>>(
                         Expression.Convert(
                             Expression.New(constructor), typeof(object)))
                     .Compile();
             } else {
-                f = TypeConstructorCache[type] = null;
+                f = m_TypeConstructorCache[type] = null;
             }
         }
-        if (f == null) return FormatterServices.GetUninitializedObject(type);
+        if (f == null) {
+            return FormatterServices.GetUninitializedObject(type);
+        }
         return f();
     }
     public static object CreateArrayInstance(Type type, int length) {
-        if (!ArrayTypeConstructorCache.TryGetValue(type, out var f)) {
+        if (!m_ArrayTypeConstructorCache.TryGetValue(type, out var f)) {
             var param = Expression.Parameter(typeof(int), "length");
             var newArrayExpression = Expression.NewArrayBounds(type, param);
             var lambda = Expression.Lambda<Func<int, Array>>(newArrayExpression, param);
 
-            f = ArrayTypeConstructorCache[type] = lambda.Compile();
+            f = m_ArrayTypeConstructorCache[type] = lambda.Compile();
         }
-        if (f == null) return Array.CreateInstance(type, length);
+        if (f == null) {
+            return Array.CreateInstance(type, length);
+        }
         return f(length);
     }
     public static bool HasAttribute(Type t, Type T) {
-        if (!HasAttributeCache.TryGetValue((t, T), out var hasAttr)) {
+        if (!m_HasAttributeCache.TryGetValue((t, T), out var hasAttr)) {
             hasAttr = t.GetCustomAttributes(T, true).Length != 0;
-            HasAttributeCache[(t, T)] = hasAttr;
+            m_HasAttributeCache[(t, T)] = hasAttr;
         }
         return hasAttr;
     }
     public static bool IsListOf(Type t, Type T) {
-        if (!IsListOfCache.TryGetValue((t, T), out var isListOf)) {
+        if (!m_IsListOfCache.TryGetValue((t, T), out var isListOf)) {
             isListOf = t.IsGenericType && t.GetGenericTypeDefinition() == typeof(List<>) && t.GenericTypeArguments[0] == T;
-            IsListOfCache[(t, T)] = isListOf;
+            m_IsListOfCache[(t, T)] = isListOf;
         }
         return isListOf;
     }
     public static bool IsList(Type t, Type T) {
-        if (!IsListCache.TryGetValue((t, T), out var isList)) {
+        if (!m_IsListCache.TryGetValue((t, T), out var isList)) {
             isList = t.IsGenericType && t.GetGenericTypeDefinition() == typeof(List<>);
-            IsListCache[(t, T)] = isList;
+            m_IsListCache[(t, T)] = isList;
         }
         return isList;
     }
     public static bool IsOrSubclassOf(Type t, Type T) {
-        if (!IsOrSubclassOfCache.TryGetValue((t, T), out var isSubclassOf)) {
+        if (!m_IsOrSubclassOfCache.TryGetValue((t, T), out var isSubclassOf)) {
             isSubclassOf = t == T || t.IsSubclassOf(T);
-            IsOrSubclassOfCache[(t, T)] = isSubclassOf;
+            m_IsOrSubclassOfCache[(t, T)] = isSubclassOf;
         }
         return isSubclassOf;
     }
