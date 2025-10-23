@@ -1,5 +1,4 @@
-﻿using Kingmaker;
-using Kingmaker.Blueprints;
+﻿using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Blueprints.JsonSystem.BinaryFormat;
 using Kingmaker.Blueprints.JsonSystem.Converters;
@@ -15,43 +14,43 @@ namespace ToyBox.Infrastructure.Blueprints;
 public class BlueprintLoader {
     private List<SimpleBlueprint?> m_BlueprintBeingLoaded = null!;
     private List<SimpleBlueprint>? m_Blueprints;
-    private Dictionary<Type, List<SimpleBlueprint>> m_BlueprintsByType = new();
-    private HashSet<SimpleBlueprint> m_BlueprintsToAdd = new();
-    private HashSet<BlueprintGuid> m_BlueprintsToRemove = new();
+    private readonly Dictionary<Type, List<SimpleBlueprint>> m_BlueprintsByType = [];
+    private readonly HashSet<SimpleBlueprint> m_BlueprintsToAdd = [];
+    private readonly HashSet<BlueprintGuid> m_BlueprintsToRemove = [];
     public bool CanStart = false;
     public static BlueprintLoader BPLoader { get; } = new();
     // public readonly HashSet<string> BadBlueprints = ["ce0842546b73aa34b8fcf40a970ede68", "2e3280bf21ec832418f51bee5136ec7a", "b60252a8ae028ba498340199f48ead67", "fb379e61500421143b52c739823b4082", "5d2b9742ce82457a9ae7209dce770071"];
     public BlueprintLoader() {
         var toPatch = AccessTools.Method(typeof(StartGameLoader), nameof(StartGameLoader.LoadPackTOC));
         var patch = AccessTools.Method(typeof(BlueprintLoader), nameof(InitPatch));
-        Main.HarmonyInstance.Patch(toPatch, finalizer: new(patch));
+        _ = Main.HarmonyInstance.Patch(toPatch, finalizer: new(patch));
 
         toPatch = AccessTools.Method(typeof(BlueprintsCache), nameof(BlueprintsCache.AddCachedBlueprint));
         patch = AccessTools.Method(typeof(BlueprintLoader), nameof(AddCachedBlueprintPatch));
-        Main.HarmonyInstance.Patch(toPatch, postfix: new(patch));
+        _ = Main.HarmonyInstance.Patch(toPatch, postfix: new(patch));
 
         toPatch = AccessTools.Method(typeof(BlueprintsCache), nameof(BlueprintsCache.RemoveCachedBlueprint));
         patch = AccessTools.Method(typeof(BlueprintLoader), nameof(RemoveCachedBlueprintPatch));
-        Main.HarmonyInstance.Patch(toPatch, prefix: new(patch));
+        _ = Main.HarmonyInstance.Patch(toPatch, prefix: new(patch));
 
         toPatch = AccessTools.Method(typeof(BlueprintsCache), nameof(BlueprintsCache.Load));
         patch = AccessTools.Method(typeof(BlueprintLoader), nameof(BlueprintsCache_LoadPrefix));
         var patch2 = AccessTools.Method(typeof(BlueprintLoader), nameof(BlueprintsCache_LoadPostfix));
-        Main.HarmonyInstance.Patch(toPatch, prefix: new(patch), postfix: new(patch2));
+        _ = Main.HarmonyInstance.Patch(toPatch, prefix: new(patch), postfix: new(patch2));
 
         toPatch = AccessTools.Method(typeof(OwlcatModificationBlueprintPatcher), nameof(OwlcatModificationBlueprintPatcher.ApplyPatchEntry));
         patch = AccessTools.Method(typeof(BlueprintLoader), nameof(OwlcatModificationBlueprintPatcher_ApplyPatchEntry));
-        Main.HarmonyInstance.Patch(toPatch, prefix: new(patch));
+        _ = Main.HarmonyInstance.Patch(toPatch, prefix: new(patch));
 
         toPatch = AccessTools.Method(typeof(OwlcatModificationBlueprintPatcher), nameof(OwlcatModificationBlueprintPatcher.GetJObject));
         patch = AccessTools.Method(typeof(BlueprintLoader), nameof(OwlcatModificationBlueprintPatcher_GetJObject));
-        Main.HarmonyInstance.Patch(toPatch, prefix: new(patch));
+        _ = Main.HarmonyInstance.Patch(toPatch, prefix: new(patch));
     }
     public List<SimpleBlueprint>? GetBlueprints(Action<IEnumerable<SimpleBlueprint>>? blueprintsAreLoadedCallback = null) {
         if (m_Blueprints == null) {
             lock (this) {
                 if (blueprintsAreLoadedCallback != null) {
-                    OnFinishLoadingCallback.Add(blueprintsAreLoadedCallback);
+                    _ = m_OnFinishLoadingCallback.Add(blueprintsAreLoadedCallback);
                 }
                 if (IsLoading) {
                     return null;
@@ -63,7 +62,7 @@ public class BlueprintLoader {
                             m_BlueprintsToAdd.Clear();
                         }
                         lock (m_BlueprintsToRemove) {
-                            bps.RemoveAll(bp => m_BlueprintsToRemove.Contains(bp.AssetGuid));
+                            _ = bps.RemoveAll(bp => m_BlueprintsToRemove.Contains(bp.AssetGuid));
                             m_BlueprintsToRemove.Clear();
                         }
                         m_Blueprints = bps;
@@ -84,7 +83,7 @@ public class BlueprintLoader {
             }
             if (m_BlueprintsToRemove.Count > 0) {
                 lock (m_BlueprintsToRemove) {
-                    m_Blueprints.RemoveAll(bp => m_BlueprintsToRemove.Contains(bp.AssetGuid));
+                    _ = m_Blueprints.RemoveAll(bp => m_BlueprintsToRemove.Contains(bp.AssetGuid));
                     m_BlueprintsToRemove.Clear();
                 }
             }
@@ -92,9 +91,7 @@ public class BlueprintLoader {
             return m_Blueprints;
         }
     }
-    public static IEnumerable<SimpleBlueprint>? BlueprintsOfType(Type type, Action<IEnumerable<SimpleBlueprint>>? onFinishLoadingCallback = null) {
-        return (IEnumerable<SimpleBlueprint>)AccessTools.Method(typeof(BlueprintLoader), nameof(GetBlueprintsOfType)).MakeGenericMethod(type).Invoke(BPLoader, [onFinishLoadingCallback]);
-    }
+    public static IEnumerable<SimpleBlueprint>? BlueprintsOfType(Type type, Action<IEnumerable<SimpleBlueprint>>? onFinishLoadingCallback = null) => (IEnumerable<SimpleBlueprint>)AccessTools.Method(typeof(BlueprintLoader), nameof(GetBlueprintsOfType)).MakeGenericMethod(type).Invoke(BPLoader, [onFinishLoadingCallback]);
     public IEnumerable<BPType>? GetBlueprintsOfType<BPType>(Action<IEnumerable<BPType>>? onFinishLoadingCallback = null) where BPType : SimpleBlueprint {
         if (m_Blueprints == null) {
             if (Settings.UseBPIdCache && !BlueprintIdCache.NeedsCacheRebuilt) {
@@ -117,8 +114,8 @@ public class BlueprintLoader {
                             if (m_BlueprintsToRemove.Count > 0) {
                                 bps.ToArray().ForEach(bp => {
                                     if (m_BlueprintsToRemove.Contains(bp.AssetGuid)) {
-                                        m_BlueprintsToRemove.Remove(bp.AssetGuid);
-                                        bps.Remove(bp);
+                                        _ = m_BlueprintsToRemove.Remove(bp.AssetGuid);
+                                        _ = bps.Remove(bp);
                                     }
                                 });
                             }
@@ -145,19 +142,18 @@ public class BlueprintLoader {
     }
     public IEnumerable<BPType> GetBlueprintsByGuids<BPType>(IEnumerable<string> guids) where BPType : SimpleBlueprint {
         foreach (var guid in guids) {
-            var bp = ResourcesLibrary.TryGetBlueprint(BlueprintGuid.Parse(guid)) as BPType;
-            if (bp != null) {
+            if (ResourcesLibrary.TryGetBlueprint(BlueprintGuid.Parse(guid)) is BPType bp) {
                 yield return bp;
             }
         }
     }
     private int m_TotalLoading;
     private int m_EstimateLoaded;
-    private readonly HashSet<Action<IEnumerable<SimpleBlueprint>>> OnFinishLoadingCallback = [];
+    private readonly HashSet<Action<IEnumerable<SimpleBlueprint>>> m_OnFinishLoadingCallback = [];
     private Action<List<SimpleBlueprint>> m_OnFinishLoading = null!;
     private readonly List<ConcurrentDictionary<BlueprintGuid, object>> m_StartedLoadingShards = [];
     private readonly List<Task> m_WorkerTasks = [];
-    private ConcurrentQueue<IEnumerable<(BlueprintGuid, int)>> m_ChunkQueue = null!;
+    private ConcurrentQueue<IEnumerable<(BlueprintGuid bpToLoad, int index)>> m_ChunkQueue = null!;
     private void Load(Action<List<SimpleBlueprint>> callback, ISet<BlueprintGuid>? toLoad = null) {
         // If:
         // 1. Is Loading
@@ -169,13 +165,13 @@ public class BlueprintLoader {
 
         m_EstimateLoaded = 0;
         m_StartedLoadingShards.Clear();
-        for (int i = 0; i < Settings.BlueprintsLoaderNumShards; i++) {
+        for (var i = 0; i < Settings.BlueprintsLoaderNumShards; i++) {
             m_StartedLoadingShards.Add(new());
         }
         m_OnFinishLoading = callback;
         m_WorkerTasks.Clear();
         IsLoading = true;
-        Task.Run(() => Run(toLoad));
+        _ = Task.Run(() => Run(toLoad));
     }
     public float Progress {
         get {
@@ -214,23 +210,23 @@ public class BlueprintLoader {
             var chunks = allEntries.Select((entry, index) => (entry, index)).Chunk(Settings.BlueprintsLoaderChunkSize);
             m_ChunkQueue = new(chunks);
             var bytes = memStream.GetBuffer();
-            for (int i = 0; i < Settings.BlueprintsLoaderNumThreads; i++) {
+            for (var i = 0; i < Settings.BlueprintsLoaderNumThreads; i++) {
                 var t = Task.Run(() => HandleChunks(bytes));
                 m_WorkerTasks.Add(t);
             }
             foreach (var task in m_WorkerTasks) {
                 task.Wait();
             }
-            m_BlueprintBeingLoaded.RemoveAll(b => b is null);
+            _ = m_BlueprintBeingLoaded.RemoveAll(b => b is null);
             watch.Stop();
             Log($"Threaded loaded roughly {m_BlueprintBeingLoaded.Count + m_BlueprintsToAdd.Count + m_LoadingSequentially.Value.Count} blueprints in {watch.ElapsedMilliseconds} milliseconds");
             toLoad = null;
             lock (this) {
                 m_OnFinishLoading(m_BlueprintBeingLoaded!);
-                foreach (var callback in OnFinishLoadingCallback) {
+                foreach (var callback in m_OnFinishLoadingCallback) {
                     callback(m_BlueprintBeingLoaded!);
                 }
-                OnFinishLoadingCallback.Clear();
+                m_OnFinishLoadingCallback.Clear();
                 new Action(() => {
                     IsLoading = false;
                 }).ScheduleForMainThread();
@@ -249,7 +245,7 @@ public class BlueprintLoader {
                 Position = 0
             };
             var seralizer = new ReflectionBasedSerializer(new PrimitiveSerializer(new BinaryReader(stream), UnityObjectConverter.AssetList));
-            int closeCountLocal = 0;
+            var closeCountLocal = 0;
             while (m_ChunkQueue.TryDequeue(out var blueprintChunk)) {
                 if (closeCountLocal > 100) {
                     lock (m_BlueprintBeingLoaded) {
@@ -257,38 +253,41 @@ public class BlueprintLoader {
                     }
                     closeCountLocal = 0;
                 }
-                foreach ((BlueprintGuid bpToLoad, int index) bpEntry in blueprintChunk) {
-                    var guid = bpEntry.bpToLoad;
+                foreach (var (bpToLoad, index) in blueprintChunk) {
+                    var guid = bpToLoad;
                     try {
                         object @lock = new();
                         lock (@lock) {
-                            int shardIndex = Math.Abs(guid.GetHashCode()) % Settings.BlueprintsLoaderNumShards;
+                            var shardIndex = Math.Abs(guid.GetHashCode()) % Settings.BlueprintsLoaderNumShards;
                             var startedLoading = m_StartedLoadingShards[shardIndex];
-                            if (!startedLoading.TryAdd(guid, @lock)) continue;
+                            if (!startedLoading.TryAdd(guid, @lock)) {
+                                continue;
+                            }
                             if (ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints.TryGetValue(guid, out var entry)) {
                                 if (entry.Blueprint != null) {
                                     closeCountLocal++;
-                                    m_BlueprintBeingLoaded[bpEntry.index] = entry.Blueprint;
+                                    m_BlueprintBeingLoaded[index] = entry.Blueprint;
                                     continue;
                                 }
                             } else {
                                 continue;
                             }
-                            if (/* BadBlueprints.Contains(guid.ToString()) || */entry.Offset == 0U) continue;
+                            if (/* BadBlueprints.Contains(guid.ToString()) || */entry.Offset == 0U) {
+                                continue;
+                            }
                             OnBeforeBPLoad?.Invoke(guid);
-                            stream.Seek(entry.Offset, SeekOrigin.Begin);
+                            _ = stream.Seek(entry.Offset, SeekOrigin.Begin);
                             SimpleBlueprint? simpleBlueprint = null;
                             seralizer.Blueprint(ref simpleBlueprint);
                             if (simpleBlueprint == null) {
                                 closeCountLocal++;
                                 continue;
                             }
-                            object obj;
-                            OwlcatModificationsManager.Instance.OnResourceLoaded(simpleBlueprint, guid.ToString(), out obj);
+                            OwlcatModificationsManager.Instance.OnResourceLoaded(simpleBlueprint, guid.ToString(), out var obj);
                             simpleBlueprint = (obj as SimpleBlueprint) ?? simpleBlueprint;
                             entry.Blueprint = simpleBlueprint;
                             simpleBlueprint.OnEnable();
-                            m_BlueprintBeingLoaded[bpEntry.index] = simpleBlueprint;
+                            m_BlueprintBeingLoaded[index] = simpleBlueprint;
                             ResourcesLibrary.BlueprintsCache.m_LoadedBlueprints[guid] = entry;
                             closeCountLocal++;
                             OnAfterBPLoad?.Invoke(simpleBlueprint);
@@ -306,28 +305,30 @@ public class BlueprintLoader {
     private static void AddCachedBlueprintPatch(BlueprintGuid guid, SimpleBlueprint bp) {
         if (BPLoader.IsLoading || BPLoader.m_Blueprints != null) {
             if (BPLoader.IsLoading) {
-                int shardIndex = Math.Abs(guid.GetHashCode()) % Settings.BlueprintsLoaderNumShards;
-                BPLoader.m_StartedLoadingShards[shardIndex].TryAdd(guid, BPLoader);
+                var shardIndex = Math.Abs(guid.GetHashCode()) % Settings.BlueprintsLoaderNumShards;
+                _ = BPLoader.m_StartedLoadingShards[shardIndex].TryAdd(guid, BPLoader);
             }
             lock (BPLoader.m_BlueprintsToAdd) {
-                BPLoader.m_BlueprintsToAdd.Add(bp);
+                _ = BPLoader.m_BlueprintsToAdd.Add(bp);
             }
         }
     }
     private static void RemoveCachedBlueprintPatch(BlueprintGuid guid) {
         lock (BPLoader.m_BlueprintsToRemove) {
-            BPLoader.m_BlueprintsToRemove.Add(guid);
+            _ = BPLoader.m_BlueprintsToRemove.Add(guid);
         }
     }
-    private static ThreadLocal<HashSet<BlueprintGuid>> m_LoadingSequentially = new(() => []);
+    private static readonly ThreadLocal<HashSet<BlueprintGuid>> m_LoadingSequentially = new(() => []);
     public static bool BlueprintsCache_LoadPrefix(BlueprintGuid guid, ref SimpleBlueprint __result) {
         // If threaded loader is not activated just load normally
-        if (!BPLoader.IsLoading) return true;
-        int shardIndex = Math.Abs(guid.GetHashCode()) % Settings.BlueprintsLoaderNumShards;
+        if (!BPLoader.IsLoading) {
+            return true;
+        }
+        var shardIndex = Math.Abs(guid.GetHashCode()) % Settings.BlueprintsLoaderNumShards;
         var startedLoading = BPLoader.m_StartedLoadingShards[shardIndex];
         if (startedLoading.TryAdd(guid, BPLoader)) {
             // If the requested bp was not yet touched by the threaded loader, just load normally
-            m_LoadingSequentially.Value.Add(guid);
+            _ = m_LoadingSequentially.Value.Add(guid);
             return true;
         }
         // The requested bp was touched by the threaded loader, so lock on the object to wait for the loading to complete
@@ -344,7 +345,7 @@ public class BlueprintLoader {
         if (m_LoadingSequentially.Value.Remove(guid)) {
             lock (BPLoader.m_BlueprintsToAdd) {
                 if (__result != null) {
-                    BPLoader.m_BlueprintsToAdd.Add(__result);
+                    _ = BPLoader.m_BlueprintsToAdd.Add(__result);
                 }
             }
         }
@@ -352,7 +353,7 @@ public class BlueprintLoader {
     private static void InitPatch() {
         BPLoader.CanStart = true;
         if (Settings.PreloadBlueprints || (Settings.UseBPIdCache && Settings.AutomaticallyBuildBPIdCache && BlueprintIdCache.NeedsCacheRebuilt)) {
-            BPLoader.GetBlueprints();
+            _ = BPLoader.GetBlueprints();
         }
     }
 
@@ -368,7 +369,7 @@ public class BlueprintLoader {
     [ThreadStatic]
     private static StringBuilder? m_Builder;
     private static bool OwlcatModificationBlueprintPatcher_GetJObject(SimpleBlueprint blueprint, ref JObject __result) {
-        if (m_JsonBlueprintsCache.TryGetValue(blueprint, out JObject jsonBlueprint)) {
+        if (m_JsonBlueprintsCache.TryGetValue(blueprint, out var jsonBlueprint)) {
             __result = jsonBlueprint;
             return false;
         }
@@ -381,7 +382,7 @@ public class BlueprintLoader {
         var jobject = JObject.Parse(m_Builder.ToString());
         m_JsonBlueprintsCache[blueprint] = jobject;
         __result = jobject;
-        m_Builder.Clear();
+        _ = m_Builder.Clear();
         return false;
     }
 }
