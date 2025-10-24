@@ -2,8 +2,8 @@
 
 namespace ToyBox;
 public abstract class FeatureTab {
-    public List<Feature> FailedFeatures = new();
-    private Dictionary<string, List<Feature>> FeatureGroups { get; set; } = new();
+    public List<Feature> FailedFeatures = [];
+    private Dictionary<string, List<Feature>> m_FeatureGroups { get; set; } = [];
     public abstract string Name { get; }
     public virtual bool IsHiddenFromUI => false;
     public virtual void AddFeature(Feature feature, string groupName = "") {
@@ -15,32 +15,33 @@ public abstract class FeatureTab {
                 FailedFeatures.Add(feature);
             }
         }
-        if (!FeatureGroups.TryGetValue(groupName, out var group)) {
-            group = new();
-            FeatureGroups[groupName] = group;
+        if (!m_FeatureGroups.TryGetValue(groupName, out var group)) {
+            group = [];
+            m_FeatureGroups[groupName] = group;
         }
         group.Add(feature);
     }
     public IEnumerable<Feature> GetFeatures() {
-        foreach (var group in FeatureGroups.Values) {
+        foreach (var group in m_FeatureGroups.Values) {
             foreach (var feature in group) {
                 yield return feature;
             }
         }
     }
     public IEnumerable<(string groupName, List<Feature> features)> GetGroups() {
-        foreach (var group in FeatureGroups) {
+        foreach (var group in m_FeatureGroups) {
             yield return (group.Key, group.Value);
         }
     }
     public virtual void InitializeAll() {
-        Stopwatch a = Stopwatch.StartNew();
+        var a = Stopwatch.StartNew();
         foreach (var feature in GetFeatures()) {
             if (feature is not INeedEarlyInitFeature) {
                 try {
                     feature.Initialize();
                 } catch (Exception ex) {
                     Error($"Failed to initialize feature {feature.Name}\n{ex}", 1, false);
+                    feature.Destroy();
                     FailedFeatures.Add(feature);
                 }
             }

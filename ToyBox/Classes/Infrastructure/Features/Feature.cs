@@ -24,15 +24,11 @@ public abstract class Feature {
     public virtual void Destroy() { }
     public virtual bool ShouldHide => false;
     public virtual string SortKey {
-        get {
-            return Name;
-        }
+        get => Name;
         set { }
     }
     public virtual string SearchKey {
-        get {
-            return $"{Name} {Description}";
-        }
+        get => $"{Name} {Description}";
         set { }
     }
 }

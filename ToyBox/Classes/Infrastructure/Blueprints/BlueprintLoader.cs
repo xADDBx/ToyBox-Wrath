@@ -11,6 +11,7 @@ using System.Text;
 using ToyBox.Infrastructure.Utilities;
 
 namespace ToyBox.Infrastructure.Blueprints;
+#warning Add Sequential Mode
 public class BlueprintLoader {
     private List<SimpleBlueprint?> m_BlueprintBeingLoaded = null!;
     private List<SimpleBlueprint>? m_Blueprints;
