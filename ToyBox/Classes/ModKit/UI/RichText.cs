@@ -133,7 +133,7 @@ namespace ModKit {
                 }
             }
             if (htmlStart != -1) {
-                var malformedTag = source.Substring(htmlStart, len + 1 - htmlStart);
+                var malformedTag = source.Substring(htmlStart, len - htmlStart);
                 result.Append(malformedTag);
             } else if (htmlEnd < len) {
                 segment = source.Substring(htmlEnd + 1, len - htmlEnd - 1);

@@ -36,6 +36,9 @@
   your save before using. Remember that "with great power comes great responsibility"
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
+  
+### Toybox Wrath - Ver 1.7.19 (built for 2.7.0w)
+* (***ADDB***) Fix off-by-one error in the function responsible for highlighting the searched string in results causing ArgumentOutOfRangeException in Browser (https://github.com/xADDBx/ToyBox-Wrath/issues/61)
 
 ### Toybox Wrath - Ver 1.7.18 (built for 2.7.0w)
 * (***ADDB***) Proper Buff Rank handling

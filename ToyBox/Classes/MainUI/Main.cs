@@ -26,6 +26,7 @@ using Newtonsoft.Json;
 using ToyBox.Multiclass;
 using System.Net;
 using Kingmaker.UI.Models.Log;
+using System.Reflection.Emit;
 
 namespace ToyBox {
 #if DEBUG
@@ -81,6 +82,34 @@ namespace ToyBox {
         private static Exception _caughtException = null;
 
         public static List<GameObject> Objects;
+        private static void FindPatchesWithoutGuardClause() {
+            return;
+            foreach (var type in typeof(Main).Assembly.GetTypes()) {
+                if (type.GetCustomAttributes<HarmonyPatch>().FirstOrDefault() != null) {
+                    foreach (var method in type.GetMethods()) {
+                        System.Attribute CustomAttribute = method.GetCustomAttributes<HarmonyPrefix>().FirstOrDefault();
+                        CustomAttribute ??= method.GetCustomAttributes<HarmonyPostfix>().FirstOrDefault();
+                        CustomAttribute ??= method.GetCustomAttributes<HarmonyFinalizer>().FirstOrDefault();
+                        CustomAttribute ??= method.GetCustomAttributes<HarmonyTranspiler>().FirstOrDefault();
+                        List<string> names = ["Prefix", "Postfix", "Transpiler", "Finalizer"];
+                        if (CustomAttribute != null || names.Contains(method.Name)) {
+                            var foundSettings = false;
+                            foreach (var inst in PatchProcessor.GetCurrentInstructions(method)) {
+                                if (inst.opcode == OpCodes.Ldfld 
+                                    && ((inst.operand is FieldInfo field && field.DeclaringType == typeof(Settings))
+                                    || inst.Calls(AccessTools.Method(typeof(MultipleClasses), nameof(MultipleClasses.IsAvailable))))) {
+                                    foundSettings = true;
+                                    break;
+                                }
+                            }
+                            if (!foundSettings) {
+                                Mod.Log($"Found unconditional patch method: {type.Name}.{method.Name}");
+                            }
+                        }
+                    }
+                }
+            }
+        }
         private static bool Load(UnityModManager.ModEntry modEntry) {
             try {
                 Settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
@@ -142,6 +171,8 @@ namespace ToyBox {
                 HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
 
                 LocalizationManager.Enable();
+
+                FindPatchesWithoutGuardClause();
 
                 modEntry.OnToggle = OnToggle;
                 modEntry.OnShowGUI = OnShowGUI;
