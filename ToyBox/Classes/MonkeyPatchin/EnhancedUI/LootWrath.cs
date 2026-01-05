@@ -179,58 +179,64 @@ namespace ToyBox.Inventory {
             [HarmonyPatch(nameof(ItemSlotView<EquipSlotVM>.RefreshItem))]
             [HarmonyPostfix]
             public static void RefreshItem(ItemSlotView<EquipSlotVM> __instance) {
-                if (__instance.ViewModel.HasItem && __instance.ViewModel.IsScroll && Settings.toggleHighlightCopyableScrolls) {
-                    //                            modLogger.Log($"found {itemSlotPCView.ViewModel}");
-                    __instance.m_Icon.CrossFadeColor(new Color(0.5f, 1.0f, 0.5f, 1.0f), 0.2f, true, true);
-                } else {
-                    __instance.m_Icon.CrossFadeColor(Color.white, 0.2f, true, true);
-                }
-                var item = __instance.Item;
-                if (Settings.togglEquipSlotInventoryFiltering) {
-                    try {
-                        if (__instance.gameObject?.transform is { } inventorySlotView
-                            && inventorySlotView.Find("Item/NeedCheckLayer") is { } conflictFeedback) {
-                            var unit = SelectedCharacterObserver.Shared.SelectedUnit ?? WrathExtensions.GetCurrentCharacter();
-                            if (unit != null && item != null && SelectedLootSlotFilters.Any()) {
-                                //Mod.Debug($"Unit: {unit.CharacterName}");
-                                //Mod.Debug($"Item: {item.Blueprint.GetDisplayName()}");
-                                var hasConflicts = unit.HasModifierConflicts(item);
-                                conflictFeedback.gameObject.SetActive(hasConflicts);
-                                var icon = conflictFeedback.GetComponent<Image>();
-                                icon.color = new Color(1.0f, 0.8f, 0.3f, 0.75f);
-                            } else
-                                conflictFeedback.gameObject.SetActive(false);
+                try {
+                    if (__instance.ViewModel.HasItem && __instance.ViewModel.IsScroll && Settings.toggleHighlightCopyableScrolls) {
+                        //                            modLogger.Log($"found {itemSlotPCView.ViewModel}");
+                        __instance.m_Icon.CrossFadeColor(new Color(0.5f, 1.0f, 0.5f, 1.0f), 0.2f, true, true);
+                    } else {
+                        __instance.m_Icon.CrossFadeColor(Color.white, 0.2f, true, true);
+                    }
+                    var item = __instance.Item;
+                    if (Settings.togglEquipSlotInventoryFiltering) {
+                        try {
+                            if (__instance.gameObject?.transform is { } inventorySlotView
+                                && inventorySlotView.Find("Item/NeedCheckLayer") is { } conflictFeedback) {
+                                var unit = SelectedCharacterObserver.Shared.SelectedUnit ?? WrathExtensions.GetCurrentCharacter();
+                                if (unit != null && item != null && SelectedLootSlotFilters.Any()) {
+                                    //Mod.Debug($"Unit: {unit.CharacterName}");
+                                    //Mod.Debug($"Item: {item.Blueprint.GetDisplayName()}");
+                                    var hasConflicts = unit.HasModifierConflicts(item);
+                                    conflictFeedback.gameObject.SetActive(hasConflicts);
+                                    var icon = conflictFeedback.GetComponent<Image>();
+                                    icon.color = new Color(1.0f, 0.8f, 0.3f, 0.75f);
+                                } else
+                                    conflictFeedback.gameObject.SetActive(false);
+                            }
+                        } catch (Exception e) {
+                            Mod.Error(e);
                         }
-                    } catch (Exception e) {
-                        Mod.Error(e);
                     }
-                }
-                if (Settings.UsingLootRarity && item != null) {
-                    _ = item.Blueprint.GetComponent<AddItemShowInfoCallback>();
-                    var cb = item.Get<ItemPartShowInfoCallback>();
-                    if (cb != null && (!cb.m_Settings.Once || !cb.m_Triggered)) {
-                        // This forces the item to display as notable
-                        __instance.SlotVM.IsNotable.SetValueAndForceNotify(true);
-                    }
-                    var rarity = item.Rarity();
-                    var color = rarity.Color();
-                    //Main.Log($"ItemSlotView_RefreshItem_Patch - {item.Name} - {color}");
-                    if (rarity == RarityType.Notable && __instance.m_NotableLayer != null) {
-                        var objFX = __instance.m_NotableLayer.Find("NotableLayerFX");
-                        if (objFX != null && objFX.TryGetComponent<Image>(out var image)) image.color = color;
-                    } else if (rarity != RarityType.Notable) {
-                        if (rarity >= RarityType.Uncommon) // Make sure things uncommon or better get their color circles despite not being magic. Colored loot offers sligtly different UI assumptions
-                            __instance.SlotVM.IsMagic.SetValueAndForceNotify(true);
-
-                        if (__instance.m_MagicLayer != null) {
-                            var ratingAlpha = (float)Math.Min(120, item.Rating() + 20) / 120;
-                            var colorTranslucent = new Color(color.r, color.g, color.b, color.a * ratingAlpha); // 0.45f);
-                            var obj = __instance.m_MagicLayer.gameObject;
-                            obj.GetComponent<Image>().color = colorTranslucent;
-                            var objFX = __instance.m_MagicLayer.Find("MagicLayerFX");
+                    if (Settings.UsingLootRarity && item != null) {
+                        _ = item.Blueprint.GetComponent<AddItemShowInfoCallback>();
+                        var cb = item.Get<ItemPartShowInfoCallback>();
+                        if (cb != null && (!cb.m_Settings.Once || !cb.m_Triggered)) {
+                            // This forces the item to display as notable
+                            __instance.SlotVM.IsNotable.SetValueAndForceNotify(true);
+                        }
+                        var rarity = item.Rarity();
+                        var color = rarity.Color();
+                        //Main.Log($"ItemSlotView_RefreshItem_Patch - {item.Name} - {color}");
+                        if (rarity == RarityType.Notable && __instance.m_NotableLayer != null) {
+                            var objFX = __instance.m_NotableLayer.Find("NotableLayerFX");
                             if (objFX != null && objFX.TryGetComponent<Image>(out var image)) image.color = color;
+                        } else if (rarity != RarityType.Notable) {
+                            if (rarity >= RarityType.Uncommon) // Make sure things uncommon or better get their color circles despite not being magic. Colored loot offers sligtly different UI assumptions
+                                __instance.SlotVM.IsMagic.SetValueAndForceNotify(true);
+
+                            if (__instance.m_MagicLayer != null) {
+                                var ratingAlpha = (float)Math.Min(120, item.Rating() + 20) / 120;
+                                var colorTranslucent = new Color(color.r, color.g, color.b, color.a * ratingAlpha); // 0.45f);
+                                var obj = __instance.m_MagicLayer.gameObject;
+                                if (obj.GetComponent<Image>() is { } notNull) {
+                                    notNull.color = colorTranslucent;
+                                }
+                                var objFX = __instance.m_MagicLayer.Find("MagicLayerFX");
+                                if (objFX != null && objFX.TryGetComponent<Image>(out var image)) image.color = color;
+                            }
                         }
                     }
+                } catch (Exception e) {
+                    Mod.Warn($"Exception caught in Inventory RefreshItem! This is rather critical as it can mess up inventory screen:\n{e}");
                 }
             }
         }

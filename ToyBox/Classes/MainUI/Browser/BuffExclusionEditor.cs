@@ -30,7 +30,7 @@ namespace ToyBox {
         public static void OnGUI(
         ) {
             if (_buffExceptions == null) {
-                _buffExceptions = BlueprintLoader.Shared.GetBlueprintsByGuids<BlueprintBuff>(settings.buffsToIgnoreForDurationMultiplier)
+                _buffExceptions = BlueprintLoader.Shared.GetBlueprintsByGuids<BlueprintBuff>(settings.BuffsToIgnoreForDurationMultiplier)
                     ?.OrderBy(b => b.GetDisplayName())
                     ?.ToList();
                 _defaultBuffExceptions = BlueprintLoader.Shared.GetBlueprintsByGuids<BlueprintBuff>(SettingsDefaults.DefaultBuffsToIgnoreForDurationMultiplier)
@@ -53,6 +53,9 @@ namespace ToyBox {
                     if (BlueprintLoader.Shared.IsLoading) {
                         Label(("Blueprints".Orange().Bold() + " loading: ").localize() + BlueprintLoader.Shared.progress.ToString("P2").Cyan().Bold());
                     } else Space(25);
+                },
+                () => {
+                    Toggle("Invert List, i.e. turn this into a list of buffs that does get multiplied".localize(), ref settings.invertBuffExclusionEditor);
                 },
                 () => {
                     if (BlueprintLoader.Shared.IsLoading || _searchResults == null) return;
@@ -119,7 +122,7 @@ namespace ToyBox {
             SetCurrentPage(_currentPage);
         }
 
-        private static IEnumerable<BlueprintBuff> GetValidBuffsToAdd() => _allBuffs?.Where(b => !settings.buffsToIgnoreForDurationMultiplier.Contains(b.AssetGuidThreadSafe));
+        private static IEnumerable<BlueprintBuff> GetValidBuffsToAdd() => _allBuffs?.Where(b => !settings.BuffsToIgnoreForDurationMultiplier.Contains(b.AssetGuidThreadSafe));
         private static IEnumerable<BlueprintBuff> GetPaginatedBuffs() => _searchResults?.Skip(_pageSize * _currentPage)?.Take(_pageSize);
 
         private static void SetPaginationString() {
@@ -156,15 +159,12 @@ namespace ToyBox {
                         if (settings.showAssetIDs) {
                             ClipboardLabel(bp.AssetGuidThreadSafe, ExpandWidth(false), Width(guidWidth));
                         }
-                        //It seems that if you specify defaults, saving settings without the defaults won't actually
-                        //remove the items from the list. This just prevents confusion by removing the button altogether.
-                        if (!settings.buffsToIgnoreForDurationMultiplier.Contains(bp.AssetGuidThreadSafe)) {
+                        if (!settings.BuffsToIgnoreForDurationMultiplier.Contains(bp.AssetGuidThreadSafe)) {
                             ActionButton("Add".localize(), () => {
                                 AddBuff(bp.AssetGuidThreadSafe);
                             });
                         }
-                        if (settings.buffsToIgnoreForDurationMultiplier.Contains(bp.AssetGuidThreadSafe)
-                            && !SettingsDefaults.DefaultBuffsToIgnoreForDurationMultiplier.Contains(bp.AssetGuidThreadSafe)) {
+                        if (settings.BuffsToIgnoreForDurationMultiplier.Contains(bp.AssetGuidThreadSafe)) {
                             ActionButton("Remove".localize(), () => {
                                 RemoveBuff(bp.AssetGuidThreadSafe);
                             });
@@ -190,7 +190,7 @@ namespace ToyBox {
         private static void AddBuff(string buffGuid) {
             if (!IsValidBuff(buffGuid)) return;
 
-            settings.buffsToIgnoreForDurationMultiplier.Add(buffGuid);
+            settings.BuffsToIgnoreForDurationMultiplier.Add(buffGuid);
             TriggerReload();
 #if DEBUG
             LogCurrentlyIgnoredBuffs();
@@ -198,9 +198,9 @@ namespace ToyBox {
         }
 
         private static void RemoveBuff(string buffGuid) {
-            if (!settings.buffsToIgnoreForDurationMultiplier.Contains(buffGuid)) return;
+            if (!settings.BuffsToIgnoreForDurationMultiplier.Contains(buffGuid)) return;
 
-            settings.buffsToIgnoreForDurationMultiplier.Remove(buffGuid);
+            settings.BuffsToIgnoreForDurationMultiplier.Remove(buffGuid);
             TriggerReload();
 #if DEBUG
             LogCurrentlyIgnoredBuffs();
@@ -213,7 +213,7 @@ namespace ToyBox {
         }
 
 
-        private static void LogCurrentlyIgnoredBuffs() => Mod.Log($"Currently ignored buffs: {string.Join(", ", settings.buffsToIgnoreForDurationMultiplier)}. There are {_allBuffs.Count} total buffs.");
+        private static void LogCurrentlyIgnoredBuffs() => Mod.Log($"Currently ignored buffs: {string.Join(", ", settings.BuffsToIgnoreForDurationMultiplier)}. There are {_allBuffs.Count} total buffs.");
 
 
         public static bool IsValidBuff(string buffGuid) => ResourcesLibrary.TryGetBlueprint(BlueprintGuid.Parse(buffGuid)) is BlueprintBuff buff;

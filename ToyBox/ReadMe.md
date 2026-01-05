@@ -37,6 +37,11 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
   
+### Toybox Wrath - Ver 1.7.20 (built for 2.7.0w)
+* (***ADDB***) Fix very rare? bug that could cause loot rarity coloring to bug inventory view (making it so every item shows as one specific type; e.g. 15 of a specific scroll).
+* (***ADDB***) Add toggle to maybe invert Buff Exclusion Editor.
+* (***ADDB***) Make it possible to remove default exclusions from the editor?
+
 ### Toybox Wrath - Ver 1.7.19 (built for 2.7.0w)
 * (***ADDB***) Fix off-by-one error in the function responsible for highlighting the searched string in results causing ArgumentOutOfRangeException in Browser (https://github.com/xADDBx/ToyBox-Wrath/issues/61)
 

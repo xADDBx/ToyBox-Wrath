@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityModManagerNet;
 
@@ -563,7 +564,15 @@ namespace ToyBox {
         public HashSet<string> ignoredEquipmentRestrictionSet = new();
         public bool toggleIgnoreBuildingRestrictions = false;
         public HashSet<string> ignoredBuildingRestrictionSet = new();
-        public HashSet<string> buffsToIgnoreForDurationMultiplier = new(SettingsDefaults.DefaultBuffsToIgnoreForDurationMultiplier);
+        public HashSet<string>? buffsToIgnoreForDurationMultiplier;
+        [XmlIgnore]
+        public HashSet<string> BuffsToIgnoreForDurationMultiplier {
+            get {
+                buffsToIgnoreForDurationMultiplier ??= [.. SettingsDefaults.DefaultBuffsToIgnoreForDurationMultiplier];
+                return buffsToIgnoreForDurationMultiplier;
+            }
+        }
+        public bool invertBuffExclusionEditor = false;
 
         // Development
         public LogLevel loggingLevel = LogLevel.Info;

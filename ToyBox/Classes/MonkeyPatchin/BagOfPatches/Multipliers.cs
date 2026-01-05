@@ -175,9 +175,9 @@ namespace ToyBox.BagOfPatches {
 #endif
 
 
-        private static readonly HashSet<string> badBuffs = settings.buffsToIgnoreForDurationMultiplier;
+        private static HashSet<string> badBuffs => settings.BuffsToIgnoreForDurationMultiplier;
 
-        private static bool isGoodBuff(BlueprintBuff blueprint) => !blueprint.Harmful && !badBuffs.Contains(blueprint.AssetGuidThreadSafe);
+        private static bool isGoodBuff(BlueprintBuff blueprint) => !blueprint.Harmful && (!badBuffs.Contains(blueprint.AssetGuidThreadSafe) ^ settings.invertBuffExclusionEditor);
 
         [HarmonyPatch(typeof(BuffCollection), nameof(BuffCollection.AddBuff), new Type[] {
             typeof(BlueprintBuff),
