@@ -366,7 +366,7 @@ namespace ToyBox {
                     }
                 }
             }
-            if (ch.Descriptor().Progression.GetCurrentMythicClass()?.CharacterClass.Name == "Swarm That Walks") {
+            if (ch.Descriptor().Progression?.Classes?.Reverse<ClassData>()?.Any(c => c.CharacterClass.IsMythic && c.CharacterClass.AssetGuid.ToString() == "5295b8e13c2303f4c88bdb3d7760a757") ?? false) {
                 UnitPartLocustSwarm SwarmPart = null;
                 UnitPartLocustClonePets SwarmClones = null;
                 bool found = false;

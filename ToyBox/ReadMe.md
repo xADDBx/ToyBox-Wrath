@@ -37,6 +37,10 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
   
+### Toybox Wrath - Ver 1.7.21 (built for 2.7.0w)
+* (***ADDB***) Fix Swarm That Walks stuff not showing up in Party => Stats GUI if using a language other than english.
+* (***BelegCufea***) Fix Full Heal After Combat not healing pets.
+
 ### Toybox Wrath - Ver 1.7.20 (built for 2.7.0w)
 * (***ADDB***) Fix very rare? bug that could cause loot rarity coloring to bug inventory view (making it so every item shows as one specific type; e.g. 15 of a specific scroll).
 * (***ADDB***) Add toggle to maybe invert Buff Exclusion Editor.
