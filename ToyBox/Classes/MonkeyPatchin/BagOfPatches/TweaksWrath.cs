@@ -261,7 +261,7 @@ namespace ToyBox.BagOfPatches {
                     CheatsCombat.RestAll();
                 }
                 if (!inCombat && Settings.toggleFullHealAfterCombat) {
-                    foreach (var unit in Game.Instance.Player.Party) {
+                    foreach (var unit in Game.Instance.Player.PartyAndPets) {
                         Rulebook.Trigger(new RuleHealDamage(unit, unit, default, unit.Descriptor.Stats.HitPoints.ModifiedValue));
                         foreach (var attribute in unit.Stats.Attributes) {
                             attribute.Damage = 0;
