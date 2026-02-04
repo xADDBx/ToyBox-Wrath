@@ -626,7 +626,7 @@ namespace ToyBox {
                 () => {
                     if (Settings.toggleFullHealAfterCombat) {
                         Space(25);
-                        Toggle("Also ressurect".localize(), ref Settings.toggleResurrectAfterCombat);
+                        Toggle("Also resurrect".localize(), ref Settings.toggleResurrectAfterCombat);
                     }
                 },
                 () => Toggle("Instant change party members".localize(), ref Settings.toggleInstantChangeParty),
