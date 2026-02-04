@@ -221,6 +221,7 @@ namespace ToyBox {
         public bool toggleRechargeItemsAfterCombat = false;
         public bool toggleInstantRestAfterCombat = false;
         public bool toggleFullHealAfterCombat = false;
+        public bool toggleResurrectAfterCombat = false;
         public bool toggleShowAllPartyPortraits = false;    // TODO - port this
         public bool toggleAccessRemoteCharacters = false;
         public bool toggleInfiniteItems = false;
