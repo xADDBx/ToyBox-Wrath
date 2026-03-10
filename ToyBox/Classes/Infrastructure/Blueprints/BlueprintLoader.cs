@@ -6,6 +6,7 @@ using Kingmaker.Blueprints.JsonSystem;
 using Kingmaker.Blueprints.JsonSystem.BinaryFormat;
 using Kingmaker.Blueprints.JsonSystem.Converters;
 using Kingmaker.Modding;
+using Kingmaker.SharedTypes;
 using Kingmaker.Utility;
 using ModKit;
 using Newtonsoft.Json.Linq;
@@ -45,8 +46,8 @@ namespace ToyBox {
                 return loader;
             }
         }
-        internal readonly HashSet<string> BadBlueprints = new() { "ce0842546b73aa34b8fcf40a970ede68", "2e3280bf21ec832418f51bee5136ec7a",
-            "b60252a8ae028ba498340199f48ead67", "fb379e61500421143b52c739823b4082", "5d2b9742ce82457a9ae7209dce770071" };
+        internal readonly HashSet<string> BadBlueprints = [];
+            //new() { "ce0842546b73aa34b8fcf40a970ede68", "2e3280bf21ec832418f51bee5136ec7a", //"b60252a8ae028ba498340199f48ead67", "fb379e61500421143b52c739823b4082", "5d2b9742ce82457a9ae7209dce770071" };
         private void Load(LoadBlueprintsCallback callback, ISet<BlueprintGuid> toLoad = null) {
             lock (loader) {
                 if (IsLoading || (!CanStart && Game.Instance.Player == null) || blueprints != null) return;

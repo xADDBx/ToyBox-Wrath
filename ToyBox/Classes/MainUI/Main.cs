@@ -2,31 +2,36 @@
 // Special thanks to @SpaceHampster and @Velk17 from Pathfinder: Wrath of the Rightous Discord server for teaching me how to mod Unity games
 using HarmonyLib;
 using Kingmaker;
+using Kingmaker.Blueprints;
+using Kingmaker.Blueprints.JsonSystem.BinaryFormat;
+using Kingmaker.Blueprints.JsonSystem.Converters;
 using Kingmaker.GameModes;
+using Kingmaker.UI.Common;
+using Kingmaker.UI.Models.Log;
 using Kingmaker.UI.Models.Log.CombatLog_ThreadSystem;
 using Kingmaker.UI.Models.Log.CombatLog_ThreadSystem.LogThreads.Common;
 using ModKit;
 using ModKit.DataViewer;
+using Newtonsoft.Json;
 using Owlcat.Runtime.Core.Logging;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
+using System.Reflection.Emit;
+using System.Text;
 using ToyBox.classes.Infrastructure;
 using ToyBox.classes.MainUI;
+using ToyBox.Multiclass;
+using ToyBox.PatchTool;
 using UniRx;
 using UnityEngine;
 using UnityModManagerNet;
-using ToyBox.PatchTool;
+using static Kingmaker.Blueprints.JsonSystem.BlueprintsCache;
 using LocalizationManager = ModKit.LocalizationManager;
-using Kingmaker.UI.Common;
-using Newtonsoft.Json;
-using ToyBox.Multiclass;
-using System.Net;
-using Kingmaker.UI.Models.Log;
-using System.Reflection.Emit;
 
 namespace ToyBox {
 #if DEBUG
@@ -237,6 +242,47 @@ namespace ToyBox {
             _caughtException = null;
         }
         private static bool IsFirstOnGUI = true;
+        private static bool IsDumpingBin = false;
+        private static void Dump(List<SimpleBlueprint> bps) {
+            return;
+            using (FileStream fileStream = new FileStream("Wow.bbp", FileMode.Create, FileAccess.Write)) {
+                using (BinaryWriter binaryWriter = new BinaryWriter(fileStream, Encoding.UTF8, true)) {
+                    int blueprintCount = bps.Count;
+                    long tocSize = 4 + (blueprintCount * 20);
+                    fileStream.Seek(tocSize, SeekOrigin.Begin);
+
+                    var primitiveSerializer = new PrimitiveSerializer(binaryWriter, UnityObjectConverter.AssetList, false);
+                    var packSerializer = new ReflectionBasedSerializer(primitiveSerializer);
+
+                    List<BlueprintCacheEntry> savedEntries = new List<BlueprintCacheEntry>(blueprintCount);
+                    List<BlueprintGuid> savedGuids = new List<BlueprintGuid>(blueprintCount);
+
+                    foreach (var bpR in bps) {
+                        var bp = bpR;
+                        BlueprintGuid guid = bp.AssetGuid;
+                        uint currentOffset = (uint)fileStream.Position;
+                        packSerializer.Blueprint(ref bp);
+
+                        savedGuids.Add(guid);
+                        savedEntries.Add(new BlueprintCacheEntry {
+                            Offset = currentOffset,
+                            Blueprint = bp
+                        });
+                    }
+
+                    fileStream.Seek(0, SeekOrigin.Begin);
+                    binaryWriter.Write(blueprintCount);
+                    for (int i = 0; i < blueprintCount; i++) {
+                        byte[] guidBytes = savedGuids[i].ToByteArray();
+                        if (guidBytes.Length != 16) {
+                            throw new Exception($"GUID TO BYTEARRAY is {guidBytes.Length}");
+                        }
+                        binaryWriter.Write(guidBytes, 0, 16);
+                        binaryWriter.Write(savedEntries[i].Offset);
+                    }
+                }
+            }
+        }
         private static void OnGUI(UnityModManager.ModEntry modEntry) {
             if (IsFirstOnGUI) {
                 IsFirstOnGUI = false;
@@ -255,6 +301,19 @@ namespace ToyBox {
                         Label(("Note ".Magenta().Bold() + "ToyBox was designed to offer the best user experience at widths of 1920 or higher. Please consider increasing your resolution up of at least 1920x1080 (ideally 4k) and go to Unity Mod Manager 'Settings' tab to change the mod window width to at least 1920.  Increasing the UI scale is nice too when running at 4k".Orange().Bold()).localize());
                     }
                 }
+                /*
+                UI.ActionButton("Create BpBin file with modded bps", () => {
+                    BlueprintLoader.Shared.GetBlueprints();
+                    IsDumpingBin = true;
+                });
+                if (IsDumpingBin) {
+                    var bps = BlueprintLoader.Shared.GetBlueprints();
+                    if (bps is { Count: > 0 } notnull) {
+                        IsDumpingBin = false;
+                        Dump(bps);
+                    }
+                }
+                */
                 try {
                     var e = Event.current;
                     userHasHitReturn = e.keyCode == KeyCode.Return;
