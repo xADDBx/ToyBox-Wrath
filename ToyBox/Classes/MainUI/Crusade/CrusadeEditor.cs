@@ -93,7 +93,7 @@ namespace ToyBox.classes.MainUI {
                         UI.DescriptiveLabel("Random Encounters".localize(), ("The following modifiers all work on ".Green() + "chance = chance (1 + modifier) ".Yellow() + "so a value of ".Green() + "-1".Yellow() + " means the chance is 0, ".Green() + "0".Yellow() + " is chance cost and ".Green() + "2".Yellow() + " increases it 3x".Green()).localize());
                         UI.Slider("% Chance (Unclaimed)".localize(), () => ks.REModifierUnclaimed, v => ks.REModifierUnclaimed = v, -1f, 2f, 0f, 1);
                         UI.Slider("% Chance (Claimed)".localize(), () => ks.REModifierClaimed, v => ks.REModifierClaimed = v, -1, 2, -0.5f, 1);
-                        UI.Slider("% Chance (Upgraded)".localize(), () => ks.REModifierUpgraded, v => ks.REModifierUnclaimed = v, -1f, 2f, -1f, 1);
+                        UI.Slider("% Chance (Upgraded)".localize(), () => ks.REModifierUpgraded, v => ks.REModifierUpgraded = v, -1f, 2f, -1f, 1);
                         UI.Div(0, 0, 800);
                         UI.ValueAdjuster("Confidence (Royal Court)".localize(), () => ks.RoyalCourtConfidence, v => ks.RoyalCourtConfidence = v, 1, 0, int.MaxValue);
                         UI.ValueAdjuster("Confidence (Nobles)".localize(), () => ks.NobilityConfidence, v => ks.NobilityConfidence = v, 1, 0, int.MaxValue);
