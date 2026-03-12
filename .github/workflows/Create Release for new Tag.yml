@@ -34,3 +34,18 @@ jobs:
       with:
         artifacts: ${{ env.zipFilePath }}\*.zip
         name: ${{ env.ZipFile }} built for Wrath ${{ env.gameVersionNum }}${{ env.gameVersionSuffix }}
+
+    - name: Extract Version from zipFile
+      shell: pwsh
+      run: |
+        $version = ($env:zipFile -split '-')[-1]
+        echo "MOD_VERSION=$version" >> $env:GITHUB_ENV
+
+    - name: Upload to NexusMods
+      uses: Nexus-Mods/upload-action@main
+      with:
+        api_key: ${{ secrets.NEXUSMODS_API_KEY }}
+        file_group_id: 164587
+        filename: ${{ env.zipFilePath }}\${{ env.zipFile }}.zip
+        version: ${{ env.MOD_VERSION }}
+        display_name: ToyBox
