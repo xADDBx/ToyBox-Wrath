@@ -40,6 +40,7 @@
 ### ToyBox Wrath - Ver 1.7.22 (built for 2.7.0w)
 * (***ADDB***) Fix something related to PatchTool UI
 * (***ADDB***) Fix "% Chance (Upgraded)" Slider adjusting the wrong value; Issue: https://github.com/xADDBx/ToyBox-Wrath/issues/69
+* (***BelegCufea***) Add optional resurrection to Full Heal After Combat
 
 ### Toybox Wrath - Ver 1.7.21 (built for 2.7.0w)
 * (***ADDB***) Fix Swarm That Walks stuff not showing up in Party => Stats GUI if using a language other than english.
