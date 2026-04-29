@@ -83,7 +83,7 @@ namespace ToyBox {
             _resetRequestTime = DateTime.Now;
             Mod.Debug($"resetRequested - {_resetRequestTime}");
         }
-        public static bool IsInGame => Game.Instance.Player?.Party.Any() ?? false;
+        public static bool IsInGame => Game.Instance.CurrentMode != GameModeType.None || Game.Instance?.LevelUpController?.Unit != null;
         private static Exception _caughtException = null;
 
         public static List<GameObject> Objects;
