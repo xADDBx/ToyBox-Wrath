@@ -6,6 +6,7 @@ using Kingmaker;
 using Kingmaker.Achievements;
 using Kingmaker.Blueprints;
 using Kingmaker.Blueprints.Classes.Selection;
+using Kingmaker.Blueprints.Classes.Spells;
 using Kingmaker.Blueprints.Items.Components;
 using Kingmaker.Blueprints.Items.Equipment;
 using Kingmaker.Blueprints.Items.Weapons;
@@ -21,6 +22,7 @@ using Kingmaker.Items;
 using Kingmaker.Localization;
 using Kingmaker.Localization.Shared;
 using Kingmaker.RuleSystem;
+using Kingmaker.RuleSystem.Rules.Damage;
 using Kingmaker.Settings;
 using Kingmaker.UI._ConsoleUI.CombatStartScreen;
 //using Kingmaker.UI._ConsoleUI.Models;
@@ -33,10 +35,14 @@ using Kingmaker.UI.MVVM._PCView.Vendor;
 using Kingmaker.UI.MVVM._VM.Common;
 using Kingmaker.UI.MVVM._VM.CounterWindow;
 using Kingmaker.UI.TurnBasedMode;
+using Kingmaker.UnitLogic.Abilities;
+
 //using Kingmaker.UI.RestCamp;
 using Kingmaker.UnitLogic.Abilities.Blueprints;
 using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Class.Kineticist;
+using Kingmaker.UnitLogic.FactLogic;
+using Kingmaker.UnitLogic.Parts;
 using Kingmaker.Utility;
 using Kingmaker.View;
 using Kingmaker.View.MapObjects.InteractionRestrictions;
@@ -750,6 +756,57 @@ namespace ToyBox.BagOfPatches {
                         }
                     }
                 }
+            }
+        }
+        [HarmonyPatch(typeof(UnitPartSpellResistance))]
+        private static class UnitPartSpellResistance_Patch {
+            [HarmonyPatch(nameof(UnitPartSpellResistance.CanApply), [typeof(UnitPartSpellResistance.SpellImmunity), typeof(AbilityData), typeof(UnitEntityData), typeof(SpellDescriptor), typeof(BlueprintAbility)]), HarmonyPostfix]
+            private static void IsImmune_Patch(UnitEntityData caster, UnitPartSpellResistance __instance, ref bool __result) {
+                if (!settings.ignoreSpellImunitiesForEnemies || !__result) return;
+
+                if (UnitEntityDataUtils.CheckUnitEntityData(caster, UnitSelectType.Party) && UnitEntityDataUtils.CheckUnitEntityData(__instance.Owner, UnitSelectType.Enemies)) {
+                    __result = false;
+                }
+            }
+        }
+        [HarmonyPatch(typeof(AddEnergyDamageImmunity))]
+        private static class AddEnergyDamageImmunity_Patch {
+            [HarmonyPatch(nameof(AddEnergyDamageImmunity.OnEventAboutToTrigger), [typeof(RuleCalculateDamage)]), HarmonyPrefix]
+            private static bool OnEventAboutToTrigger_Patch(RuleCalculateDamage evt, AddEnergyDamageImmunity __instance) {
+                if (!settings.ignoreSpellImunitiesForEnemies) return true;
+
+                if (UnitEntityDataUtils.CheckUnitEntityData(evt.Initiator, UnitSelectType.Party) && UnitEntityDataUtils.CheckUnitEntityData(__instance.Owner, UnitSelectType.Enemies)) {
+                    return false;
+                }
+                return true;
+            }
+            [ThreadStatic]
+            private static bool m_HealOnDamage;
+            [HarmonyPatch(nameof(AddEnergyDamageImmunity.OnEventDidTrigger), [typeof(RuleDealDamage)]), HarmonyPrefix]
+            private static void Pre_OnEventDidTrigger_Patch(RuleDealDamage evt, AddEnergyDamageImmunity __instance) {
+                m_HealOnDamage = __instance.HealOnDamage;
+                if (!settings.ignoreSpellImunitiesForEnemies) return;
+
+                if (UnitEntityDataUtils.CheckUnitEntityData(evt.Initiator, UnitSelectType.Party) && UnitEntityDataUtils.CheckUnitEntityData(__instance.Owner, UnitSelectType.Enemies)) {
+                    __instance.HealOnDamage = false;
+                    return;
+                }
+            }
+            [HarmonyPatch(nameof(AddEnergyDamageImmunity.OnEventDidTrigger), [typeof(RuleDealDamage)]), HarmonyPostfix]
+            private static void Post_OnEventDidTrigger_Patch(AddEnergyDamageImmunity __instance) {
+                __instance.HealOnDamage = m_HealOnDamage;
+            }
+        }
+        [HarmonyPatch(typeof(AddEnergyImmunity))]
+        private static class AddEnergyImmunity_Patch {
+            [HarmonyPatch(nameof(AddEnergyDamageImmunity.OnEventAboutToTrigger)), HarmonyPrefix]
+            private static bool OnEventAboutToTrigger_Patch(RuleCalculateDamage evt, AddEnergyImmunity __instance) {
+                if (!settings.ignoreSpellImunitiesForEnemies) return true;
+
+                if (UnitEntityDataUtils.CheckUnitEntityData(evt.Initiator, UnitSelectType.Party) && UnitEntityDataUtils.CheckUnitEntityData(__instance.Owner, UnitSelectType.Enemies)) {
+                    return false;
+                }
+                return true;
             }
         }
 

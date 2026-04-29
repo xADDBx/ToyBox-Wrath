@@ -269,6 +269,7 @@ namespace ToyBox {
         public bool toggleAttacksofOpportunity = false;
         public bool toggleMakePetsRidable = false;
         public bool toggleRideAnything = false;
+        public bool ignoreSpellImunitiesForEnemies = false;
         public bool toggleUnlimitedStatModifierStacking = false;
         public bool disableTraps = false;
         public bool togglekillOnEngage = false;

@@ -38,7 +38,8 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
 
 ### ToyBox Wrath - Ver 1.7.23 (built for 2.7.0w)
-* (***ADDB***) Adjust IsInGame heuristic to the one suggested by @AeonBlack in https://github.com/xADDBx/ToyBox-Wrath/issues/71
+* (***ADDB***) Adjust IsInGame heuristic to the one suggested by @AeonBlack in https://github.com/xADDBx/ToyBox-Wrath/issues/71.
+* (***ADDB***) Add a Bag of Tricks => Cheat that lets the party ignore enemy immunities (excluding condition immunities like pronze, dazed, sleeping, ...).
 
 ### ToyBox Wrath - Ver 1.7.22 (built for 2.7.0w)
 * (***ADDB***) Fix something related to PatchTool UI

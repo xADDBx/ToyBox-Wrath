@@ -637,6 +637,7 @@ namespace ToyBox {
                 () => Toggle("Ignore all Requirements for Abilities".localize(), ref Settings.toggleIgnoreAbilityAnyRestriction),
                 () => Toggle("Ignore Pet Sizes For Mounting".localize(), ref Settings.toggleMakePetsRidable),
                 () => Toggle("Ride Any Unit As Your Mount".localize(), ref Settings.toggleRideAnything),
+                () => Toggle("Ignore Enemy Immunities (excluding condition immunities like pronze, dazed, sleeping, ...)".localize(), ref Settings.ignoreSpellImunitiesForEnemies),
                 () => { }
                 );
             Div(153, 25);
