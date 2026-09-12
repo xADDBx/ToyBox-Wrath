@@ -178,10 +178,10 @@ namespace ToyBox {
                                 }
                             }));
                         }
-                        if (Event.current.type == EventType.Layout && blueprintBps == null) {
+                        if (Event.current.type == EventType.Layout && (blueprintBps == null || !blueprintBps.Any())) {
                             blueprintBps = BlueprintLoader.Shared.GetBlueprintsOfType<BlueprintPortrait>();
                         }
-                        if (blueprintBps != null) {
+                        if (blueprintBps != null && blueprintBps.Any()) {
                             if (blueprintPortraitBrowser == null) {
                                 blueprintPortraitBrowser = new(true, true, false, true);
                                 blueprintPortraitBrowser.SearchLimit = 18;
