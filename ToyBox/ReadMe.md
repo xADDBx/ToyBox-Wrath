@@ -36,6 +36,9 @@
   your save before using. Remember that "with great power comes great responsibility"
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
+  
+### ToyBox Wrath - Ver 1.7.24 (built for 2.7.0w)
+* (***CascadingDragon*** and ***Kurufinve***) Fix BlueprintPortraits not loading in some cases?
 
 ### ToyBox Wrath - Ver 1.7.23 (built for 2.7.0w)
 * (***ADDB***) Adjust IsInGame heuristic to the one suggested by @AeonBlack in https://github.com/xADDBx/ToyBox-Wrath/issues/71.
