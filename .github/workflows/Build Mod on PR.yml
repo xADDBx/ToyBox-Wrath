@@ -1,14 +1,19 @@
 name: Build Mod on PR
 
 on:
+  pull_request:
+      types: [labeled]
   pull_request_target:
       types: [labeled]
 
 jobs:
 
   build:
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'safe to test') }}
+    if: ${{ github.event_name == 'pull_request' && github.event.label.name == 'safe to test' }}
     runs-on: windows-latest
+    permissions:
+      contents: read
+      packages: read
 
     steps:
     - name: Build
@@ -27,13 +32,20 @@ jobs:
         name: ${{ env.zipFile }}
         path: ${{ env.outDir }}
 
+  # Consume the label separately; permissions issue blabla
+  remove-test-label:
+    if: ${{ github.event_name == 'pull_request_target' && github.event.label.name == 'safe to test' }}
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
     - name: Remove Test Label
-      if: always()
       shell: bash
       run: |
         curl --silent --fail-with-body \
         -X DELETE \
         -H "Accept: application/vnd.github+json" \
-        -H "Authorization: Bearer ${{ secrets.WRITE_PR_TOKEN }}" \
+        -H "Authorization: Bearer ${{ github.token }}" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
         'https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/labels/safe%20to%20test'

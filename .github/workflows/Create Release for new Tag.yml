@@ -42,10 +42,10 @@ jobs:
         echo "MOD_VERSION=$version" >> $env:GITHUB_ENV
 
     - name: Upload to NexusMods
-      uses: Nexus-Mods/upload-action@main
+      uses: Nexus-Mods/upload-action@v1.0.0-beta.10
       with:
         api_key: ${{ secrets.NEXUSMODS_API_KEY }}
-        file_group_id: 164587
+        file_id: 164587
         filename: ${{ env.zipFilePath }}\${{ env.zipFile }}.zip
         version: ${{ env.MOD_VERSION }}
         display_name: ToyBox
