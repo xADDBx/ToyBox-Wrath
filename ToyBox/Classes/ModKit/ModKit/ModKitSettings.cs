@@ -17,6 +17,6 @@
         public bool stripHtmlTagsFromLog = false;
 
         // Localization
-        public string uiCultureCode = "en";
+        public string uiCultureCode = "zh-CN";
     }
 }
