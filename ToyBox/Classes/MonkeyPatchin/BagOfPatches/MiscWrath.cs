@@ -289,8 +289,8 @@ namespace ToyBox.BagOfPatches {
                 if (giantFlyBegone) {
                     var isAGiantFly = IsGiantFlyUnit(unitEntityData.Blueprint.AssetGuidThreadSafe);
                     if (isAGiantFly) {
-                        unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintMastodonStandarGUID).Prefab.AssetId;
-                        unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintMastodonStandarGUID).PortraitSafe.Data;
+                        unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintVrockStandardGUID).Prefab.AssetId;
+                        unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintVrockStandardGUID).PortraitSafe.Data;
                         return;
                     }
                 }
@@ -401,8 +401,8 @@ namespace ToyBox.BagOfPatches {
                 if (giantFlyBegone) {
                     var isAGiantFly = IsGiantFlyType(type?.AssetGuidThreadSafe);
                     if (isAGiantFly) {
-                        blueprintUnit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintMastodonStandarGUID).Prefab;
-                        blueprintUnit.PortraitSafe = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintMastodonStandarGUID).PortraitSafe;
+                        blueprintUnit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintVrockStandardGUID).Prefab;
+                        blueprintUnit.PortraitSafe = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintVrockStandardGUID).PortraitSafe;
                         return;
                     }
                 }
@@ -469,7 +469,8 @@ namespace ToyBox.BagOfPatches {
             private const string blueprintOwlBearStandardGUID = "d6e0acbdbdb56114898922063ae2cba0";
             private const string blueprintTriceratopsStandarGUID = "429171c659daac44689a34d3b7771140";
             private const string blueprintMastodonStandarGUID = "028cc6f46e7998f46855a33ffde89567";
-
+            private const string blueprintVrockStandardGUID = "5440e7be8185f2d4eafbb89f5925feab";
+            
             private static readonly string[] spiderSwarmGuids = new string[] {
                 "a28e944558ed5b64790c3701e8c89d75",
                 "da2f152d19ce4d54e8c17da91f01fabd",
