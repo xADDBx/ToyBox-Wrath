@@ -185,6 +185,7 @@ namespace ToyBox.BagOfPatches {
             public static bool derakniBegone = false;
             public static bool deskariBegone = false;
             public static bool locustBegone = false;
+            public static bool giantFlyBegone = false;
 
             public static void CheckAndReplace(ref UnitEntityData unitEntityData) {
                 var type = unitEntityData.Blueprint.Type;
@@ -278,6 +279,16 @@ namespace ToyBox.BagOfPatches {
                 if (deskariBegone) {
                     var isADeskari = IsDeskariBlueprintUnit(unitEntityData.Blueprint.AssetGuidThreadSafe);
                     if (isADeskari) {
+                        unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintMastodonStandarGUID).Prefab.AssetId;
+                        unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintMastodonStandarGUID).PortraitSafe.Data;
+                        return;
+                    }
+                }
+
+                // Giant Fly checks
+                if (giantFlyBegone) {
+                    var isAGiantFly = IsGiantFlyUnit(unitEntityData.Blueprint.AssetGuidThreadSafe);
+                    if (isAGiantFly) {
                         unitEntityData.Descriptor.CustomPrefabGuid = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintMastodonStandarGUID).Prefab.AssetId;
                         unitEntityData.UISettings.m_CustomPortrait = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintMastodonStandarGUID).PortraitSafe.Data;
                         return;
@@ -385,6 +396,16 @@ namespace ToyBox.BagOfPatches {
                         return;
                     }
                 }
+                
+                // Giant Fly checks
+                if (giantFlyBegone) {
+                    var isAGiantFly = IsGiantFlyType(type?.AssetGuidThreadSafe);
+                    if (isAGiantFly) {
+                        blueprintUnit.Prefab = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintMastodonStandarGUID).Prefab;
+                        blueprintUnit.PortraitSafe = Utilities.GetBlueprintByGuid<BlueprintUnit>(blueprintMastodonStandarGUID).PortraitSafe;
+                        return;
+                    }
+                }
             }
             // Spider check methods
             private static bool IsSpiderType(string typeGuid) => typeGuid == spiderTypeGUID;
@@ -417,6 +438,10 @@ namespace ToyBox.BagOfPatches {
             private static bool IsApocLocustType(string typeGuid) => typeGuid == apoclocustGUID;
             private static bool IsLocustBlueprintUnit(string blueprintUnitGuid) => LocustSwarmGuids.Contains(blueprintUnitGuid);
             private static bool IsApocLocustBlueprintUnit(string blueprintUnitGuid) => ApocLocustGuids.Contains(blueprintUnitGuid);
+            
+            // Giant Fly check method
+            private static bool IsGiantFlyType(string typeGuid) => typeGuid == giantFlyTypeGUID;
+            private static bool IsGiantFlyUnit(string blueprintUnitGuid) => GiantFlyGuids.Contains(blueprintUnitGuid);
 
             private const string spiderTypeGUID = "243702bdc53e2574aaa34d1e3eafe6aa";
             private const string spiderSwarmTypeGUID = "0fd1473096fbdda4db770cca8366c5e1";
@@ -434,6 +459,8 @@ namespace ToyBox.BagOfPatches {
 
             private const string locustswarmGUID = "28264cdaf4d92004e9831ebeb3e04fa1";
             private const string apoclocustGUID = "6506eef6eb086a045a03b058880e28f4";
+
+            private const string giantFlyTypeGUID = "d34c111a8e3e1a94f8e28ce642926617";
 
             private const string blueprintCR2RatSwarmGUID = "12a5944fa27307e4e8b6f56431d5cc8c";
             private const string blueprintWolfStandardGUID = "ea610d9e540af4243b1310a3e6833d9f";
@@ -551,6 +578,24 @@ namespace ToyBox.BagOfPatches {
                 "9ac2627a724d4477965126352d073646",
                 "1f95154161e941deb54e32fbac5cf847"
             };
+
+            private static readonly string[] GiantFlyGuids = new string[] {
+                // Standard
+                "17e37098da8445244b66cb6438492b1a",
+                "2f84260749504115b1614072dbc7043a",
+                "a73833c7204c408593e3c81909cb7fff",
+                "9b43934530f94d03a445055a36b081db",
+                "92fd2e32e78617144be27633401b69e5",
+                "7e63418db0c4ec0428ab59c0947d628d",
+                "402f7648073a46e99f7626134aa845b8",
+                "3b9ef9b7e29e498f9a99929e86627b8d",
+                "ee6e5410bdfe42bebddf73b635030ecf",
+                "d97f5fecf44a466e835797e3dec792d4",
+                "71e6e105620446bda031132395a7a577",
+                
+                // Army
+                "48f8491cd643284438e0bf5b49fb9500"
+            };
         }
 
         [HarmonyPatch(typeof(UnitEntityData), nameof(UnitEntityData.CreateView))]
@@ -562,6 +607,7 @@ namespace ToyBox.BagOfPatches {
                 ModelReplacers.derakniBegone = settings.toggleDeraknisBegone;
                 ModelReplacers.deskariBegone = settings.toggleDeskariBegone;
                 ModelReplacers.locustBegone = settings.toggleLocustBegone;
+                ModelReplacers.giantFlyBegone = settings.toggleGiantFlyBegone;
                 ModelReplacers.CheckAndReplace(ref __instance);
             }
         }
@@ -575,6 +621,7 @@ namespace ToyBox.BagOfPatches {
                 ModelReplacers.derakniBegone = settings.toggleDeraknisBegone;
                 ModelReplacers.deskariBegone = settings.toggleDeskariBegone;
                 ModelReplacers.locustBegone = settings.toggleLocustBegone;
+                ModelReplacers.giantFlyBegone = settings.toggleGiantFlyBegone;
                 ModelReplacers.CheckAndReplace(ref __instance);
             }
         }
@@ -589,6 +636,7 @@ namespace ToyBox.BagOfPatches {
                 ModelReplacers.derakniBegone = settings.toggleDeraknisBegone;
                 ModelReplacers.deskariBegone = settings.toggleDeskariBegone;
                 ModelReplacers.locustBegone = settings.toggleLocustBegone;
+                ModelReplacers.giantFlyBegone = settings.toggleGiantFlyBegone;
                 ModelReplacers.CheckAndReplace(ref unit);
             }
         }
@@ -603,6 +651,7 @@ namespace ToyBox.BagOfPatches {
                 ModelReplacers.derakniBegone = settings.toggleDeraknisBegone;
                 ModelReplacers.deskariBegone = settings.toggleDeskariBegone;
                 ModelReplacers.locustBegone = settings.toggleLocustBegone;
+                ModelReplacers.giantFlyBegone = settings.toggleGiantFlyBegone;
                 ModelReplacers.CheckAndReplace(ref unit);
             }
         }
