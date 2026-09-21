@@ -111,19 +111,21 @@ namespace ToyBox.BagOfPatches {
             }
         }
 
-        [HarmonyPatch(typeof(Spellbook), nameof(Spellbook.GetSpellSlotsCount))]
-        public static class BlueprintSpellsTable_GetCount_Patch {
-            private static void Postfix(ref int __result, Spellbook __instance, int spellLevel) {
-                if (__result > 0 && __instance.Blueprint.IsArcanist) {
-                    var spellsKnown = __instance.m_KnownSpells[spellLevel].Count;
-                    __result = Math.Min(Mathf.RoundToInt(__result * settings.arcanistSpellslotMultiplier), spellsKnown);
-                }
+        [HarmonyPatch(typeof(Spellbook))]
+        public static class SpellbookPatches {
+            [HarmonyPatch(typeof(Spellbook), nameof(Spellbook.GetSpellSlotsCount))]
+            [HarmonyPostfix]
+            private static void BlueprintSpellsTable_GetCount_Patch(ref int __result, Spellbook __instance, int spellLevel) {
+                if (__result <= 0 || !__instance.Blueprint.IsArcanist || Mathf.Approximately(settings.arcanistSpellslotMultiplier, 1.0f)) return;
+                
+                //var spellsKnown = __instance.m_KnownSpells[spellLevel].Count; // I think this was the issue?
+                var spellsKnown = __instance.Blueprint.SpellSlots.GetCount(__instance.CasterLevel, spellLevel);
+                __result = Math.Max(Mathf.RoundToInt(__result * settings.arcanistSpellslotMultiplier), spellsKnown);
             }
-        }
 
-        [HarmonyPatch(typeof(Spellbook), nameof(Spellbook.GetSpellsPerDay))]
-        private static class Spellbook_GetSpellsPerDay_Patch {
-            private static void Postfix(ref int __result, Spellbook __instance) {
+            [HarmonyPatch(typeof(Spellbook), nameof(Spellbook.GetSpellsPerDay))]
+            [HarmonyPostfix]
+            private static void Spellbook_GetSpellsPerDay_Patch(ref int __result, Spellbook __instance) {
                 if (__instance.Blueprint.MemorizeSpells && !__instance.Blueprint.IsArcanist) { // prepapred spellcaster slots multiplier
                     __result = Mathf.RoundToInt(__result * (float)Math.Round(settings.memorizedSpellsMultiplier, 1));
                     return;
