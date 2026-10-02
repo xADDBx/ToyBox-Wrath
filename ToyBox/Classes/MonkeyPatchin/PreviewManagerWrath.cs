@@ -267,6 +267,15 @@ namespace ToyBox {
 
         [HarmonyPatch(typeof(UIConsts), nameof(UIConsts.GetAnswerString))]
         private static class UIConsts_GetAnswerString_Patch {
+            
+            // Dialog preview can make some text selections unable to be used, this is primarily (only?) seen in the Act 1 end
+            // Where these answers bloat the screen. We've seen a ton of reports about this prior
+            private static string[] AnswersToNotShowPreviews =
+                [ 
+                    "c40a489a789198d4691b71c96f7d49ae", "8290a5228f71de247b0d7ce520ab37cf", "91a0b72bdcd5809409760cb25ad7d8c3",
+                    "5a764481cc299b545adaee85b07dd627", "918fc34e4155c54418644827bf1d6e98"
+                ];
+            
             private static void Postfix(ref string __result, BlueprintAnswer answer, string bind, int index) {
                 try {
                     if (!Main.Enabled) return;
@@ -274,6 +283,7 @@ namespace ToyBox {
                         __result = GetFixedAnswerString(answer, bind, index);
                     }
                     if (!Main.Settings.previewDialogResults) return;
+                    if (AnswersToNotShowPreviews.Contains(answer.AssetGuidThreadSafe)) return;
                     var text = answer.ResultsText();
                     if (Settings.previewDialogConditions) {
                         var conditions = PreviewUtilities.FormatConditionsAsList(answer);
