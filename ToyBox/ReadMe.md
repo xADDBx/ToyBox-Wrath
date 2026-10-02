@@ -36,7 +36,10 @@
   your save before using. Remember that "with great power comes great responsibility"
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
-  
+    
+### ToyBox Wrath - Ver 1.7.27 (built for 2.7.0w)
+* (***CascadingDragon***) Disable Preview Dialog for a specific bookpage at the end of Act 1 because it would result in gibberish (too much text).
+
 ### ToyBox Wrath - Ver 1.7.26 (built for 2.7.0w)
 * (***CascadingDragon***) Fix Arcanist Spell Slot Multiplier
 
