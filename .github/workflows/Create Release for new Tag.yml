@@ -49,3 +49,6 @@ jobs:
         filename: ${{ env.zipFilePath }}\${{ env.zipFile }}.zip
         version: ${{ env.MOD_VERSION }}
         display_name: ToyBox
+        mod_id: 8
+        update_mod_version: true
+        changelog: ${{ github.event.head_commit.message }}
