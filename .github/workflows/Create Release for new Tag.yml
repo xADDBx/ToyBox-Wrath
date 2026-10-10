@@ -34,6 +34,7 @@ jobs:
       with:
         artifacts: ${{ env.zipFilePath }}\*.zip
         name: ${{ env.ZipFile }} built for Wrath ${{ env.gameVersionNum }}${{ env.gameVersionSuffix }}
+        body: ${{ github.event.head_commit.message }}
 
     - name: Extract Version from zipFile
       shell: pwsh
