@@ -37,6 +37,9 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
     
+### ToyBox Wrath - Ver 1.7.28 (built for 2.7.0w)
+* (***ADDB***) Added toggle to disable the Trickster Mythic music in Drezen
+
 ### ToyBox Wrath - Ver 1.7.27 (built for 2.7.0w)
 * (***CascadingDragon***) Disable Preview Dialog for a specific bookpage at the end of Act 1 because it would result in gibberish (too much text).
 

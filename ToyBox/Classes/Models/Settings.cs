@@ -148,6 +148,7 @@ namespace ToyBox {
 
         // Quality of Life
         public bool toggleContinueAudioOnLostFocus = false;
+        public bool toggleDisableTricksterMythicMusic = false;
         public bool highlightObjectsToggle = false;
         public bool highlightObjectsToggleHideNameOvertip = false;
         public float highlightObjectsToggleHideNameOvertipDelay = 3f;

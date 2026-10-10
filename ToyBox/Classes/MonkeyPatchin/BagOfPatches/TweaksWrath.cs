@@ -2,6 +2,7 @@
 using HarmonyLib;
 using JetBrains.Annotations;
 using Kingmaker;
+using Kingmaker.AreaLogic.Etudes;
 using Kingmaker.Armies.TacticalCombat;
 using Kingmaker.Armies.TacticalCombat.Controllers;
 using Kingmaker.Blueprints;
@@ -810,6 +811,23 @@ namespace ToyBox.BagOfPatches {
                 }
                 return true;
             }
+        }
+
+        private const string TricksterCouncil_Council5_2_Music_Etude = "61aa5a32f2934c9189d31f74759ea8de";
+        private const string Trickster_MusicState_Drezen_Etude = "b6eaccea5fa954145a4a9d74fdbf7c62";
+        [HarmonyPatch]
+        public static class DisableTricksterMythicMusic_Patch {
+            private static bool ShouldPlay(EtudeBracketTrigger trigger, string guid) {
+                return !Settings.toggleDisableTricksterMythicMusic || trigger.OwnerBlueprint.AssetGuid.ToString() != guid;
+            }
+            [HarmonyPatch(typeof(EtudeBracketMusic), nameof(EtudeBracketMusic.OnEnter)), HarmonyPrefix]
+            private static bool EtudeBracketMusic_OnEnter(EtudeBracketMusic __instance) => ShouldPlay(__instance, TricksterCouncil_Council5_2_Music_Etude);
+            [HarmonyPatch(typeof(EtudeBracketMusic), nameof(EtudeBracketMusic.OnResume)), HarmonyPrefix]
+            private static bool EtudeBracketMusic_OnResume(EtudeBracketMusic __instance) => ShouldPlay(__instance, TricksterCouncil_Council5_2_Music_Etude);
+            [HarmonyPatch(typeof(EtudeBracketAudioEvents), nameof(EtudeBracketAudioEvents.OnEnter)), HarmonyPrefix]
+            private static bool EtudeBracketAudioEvents_OnEnter(EtudeBracketAudioEvents __instance) => ShouldPlay(__instance, Trickster_MusicState_Drezen_Etude);
+            [HarmonyPatch(typeof(EtudeBracketAudioEvents), nameof(EtudeBracketAudioEvents.OnResume)), HarmonyPrefix]
+            private static bool EtudeBracketAudioEvents_OnResume(EtudeBracketAudioEvents __instance) => ShouldPlay(__instance, Trickster_MusicState_Drezen_Etude);
         }
         [HarmonyPatch]
         public static class FogOfWarController_CollectRevealers_CompilerMethod_Patch {
