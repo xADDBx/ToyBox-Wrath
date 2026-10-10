@@ -410,7 +410,10 @@ namespace ToyBox {
                        HelpLabel("Hold down shift during launch to bypass".localize());
                    },
                    () => Toggle("Make game continue to play music on lost focus".localize(), ref Settings.toggleContinueAudioOnLostFocus),
-                   () => Toggle("Disable Trickster Mythic Music in Drezen".localize(), ref Settings.toggleDisableTricksterMythicMusic),
+                   () => {
+                       Toggle("Disable Trickster Mythic Music in Drezen".localize(), ref Settings.toggleDisableTricksterMythicMusic, 500.width());
+                       HelpLabel("Prevents the Trickster Theme from running in Drezen".localize());
+                   },
                    () => Toggle(("Game Over Fix For " + "LEEEROOOOOOOYYY JEEEENKINS!!!".Color(RGBA.maroon) + " omg he just ran in!").localize(), ref Settings.toggleGameOverFixLeeerrroooooyJenkins),
                    () => {
                        503.space();
