@@ -254,6 +254,22 @@ namespace ToyBox {
         }
         [HarmonyPatch]
         internal static class BlueprintLoaderPatches {
+            [HarmonyPatch(typeof(BlueprintFieldsTraverser), nameof(BlueprintFieldsTraverser.GetUnitySerializedFields)), HarmonyTranspiler]
+            internal static IEnumerable<CodeInstruction> BlueprintFieldsTraverser_GetUnitySerializedFields(IEnumerable<CodeInstruction> instructions) {
+                var field = AccessTools.Field(typeof(BlueprintFieldsTraverser), "FieldsCache");
+                var method = AccessTools.Method(typeof(BlueprintLoaderPatches), nameof(FieldsCache));
+                foreach (var instruction in instructions) {
+                    if (instruction.LoadsField(field)) {
+                        yield return new CodeInstruction(OpCodes.Call, method).WithLabels(instruction.labels);
+                    } else {
+                        yield return instruction;
+                    }
+                }
+            }
+            private static readonly ThreadLocal<Dictionary<Type, List<FieldInfo>>> m_FieldsCache = new(() => [], false);
+            private static Dictionary<Type, List<FieldInfo>> FieldsCache() {
+                return m_FieldsCache.Value;
+            }
             [HarmonyPatch(typeof(BlueprintsCache))]
             internal static class BlueprintsCache_Patches {
                 [HarmonyPatch(nameof(BlueprintsCache.AddCachedBlueprint)), HarmonyPostfix]

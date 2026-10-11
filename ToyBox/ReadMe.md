@@ -37,6 +37,9 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
     
+### ToyBox Wrath - Ver 1.7.30 (built for 2.7.0w)
+* (***ADDB***) Port TB2 BP Loader Race Fix
+
 ### ToyBox Wrath - Ver 1.7.29 (built for 2.7.0w)
 * (***ADDB***) Added description to the Trickster music toggle
 
