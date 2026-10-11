@@ -20,6 +20,7 @@ using UniRx;
 using Owlcat.Runtime.UI.MVVM;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -429,60 +430,56 @@ namespace ToyBox.Inventory {
                 "areshkagal_puzzle_red_d", "areshkagal_puzzle_red_dark_d",
                 "areshkagal_puzzle_yellow_d", "areshkagal_puzzle_yellow_dark_d"
             };
+            // The textures that already hold our image, by instance id. When a texture is unloaded and loaded again, Unity gives the
+            // reloaded (original) texture the same instance id but a new Texture2D object, so the object is compared, not just the id.
+            // Weak references, so this doesn't keep unused textures in memory.
+            static readonly Dictionary<int, WeakReference<Texture2D>> replacedTextures = new();
+            static int lastScenesHash;
 
-            static void Prefix(SceneEntitiesState state) {
+            static void Prefix() {
                 if (!Settings.togglePuzzleRelief) return;
-                Mod.Debug("SceneLoader_MatchStateWithScene_Patch");
-                string? sceneName = state.SceneName;
-                Mod.Debug(sceneName);
-                string sceneBundleName = BundledSceneLoader.GetBundleName(sceneName);
-                DependencyData dependency = OwlcatModificationsManager.Instance.GetDependenciesForBundle(sceneBundleName) ?? BundlesLoadService.Instance.m_DependencyData;
-                dependency.BundleToDependencies.TryGetValue(sceneBundleName, out var list);
-                Mod.Debug((list.Any(d => d.Equals(BundleName))).ToString());
-
-                string[] s = state.SceneName.Split('_');
-#if false
-                if (   !s.Any(p => p.Equals("GlobalPuzzle"))
-                       || !s.Any(p => p.Equals("Mechanics"))
-                       ||  s.Any(p => p.Equals("Cave"))
-                       ||  s.Any(p => p.Equals("Puzzle")))
-                    return;
-#endif
-                var textures = BundlesLoadService.Instance.RequestBundle(BundleName)?.LoadAllAssets<Texture2D>();
-                if (textures is null) {
-                    Mod.Log($"Failed to load the {BundleName} bundle.");
-                    return;
-                }
-                Mod.Debug($"Found Asset Bundle named {BundleName}.");
-                Texture2D[] matches = textures.Where(t => areshKagalNames.Contains(t.name)).ToArray();
-                Mod.Debug($"Found {matches.Length} matches");
-                var assembly = Assembly.GetExecutingAssembly();
-                foreach (var t in matches) {
-#if false
-                    var name = "ToyBox.Art.Texture2D." + t.name + ".png";
-                    t.LoadImage(File.ReadAllBytes(Path.Combine(Main.modPath, "Icons", textureName + ".png")));
-
-#else
-                    var name = "ToyBox.Art.Texture2D." + t.name + ".png";
-                    try {
-                        var stream = assembly.GetManifestResourceStream(name);
-                        if (stream != null) {
-                            var buffer = new byte[stream.Length];
-                            var readCount = stream.Read(buffer, 0, buffer.Length);
-                            if (readCount == buffer.Length) {
-                                Mod.Debug($"Load image readCount not equal to buffer length: {readCount} != {buffer.Length}");
-                            }
-                            t.LoadImage(buffer);
-                        } else {
-                            Mod.Error($"BundlesLoadService_RequestBundle_Patch - failed to load {name} from {assembly.FullName}");
-                            var resourceNames = assembly.GetManifestResourceNames();
-                            Mod.Log(string.Join("\n", resourceNames));
-                        }
-                    } catch (Exception e) {
-                        Mod.Error(e);
+                // All scenes of the area are loaded before their states are matched, and a loaded scene keeps the bundles it
+                // depends on loaded. If the puzzle bundle is not loaded, nothing loaded uses the puzzle textures, so don't load it.
+                if (!BundlesLoadService.Instance.m_Bundles.TryGetValue(BundleName, out var data) || !data.Bundle) return;
+                // Look at the textures once per set of loaded scenes, not once per scene (Drezen matches 27 scenes).
+                var scenesHash = 17;
+                for (var i = 0; i < SceneManager.sceneCount; i++) scenesHash = scenesHash * 31 + SceneManager.GetSceneAt(i).handle;
+                if (scenesHash == lastScenesHash) return;
+                lastScenesHash = scenesHash;
+                // Replace only the puzzle textures that are loaded (usually 2-3 of the 11, none outside the puzzle areas): LoadImage
+                // into these DXT5 textures costs ~65 ms each. The bundle's asset names are GUIDs, so they can't be loaded by name.
+                foreach (var texture in Resources.FindObjectsOfTypeAll<Texture2D>()) {
+                    if (!areshKagalNames.Contains(texture.name)) continue;
+                    var id = texture.GetInstanceID();
+                    if (replacedTextures.TryGetValue(id, out var replaced) && replaced.TryGetTarget(out var t) && ReferenceEquals(t, texture)) continue;
+                    var image = GetImage(texture.name);
+                    if (image != null) {
+                        texture.LoadImage(image);
+                        replacedTextures[id] = new WeakReference<Texture2D>(texture);
+                        Mod.Debug($"Replaced {texture.name}");
                     }
                 }
-#endif
+            }
+
+            static byte[]? GetImage(string textureName) {
+                byte[]? image = null;
+                var assembly = Assembly.GetExecutingAssembly();
+                var name = "ToyBox.Art.Texture2D." + textureName + ".png";
+                try {
+                    using var stream = assembly.GetManifestResourceStream(name);
+                    if (stream != null) {
+                        image = new byte[stream.Length];
+                        var readCount = stream.Read(image, 0, image.Length);
+                        if (readCount != image.Length) {
+                            Mod.Debug($"Load image readCount not equal to buffer length: {readCount} != {image.Length}");
+                        }
+                    } else {
+                        Mod.Error($"SceneLoader_MatchStateWithScene_Patch - failed to load {name} from {assembly.FullName}");
+                    }
+                } catch (Exception e) {
+                    Mod.Error(e);
+                }
+                return image;
             }
         }
 #if false
