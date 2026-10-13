@@ -19,8 +19,8 @@ using Kingmaker.UI.MVVM._VM.Slots;
 using UniRx;
 using Owlcat.Runtime.UI.MVVM;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -423,63 +423,55 @@ namespace ToyBox.Inventory {
         [HarmonyPatch(typeof(SceneLoader), nameof(SceneLoader.MatchStateWithScene))]
         static class SceneLoader_MatchStateWithScene_Patch {
             const string BundleName = "dungeons_areshkagal.worldtex";
-            static readonly HashSet<string> areshKagalNames = new HashSet<string> {
-                "areshkagal_puzzle_cian_d", "areshkagal_puzzle_cian_dark_d",  "areshkagal_puzzle_cian_m",
-                "areshkagal_puzzle_green_d", "areshkagal_puzzle_green_dark_d",
-                "areshkagal_puzzle_purple_d", "areshkagal_puzzle_purple_dark_d",
-                "areshkagal_puzzle_red_d", "areshkagal_puzzle_red_dark_d",
-                "areshkagal_puzzle_yellow_d", "areshkagal_puzzle_yellow_dark_d"
+            const string ReplacedSuffix = "_toybox";
+            static readonly string[] TextureGuids = {
+                "da1e2c18323380245a2f83d6d7d26b74", // areshkagal_puzzle_cian_d
+                "c17fc2847ddb2104fbbda3801f3664e2", // areshkagal_puzzle_cian_dark_d
+                "67dbc3f19e675d94aba01421b820b1ab", // areshkagal_puzzle_cian_m
+                "f1bbcc6ffa12dc5418511b7503813bb6", // areshkagal_puzzle_green_d
+                "7e9e74581cce9f24f8e448d7fadfa1ad", // areshkagal_puzzle_green_dark_d
+                "f10f9cf0a08e259488c38c508615ada6", // areshkagal_puzzle_purple_d
+                "3441537bfabeff64689f64f6ec7c993c", // areshkagal_puzzle_purple_dark_d
+                "8c7f4f17f88c4bd49815d3e81e8e4306", // areshkagal_puzzle_red_d
+                "cc49d0399a886604399335824f0a24db", // areshkagal_puzzle_red_dark_d
+                "29335fc005a7f574bb6eba4610c6bb13", // areshkagal_puzzle_yellow_d
+                "0c4ba678fab25ae4cbb26ff790af5298", // areshkagal_puzzle_yellow_dark_d
             };
-            // The textures that already hold our image, by instance id. When a texture is unloaded and loaded again, Unity gives the
-            // reloaded (original) texture the same instance id but a new Texture2D object, so the object is compared, not just the id.
-            // Weak references, so this doesn't keep unused textures in memory.
-            static readonly Dictionary<int, WeakReference<Texture2D>> replacedTextures = new();
-            static int lastScenesHash;
+            static int bundleId;
+            static int[] textureIds = [];
 
             static void Prefix() {
                 if (!Settings.togglePuzzleRelief) return;
-                // All scenes of the area are loaded before their states are matched, and a loaded scene keeps the bundles it
-                // depends on loaded. If the puzzle bundle is not loaded, nothing loaded uses the puzzle textures, so don't load it.
+                // Only these areas have scenes that use the puzzle textures. I think. Probably.
+                var area = Game.Instance.CurrentlyLoadedArea?.name ?? "";
+                if (!area.StartsWith("GlobalPuzzle_") && area != "AreshkagalDungeon") return;
                 if (!BundlesLoadService.Instance.m_Bundles.TryGetValue(BundleName, out var data) || !data.Bundle) return;
-                // Look at the textures once per set of loaded scenes, not once per scene (Drezen matches 27 scenes).
-                var scenesHash = 17;
-                for (var i = 0; i < SceneManager.sceneCount; i++) scenesHash = scenesHash * 31 + SceneManager.GetSceneAt(i).handle;
-                if (scenesHash == lastScenesHash) return;
-                lastScenesHash = scenesHash;
-                // Replace only the puzzle textures that are loaded (usually 2-3 of the 11, none outside the puzzle areas): LoadImage
-                // into these DXT5 textures costs ~65 ms each. The bundle's asset names are GUIDs, so they can't be loaded by name.
-                foreach (var texture in Resources.FindObjectsOfTypeAll<Texture2D>()) {
-                    if (!areshKagalNames.Contains(texture.name)) continue;
-                    var id = texture.GetInstanceID();
-                    if (replacedTextures.TryGetValue(id, out var replaced) && replaced.TryGetTarget(out var t) && ReferenceEquals(t, texture)) continue;
-                    var image = GetImage(texture.name);
-                    if (image != null) {
-                        texture.LoadImage(image);
-                        replacedTextures[id] = new WeakReference<Texture2D>(texture);
-                        Mod.Debug($"Replaced {texture.name}");
+                // Check whether the bundle was unloaded since last time; since texture ids need invalidation then
+                if (data.Bundle.GetInstanceID() != bundleId) {
+                    bundleId = data.Bundle.GetInstanceID();
+                    textureIds = [.. TextureGuids.Select(guid => data.Bundle.LoadAsset<Texture2D>(guid)?.GetInstanceID() ?? 0)];
+                }
+                foreach (var id in textureIds) {
+                    if (Resources.InstanceIDToObject(id) is not Texture2D texture || texture.name.EndsWith(ReplacedSuffix)) continue;
+                    try {
+                        Replace(texture);
+                    } catch (Exception e) {
+                        Mod.Error(e);
                     }
                 }
             }
 
-            static byte[]? GetImage(string textureName) {
-                byte[]? image = null;
-                var assembly = Assembly.GetExecutingAssembly();
-                var name = "ToyBox.Art.Texture2D." + textureName + ".png";
-                try {
-                    using var stream = assembly.GetManifestResourceStream(name);
-                    if (stream != null) {
-                        image = new byte[stream.Length];
-                        var readCount = stream.Read(image, 0, image.Length);
-                        if (readCount != image.Length) {
-                            Mod.Debug($"Load image readCount not equal to buffer length: {readCount} != {image.Length}");
-                        }
-                    } else {
-                        Mod.Error($"SceneLoader_MatchStateWithScene_Patch - failed to load {name} from {assembly.FullName}");
-                    }
-                } catch (Exception e) {
-                    Mod.Error(e);
-                }
-                return image;
+            static void Replace(Texture2D texture) {
+                using var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream($"ToyBox.Art.Texture2D.{texture.name}.dxt1");
+                using var data = new MemoryStream();
+                resource.CopyTo(data);
+                var source = new Texture2D(texture.width, texture.height, texture.graphicsFormat, TextureCreationFlags.MipChain);
+                source.LoadRawTextureData(data.ToArray());
+                source.Apply(false, true);
+                Graphics.CopyTexture(source, texture);
+                UnityEngine.Object.Destroy(source);
+                texture.name += ReplacedSuffix;
+                Mod.Debug($"Replaced {texture.name}");
             }
         }
 #if false
