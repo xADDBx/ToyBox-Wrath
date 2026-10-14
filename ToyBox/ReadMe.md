@@ -37,6 +37,12 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
     
+
+
+### ToyBox Wrath - Ver 1.7.31 (built for 2.7.0w)
+* (***PCDK***) Fix Puzzle Relief performance issues: apparently with the feature enabled, area load would be extended by quite a bit. This went so far that, on one test system, Drezen (one of the biggest areas in the game) took 19s longer to load. This has been reduced to effectively 0s in every area.
+* (***ADDB***) Changed Puzzle Relief such that it now uses embedded dxt1 textures; reducing the ToyBox mod file size.
+
 ### ToyBox Wrath - Ver 1.7.30 (built for 2.7.0w)
 * (***ADDB***) Port TB2 BP Loader Race Fix
 
