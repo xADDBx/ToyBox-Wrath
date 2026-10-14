@@ -19,6 +19,7 @@ using Kingmaker.UI.MVVM._VM.Slots;
 using UniRx;
 using Owlcat.Runtime.UI.MVVM;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.UI;
 using System;
 using System.Linq;
@@ -422,67 +423,55 @@ namespace ToyBox.Inventory {
         [HarmonyPatch(typeof(SceneLoader), nameof(SceneLoader.MatchStateWithScene))]
         static class SceneLoader_MatchStateWithScene_Patch {
             const string BundleName = "dungeons_areshkagal.worldtex";
-            static readonly HashSet<string> areshKagalNames = new HashSet<string> {
-                "areshkagal_puzzle_cian_d", "areshkagal_puzzle_cian_dark_d",  "areshkagal_puzzle_cian_m",
-                "areshkagal_puzzle_green_d", "areshkagal_puzzle_green_dark_d",
-                "areshkagal_puzzle_purple_d", "areshkagal_puzzle_purple_dark_d",
-                "areshkagal_puzzle_red_d", "areshkagal_puzzle_red_dark_d",
-                "areshkagal_puzzle_yellow_d", "areshkagal_puzzle_yellow_dark_d"
+            const string ReplacedSuffix = "_toybox";
+            static readonly string[] TextureGuids = {
+                "da1e2c18323380245a2f83d6d7d26b74", // areshkagal_puzzle_cian_d
+                "c17fc2847ddb2104fbbda3801f3664e2", // areshkagal_puzzle_cian_dark_d
+                "67dbc3f19e675d94aba01421b820b1ab", // areshkagal_puzzle_cian_m
+                "f1bbcc6ffa12dc5418511b7503813bb6", // areshkagal_puzzle_green_d
+                "7e9e74581cce9f24f8e448d7fadfa1ad", // areshkagal_puzzle_green_dark_d
+                "f10f9cf0a08e259488c38c508615ada6", // areshkagal_puzzle_purple_d
+                "3441537bfabeff64689f64f6ec7c993c", // areshkagal_puzzle_purple_dark_d
+                "8c7f4f17f88c4bd49815d3e81e8e4306", // areshkagal_puzzle_red_d
+                "cc49d0399a886604399335824f0a24db", // areshkagal_puzzle_red_dark_d
+                "29335fc005a7f574bb6eba4610c6bb13", // areshkagal_puzzle_yellow_d
+                "0c4ba678fab25ae4cbb26ff790af5298", // areshkagal_puzzle_yellow_dark_d
             };
+            static int bundleId;
+            static int[] textureIds = [];
 
-            static void Prefix(SceneEntitiesState state) {
+            static void Prefix() {
                 if (!Settings.togglePuzzleRelief) return;
-                Mod.Debug("SceneLoader_MatchStateWithScene_Patch");
-                string? sceneName = state.SceneName;
-                Mod.Debug(sceneName);
-                string sceneBundleName = BundledSceneLoader.GetBundleName(sceneName);
-                DependencyData dependency = OwlcatModificationsManager.Instance.GetDependenciesForBundle(sceneBundleName) ?? BundlesLoadService.Instance.m_DependencyData;
-                dependency.BundleToDependencies.TryGetValue(sceneBundleName, out var list);
-                Mod.Debug((list.Any(d => d.Equals(BundleName))).ToString());
-
-                string[] s = state.SceneName.Split('_');
-#if false
-                if (   !s.Any(p => p.Equals("GlobalPuzzle"))
-                       || !s.Any(p => p.Equals("Mechanics"))
-                       ||  s.Any(p => p.Equals("Cave"))
-                       ||  s.Any(p => p.Equals("Puzzle")))
-                    return;
-#endif
-                var textures = BundlesLoadService.Instance.RequestBundle(BundleName)?.LoadAllAssets<Texture2D>();
-                if (textures is null) {
-                    Mod.Log($"Failed to load the {BundleName} bundle.");
-                    return;
+                // Only these areas have scenes that use the puzzle textures. I think. Probably.
+                var area = Game.Instance.CurrentlyLoadedArea?.name ?? "";
+                if (!area.StartsWith("GlobalPuzzle_") && area != "AreshkagalDungeon") return;
+                if (!BundlesLoadService.Instance.m_Bundles.TryGetValue(BundleName, out var data) || !data.Bundle) return;
+                // Check whether the bundle was unloaded since last time; since texture ids need invalidation then
+                if (data.Bundle.GetInstanceID() != bundleId) {
+                    bundleId = data.Bundle.GetInstanceID();
+                    textureIds = [.. TextureGuids.Select(guid => data.Bundle.LoadAsset<Texture2D>(guid)?.GetInstanceID() ?? 0)];
                 }
-                Mod.Debug($"Found Asset Bundle named {BundleName}.");
-                Texture2D[] matches = textures.Where(t => areshKagalNames.Contains(t.name)).ToArray();
-                Mod.Debug($"Found {matches.Length} matches");
-                var assembly = Assembly.GetExecutingAssembly();
-                foreach (var t in matches) {
-#if false
-                    var name = "ToyBox.Art.Texture2D." + t.name + ".png";
-                    t.LoadImage(File.ReadAllBytes(Path.Combine(Main.modPath, "Icons", textureName + ".png")));
-
-#else
-                    var name = "ToyBox.Art.Texture2D." + t.name + ".png";
+                foreach (var id in textureIds) {
+                    if (Resources.InstanceIDToObject(id) is not Texture2D texture || texture.name.EndsWith(ReplacedSuffix)) continue;
                     try {
-                        var stream = assembly.GetManifestResourceStream(name);
-                        if (stream != null) {
-                            var buffer = new byte[stream.Length];
-                            var readCount = stream.Read(buffer, 0, buffer.Length);
-                            if (readCount == buffer.Length) {
-                                Mod.Debug($"Load image readCount not equal to buffer length: {readCount} != {buffer.Length}");
-                            }
-                            t.LoadImage(buffer);
-                        } else {
-                            Mod.Error($"BundlesLoadService_RequestBundle_Patch - failed to load {name} from {assembly.FullName}");
-                            var resourceNames = assembly.GetManifestResourceNames();
-                            Mod.Log(string.Join("\n", resourceNames));
-                        }
+                        Replace(texture);
                     } catch (Exception e) {
                         Mod.Error(e);
                     }
                 }
-#endif
+            }
+
+            static void Replace(Texture2D texture) {
+                using var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream($"ToyBox.Art.Texture2D.{texture.name}.dxt1");
+                using var data = new MemoryStream();
+                resource.CopyTo(data);
+                var source = new Texture2D(texture.width, texture.height, texture.graphicsFormat, TextureCreationFlags.MipChain);
+                source.LoadRawTextureData(data.ToArray());
+                source.Apply(false, true);
+                Graphics.CopyTexture(source, texture);
+                UnityEngine.Object.Destroy(source);
+                texture.name += ReplacedSuffix;
+                Mod.Debug($"Replaced {texture.name}");
             }
         }
 #if false

@@ -1938,6 +1938,34 @@ Please also file any bugs you find[here](https://github.com/cabarius/ToyBox/issu
 6. build the solution debug and it will automatically build and install into the mod folder in the game
 7. when you rebuild you can go to the mod and hit the reload button at the top to make it use the latest
 
+### Puzzle Relief section
+
+- Puzzle Relief ships compressed .dxt1 textures (to save storage space and improve load speed at runtime). Following this is the script used to bake them from the pngs.
+
+```cs
+using System.IO;
+using UnityEditor;
+using UnityEngine;
+
+// Unity 2020.3.48 (the game's version), PNGs in Assets/Puzzle:
+// Unity.exe -batchmode -nographics -projectPath <project> -executeMethod Bake.Run -quit
+public static class Bake {
+    public static void Run() {
+        foreach (var path in Directory.GetFiles("Assets/Puzzle", "*.png")) {
+            var importer = (TextureImporter)AssetImporter.GetAtPath(path);
+            importer.sRGBTexture = !path.EndsWith("_m.png");
+            importer.isReadable = true;
+            importer.SetPlatformTextureSettings(new TextureImporterPlatformSettings {
+                name = "Standalone", overridden = true, format = TextureImporterFormat.DXT1, compressionQuality = 100
+            });
+            importer.SaveAndReimport();
+            var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            File.WriteAllBytes(texture.name + ".dxt1", texture.GetRawTextureData());
+        }
+    }
+}
+```
+
 ### License: MIT
 
 Copyright <2021> Narria (github user Cabarius)
