@@ -59,13 +59,12 @@ namespace ToyBox {
             }
         }
 
-        public static List<UnitEntityData> GetSelectedIncludingMounts(List<UnitEntityData> data) {
-            List<UnitEntityData> newData = [..data];
+        public static IEnumerable<UnitEntityData> GetSelectedIncludingMounts(IEnumerable<UnitEntityData> data) {
             foreach (var unit in data) {
+                yield return unit;
                 if (unit.RiderPart?.SaddledUnit != null)
-                    newData.Add(unit.RiderPart.SaddledUnit);
+                    yield return unit.RiderPart.SaddledUnit;
             }
-            return newData;
         }
 
         public static void Kill(UnitEntityData unit) => unit.Descriptor.Damage = unit.Descriptor.Stats.HitPoints.ModifiedValue + unit.Descriptor.Stats.TemporaryHitPoints.ModifiedValue;

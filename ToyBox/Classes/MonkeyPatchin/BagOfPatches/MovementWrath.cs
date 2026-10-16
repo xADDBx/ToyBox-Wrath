@@ -44,7 +44,7 @@ namespace ToyBox.BagOfPatches {
                 if (partTacticalCombat != null && partTacticalCombat.Faction != ArmyFaction.Crusaders) return true;
 
                 var units = UnitEntityDataUtils.GetSelectedIncludingMounts(Game.Instance.UI.SelectionManager.SelectedUnits);
-                var speedLimit = UnitEntityDataUtils.GetMaxSpeed(units);
+                var speedLimit = units.Select(u => u.ModifiedSpeedMps).Max();
                 //Main.ModEntry.Logger.Log($"RunCommand - speedLimit: {speedLimit} selectedUnits: {string.Join(" ", units.Select(u => $"{u.CharacterName} {u.ModifiedSpeedMps}"))}");
                 
                 speedLimit *= Main.Settings.partyMovementSpeedMultiplier;
