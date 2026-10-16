@@ -51,9 +51,7 @@ namespace ToyBox {
         }
         public static bool IsPlayerFaction(this UnitEntityData unit) {
             UnitDescriptor ud = unit.Descriptor;
-            if (ud.m_IsPlayerFactionCached == null) {
-                ud.m_IsPlayerFactionCached = new bool?(ud.Faction == BlueprintRoot.Instance.PlayerFaction);
-            }
+            ud.m_IsPlayerFactionCached ??= ud.Faction == BlueprintRoot.Instance.PlayerFaction;
             return ud.m_IsPlayerFactionCached.Value && !ud.AttackFactions.IsPlayerEnemy;
         }
         public static void KillUnit(UnitEntityData unit) => GameHelper.KillUnit(unit);
@@ -63,11 +61,7 @@ namespace ToyBox {
         // Teleport and Travel
         public static void EnterToArea(BlueprintAreaEnterPoint enterPoint) => GameHelper.EnterToArea(enterPoint, AutoSaveMode.None);
 
-        public static bool CanRespec(this UnitEntityData ch) {
-            return RespecHelper.GetRespecableUnits().Contains(ch);
-        }
-        public static void DoRespec(this UnitEntityData ch) {
-            RespecHelper.Respec(ch);
-        }
+        public static bool CanRespec(this UnitEntityData ch) => RespecHelper.GetRespecableUnits().Contains(ch);
+        public static void DoRespec(this UnitEntityData ch) => RespecHelper.Respec(ch);
     }
 }

@@ -42,21 +42,14 @@ namespace ToyBox {
         public static Settings settings => Main.Settings;
         public static float GetMaxSpeed(List<UnitEntityData> data) => Shodan.GetMaxSpeed(data);
         public static bool CheckUnitEntityData(UnitEntityData unitEntityData, UnitSelectType selectType) {
-            if (unitEntityData == null) return false;
             switch (selectType) {
                 case UnitSelectType.Everyone:
                     return true;
                 case UnitSelectType.Party:
-                    if (unitEntityData.IsPlayerFaction) {
-                        return true;
-                    }
+                    return unitEntityData.IsPlayerFaction;
 
-                    return false;
                 case UnitSelectType.You:
-                    if (unitEntityData.IsMainCharacter) {
-                        return true;
-                    }
-                    return false;
+                    return unitEntityData.IsMainCharacter;
                 case UnitSelectType.Friendly:
                     return !unitEntityData.IsEnemy();
                 case UnitSelectType.Enemies:
@@ -64,6 +57,15 @@ namespace ToyBox {
                 default:
                     return false;
             }
+        }
+
+        public static List<UnitEntityData> GetSelectedIncludingMounts(List<UnitEntityData> data) {
+            List<UnitEntityData> newData = [..data];
+            foreach (var unit in data) {
+                if (unit.RiderPart?.SaddledUnit != null)
+                    newData.Add(unit.RiderPart.SaddledUnit);
+            }
+            return newData;
         }
 
         public static void Kill(UnitEntityData unit) => unit.Descriptor.Damage = unit.Descriptor.Stats.HitPoints.ModifiedValue + unit.Descriptor.Stats.TemporaryHitPoints.ModifiedValue;

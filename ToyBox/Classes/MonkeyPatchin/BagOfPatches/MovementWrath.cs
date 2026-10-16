@@ -11,83 +11,82 @@ using Kingmaker.Armies.TacticalCombat.Parts;
 using Kingmaker.Globalmap.State;
 using Kingmaker.Globalmap.View;
 using Kingmaker.UnitLogic.Commands;
-using Kingmaker.UnitLogic.Commands.Base;
 using Kingmaker.Utility;
 using Kingmaker.Visual.Animation.Kingmaker.Actions;
-using ModKit;
 using System;
 using System.Linq;
+using ModKit;
 using UnityEngine;
-using UnityModManager = UnityModManagerNet.UnityModManager;
 
 namespace ToyBox.BagOfPatches {
     internal static class Movement {
-        public static Settings Settings => Main.Settings;
-        public static Player Player => Game.Instance.Player;
+        private static Settings Settings => Main.Settings;
 
         [HarmonyPatch(typeof(UnitEntityData), nameof(UnitEntityData.ModifiedSpeedMps), MethodType.Getter)]
         public static class UnitEntityData_CalculateSpeedModifier_Patch {
             private static void Postfix(UnitEntityData __instance, ref float __result) {
-                if (Settings.partyMovementSpeedMultiplier == 1.0f || (__instance?.Descriptor?.IsPartyOrPet() != true))
+                if (Mathf.Approximately(Settings.partyMovementSpeedMultiplier, 1.0f) 
+                    || __instance?.Descriptor?.IsPartyOrPet() != true
+                    || __instance.Get<UnitPartTacticalCombat>()?.Faction != ArmyFaction.Crusaders)
                     return;
-                var partTacticalCombat = __instance.Get<UnitPartTacticalCombat>();
-                if (partTacticalCombat != null && partTacticalCombat.Faction != ArmyFaction.Crusaders) return;
+                
                 __result *= Settings.partyMovementSpeedMultiplier;
             }
         }
 
         [HarmonyPatch(typeof(ClickGroundHandler), nameof(ClickGroundHandler.RunCommand))]
         public static class ClickGroundHandler_RunCommand_Patch {
-            private static UnitMoveTo unitMoveTo = null;
             public static bool Prefix(UnitEntityData unit, ClickGroundHandler.CommandSettings settings) {
-                var moveAsOne = Main.Settings.toggleMoveSpeedAsOne;
-                //Main.Log($"ClickGroundHandler_RunCommand_Patch - isInCombat: {unit.IsInCombat} turnBased:{Game.Instance.Player.IsTurnBasedModeOn()} moveAsOne:{moveAsOne}");
+                
+                if (!Main.Settings.toggleMoveSpeedAsOne) return true;
                 if (unit.IsInCombat && Game.Instance.Player.IsTurnBasedModeOn()) return true;
-
-                // As of WoTR 1.03c RunCommand is once again the main place to adjust movement speed.  The following was needed when we used UnitEntityData_CalculateSpeedModifier_Patch above to adjust speed in non move as one cases.  
-                if (!moveAsOne) {
-                    return true;
-                }
                 var partTacticalCombat = unit.Get<UnitPartTacticalCombat>();
                 if (partTacticalCombat != null && partTacticalCombat.Faction != ArmyFaction.Crusaders) return true;
 
-                var speedLimit = moveAsOne ? UnitEntityDataUtils.GetMaxSpeed(Game.Instance.UI.SelectionManager.SelectedUnits) : unit.ModifiedSpeedMps;
-                Mod.Trace($"RunCommand - moveAsOne: {moveAsOne} speedLimit: {speedLimit} selectedUnits: {string.Join(" ", Game.Instance.UI.SelectionManager.SelectedUnits.Select(u => $"{u.CharacterName} {u.ModifiedSpeedMps}"))}");
+                var units = UnitEntityDataUtils.GetSelectedIncludingMounts(Game.Instance.UI.SelectionManager.SelectedUnits);
+                var speedLimit = UnitEntityDataUtils.GetMaxSpeed(units);
+                //Main.ModEntry.Logger.Log($"RunCommand - speedLimit: {speedLimit} selectedUnits: {string.Join(" ", units.Select(u => $"{u.CharacterName} {u.ModifiedSpeedMps}"))}");
+                
                 speedLimit *= Main.Settings.partyMovementSpeedMultiplier;
-
-                unitMoveTo = new UnitMoveTo(settings.Destination, 0.3f) {
+                var unitMoveTo = new UnitMoveTo(settings.Destination, 0.3f) {
                     MovementDelay = settings.Delay,
-                    Orientation = new float?(settings.Orientation),
+                    Orientation = settings.Orientation,
                     CreatedByPlayer = true
                 };
                 if (BuildModeUtility.IsDevelopment) {
                     if (CheatsAnimation.SpeedForce > 0f) {
-                        unitMoveTo.OverrideSpeed = new float?(CheatsAnimation.SpeedForce);
+                        unitMoveTo.OverrideSpeed = CheatsAnimation.SpeedForce;
                     }
                     unitMoveTo.MovementType = (UnitAnimationActionLocoMotion.WalkSpeedType)CheatsAnimation.MoveType.Get();
                 }
                 unitMoveTo.SpeedLimit = speedLimit;
                 unitMoveTo.ApplySpeedLimitInCombat = settings.ApplySpeedLimitInCombat;
                 unitMoveTo.OverrideSpeed = speedLimit * 1.5f;
-                unit.Commands.Run(unitMoveTo);
-                if (unit.Commands.Queue.FirstOrDefault((UnitCommand c) => c is UnitMoveTo) == unitMoveTo || Game.Instance.IsPaused) {
+                
+                if (unit.RiderPart?.SaddledUnit == null)
+                    unit.Commands.Run(unitMoveTo);
+                else 
+                    unit.RiderPart.SaddledUnit.Commands.Run(unitMoveTo);
+                if (unit.Commands.Queue.FirstOrDefault(c => c is UnitMoveTo) == unitMoveTo || Game.Instance.IsPaused) {
                     ClickGroundHandler.ShowDestination(unit, unitMoveTo.Target, false);
                 }
                 return false;
             }
         }
 
-        [HarmonyPatch(typeof(GlobalMapMovementController), nameof(GlobalMapMovementController.GetRegionalModifier), new Type[] { })]
-        public static class MovementSpeed_GetRegionalModifier_Patch1 {
-            public static void Postfix(ref float __result) {
+        [HarmonyPatch(typeof(GlobalMapMovementController))]
+        public static class GlobalMapMovementControllerPatch {
+            [HarmonyPostfix]
+            [HarmonyPatch(typeof(GlobalMapMovementController), nameof(GlobalMapMovementController.GetRegionalModifier), [])]
+            public static void MovementSpeed_GetRegionalModifier_Patch1(ref float __result) {
                 var speedMultiplier = Mathf.Clamp(Settings.travelSpeedMultiplier, 0.1f, 100f);
                 __result = speedMultiplier * __result;
             }
-        }
-
-        [HarmonyPatch(typeof(GlobalMapMovementController), nameof(GlobalMapMovementController.GetRegionalModifier), new Type[] { typeof(Vector3) })]
-        public static class MovementSpeed_GetRegionalModifier_Patch2 {
-            public static void Postfix(ref float __result) {
+            
+            [HarmonyPostfix]
+            [HarmonyPatch(typeof(GlobalMapMovementController), nameof(GlobalMapMovementController.GetRegionalModifier), 
+                          new[] { typeof(Vector3) })]
+            public static void MovementSpeed_GetRegionalModifier_Patch2(ref float __result) {
                 var speedMultiplier = Mathf.Clamp(Settings.travelSpeedMultiplier, 0.1f, 100f);
                 __result = speedMultiplier * __result;
             }
@@ -99,7 +98,7 @@ namespace ToyBox.BagOfPatches {
             IGlobalMapTraveler traveler,
             float visualStepDistance)
         */
-        [HarmonyPatch(typeof(GlobalMapMovementUtility), nameof(GlobalMapMovementUtility.MoveAlongEdge), new Type[] {
+        [HarmonyPatch(typeof(GlobalMapMovementUtility), nameof(GlobalMapMovementUtility.MoveAlongEdge), new[] {
             typeof(GlobalMapState), typeof(GlobalMapView), typeof(IGlobalMapTraveler), typeof(float)
             })]
         public static class GlobalMapMovementUtility_MoveAlongEdge_Patch {
@@ -116,7 +115,7 @@ namespace ToyBox.BagOfPatches {
             }
         }
 
-        [HarmonyPatch(typeof(GlobalMapArmyState), nameof(GlobalMapArmyState.SpendMovementPoints), new Type[] { typeof(float) })]
+        [HarmonyPatch(typeof(GlobalMapArmyState), nameof(GlobalMapArmyState.SpendMovementPoints), new[] { typeof(float) })]
         public static class GlobalMapArmyState_SpendMovementPoints_Patch {
             public static void Prefix(GlobalMapArmyState __instance, ref float points) {
                 if (__instance.Data.Faction == ArmyFaction.Crusaders) {
