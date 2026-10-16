@@ -42,27 +42,28 @@ namespace ToyBox {
         public static Settings settings => Main.Settings;
         public static float GetMaxSpeed(List<UnitEntityData> data) => Shodan.GetMaxSpeed(data);
         public static bool CheckUnitEntityData(UnitEntityData unitEntityData, UnitSelectType selectType) {
-            if (unitEntityData == null) return false;
             switch (selectType) {
                 case UnitSelectType.Everyone:
                     return true;
                 case UnitSelectType.Party:
-                    if (unitEntityData.IsPlayerFaction) {
-                        return true;
-                    }
+                    return unitEntityData.IsPlayerFaction;
 
-                    return false;
                 case UnitSelectType.You:
-                    if (unitEntityData.IsMainCharacter) {
-                        return true;
-                    }
-                    return false;
+                    return unitEntityData.IsMainCharacter;
                 case UnitSelectType.Friendly:
                     return !unitEntityData.IsEnemy();
                 case UnitSelectType.Enemies:
                     return unitEntityData.IsEnemy();
                 default:
                     return false;
+            }
+        }
+
+        public static IEnumerable<UnitEntityData> GetSelectedIncludingMounts(IEnumerable<UnitEntityData> data) {
+            foreach (var unit in data) {
+                yield return unit;
+                if (unit.RiderPart?.SaddledUnit != null)
+                    yield return unit.RiderPart.SaddledUnit;
             }
         }
 
