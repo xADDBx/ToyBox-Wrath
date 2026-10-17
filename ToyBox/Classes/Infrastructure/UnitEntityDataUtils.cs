@@ -42,6 +42,7 @@ namespace ToyBox {
         public static Settings settings => Main.Settings;
         public static float GetMaxSpeed(List<UnitEntityData> data) => Shodan.GetMaxSpeed(data);
         public static bool CheckUnitEntityData(UnitEntityData unitEntityData, UnitSelectType selectType) {
+            if (unitEntityData == null) return false;
             switch (selectType) {
                 case UnitSelectType.Everyone:
                     return true;
