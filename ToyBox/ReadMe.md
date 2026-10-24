@@ -38,6 +38,9 @@
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
     
     
+### ToyBox Wrath - Ver 1.7.34 (built for 2.7.0w)
+* (***ADDB***) Fix another regression introduced by 1.7.32. ReSharper ._.
+
 ### ToyBox Wrath - Ver 1.7.33 (built for 2.7.0w)
 * (***ADDB***) Hopefully fix issue where 1.7.32 caused errors in some features.
     

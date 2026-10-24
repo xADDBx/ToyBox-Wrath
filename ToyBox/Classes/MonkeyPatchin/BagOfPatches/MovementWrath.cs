@@ -27,7 +27,7 @@ namespace ToyBox.BagOfPatches {
             private static void Postfix(UnitEntityData __instance, ref float __result) {
                 if (Mathf.Approximately(Settings.partyMovementSpeedMultiplier, 1.0f) 
                     || __instance?.Descriptor?.IsPartyOrPet() != true
-                    || __instance.Get<UnitPartTacticalCombat>()?.Faction != ArmyFaction.Crusaders)
+                    || (__instance.Get<UnitPartTacticalCombat>() is { } up && up.Faction != ArmyFaction.Crusaders))
                     return;
                 
                 __result *= Settings.partyMovementSpeedMultiplier;
