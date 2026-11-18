@@ -106,7 +106,8 @@ namespace ToyBox {
             "f4cb0148083231745a9cd971fc6ee9c9", // BlackDragonFrightfulPresenceCooldownBuff
             "e6f07f58f07b47b1b83d595c5a7a3baf", // TerendelevUndead_Buff_FrightfulPresenceCooldown
             "3e75d2d398aa60f44849757d011a27f8", // ZachariusFearAuraCooldown
-            "2730acd272e412e47a32f680a68d0a1f" // WhispersOfMadnessEffectCooldown
+            "2730acd272e412e47a32f680a68d0a1f", // WhispersOfMadnessEffectCooldown
+            "2010d68d0aa44615ac3f6b6c41bc4ac3" // DLC3_HelmOfBitterEndBuff
         };
 
         public static void InitializeDefaultDamageTypes() {
