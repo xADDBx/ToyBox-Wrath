@@ -139,7 +139,7 @@ namespace ToyBox {
 
             //EventBus.RaiseEvent((Action<ILootInterractionHandler>)(e => e.HandleZoneLootInterraction(null)));
         }
-        private static DroppedLoot m_FakePlayerChest;
+        private static MapObjectView m_FakePlayerChest;
         public static void OpenPlayerChest() {
             var contextVM = RootUIContext.Instance.InGameVM?.StaticPartVM?.LootContextVM;
             if (contextVM == null) return;
@@ -148,7 +148,7 @@ namespace ToyBox {
                 // Need to disable the GO to prevent DroppedLoot.OnEnable from running since that causes an NRE that can't be caught properly
                 wow.SetActive(false);
                 UnityEngine.Object.DontDestroyOnLoad(wow);
-                var a = wow.EnsureComponent<DroppedLoot>();
+                var a = wow.EnsureComponent<MapObjectView>();
                 var il = wow.EnsureComponent<InteractionLoot>();
                 il.Settings = new() { LootContainerType = LootContainerType.PlayerChest, 
                     PutItemTrigger = new() { Action = new() { deserializedGuid = BlueprintGuid.Empty } }, 
@@ -157,7 +157,6 @@ namespace ToyBox {
                 (a as EntityViewBase).Data = new MapObjectEntityData(a);
                 var ilp = a.Data.Parts.Ensure<InteractionLootPart>();
                 ilp.SetSettings(il.Settings);
-                wow.SetActive(true);
                 m_FakePlayerChest = a;
             }
             m_FakePlayerChest.Data.Get<InteractionLootPart>().Loot = Game.Instance.Player.SharedStash;

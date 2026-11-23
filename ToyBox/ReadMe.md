@@ -37,6 +37,9 @@
 * **Quest Resolution**: this allows you to view your active quests and advance them as needed to work around bugs or
   skip quests you don't want to do. Be warned this may break your game progression if used carelessly. 
     
+### ToyBox Wrath - Ver 1.7.36 (built for 2.7.0w)
+* (***ADDB***) Fix "Open Player Chest" preventing dropping items from inventory after using it.
+
 ### ToyBox Wrath - Ver 1.7.35 (built for 2.7.0w)
 * (***CascadingDragon***) Add DLC3_HelmOfBitterEndBuff to buff duration exception
 
